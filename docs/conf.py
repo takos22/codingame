@@ -10,9 +10,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import re
+import os
+import sys
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -21,8 +22,18 @@ project = 'codingame'
 copyright = '2020, takos22'
 author = 'takos22'
 
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+
+version = ''
+with open('../codingame/__init__.py') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
+
 # The full version, including alpha/beta/rc tags
-release = '0.0.1a'
+release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,6 +44,12 @@ release = '0.0.1a'
 extensions = [
     'sphinx.ext.autodoc',
 ]
+
+# Links used for cross-referencing stuff in other documentation
+intersphinx_mapping = {
+  'py': ('https://docs.python.org/3', None),
+  'req': ('http://docs.python-requests.org/en/latest/', 'requests.inv')
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
