@@ -8,7 +8,7 @@ class CodinGamer:
     public_handle: :class:`str`
         Public handle of the CodinGamer (hexadecimal str).
 
-    user_id: :class:`int`
+    id: :class:`int`
         ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
 
     rank: :class:`int`
@@ -62,7 +62,7 @@ class CodinGamer:
 
     def __init__(self, **kwargs):
         self.public_handle: str = kwargs["publicHandle"]
-        self.user_id: int = kwargs["userId"]
+        self.id: int = kwargs["userId"]
         self.rank: int = kwargs["rank"]
         self.level: int = kwargs["level"]
         self.country_id: str = kwargs["countryId"]
