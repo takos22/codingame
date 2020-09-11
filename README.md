@@ -1,1 +1,0 @@
-# CodinGame API wrapper

@@ -13,7 +13,7 @@ if not version:
     raise RuntimeError("version is not set")
 
 readme = ""
-with open("README.md") as f:
+with open("README.rst") as f:
     readme = f.read()
 
 
@@ -28,9 +28,9 @@ setup(
     version=version,
     packages=["codingame"],
     license="MIT",
-    description="A Python wrapper for the undocumented CodinGame API",
+    description="Pythonic wrapper for the undocumented CodinGame API.",
     long_description=readme,
-    long_description_content_type="text/md",
+    long_description_content_type="text/x-rst",
     install_requires=requirements,
     python_requires=">=3.5.3"
 )
