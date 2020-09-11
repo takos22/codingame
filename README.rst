@@ -9,6 +9,7 @@ codingame
 
 Pythonic wrapper for the undocumented CodinGame API.
 
+
 Installing
 ----------
 
@@ -24,7 +25,27 @@ Run the following command:
     # Windows
     py -3 -m pip install -U codingame
 
+
+Contribute
+----------
+
+- `Source Code <https://github.com/takos22/codingame>`_
+- `Issue Tracker: <https://github.com/takos22/codingame/issues>`_
+
+
+Support
+-------
+
+If you are having issues, please let us know by joinig the support server at https://discord.gg/8HgtN6E
+
+License
+-------
+
+The project is licensed under the MIT license.
+
+
 Links
 ------
 
 - `Documentation <https://codingame.readthedocs.io/en/latest/index.html>`_
+- `Discord support server <https://discord.gg/8HgtN6E>`_

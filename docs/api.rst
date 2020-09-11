@@ -27,6 +27,8 @@ Client
 
 .. autoclass:: Client
     :members:
+
+
 .. _codingame_api_models:
 
 CodinGame Models
