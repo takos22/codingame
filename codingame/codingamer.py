@@ -4,7 +4,7 @@ class CodinGamer:
     Do not create this class yourself. Only get it through :meth:`Client.codingamer()`.
 
     Attributes
-    ----------
+    -----------
     public_handle: :class:`str`
         Public handle of the CodinGamer (hexadecimal str).
 
@@ -60,25 +60,25 @@ class CodinGamer:
         Cover URL of the CodinGamer, if set else `None`.
     """
 
-    def __init__(self, **kwargs):
-        self.public_handle: str = kwargs["publicHandle"]
-        self.id: int = kwargs["userId"]
-        self.rank: int = kwargs["rank"]
-        self.level: int = kwargs["level"]
-        self.country_id: str = kwargs["countryId"]
+    def __init__(self, **data):
+        self.public_handle: str = data["publicHandle"]
+        self.id: int = data["userId"]
+        self.rank: int = data["rank"]
+        self.level: int = data["level"]
+        self.country_id: str = data["countryId"]
 
-        self.category: str or None = kwargs["category"] if kwargs["category"] != "UNKNOWN" else None
+        self.category: str or None = data["category"] if data["category"] != "UNKNOWN" else None
         self.student: bool = self.category == "STUDENT"
         self.professional: bool = self.category == "PROFESSIONAL"
 
-        self.pseudo: str or None = kwargs.get("pseudo", None) or None
-        self.tagline: str or None = kwargs.get("tagline", None) or None
-        self.biography: str or None = kwargs.get("biography", None) or None
-        self.company: str or None = kwargs.get("company", None) or None
-        self.school: str or None = kwargs["formValues"].get("school", None) or None
+        self.pseudo: str or None = data.get("pseudo", None) or None
+        self.tagline: str or None = data.get("tagline", None) or None
+        self.biography: str or None = data.get("biography", None) or None
+        self.company: str or None = data.get("company", None) or None
+        self.school: str or None = data["formValues"].get("school", None) or None
 
-        self.avatar: int or None = kwargs.get("avatar", None)
-        self.cover: int or None = kwargs.get("cover", None)
+        self.avatar: int or None = data.get("avatar", None)
+        self.cover: int or None = data.get("cover", None)
 
         self.avatar_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.avatar}" if self.avatar else None
         self.cover_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.cover}" if self.cover else None
