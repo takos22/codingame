@@ -58,4 +58,4 @@ class Client:
         r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
         if r.json() is None:
             raise ClashOfCodeNotFound(f"No CodinGamer with handle {clash_of_code_handle!r}")
-        return ClashOfCode(**r.json()["codingamer"])
+        return ClashOfCode(session=self._session, **r.json())
