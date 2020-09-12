@@ -30,7 +30,7 @@ Contribute
 ----------
 
 - `Source Code <https://github.com/takos22/codingame>`_
-- `Issue Tracker: <https://github.com/takos22/codingame/issues>`_
+- `Issue Tracker <https://github.com/takos22/codingame/issues>`_
 
 
 Support

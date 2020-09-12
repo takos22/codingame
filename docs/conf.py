@@ -43,6 +43,7 @@ release = version
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.coverage',
 ]
 
 # Links used for cross-referencing stuff in other documentation
