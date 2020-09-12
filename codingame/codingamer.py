@@ -1,7 +1,7 @@
 class CodinGamer:
     """Represents a CodinGamer.
 
-    Do not create this class yourself. Only get it through :meth:`Client.codingamer()`.
+    Do not create this class yourself. Only get it through :meth:`Client.get_codingamer()`.
 
     Attributes
     -----------

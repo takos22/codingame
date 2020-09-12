@@ -13,7 +13,7 @@ class Client:
     def __init__(self):
         self._session = requests.Session()
 
-    def codingamer(self, codingamer_handle: str) -> CodinGamer:
+    def get_codingamer(self, codingamer_handle: str) -> CodinGamer:
         """Get a CodinGamer from his public handle.
 
         Parameters
