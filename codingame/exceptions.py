@@ -6,3 +6,7 @@ class CodinGameAPIError(Exception):
 class CodinGamerNotFound(CodinGameAPIError):
     """Raised when a CodinGamer isn't found."""
     pass
+
+class ClashOfCodeNotFound(CodinGameAPIError):
+    """Raised when a Clash of Code isn't found."""
+    pass

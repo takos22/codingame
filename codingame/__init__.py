@@ -18,10 +18,13 @@ __version__ = "0.1.0"
 __all__ = [
     "Client",
     "CodinGamer",
+    "ClashOfCode",
     "CodinGameAPIError",
     "CodinGamerNotFound",
+    "ClashOfCodeNotFound",
 ]
 
 from .client import Client
 from .codingamer import CodinGamer
-from .exceptions import CodinGameAPIError, CodinGamerNotFound
+from .clash_of_code import ClashOfCode
+from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound
