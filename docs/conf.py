@@ -15,7 +15,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(".."))
-sys.path.append(os.path.abspath('extensions'))
+sys.path.append(os.path.abspath("extensions"))
 
 
 # -- Project information -----------------------------------------------------
@@ -46,8 +46,8 @@ release = version
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
-    'sphinx.ext.intersphinx',
-    "exception_hierarchy",
+    "sphinx.ext.intersphinx",
+    # "exception_hierarchy",  # TODO: fix the exception docs
 ]
 
 # Links used for cross-referencing stuff in other documentation
