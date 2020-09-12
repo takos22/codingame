@@ -13,7 +13,7 @@ Pythonic wrapper for the undocumented CodinGame API.
 Installing
 ----------
 
-**Python 3.5.3 or higher is required**
+**Python 3.5 or higher is required**
 
 Run the following command:
 
@@ -36,7 +36,7 @@ Contribute
 Support
 -------
 
-If you are having issues, please let us know by joinig the support server at https://discord.gg/8HgtN6E
+If you are having issues, please let me know by joinig the support server at https://discord.gg/8HgtN6E
 
 License
 -------
