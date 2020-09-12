@@ -21,7 +21,7 @@ class CodinGamer:
         Country ID of the CodinGamer.
 
     category: Optional[:class:`str`]
-        Category of the CodinGamer. Can be `STUDENT` or `PROFESSIONAL`.
+        Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
 
         .. note::
             You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that describes the CodinGamer's category.
