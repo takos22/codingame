@@ -25,7 +25,7 @@ There are two main ways to query version information about the library. For guar
 Client
 --------
 
-.. autoclass:: Client
+.. autoclass:: Client()
     :members:
 
 
