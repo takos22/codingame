@@ -47,7 +47,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.intersphinx",
-    "exception_hierarchy"
+    # "exception_hierarchy"
 ]
 
 # Links used for cross-referencing stuff in other documentation
