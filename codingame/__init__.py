@@ -9,16 +9,17 @@ from collections import namedtuple
 
 VersionInfo = namedtuple("VersionInfo", "major minor micro releaselevel serial")
 
-version_info = VersionInfo(major=0, minor=2, micro=0, releaselevel="alpha", serial=0)
+version_info = VersionInfo(major=0, minor=2, micro=0, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "0.2.0a"
+__version__ = "0.2.0"
 
 __all__ = [
     "Client",
     "CodinGamer",
     "ClashOfCode",
+    "Player",
     "CodinGameAPIError",
     "CodinGamerNotFound",
     "ClashOfCodeNotFound",
@@ -26,5 +27,5 @@ __all__ = [
 
 from .client import Client
 from .codingamer import CodinGamer
-from .clash_of_code import ClashOfCode
+from .clash_of_code import ClashOfCode, Player
 from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound
