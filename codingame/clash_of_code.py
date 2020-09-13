@@ -10,6 +10,53 @@ class ClashOfCode:
     """Represents a Clash of Code.
 
     Do not create this class yourself. Only get it through :meth:`Client.get_clash_of_code()`.
+
+    Attributes
+    -----------
+    public_handle: :class:`str`
+        Public handle of the Clash of Code (hexadecimal str).
+
+    public: :class:`bool`
+        If the Clash of Code is public.
+
+    min_players: :class:`int`
+        Minimum number of players.
+
+    max_players: :class:`int`
+        Maximum number of players.
+
+    modes: :class:`list`
+        List of possible modes.
+
+    programming_languages: :class:`list`
+        List of possible programming languages.
+
+    started: :class:`bool`
+        If the Clash of Code is started.
+
+    finished: :class:`bool`
+        If the Clash of Code is finished.
+
+    mode: :class:`str`
+        The mode of the Clash of Code.
+
+    creation_time: :class:`datetime.datetime`
+        Creation time of the Clash of Code.
+
+    start_time: :class:`datetime.datetime`
+        Start time of the Clash of Code.
+
+    end_time: :class:`datetime.datetime`
+        Start time of the Clash of Code.
+
+    time_before_start: :class:`float`
+        Time before the start of the Clash of Code (in seconds).
+
+    time_before_end: :class:`float`
+        Time before the end of the Clash of Code (in seconds).
+
+    players: List[:class:`Player`]
+        List of the players in the Clash of Code.
     """
 
     def __init__(self, *, session: requests.Session, **data):
@@ -51,7 +98,66 @@ class ClashOfCode:
 
 
 class Player:
-    """Represents a Clash of Code player."""
+    """Represents a Clash of Code player.
+
+    Do not create this class yourself. Only get it through :attr:`ClashOfCode.players`.
+
+    Attributes
+    -----------
+    clash_of_code: :class:`ClashOfCode`
+        Clash of Code the Player belongs to.
+
+    public_handle: :class:`str`
+        Public handle of the CodinGamer (hexadecimal str).
+
+    id: :class:`int`
+        ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
+
+    pseudo: :class:`int`
+        Pseudo of the CodinGamer.
+
+    avatar: Optional[:class:`int`]
+        Avatar ID of the CodinGamer, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
+
+    avatar_url: Optional[:class:`str`]
+        Avatar URL of the CodinGamer, if set else `None`.
+
+    started: :class:`bool`
+        If the Clash of Code is started.
+
+    finished: :class:`bool`
+        If the Clash of Code is finished.
+
+    status: :class:`str`
+        Status of the Player. Can be ``OWNER`` or ``STANDARD``.
+
+        .. note::
+            You can use :attr:`owner` to get a :class:`bool` that describes the Player's status.
+
+    position: :class:`int`
+        Join position of the Player.
+
+    rank: :class:`int`
+        Rank of the Player.
+
+    duration: Optional[:class:`float`]
+        Time of the player in the Clash of Code.
+
+    language_id: Optional[:class:`str`]
+        Language ID of the language the player used in the Clash of Code.
+
+    score: Optional[:class:`int`]
+        Score of the Player (between 0 and 100).
+
+    code_length: Optional[:class:`int`]
+        Length of the Player's code. Only available when the Clash of Code's mode is ``SHORTEST``.
+
+    solution_shared: Optional[:class:`bool`]
+        If the Player shared his code.
+
+    solution_shared: Optional[:class:`int`]
+        ID of the player's submission.
+    """
 
     def __init__(
         self, *, session: requests.Session, coc: ClashOfCode, started: bool,
@@ -59,6 +165,7 @@ class Player:
     ):
         self._session: requests.Session = session
         self.clash_of_code: ClashOfCode = coc
+
         self.public_handle: str = data["codingamerHandle"]
         self.id: int = data["codingamerId"]
         self.pseudo: int = data["codingamerNickname"]
