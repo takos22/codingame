@@ -1,7 +1,10 @@
-from typing import List
 import requests
+from datetime import datetime
+
+from typing import List
 
 from .endpoints import Endpoints
+
 
 class ClashOfCode:
     """Represents a Clash of Code.
@@ -21,6 +24,15 @@ class ClashOfCode:
 
         self.started: bool = data["started"]
         self.finished: bool = data["finished"]
+        self.mode: str or None = data.get("mode", None)
+
+        dt_format = "%b %d, %Y %I:%M:%S %p"
+        self.creation_time: datetime = datetime.strptime(data["creationTime"], dt_format)
+        self.start_time: datetime = datetime.strptime(data["startTime"], dt_format)
+        self.end_time: datetime = datetime.strptime(data["endTime"], dt_format)
+
+        self.time_before_start: float = data["msBeforeStart"] / 1000
+        self.time_before_end: float = data["msBeforeEnd"] / 1000
 
         self.players: List[Player] = [
             Player(
@@ -55,13 +67,16 @@ class Player:
 
         self.started: bool = started
         self.finished: bool = finished
-        self.owner: bool = data["status"] == "OWNER"
+
+        self.status: str = data["status"]
+        self.owner: bool = self.status == "OWNER"
         self.position: int = data["position"]
         self.rank: int = data["rank"]
 
         self.duration: float or None = data["duration"] / 1000 or None
         self.language_id: str or None = data.get("languageId", None)
         self.score: int or None = data.get("score", None)
+        self.code_length: int or None = data.get("criterion", None)
         self.solution_shared: bool or None = data.get("solutionShared", None)
         self.submission_id: int or None = data.get("submissionId", None)
 
