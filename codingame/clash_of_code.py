@@ -104,7 +104,7 @@ class ClashOfCode:
 class Player:
     """Represents a Clash of Code player.
 
-    Do not create this class yourself. Only get it through :attr:`ClashOfCode.players`.
+    Do not create this class yourself. Only get it through :class:`ClashOfCode.players`.
 
     Attributes
     -----------
