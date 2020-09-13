@@ -51,7 +51,15 @@ CodinGamer
 
 .. autoclass:: CodinGamer()
     :members:
-    :inherited-members:
+
+Clash of Code
+~~~~~~~~~~~~
+
+.. autoclass:: ClashOfCode()
+    :members:
+
+.. autoclass:: Player()
+    :members:
 
 Exceptions
 ------------
@@ -62,6 +70,8 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: CodinGamerNotFound
 
+.. autoexception:: ClashOfCodeNotFound
+
 Exception Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -70,3 +80,4 @@ Exception Hierarchy
     - :exc:`Exception`
         - :exc:`CodinGameAPIError`
             - :exc:`CodinGamerNotFound`
+            - :exc:`ClashOfCodeNotFound`
