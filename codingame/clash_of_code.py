@@ -16,6 +16,9 @@ class ClashOfCode:
     public_handle: :class:`str`
         Public handle of the Clash of Code (hexadecimal str).
 
+    join_url: :class:`str`
+        URL to join the Clash of Code.
+
     public: :class:`bool`
         If the Clash of Code is public.
 
@@ -63,6 +66,7 @@ class ClashOfCode:
         self._session: requests.Session = session
 
         self.public_handle: str = data["publicHandle"]
+        self.join_url: str = f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
         self.public: bool = data["publicClash"]
         self.min_players: int = data["nbPlayersMin"]
         self.max_players: int = data["nbPlayersMax"]
