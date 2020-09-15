@@ -1,6 +1,6 @@
 .. currentmodule:: codingame
 
-==============
+===============
 API Reference
 ===============
 
