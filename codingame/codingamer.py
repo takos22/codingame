@@ -5,59 +5,59 @@ class CodinGamer:
 
     Attributes
     -----------
-    public_handle: :class:`str`
-        Public handle of the CodinGamer (hexadecimal str).
+        public_handle: :class:`str`
+            Public handle of the CodinGamer (hexadecimal str).
 
-    id: :class:`int`
-        ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
+        id: :class:`int`
+            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
 
-    rank: :class:`int`
-        Worldwide rank of the CodinGamer.
+        rank: :class:`int`
+            Worldwide rank of the CodinGamer.
 
-    level: :class:`int`
-        Level of the CodinGamer.
+        level: :class:`int`
+            Level of the CodinGamer.
 
-    country_id: :class:`str`
-        Country ID of the CodinGamer.
+        country_id: :class:`str`
+            Country ID of the CodinGamer.
 
-    category: Optional[:class:`str`]
-        Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
+        category: Optional[:class:`str`]
+            Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
 
-        .. note::
-            You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that describes the CodinGamer's category.
+            .. note::
+                You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that describes the CodinGamer's category.
 
-    student: :class:`bool`
-        If the CodinGamer is a student.
+        student: :class:`bool`
+            If the CodinGamer is a student.
 
-    professional: :class:`bool`
-        If the CodinGamer is a professional.
+        professional: :class:`bool`
+            If the CodinGamer is a professional.
 
-    pseudo: Optional[:class:`str`]
-        Pseudo of the CodinGamer, if set else `None`.
+        pseudo: Optional[:class:`str`]
+            Pseudo of the CodinGamer, if set else `None`.
 
-    tagline: Optional[:class:`str`]
-        Tagline of the CodinGamer, if set else `None`.
+        tagline: Optional[:class:`str`]
+            Tagline of the CodinGamer, if set else `None`.
 
-    biography: Optional[:class:`str`]
-        Biography of the CodinGamer, if set else `None`.
+        biography: Optional[:class:`str`]
+            Biography of the CodinGamer, if set else `None`.
 
-    company: Optional[:class:`str`]
-        Company of the CodinGamer, if set else `None`.
+        company: Optional[:class:`str`]
+            Company of the CodinGamer, if set else `None`.
 
-    school: Optional[:class:`str`]
-        School of the CodinGamer, if set else `None`.
+        school: Optional[:class:`str`]
+            School of the CodinGamer, if set else `None`.
 
-    avatar: Optional[:class:`int`]
-        Avatar ID of the CodinGamer, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
+        avatar: Optional[:class:`int`]
+            Avatar ID of the CodinGamer, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
 
-    cover: Optional[:class:`int`]
-        Cover ID of the CodinGamer, if set else `None`. You can get the cover url with :attr:`cover_url`.
+        cover: Optional[:class:`int`]
+            Cover ID of the CodinGamer, if set else `None`. You can get the cover url with :attr:`cover_url`.
 
-    avatar_url: Optional[:class:`str`]
-        Avatar URL of the CodinGamer, if set else `None`.
+        avatar_url: Optional[:class:`str`]
+            Avatar URL of the CodinGamer, if set else `None`.
 
-    cover_url: Optional[:class:`str`]
-        Cover URL of the CodinGamer, if set else `None`.
+        cover_url: Optional[:class:`str`]
+            Cover URL of the CodinGamer, if set else `None`.
     """
 
     def __init__(self, **data):

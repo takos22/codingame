@@ -17,18 +17,18 @@ class Client:
 
         Parameters
         -----------
-        codingamer_handle: :class:`str`
-            The CodinGamer's public handle (39 character long hexadecimal string).
+            codingamer_handle: :class:`str`
+                The CodinGamer's public handle (39 character long hexadecimal string).
 
         Raises
         ------
-        :exc:`.CodinGamerNotFound`
-            The CodinGamer with the given public handle isn't found.
+            :exc:`.CodinGamerNotFound`
+                The CodinGamer with the given public handle isn't found.
 
         Returns
         --------
-        :class:`CodinGamer`
-            The CodinGamer.
+            :class:`CodinGamer`
+                The CodinGamer.
         """
 
         r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
@@ -41,18 +41,18 @@ class Client:
 
         Parameters
         -----------
-        clash_of_code_handle: :class:`str`
-            The Clash of Code's public handle (39 character long hexadecimal string).
+            clash_of_code_handle: :class:`str`
+                The Clash of Code's public handle (39 character long hexadecimal string).
 
         Raises
         ------
-        :exc:`.ClashOfCodeNotFound`
-            The Clash of Code with the given public handle isn't found.
+            :exc:`.ClashOfCodeNotFound`
+                The Clash of Code with the given public handle isn't found.
 
         Returns
         --------
-        :class:`ClashOfCode`
-            The ClashOfCode.
+            :class:`ClashOfCode`
+                The ClashOfCode.
         """
 
         r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
