@@ -48,10 +48,11 @@ needs_sphinx = "3.0"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",
     "sphinx.ext.coverage",
+    'sphinx.ext.extlinks',
     "sphinx.ext.intersphinx",
-    "exception_hierarchy"
+    "sphinx.ext.napoleon",
+    # "exception_hierarchy"
 ]
 
 # Links used for cross-referencing stuff in other documentation
