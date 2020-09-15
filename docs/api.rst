@@ -1,15 +1,15 @@
 .. currentmodule:: codingame
 
-###############
+==============
 API Reference
-###############
+===============
 
 The following section outlines the API of codingame.
 
 Version Related Info
-======================
+----------------------
 
-There are two main ways to query version information about the library. For guarantees, check :ref:`version_guarantees`.
+There are two main ways to query version information about the library.
 
 .. data:: version_info
 
@@ -24,7 +24,7 @@ There are two main ways to query version information about the library. For guar
     off of :pep:`440`.
 
 Client
-========
+--------
 
 .. autoclass:: Client()
     :members:
@@ -33,7 +33,7 @@ Client
 .. _codingame_api_models:
 
 CodinGame Models
-==================
+------------------
 
 Models are classes that are received from CodinGame and are not meant to be created by
 the user of the library.
@@ -54,7 +54,7 @@ CodinGamer
     :members:
 
 Clash of Code
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. autoclass:: ClashOfCode()
     :members:
@@ -63,7 +63,7 @@ Clash of Code
     :members:
 
 Exceptions
-============
+------------
 
 The following exceptions are thrown by the library.
 
