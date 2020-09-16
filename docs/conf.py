@@ -52,7 +52,7 @@ extensions = [
     'sphinx.ext.extlinks',
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "exception_hierarchy"
+    # "exception_hierarchy"
 ]
 
 # Links used for cross-referencing stuff in other documentation
