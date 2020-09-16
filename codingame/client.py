@@ -1,9 +1,10 @@
 import requests
 
-from .endpoints import Endpoints
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode
+from .endpoints import Endpoints
 from .exceptions import CodinGamerNotFound, ClashOfCodeNotFound
+from .utils import validate_args
 
 
 class Client:
@@ -12,6 +13,7 @@ class Client:
     def __init__(self):
         self._session = requests.Session()
 
+    @validate_args
     def get_codingamer(self, codingamer_handle: str) -> CodinGamer:
         """Get a CodinGamer from his public handle.
 
@@ -36,6 +38,7 @@ class Client:
             raise CodinGamerNotFound(f"No CodinGamer with handle {codingamer_handle!r}")
         return CodinGamer(**r.json()["codingamer"])
 
+    @validate_args
     def get_clash_of_code(self, clash_of_code_handle: str) -> ClashOfCode:
         """Get a Clash of Code from its public handle.
 
