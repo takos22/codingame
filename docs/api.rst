@@ -76,9 +76,7 @@ The following exceptions are thrown by the library.
 Exception Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. exception_hierarchy::
-
-    - :exc:`Exception`
-        - :exc:`CodinGameAPIError`
-            - :exc:`CodinGamerNotFound`
-            - :exc:`ClashOfCodeNotFound`
+- :exc:`Exception`
+    - :exc:`CodinGameAPIError`
+        - :exc:`CodinGamerNotFound`
+        - :exc:`ClashOfCodeNotFound`

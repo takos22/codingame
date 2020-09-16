@@ -1,2 +1,2 @@
 # requirements for building the docs
-# sphinx==3.0
+sphinx==3.0

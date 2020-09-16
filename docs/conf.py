@@ -15,7 +15,6 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(".."))
-sys.path.append(os.path.abspath("extensions"))
 
 
 # -- Project information -----------------------------------------------------
@@ -41,7 +40,7 @@ release = version
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-# needs_sphinx = "3.0"
+needs_sphinx = "3.0"
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -52,7 +51,6 @@ extensions = [
     'sphinx.ext.extlinks',
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    # "exception_hierarchy"
 ]
 
 # Links used for cross-referencing stuff in other documentation
