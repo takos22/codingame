@@ -84,4 +84,4 @@ class CodinGamer:
         self.cover_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.cover}" if self.cover else None
 
     def __repr__(self):
-        return "<CodinGamer public_handle={0.public_handle!r} user_id={0.user_id!r}>".format(self)
+        return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r}>".format(self)
