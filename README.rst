@@ -6,8 +6,14 @@ codingame
 .. image:: https://img.shields.io/pypi/pyversions/codingame?color=orange
    :target: https://pypi.python.org/pypi/codingame
    :alt: PyPI supported Python versions
+.. image:: https://img.shields.io/pypi/dm/codingame
+   :target: https://pypi.python.org/pypi/codingame
+   :alt: PyPI downloads
 .. image:: https://img.shields.io/github/license/takos22/codingame?color=brightgreen
    :alt: License: MIT
+.. image:: https://img.shields.io/discord/754028526079836251.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2
+   :target: https://discord.gg/8HgtN6E
+   :alt: Discord support server
 
 Pythonic wrapper for the undocumented CodinGame API.
 
@@ -40,7 +46,6 @@ License
 -------
 
 The project is licensed under the MIT license.
-
 
 Links
 ------
