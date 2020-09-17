@@ -28,7 +28,7 @@ The code will be something like this:
     print(me.avatar_url)
 
 Get a Clash of Code
-----------------
+-------------------
 
 Let's get a Clash of Code from its handle, the public handle is the 39 character length hexadecimal string at the end of the Clash of Code invite link.
 
