@@ -21,8 +21,4 @@ Installing
 
 You can get the library directly from PyPI: ::
 
-    python3 -m pip install -U codingame
-
-If you are using Windows, then the following should be used instead: ::
-
-    py -3 -m pip install -U codingame
+    pip install codingame
