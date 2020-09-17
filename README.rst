@@ -21,11 +21,7 @@ Run the following command:
 
 .. code:: sh
 
-    # Linux/macOS
-    python3 -m pip install -U codingame
-
-    # Windows
-    py -3 -m pip install -U codingame
+    pip install codingame
 
 
 Contribute
