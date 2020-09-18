@@ -60,7 +60,9 @@ class CodinGamer:
             Cover URL of the CodinGamer, if set else `None`.
     """
 
-    def __init__(self, **data):
+    def __init__(self, *, client, **data):
+        self._client = client
+
         self.public_handle: str = data["publicHandle"]
         self.id: int = data["userId"]
         self.rank: int = data["rank"]

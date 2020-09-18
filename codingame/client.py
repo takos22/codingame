@@ -46,7 +46,7 @@ class Client:
         r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
         if r.json() is None:
             raise CodinGamerNotFound(f"No CodinGamer with handle {codingamer_handle!r}")
-        return CodinGamer(**r.json()["codingamer"])
+        return CodinGamer(client=self, **r.json()["codingamer"])
 
     @validate_args
     def get_clash_of_code(self, clash_of_code_handle: str) -> ClashOfCode:
@@ -77,4 +77,4 @@ class Client:
         r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
         if r.json() is None:
             raise ClashOfCodeNotFound(f"No CodinGamer with handle {clash_of_code_handle!r}")
-        return ClashOfCode(session=self._session, **r.json())
+        return ClashOfCode(client=self, **r.json())

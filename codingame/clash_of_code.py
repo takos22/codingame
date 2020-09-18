@@ -1,4 +1,3 @@
-import requests
 from datetime import datetime
 
 from typing import List
@@ -62,8 +61,8 @@ class ClashOfCode:
             List of the players in the Clash of Code.
     """
 
-    def __init__(self, *, session: requests.Session, **data):
-        self._session: requests.Session = session
+    def __init__(self, *, client, **data):
+        self._client = client
 
         self.public_handle: str = data["publicHandle"]
         self.join_url: str = f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
@@ -87,7 +86,7 @@ class ClashOfCode:
 
         self.players: List[Player] = [
             Player(
-                session=self._session, coc=self, started=self.started,
+                client=self._client, coc=self, started=self.started,
                 finished=self.finished, **player
             )
             for player in data["players"]
@@ -164,10 +163,10 @@ class Player:
     """
 
     def __init__(
-        self, *, session: requests.Session, coc: ClashOfCode, started: bool,
+        self, *, client, coc: ClashOfCode, started: bool,
         finished: bool, **data
     ):
-        self._session: requests.Session = session
+        self._client = client
         self.clash_of_code: ClashOfCode = coc
 
         self.public_handle: str = data["codingamerHandle"]
@@ -197,7 +196,7 @@ class Player:
     #     if not self.finished or not self.solution_shared:
     #         return
 
-    #     r = self._session.post(Endpoints.Solution, json=[self.id, self.submission_id])
+    #     r = self.client._session.post(Endpoints.Solution, json=[self.id, self.submission_id])
     #     return r.json()["code"]
 
     def __repr__(self):
