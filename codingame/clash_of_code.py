@@ -162,10 +162,7 @@ class Player:
             ID of the player's submission.
     """
 
-    def __init__(
-        self, *, client, coc: ClashOfCode, started: bool,
-        finished: bool, **data
-    ):
+    def __init__(self, *, client, coc: ClashOfCode, started: bool, finished: bool, **data):
         self._client = client
         self.clash_of_code: ClashOfCode = coc
 
