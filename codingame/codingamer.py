@@ -107,8 +107,17 @@ class CodinGamer(BaseUser):
         self.avatar = data.get("avatar", None)
         self.cover = data.get("cover", None)
 
-        self.avatar_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.avatar}" if self.avatar else None
-        self.cover_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.cover}" if self.cover else None
+    @property
+    def followers(self):
+        r = self._client._session.post(Endpoints.CodinGamer_followers, json=[self.id, self.id, None])
+        for follower in r.json():
+            yield CodinGamer(client=self._client, **follower)
+
+    @property
+    def following(self):
+        r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id, None])
+        for followed in r.json():
+            yield CodinGamer(client=self._client, **followed)
 
     def __repr__(self):
         return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r}>".format(self)
