@@ -14,8 +14,26 @@ class Client:
     _CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
     _CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
 
-    def __init__(self):
+    def __init__(self, email=None, password=None):
         self._session = requests.Session()
+
+        self.logged_in = False
+        self.codingamer = None
+        if email is not None and password is not None:
+            self.login(email, password)
+
+    @validate_args
+    def login(self, email: str, password: str):
+        if email == "":
+            raise ValueError("Email is required")
+        if password == "":
+            raise ValueError("Password is required")
+
+        r = self._session.post(Endpoints.CodinGamer_login, json=[email, password, True])
+        json = r.json()
+        if "id" in json and "message" in json:
+            raise ValueError(f"{json['id']}: {json['message']}")
+        return CodinGamer(client=self, **r.json()["codinGamer"])
 
     @validate_args
     def get_codingamer(self, codingamer_handle: str) -> CodinGamer:
