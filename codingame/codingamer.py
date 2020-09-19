@@ -94,15 +94,15 @@ class CodinGamer(BaseUser):
         self.level = data["level"]
         self.country_id = data["countryId"]
 
-        self.category = data["category"] if data["category"] != "UNKNOWN" else None
+        self.category = data["category"] if data.get("category", "UNKNOWN") != "UNKNOWN" else None
         self.student = self.category == "STUDENT"
         self.professional = self.category == "PROFESSIONAL"
 
         self.pseudo = data.get("pseudo", None) or None
         self.tagline = data.get("tagline", None) or None
         self.biography = data.get("biography", None) or None
-        self.company = data.get("company", None) or None
-        self.school = data["formValues"].get("school", None) or None
+        self.company = data.get("company", None) or data.get("companyField", None) or None
+        self.school = data.get("schoolField", None) or data.get("formValues", {}).get("school", None) or None
 
         self.avatar = data.get("avatar", None)
         self.cover = data.get("cover", None)
@@ -115,7 +115,7 @@ class CodinGamer(BaseUser):
 
     @property
     def following(self):
-        r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id, None])
+        r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id])
         for followed in r.json():
             yield CodinGamer(client=self._client, **followed)
 

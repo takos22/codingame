@@ -1,9 +1,11 @@
 class Endpoints:
-    BASE = "https://www.codingame.com/services/"
-
     image = "https://static.codingame.com/servlet/fileservlet?id={}"
 
+    BASE = "https://www.codingame.com/services/"
+
     LanguageIds = BASE + "ProgrammingLanguage/findAllIds"
+
+    UnseenNotifications = BASE + "Notification/findUnseenNotifications"
 
     # CodinGamer
     CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
