@@ -39,3 +39,6 @@ class BaseUser(abc.ABC):
 
     def __repr__(self):
         return "<{0.__class__.__name__} public_handle={0.public_handle!r} id={0.id}>".format(self)
+
+    def __eq__(self, other):
+        return self.public_handle == other.public_handle
