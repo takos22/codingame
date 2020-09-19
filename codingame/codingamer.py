@@ -1,7 +1,7 @@
 from typing import List, Optional
 
-from .endpoints import Endpoints
 from .abc import BaseUser
+from .endpoints import Endpoints
 
 
 class CodinGamer(BaseUser):
