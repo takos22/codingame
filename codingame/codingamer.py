@@ -1,4 +1,10 @@
-class CodinGamer:
+from typing import List, Optional
+
+from .endpoints import Endpoints
+from .abc import BaseUser
+
+
+class CodinGamer(BaseUser):
     """Represents a CodinGamer.
 
     Do not create this class yourself. Only get it through :meth:`Client.get_codingamer()`.
@@ -24,7 +30,8 @@ class CodinGamer:
             Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
 
             .. note::
-                You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that describes the CodinGamer's category.
+                You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that
+                describes the CodinGamer's category.
 
         student: :class:`bool`
             If the CodinGamer is a student.
@@ -60,27 +67,45 @@ class CodinGamer:
             Cover URL of the CodinGamer, if set else `None`.
     """
 
+    public_handle: str
+    id: int
+    rank: int
+    level: int
+    country_id: str
+    category: Optional[str]
+    student: bool
+    professional: bool
+    pseudo: Optional[str]
+    tagline: Optional[str]
+    biography: Optional[str]
+    company: Optional[str]
+    school: Optional[str]
+    avatar: Optional[int]
+    cover: Optional[int]
+    avatar_url: Optional[str]
+    cover_url: Optional[str]
+
     def __init__(self, *, client, **data):
         self._client = client
 
-        self.public_handle: str = data["publicHandle"]
-        self.id: int = data["userId"]
-        self.rank: int = data["rank"]
-        self.level: int = data["level"]
-        self.country_id: str = data["countryId"]
+        self.public_handle = data["publicHandle"]
+        self.id = data["userId"]
+        self.rank = data["rank"]
+        self.level = data["level"]
+        self.country_id = data["countryId"]
 
-        self.category: str or None = data["category"] if data["category"] != "UNKNOWN" else None
-        self.student: bool = self.category == "STUDENT"
-        self.professional: bool = self.category == "PROFESSIONAL"
+        self.category = data["category"] if data["category"] != "UNKNOWN" else None
+        self.student = self.category == "STUDENT"
+        self.professional = self.category == "PROFESSIONAL"
 
-        self.pseudo: str or None = data.get("pseudo", None) or None
-        self.tagline: str or None = data.get("tagline", None) or None
-        self.biography: str or None = data.get("biography", None) or None
-        self.company: str or None = data.get("company", None) or None
-        self.school: str or None = data["formValues"].get("school", None) or None
+        self.pseudo = data.get("pseudo", None) or None
+        self.tagline = data.get("tagline", None) or None
+        self.biography = data.get("biography", None) or None
+        self.company = data.get("company", None) or None
+        self.school = data["formValues"].get("school", None) or None
 
-        self.avatar: int or None = data.get("avatar", None)
-        self.cover: int or None = data.get("cover", None)
+        self.avatar = data.get("avatar", None)
+        self.cover = data.get("cover", None)
 
         self.avatar_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.avatar}" if self.avatar else None
         self.cover_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.cover}" if self.cover else None
