@@ -29,3 +29,4 @@ from .client import Client
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode, Player
 from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound
+from .abc import BaseUser
