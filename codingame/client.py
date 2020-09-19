@@ -24,6 +24,27 @@ class Client:
 
     @validate_args
     def login(self, email: str, password: str):
+        """Login to a CodinGamer account.
+
+        Parameters
+        -----------
+            email: :class:`str`
+                Email adress of the CodinGamer.
+
+            password: :class:`str`
+                Password of the CodinGamer.
+
+        Raises
+        ------
+            :exc:`ValueError`
+                Error with the login (empty email, empty password, wrong email format, incorrect password, etc).
+
+        Returns
+        --------
+            :class:`CodinGamer`
+                The CodinGamer that is logged in.
+        """
+
         if email == "":
             raise ValueError("Email is required")
         if password == "":
@@ -33,7 +54,8 @@ class Client:
         json = r.json()
         if "id" in json and "message" in json:
             raise ValueError(f"{json['id']}: {json['message']}")
-        return CodinGamer(client=self, **r.json()["codinGamer"])
+        self.codingamer = CodinGamer(client=self, **r.json()["codinGamer"])
+        return self.codingamer
 
     @validate_args
     def get_codingamer(self, codingamer_handle: str) -> CodinGamer:
