@@ -3,6 +3,8 @@ class Endpoints:
 
     image = "https://static.codingame.com/servlet/fileservlet?id={}"
 
+    LanguageIds = BASE + "ProgrammingLanguage/findAllIds"
+
     # CodinGamer
     CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
     CodinGamer_login = BASE + "CodinGamer/loginSiteV2"

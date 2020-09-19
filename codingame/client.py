@@ -135,3 +135,14 @@ class Client:
         if r.json() is None:
             raise ClashOfCodeNotFound(f"No CodinGamer with handle {clash_of_code_handle!r}")
         return ClashOfCode(client=self, **r.json())
+
+    @property
+    def language_ids(self):
+        """List[:class:`str`]: List of all available language ids."""
+
+        if hasattr(self, "_language_ids"):
+            return self._language_ids
+        else:
+            r = self._session.post(Endpoints.LanguageIds, json=[])
+            self._language_ids = r.json()
+            return self._language_ids
