@@ -3,6 +3,8 @@
 import abc
 from typing import Optional
 
+from .endpoints import Endpoints
+
 class BaseUser(abc.ABC):
     """ABC for codingame users (CodinGamer, Player, ...)
 
@@ -30,12 +32,12 @@ class BaseUser(abc.ABC):
     @property
     def avatar_url(self) -> Optional[str]:
         """Optional[:class:`str`]: Avatar URL of the User, if set else `None`."""
-        return f"https://static.codingame.com/servlet/fileservlet?id={self.avatar}" if self.avatar else None
+        return Endpoints.image.format(self.avatar) if self.avatar else None
 
     @property
     def cover_url(self) -> Optional[str]:
         """Optional[:class:`str`]: Cover URL of the User, if set else `None`."""
-        return f"https://static.codingame.com/servlet/fileservlet?id={self.cover}" if self.cover else None
+        return Endpoints.image.format(self.cover) if self.cover else None
 
     def __repr__(self):
         return "<{0.__class__.__name__} public_handle={0.public_handle!r} id={0.id}>".format(self)

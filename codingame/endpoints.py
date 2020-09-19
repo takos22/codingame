@@ -1,6 +1,8 @@
 class Endpoints:
     BASE = "https://www.codingame.com/services/"
 
+    image = "https://static.codingame.com/servlet/fileservlet?id={}"
+
     # CodinGamer
     CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
     CodinGamer_login = BASE + "CodinGamer/loginSiteV2"
