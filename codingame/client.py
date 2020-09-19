@@ -24,7 +24,8 @@ class Client:
         Parameters
         -----------
             codingamer_handle: :class:`str`
-                The CodinGamer's public handle. 39 character long hexadecimal string (regex: ``[0-9a-f]{32}[0-9]{7}``).
+                The CodinGamer's public handle.
+                39 character long hexadecimal string (regex: ``[0-9a-f]{32}[0-9]{7}``).
 
         Raises
         ------
@@ -41,7 +42,10 @@ class Client:
         """
 
         if not self._CODINGAMER_HANDLE_REGEX.match(codingamer_handle):
-            raise ValueError(f"CodinGamer handle {codingamer_handle!r} isn't in the good format (regex: [0-9a-f]{{32}}[0-9]{{7}}).")
+            raise ValueError(
+                f"CodinGamer handle {codingamer_handle!r} isn't in the good format "
+                "(regex: [0-9a-f]{{32}}[0-9]{{7}})."
+            )
 
         r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
         if r.json() is None:
@@ -55,7 +59,8 @@ class Client:
         Parameters
         -----------
             clash_of_code_handle: :class:`str`
-                The Clash of Code's public handle. 39 character long hexadecimal string (regex: ``[0-9]{7}[0-9a-f]{32}``).
+                The Clash of Code's public handle.
+                39 character long hexadecimal string (regex: ``[0-9]{7}[0-9a-f]{32}``).
 
         Raises
         ------
@@ -72,7 +77,10 @@ class Client:
         """
 
         if not self._CLASH_OF_CODE_HANDLE_REGEX.match(clash_of_code_handle):
-            raise ValueError(f"CodinGamer handle {clash_of_code_handle!r} isn't in the good format (regex: [0-9]{{7}}[0-9a-f]{{32}}).")
+            raise ValueError(
+                f"CodinGamer handle {clash_of_code_handle!r} isn't in the good format "
+                "(regex: [0-9]{{7}}[0-9a-f]{{32}})."
+            )
 
         r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
         if r.json() is None:
