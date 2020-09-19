@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from typing import List
+from typing import List, Optional
 
+from .abc import BaseUser
 from .endpoints import Endpoints
 
 
@@ -85,10 +86,7 @@ class ClashOfCode:
         self.time_before_end: float = data["msBeforeEnd"] / 1000
 
         self.players: List[Player] = [
-            Player(
-                client=self._client, coc=self, started=self.started,
-                finished=self.finished, **player
-            )
+            Player(client=self._client, coc=self, started=self.started, finished=self.finished, **player)
             for player in data["players"]
         ]
 
@@ -100,7 +98,7 @@ class ClashOfCode:
         )
 
 
-class Player:
+class Player(BaseUser):
     """Represents a Clash of Code player.
 
     Do not create this class yourself. Only get it through :class:`ClashOfCode.players`.
@@ -162,30 +160,48 @@ class Player:
             ID of the player's submission.
     """
 
+    clash_of_code: ClashOfCode
+    public_handle: str
+    id: int
+    pseudo: str
+    avatar: Optional[int]
+    avatar_url: Optional[str]
+    started: bool
+    finished: bool
+    status: str
+    owner: bool
+    position: int
+    rank: int
+    duration: Optional[float]
+    language_id: Optional[str]
+    score: Optional[int]
+    code_length: Optional[int]
+    solution_shared: Optional[bool]
+    submission_id: Optional[int]
+
     def __init__(self, *, client, coc: ClashOfCode, started: bool, finished: bool, **data):
         self._client = client
         self.clash_of_code: ClashOfCode = coc
 
-        self.public_handle: str = data["codingamerHandle"]
-        self.id: int = data["codingamerId"]
-        self.pseudo: int = data["codingamerNickname"]
-        self.avatar: int or None = data.get("codingamerAvatarId", None)
-        self.avatar_url: str or None = f"https://static.codingame.com/servlet/fileservlet?id={self.avatar}" if self.avatar else None
+        self.public_handle = data["codingamerHandle"]
+        self.id = data["codingamerId"]
+        self.pseudo = data["codingamerNickname"]
+        self.avatar = data.get("codingamerAvatarId", None)
 
-        self.started: bool = started
-        self.finished: bool = finished
+        self.started = started
+        self.finished = finished
 
-        self.status: str = data["status"]
-        self.owner: bool = self.status == "OWNER"
-        self.position: int = data["position"]
-        self.rank: int = data["rank"]
+        self.status = data["status"]
+        self.owner = self.status == "OWNER"
+        self.position = data["position"]
+        self.rank = data["rank"]
 
-        self.duration: float or None = data["duration"] / 1000 or None
-        self.language_id: str or None = data.get("languageId", None)
-        self.score: int or None = data.get("score", None)
-        self.code_length: int or None = data.get("criterion", None)
-        self.solution_shared: bool or None = data.get("solutionShared", None)
-        self.submission_id: int or None = data.get("submissionId", None)
+        self.duration = data["duration"] / 1000 or None
+        self.language_id = data.get("languageId", None)
+        self.score = data.get("score", None)
+        self.code_length = data.get("criterion", None)
+        self.solution_shared = data.get("solutionShared", None)
+        self.submission_id = data.get("submissionId", None)
 
     # TODO: find a way to get the solution code without getting a 561 error
     # @property
