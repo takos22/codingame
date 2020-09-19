@@ -9,7 +9,16 @@ from .utils import validate_args
 
 
 class Client:
-    """CodinGame API client."""
+    """CodinGame API client.
+
+    Attributes
+    -----------
+        logged_in: :class:`bool`
+            If the client is logged in as a CodinGamer.
+
+        codingamer: Optional[:class:`CodinGamer`]
+            The CodinGamer that is logged in through the client. ``None`` if the client isn't logged in.
+    """
 
     _CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
     _CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
