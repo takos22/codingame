@@ -62,6 +62,12 @@ Clash of Code
 .. autoclass:: Player()
     :members:
 
+Notification
+~~~~~~~~~~~~
+
+.. autoclass:: Notification()
+    :members:
+
 Exceptions
 ------------
 
@@ -73,6 +79,8 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: ClashOfCodeNotFound
 
+.. autoexception:: LoginRequired
+
 Exception Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -80,3 +88,4 @@ Exception Hierarchy
     - :exc:`CodinGameAPIError`
         - :exc:`CodinGamerNotFound`
         - :exc:`ClashOfCodeNotFound`
+        - :exc:`LoginRequired`

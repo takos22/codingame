@@ -47,3 +47,29 @@ The code will be something like this:
     print(coc.programming_languages)
     print(coc.public_handle)
     print(coc.players)
+
+Login
+-----
+
+Let's log in into a profile with the email and password. There's 2 ways to log in:
+1. At the :class:`Client` creation.
+2. Using :meth:`Client.login`.
+
+.. code-block:: python3
+
+    import codingame
+
+    client = codingame.Client()
+    client.login("email", "password")
+    # or
+    client = codingame.Client("email", "password")
+
+    # then you can access the logged in codingamer like this
+    print(client.codingamer)
+    print(client.codingamer.pseudo)
+    print(client.codingamer.public_handle)
+    print(client.codingamer.avatar_url)
+
+.. note::
+    Don't worry, the email and the password aren't stored.
+    You can see that `here <https://github.com/takos22/codingame/blob/7cac4598f08e93b242bdf86779ef0020339d51ad/codingame/client.py#L42/>`_.
