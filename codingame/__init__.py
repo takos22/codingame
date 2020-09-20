@@ -20,6 +20,7 @@ __all__ = [
     "CodinGamer",
     "ClashOfCode",
     "Player",
+    "Notification",
     "CodinGameAPIError",
     "CodinGamerNotFound",
     "ClashOfCodeNotFound",
@@ -28,4 +29,5 @@ __all__ = [
 from .client import Client
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode, Player
+from .notification import Notification
 from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound

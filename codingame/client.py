@@ -1,10 +1,14 @@
 import requests
 import re
 
+from typing import List, Optional
+
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode
+from .notification import Notification
+
 from .endpoints import Endpoints
-from .exceptions import CodinGamerNotFound, ClashOfCodeNotFound
+from .exceptions import CodinGamerNotFound, ClashOfCodeNotFound, LoginRequired
 from .utils import validate_args
 
 
@@ -22,6 +26,9 @@ class Client:
 
     _CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
     _CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
+
+    logged_in: bool
+    codingamer: Optional[CodinGamer]
 
     def __init__(self, email=None, password=None):
         self._session = requests.Session()
@@ -63,6 +70,7 @@ class Client:
         json = r.json()
         if "id" in json and "message" in json:
             raise ValueError(f"{json['id']}: {json['message']}")
+        self.logged_in = True
         self.codingamer = CodinGamer(client=self, **r.json()["codinGamer"])
         return self.codingamer
 
@@ -137,7 +145,7 @@ class Client:
         return ClashOfCode(client=self, **r.json())
 
     @property
-    def language_ids(self):
+    def language_ids(self) -> List[str]:
         """List[:class:`str`]: List of all available language ids."""
 
         if hasattr(self, "_language_ids"):
@@ -146,3 +154,14 @@ class Client:
             r = self._session.post(Endpoints.LanguageIds, json=[])
             self._language_ids = r.json()
             return self._language_ids
+
+    @property
+    def notifications(self):
+        """List[:class:`Notification`]: List of unseen notifications."""
+
+        if not self.logged_in:
+            raise LoginRequired()
+
+        r = self._session.post(Endpoints.UnseenNotifications, json=[self.codingamer.id])
+        for notification in r.json():
+            yield Notification(notification)
