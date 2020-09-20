@@ -1,7 +1,7 @@
 import requests
 import re
 
-from typing import List, Optional
+from typing import List, Optional, Iterator
 
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode
@@ -155,9 +155,24 @@ class Client:
             self._language_ids = r.json()
             return self._language_ids
 
-    @property
-    def notifications(self):
-        """List[:class:`Notification`]: List of unseen notifications."""
+    def notifications(self) -> Iterator[Notification]:
+        """Get all the unseen notifications of the Client.
+
+        You need to be logged in to get notifications or else a :exc:`LoginRequired` will be raised.
+
+        .. note::
+            This function is a generator.
+
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+        Yields
+        -------
+            :class:`Notification`
+                The ClashOfCode.
+        """
 
         if not self.logged_in:
             raise LoginRequired()
