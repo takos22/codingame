@@ -32,6 +32,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --ignore=E402 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        export CODINGAMER_PUBLIC_HANDLE=${{ secrets.CODINGAMER_PUBLIC_HANDLE }}
-        export CLASHOFCODE_PUBLIC_HANDLE=${{ secrets.CLASHOFCODE_PUBLIC_HANDLE }}
         pytest
