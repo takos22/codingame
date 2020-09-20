@@ -11,7 +11,7 @@ in creating applications that utilise the undocumented CodinGame API.
 Prerequisites
 -------------
 
-codingame works with Python 3.5 or higher.
+**Python 3.6 or higher is required.**
 
 
 .. _installing:
@@ -19,6 +19,8 @@ codingame works with Python 3.5 or higher.
 Installing
 -----------
 
-You can get the library directly from PyPI: ::
+You can get the library directly from PyPI:
+
+.. code:: sh
 
     pip install codingame

@@ -21,7 +21,7 @@ Pythonic wrapper for the undocumented CodinGame API.
 Installing
 ----------
 
-**Python 3.5 or higher is required.**
+**Python 3.6 or higher is required.**
 
 Run the following command:
 

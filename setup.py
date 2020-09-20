@@ -32,10 +32,9 @@ setup(
     long_description=readme,
     long_description_content_type="text/x-rst",
     install_requires=requirements,
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
