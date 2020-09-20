@@ -24,10 +24,11 @@ __all__ = [
     "CodinGameAPIError",
     "CodinGamerNotFound",
     "ClashOfCodeNotFound",
+    "LoginRequired",
 ]
 
 from .client import Client
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode, Player
 from .notification import Notification
-from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound
+from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound, LoginRequired
