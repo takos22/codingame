@@ -155,6 +155,7 @@ class Client:
             self._language_ids = r.json()
             return self._language_ids
 
+    @property
     def notifications(self) -> Iterator[Notification]:
         """Get all the unseen notifications of the Client.
 
@@ -171,7 +172,7 @@ class Client:
         Yields
         -------
             :class:`Notification`
-                The ClashOfCode.
+                The Notification.
         """
 
         if not self.logged_in:
