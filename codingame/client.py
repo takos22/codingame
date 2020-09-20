@@ -162,7 +162,7 @@ class Client:
         You need to be logged in to get notifications or else a :exc:`LoginRequired` will be raised.
 
         .. note::
-            This function is a generator.
+            This property is a generator.
 
         Raises
         ------
