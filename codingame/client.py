@@ -101,7 +101,7 @@ class Client:
         if not self._CODINGAMER_HANDLE_REGEX.match(codingamer_handle):
             raise ValueError(
                 f"CodinGamer handle {codingamer_handle!r} isn't in the good format "
-                "(regex: [0-9a-f]{{32}}[0-9]{{7}})."
+                "(regex: [0-9a-f]{32}[0-9]{7})."
             )
 
         r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
