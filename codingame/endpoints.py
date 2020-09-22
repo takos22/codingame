@@ -15,4 +15,5 @@ class Endpoints:
 
     # Clash of Code
     ClashOfCode = BASE + "ClashOfCode/findClashByHandle"
+    ClashOfCode_pending = BASE + "ClashOfCode/findPendingClashes"
     Solution = BASE + "Solution/findSolution"

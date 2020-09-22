@@ -144,6 +144,18 @@ class Client:
             raise ClashOfCodeNotFound(f"No CodinGamer with handle {clash_of_code_handle!r}")
         return ClashOfCode(client=self, **r.json())
 
+    def get_pending_clash_of_code(self) -> ClashOfCode:
+        """Get a pending Clash of Code.
+
+        Returns
+        --------
+            :class:`ClashOfCode`
+                The pending ClashOfCode.
+        """
+
+        r = self._session.post(Endpoints.ClashOfCode_pending, json=[])
+        return ClashOfCode(client=self, **r.json()[0])
+
     @property
     def language_ids(self) -> List[str]:
         """List[:class:`str`]: List of all available language ids."""

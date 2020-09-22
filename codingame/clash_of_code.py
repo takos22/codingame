@@ -28,10 +28,10 @@ class ClashOfCode:
         max_players: :class:`int`
             Maximum number of players.
 
-        modes: :class:`list`
+        modes: Optional[:class:`list`]
             List of possible modes.
 
-        programming_languages: :class:`list`
+        programming_languages: Optional[:class:`list`]
             List of possible programming languages.
 
         started: :class:`bool`
@@ -49,13 +49,13 @@ class ClashOfCode:
         start_time: :class:`datetime.datetime`
             Start time of the Clash of Code.
 
-        end_time: :class:`datetime.datetime`
+        end_time: Optional[:class:`datetime.datetime`]
             Start time of the Clash of Code.
 
         time_before_start: :class:`float`
             Time before the start of the Clash of Code (in seconds).
 
-        time_before_end: :class:`float`
+        time_before_end: Optional[:class:`float`]
             Time before the end of the Clash of Code (in seconds).
 
         players: List[:class:`Player`]
@@ -70,8 +70,8 @@ class ClashOfCode:
         self.public: bool = data["publicClash"]
         self.min_players: int = data["nbPlayersMin"]
         self.max_players: int = data["nbPlayersMax"]
-        self.modes: list = data["modes"]
-        self.programming_languages: list = data["programmingLanguages"]
+        self.modes: Optional[list] = data.get("modes", None)
+        self.programming_languages: Optional[list] = data.get("programmingLanguages", None)
 
         self.started: bool = data["started"]
         self.finished: bool = data["finished"]
@@ -80,10 +80,10 @@ class ClashOfCode:
         dt_format = "%b %d, %Y %I:%M:%S %p"
         self.creation_time: datetime = datetime.strptime(data["creationTime"], dt_format)
         self.start_time: datetime = datetime.strptime(data["startTime"], dt_format)
-        self.end_time: datetime = datetime.strptime(data["endTime"], dt_format)
+        self.end_time: Optional[datetime] = datetime.strptime(data["endTime"], dt_format) if "endTime" in data else None
 
         self.time_before_start: float = data["msBeforeStart"] / 1000
-        self.time_before_end: float = data["msBeforeEnd"] / 1000
+        self.time_before_end: Optional[float] = (data["msBeforeEnd"] / 1000) if "msBeforeEnd" in data else None
 
         self.players: List[Player] = [
             Player(client=self._client, coc=self, started=self.started, finished=self.finished, **player)
@@ -135,10 +135,10 @@ class Player(BaseUser):
             .. note::
                 You can use :attr:`owner` to get a :class:`bool` that describes the Player's status.
 
-        position: :class:`int`
+        position: Optional[:class:`int`]
             Join position of the Player.
 
-        rank: :class:`int`
+        rank: Optional[:class:`int`]
             Rank of the Player.
 
         duration: Optional[:class:`float`]
@@ -170,8 +170,8 @@ class Player(BaseUser):
     finished: bool
     status: str
     owner: bool
-    position: int
-    rank: int
+    position: Optional[int]
+    rank: Optional[int]
     duration: Optional[float]
     language_id: Optional[str]
     score: Optional[int]
@@ -193,8 +193,8 @@ class Player(BaseUser):
 
         self.status = data["status"]
         self.owner = self.status == "OWNER"
-        self.position = data["position"]
-        self.rank = data["rank"]
+        self.position = data.get("position", None)
+        self.rank = data.get("rank", None)
 
         self.duration = data["duration"] / 1000 or None
         self.language_id = data.get("languageId", None)

@@ -9,11 +9,11 @@ from collections import namedtuple
 
 VersionInfo = namedtuple("VersionInfo", "major minor micro releaselevel serial")
 
-version_info = VersionInfo(major=0, minor=3, micro=1, releaselevel=".post", serial=0)
+version_info = VersionInfo(major=0, minor=3, micro=2, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "0.3.1.post0"
+__version__ = "0.3.2"
 
 __all__ = [
     "Client",
