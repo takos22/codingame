@@ -135,14 +135,15 @@ class Client:
 
         if not self._CLASH_OF_CODE_HANDLE_REGEX.match(clash_of_code_handle):
             raise ValueError(
-                f"CodinGamer handle {clash_of_code_handle!r} isn't in the good format "
-                "(regex: [0-9]{{7}}[0-9a-f]{{32}})."
+                f"Clash of Code handle {clash_of_code_handle!r} isn't in the good format "
+                "(regex: [0-9]{7}[0-9a-f]{32})."
             )
 
         r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
-        if r.json() is None:
-            raise ClashOfCodeNotFound(f"No CodinGamer with handle {clash_of_code_handle!r}")
-        return ClashOfCode(client=self, **r.json())
+        json = r.json()
+        if "id" in json and "message" in json:
+            raise ClashOfCodeNotFound(f"No Clash of Code with handle {clash_of_code_handle!r}")
+        return ClashOfCode(client=self, **json)
 
     def get_pending_clash_of_code(self) -> ClashOfCode:
         """Get a pending Clash of Code.
