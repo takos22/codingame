@@ -1,2 +1,2 @@
-codingame --upgrade
+git+https://github.com/takos22/codingame
 python-dotenv
