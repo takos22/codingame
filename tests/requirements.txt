@@ -1,2 +1,2 @@
-codingame
+codingame --upgrade
 python-dotenv
