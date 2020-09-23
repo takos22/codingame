@@ -145,17 +145,20 @@ class Client:
             raise ClashOfCodeNotFound(f"No Clash of Code with handle {clash_of_code_handle!r}")
         return ClashOfCode(client=self, **json)
 
-    def get_pending_clash_of_code(self) -> ClashOfCode:
+    def get_pending_clash_of_code(self) -> Optional[ClashOfCode]:
         """Get a pending Clash of Code.
 
         Returns
         --------
-            :class:`ClashOfCode`
-                The pending ClashOfCode.
+            Optional[:class:`ClashOfCode`]
+                The pending ClashOfCode if there's one or ``None``.
         """
 
         r = self._session.post(Endpoints.ClashOfCode_pending, json=[])
-        return ClashOfCode(client=self, **r.json()[0])
+        json = r.json()
+        if len(json) == 0:
+            return None
+        return ClashOfCode(client=self, **json[0])
 
     @property
     def language_ids(self) -> List[str]:
