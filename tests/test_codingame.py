@@ -83,4 +83,4 @@ def test_client_clash_of_code_error(codingame, client, public_handle, error, mes
 def test_client_pending_clash_of_code(codingame, client):
     clash_of_code = client.get_pending_clash_of_code()
 
-    assert type(clash_of_code) == codingame.ClashOfCode
+    assert type(clash_of_code) == codingame.ClashOfCode or clash_of_code is None
