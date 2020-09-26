@@ -7,6 +7,7 @@ Quickstart
 
 This page gives a brief introduction to the library. It assumes you have the library installed,
 if you don't check the :ref:`installing` portion.
+You can find examples `here <https://github.com/takos22/codingame/tree/master/examples>`_.
 
 Get a CodinGamer
 ----------------
