@@ -71,7 +71,7 @@ class Client:
         if "id" in json and "message" in json:
             raise ValueError(f"{json['id']}: {json['message']}")
         self.logged_in = True
-        self.codingamer = CodinGamer(client=self, **r.json()["codinGamer"])
+        self.codingamer = CodinGamer(client=self, **json["codinGamer"])
         return self.codingamer
 
     @validate_args
@@ -105,9 +105,10 @@ class Client:
             )
 
         r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
-        if r.json() is None:
+        json = r.json()
+        if json is None:
             raise CodinGamerNotFound(f"No CodinGamer with handle {codingamer_handle!r}")
-        return CodinGamer(client=self, **r.json()["codingamer"])
+        return CodinGamer(client=self, **json["codingamer"])
 
     @validate_args
     def get_clash_of_code(self, clash_of_code_handle: str) -> ClashOfCode:
