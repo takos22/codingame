@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import List, Optional
 
 from .abc import BaseUser
-from .endpoints import Endpoints
 
 
 class ClashOfCode:
@@ -70,12 +69,12 @@ class ClashOfCode:
         self.public: bool = data["publicClash"]
         self.min_players: int = data["nbPlayersMin"]
         self.max_players: int = data["nbPlayersMax"]
-        self.modes: Optional[list] = data.get("modes", None)
-        self.programming_languages: Optional[list] = data.get("programmingLanguages", None)
+        self.modes: Optional[List] = data.get("modes", None)
+        self.programming_languages: Optional[List] = data.get("programmingLanguages", None)
 
         self.started: bool = data["started"]
         self.finished: bool = data["finished"]
-        self.mode: str or None = data.get("mode", None)
+        self.mode: Optional[str] = data.get("mode", None)
 
         dt_format = "%b %d, %Y %I:%M:%S %p"
         self.creation_time: datetime = datetime.strptime(data["creationTime"], dt_format)
