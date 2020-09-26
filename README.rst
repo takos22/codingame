@@ -40,7 +40,7 @@ Contribute
 Support
 -------
 
-If you are having issues, please let me know by joinig the support server at https://discord.gg/8HgtN6E
+If you are having issues, please let me know by joining the support server at https://discord.gg/8HgtN6E
 
 License
 -------
