@@ -52,6 +52,7 @@ Login
 -----
 
 Let's log in into a profile with the email and password. There's 2 ways to log in:
+
 1. At the :class:`Client` creation.
 2. Using :meth:`Client.login`.
 
@@ -65,6 +66,7 @@ Let's log in into a profile with the email and password. There's 2 ways to log i
     client = codingame.Client("email", "password")
 
     # then you can access the logged in codingamer like this
+    print(client.logged_in)
     print(client.codingamer)
     print(client.codingamer.pseudo)
     print(client.codingamer.public_handle)
