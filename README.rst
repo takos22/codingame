@@ -15,10 +15,10 @@ codingame
    :target: https://discord.gg/8HgtN6E
    :alt: Discord support server
 
-Pythonic wrapper for the undocumented CodinGame API.
+Pythonic wrapper for the undocumented `CodinGame <https://www.codingame.com/>`_ API.
 
 
-Installing
+Installation
 ----------
 
 **Python 3.6 or higher is required.**
@@ -40,9 +40,9 @@ Contribute
 Support
 -------
 
-If you are having issues, please let me know by joining the support server at https://discord.gg/8HgtN6E
+If you are having issues, please let me know by joining the discord support server at https://discord.gg/8HgtN6E
 
-License
+`License <https://github.com/takos22/codingame/blob/master/LICENSE>`_
 -------
 
 The project is licensed under the MIT license.
