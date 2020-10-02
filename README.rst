@@ -19,7 +19,7 @@ Pythonic wrapper for the undocumented `CodinGame <https://www.codingame.com/>`_ 
 
 
 Installation
-----------
+------------
 
 **Python 3.6 or higher is required.**
 
@@ -42,7 +42,7 @@ Support
 
 If you are having issues, please let me know by joining the discord support server at https://discord.gg/8HgtN6E
 
-`License <https://github.com/takos22/codingame/blob/master/LICENSE>`_
+License
 -------
 
 The project is licensed under the MIT license.
