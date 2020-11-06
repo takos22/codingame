@@ -12,7 +12,9 @@ You can find examples `here <https://github.com/takos22/codingame/tree/master/ex
 Get a CodinGamer
 ----------------
 
-Let's get a CodinGamer from his handle, your public handle is the 39 character length hexadecimal string at the end of your profile link.
+Let's get a CodinGamer from their pseudo:
+
+You can also use a public handle, which is the 39 character length hexadecimal string at the end of its profile link.
 
 The code will be something like this:
 
@@ -22,11 +24,13 @@ The code will be something like this:
 
     client = codingame.Client()
 
-    me = client.get_codingamer("your handle here")
-    print(me)
-    print(me.pseudo)
-    print(me.public_handle)
-    print(me.avatar_url)
+    codingamer = client.get_codingamer("a pseudo or public handle here")
+    print(codingamer)
+    print(codingamer.pseudo)
+    print(codingamer.public_handle)
+    print(codingamer.avatar_url)
+
+See :meth:`Client.get_codingamer` and :class:`CodinGamer` for more info.
 
 Get a Clash of Code
 -------------------
