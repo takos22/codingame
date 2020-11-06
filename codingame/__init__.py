@@ -9,11 +9,11 @@ from typing import NamedTuple
 
 VersionInfo = NamedTuple("VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int)
 
-version_info = VersionInfo(major=0, minor=3, micro=2, releaselevel="post", serial=1)
+version_info = VersionInfo(major=0, minor=3, micro=3, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "0.3.2.post1"
+__version__ = "0.3.3"
 
 __all__ = [
     "Client",

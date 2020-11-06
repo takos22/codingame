@@ -7,6 +7,8 @@ class Endpoints:
 
     UnseenNotifications = BASE + "Notification/findUnseenNotifications"
 
+    Search = BASE + "search/search"
+
     # CodinGamer
     CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
     CodinGamer_login = BASE + "CodinGamer/loginSiteV2"

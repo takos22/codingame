@@ -30,7 +30,7 @@ class Client:
     logged_in: bool
     codingamer: Optional[CodinGamer]
 
-    def __init__(self, email=None, password=None):
+    def __init__(self, email: str = None, password: str = None):
         self._session = requests.Session()
 
         self.logged_in = False
@@ -75,14 +75,20 @@ class Client:
         return self.codingamer
 
     @validate_args
-    def get_codingamer(self, codingamer_handle: str) -> CodinGamer:
-        """Get a CodinGamer from his public handle.
+    def get_codingamer(self, codingamer) -> CodinGamer:
+        """Get a CodinGamer from their public handle or from their username.
+
+        .. note::
+            ``codingamer`` can be the public handle or the username. Using the public handle
+            is reccomended because it won't change even if the codingamer changes their username.
+
+            The public handle is a 39 character long hexadecimal string that represents the user.
+            Regex of a public handle: ``[0-9a-f]{32}[0-9]{7}``
 
         Parameters
         -----------
-            codingamer_handle: :class:`str`
-                The CodinGamer's public handle.
-                39 character long hexadecimal string (regex: ``[0-9a-f]{32}[0-9]{7}``).
+            codingamer: :class:`str`
+                The CodinGamer's public handle or username.
 
         Raises
         ------
@@ -98,16 +104,21 @@ class Client:
                 The CodinGamer.
         """
 
-        if not self._CODINGAMER_HANDLE_REGEX.match(codingamer_handle):
-            raise ValueError(
-                f"CodinGamer handle {codingamer_handle!r} isn't in the good format "
-                "(regex: [0-9a-f]{32}[0-9]{7})."
-            )
+        if not self._CODINGAMER_HANDLE_REGEX.match(codingamer):
+            r = self._session.post(Endpoints.Search, json=[codingamer, "en", None])
+            search: List[dict] = r.json()
+            users = [query for query in search if query["type"] == "USER"]
+            if users:
+                handle = users[0]["id"]
+            else:
+                raise CodinGamerNotFound(f"No CodinGamer with public handle or username {codingamer!r}")
+        else:
+            handle = codingamer
 
-        r = self._session.post(Endpoints.CodinGamer, json=[codingamer_handle])
+        r = self._session.post(Endpoints.CodinGamer, json=[handle])
         json = r.json()
         if json is None:
-            raise CodinGamerNotFound(f"No CodinGamer with handle {codingamer_handle!r}")
+            raise CodinGamerNotFound(f"No CodinGamer with handle {handle!r}")
         return CodinGamer(client=self, **json["codingamer"])
 
     @validate_args
