@@ -76,33 +76,39 @@ class Client:
 
     @validate_args
     def get_codingamer(self, codingamer) -> CodinGamer:
-        """Get a CodinGamer from their public handle or from their username.
+        """Get a CodinGamer from their public handle, their id or from their username.
 
         .. note::
-            ``codingamer`` can be the public handle or the username. Using the public handle
-            is reccomended because it won't change even if the codingamer changes their username.
+            ``codingamer`` can be the public handle, the id or the username. Using the public handle
+            or the id is reccomended because it won't change even if the codingamer changes their username.
 
             The public handle is a 39 character long hexadecimal string that represents the user.
             Regex of a public handle: ``[0-9a-f]{32}[0-9]{7}``
 
+            The id is a 7 number long integer
+
         Parameters
         -----------
             codingamer: :class:`str`
-                The CodinGamer's public handle or username.
+                The CodinGamer's public handle, id or username.
 
         Raises
         ------
-            :exc:`ValueError`
-                The CodinGamer handle isn't in the good format.
-
             :exc:`.CodinGamerNotFound`
-                The CodinGamer with the given public handle isn't found.
+                The CodinGamer with the given public handle, id or username isn't found.
 
         Returns
         --------
             :class:`CodinGamer`
                 The CodinGamer.
         """
+
+        if type(codingamer) == int:
+            r = self._session.post(Endpoints.CodinGamer_id, json=[codingamer])
+            json = r.json()
+            if "id" in json and json["id"] == 404:
+                raise CodinGamerNotFound(f"No CodinGamer with id {codingamer!r}")
+            return CodinGamer(client=self, **json)
 
         if not self._CODINGAMER_HANDLE_REGEX.match(codingamer):
             r = self._session.post(Endpoints.Search, json=[codingamer, "en", None])

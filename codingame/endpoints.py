@@ -11,6 +11,7 @@ class Endpoints:
 
     # CodinGamer
     CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
+    CodinGamer_id = BASE + "CodinGamer/findCodinGamerPublicInformations"
     CodinGamer_login = BASE + "CodinGamer/loginSiteV2"
     CodinGamer_followers = BASE + "CodinGamer/findFollowers"
     CodinGamer_following = BASE + "CodinGamer/findFollowing"
