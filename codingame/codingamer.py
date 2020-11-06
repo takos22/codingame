@@ -95,15 +95,15 @@ class CodinGamer(BaseUser):
 
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
-        self.rank = data["rank"]
         self.level = data["level"]
-        self.xp = data["xp"]
         self.country_id = data["countryId"]
 
         self.category = data["category"] if data.get("category", "UNKNOWN") != "UNKNOWN" else None
         self.student = self.category == "STUDENT"
         self.professional = self.category == "PROFESSIONAL"
 
+        self.xp = data.get("xp", None)
+        self.rank = data.get("rank", None)
         self.pseudo = data.get("pseudo", None) or None
         self.tagline = data.get("tagline", None) or None
         self.biography = data.get("biography", None) or None
