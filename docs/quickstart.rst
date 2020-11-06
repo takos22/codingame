@@ -57,6 +57,8 @@ The code will be something like this:
     print(coc.public_handle)
     print(coc.players)
 
+See :meth:`Client.get_pending_clash_of_code`, :meth:`Client.get_clash_of_code` and :class:`ClashOfCode` for more info.
+
 Login
 -----
 
@@ -80,6 +82,8 @@ Let's log in into a profile with the email and password. There's 2 ways to log i
     print(client.codingamer.pseudo)
     print(client.codingamer.public_handle)
     print(client.codingamer.avatar_url)
+
+See :class:`Client` and :meth:`Client.login` for more info.
 
 .. note::
     Don't worry, the email and the password aren't stored.
