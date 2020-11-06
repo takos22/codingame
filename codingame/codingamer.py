@@ -169,5 +169,18 @@ class CodinGamer(BaseUser):
         for followed in r.json():
             yield CodinGamer(client=self._client, **followed)
 
+    @property
+    def clash_of_code_rank(self) -> int:
+        """Get the Clash of Code rank of the CodinGamer.
+
+        Returns
+        -------
+            :class:`int`
+                The Clash of Code rank of the CodinGamer.
+        """
+
+        r = self._client._session.post(Endpoints.CodinGamer_coc_rank, json=[self.id])
+        return r.json()["rank"]
+
     def __repr__(self):
         return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r} pseudo={0.pseudo!r}>".format(self)
