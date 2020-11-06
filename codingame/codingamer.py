@@ -117,9 +117,8 @@ class CodinGamer(BaseUser):
     def followers(self) -> Iterator:
         """Get all the followers of a CodinGamer.
 
-        You need to be logged in as the CodinGamer to get its followers
-        or else a :exc:`LoginRequired` will be raised. If you can't log in,
-        you can use :meth:`CodinGamer.followers_ids`.
+        You need to be logged as the CodinGamer in to get its followers
+        or else a :exc:`LoginRequired` will be raised.
 
         .. note::
             This property is a generator.
@@ -143,23 +142,10 @@ class CodinGamer(BaseUser):
             yield CodinGamer(client=self._client, **follower)
 
     @property
-    def followers_ids(self) -> list:
-        """Get all the followers ids of a CodinGamer.
-
-        Returns
-        -------
-            :class:`list`
-                A list of all the followers ids.
-        """
-
-        r = self._client._session.post(Endpoints.CodinGamer_followers_ids, json=[self.id])
-        return r.json()
-
-    @property
     def following(self) -> Iterator:
         """Get all the followed CodinGamers.
 
-        You need to be logged in as the CodinGamer to get its followed CodinGamers
+        You need to be logged as the CodinGamer in to get its followed CodinGamers
         or else a :exc:`LoginRequired` will be raised.
 
         .. note::
