@@ -111,7 +111,7 @@ class Client:
             if users:
                 handle = users[0]["id"]
             else:
-                raise CodinGamerNotFound(f"No CodinGamer with public handle or username {codingamer!r}")
+                raise CodinGamerNotFound(f"No CodinGamer with username {codingamer!r}")
         else:
             handle = codingamer
 
