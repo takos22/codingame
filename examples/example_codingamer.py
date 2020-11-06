@@ -2,9 +2,9 @@ import codingame
 
 client = codingame.Client()
 
-# get a codingamer from his public handle
-me = client.get_codingamer("your handle here")
-print(me)
-print(me.pseudo)
-print(me.public_handle)
-print(me.avatar_url)
+# get a codingamer from their pseudo or public handle
+codingamer = client.get_codingamer("a pseudo or public handle here")
+print(codingamer)
+print(codingamer.pseudo)
+print(codingamer.public_handle)
+print(codingamer.avatar_url)
