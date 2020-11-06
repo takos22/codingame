@@ -165,4 +165,4 @@ class CodinGamer(BaseUser):
             yield CodinGamer(client=self._client, **followed)
 
     def __repr__(self):
-        return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r}>".format(self)
+        return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r} pseudo={0.pseudo!r}>".format(self)
