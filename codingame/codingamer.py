@@ -160,7 +160,8 @@ class CodinGamer(BaseUser):
         """Get all the followed CodinGamers.
 
         You need to be logged in as the CodinGamer to get its followed CodinGamers
-        or else a :exc:`LoginRequired` will be raised.
+        or else a :exc:`LoginRequired` will be raised. If you can't log in,
+        you can use :meth:`CodinGamer.following_ids`.
 
         .. note::
             This property is a generator.
@@ -182,6 +183,19 @@ class CodinGamer(BaseUser):
         r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id])
         for followed in r.json():
             yield CodinGamer(client=self._client, **followed)
+
+    @property
+    def following_ids(self) -> list:
+        """Get all the followed ids of a CodinGamer.
+
+        Returns
+        -------
+            :class:`list`
+                A list of all the followed ids.
+        """
+
+        r = self._client._session.post(Endpoints.CodinGamer_following_ids, json=[self.id])
+        return r.json()
 
     @property
     def clash_of_code_rank(self) -> int:
