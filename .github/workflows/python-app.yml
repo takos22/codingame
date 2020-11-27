@@ -31,9 +31,10 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --ignore=E402 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        TEST_LOGIN_EMAIL: ${{ secrets.TEST_LOGIN_EMAIL }}
+        TEST_LOGIN_PASSWORD: ${{ secrets.TEST_LOGIN_PASSWORD }}
+        TEST_CODINGAMER_PUBLIC_HANDLE: ${{ secrets.TEST_CODINGAMER_PUBLIC_HANDLE }}
+        TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        export TEST_LOGIN_EMAIL=${{ secrets.TEST_LOGIN_EMAIL }}
-        export TEST_LOGIN_PASSWORD=${{ secrets.TEST_LOGIN_PASSWORD }}
-        export TEST_CODINGAMER_PUBLIC_HANDLE=${{ secrets.TEST_CODINGAMER_PUBLIC_HANDLE }}
-        export TEST_CLASHOFCODE_PUBLIC_HANDLE=${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
         pytest
