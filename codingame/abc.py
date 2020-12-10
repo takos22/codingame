@@ -17,10 +17,12 @@ class BaseUser(abc.ABC):
             ID of the User. Last 7 digits of the :attr:`public_handle` reversed.
 
         avatar: Optional[:class:`int`]
-            Avatar ID of the User, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
+            Avatar ID of the User, if set else `None`.
+            You can get the avatar url with :attr:`avatar_url`.
 
         cover: Optional[:class:`int`]
-            Cover ID of the User, if set else `None`. You can get the cover url with :attr:`cover_url`.
+            Cover ID of the User, if set else `None`.
+            You can get the cover url with :attr:`cover_url`.
 
     """
 
