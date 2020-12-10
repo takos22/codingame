@@ -1,5 +1,5 @@
-codingame
-=========
+codingame module for python
+===========================
 .. image:: https://img.shields.io/pypi/v/codingame?color=blue
    :target: https://pypi.python.org/pypi/codingame
    :alt: PyPI version info
