@@ -79,13 +79,23 @@ class ClashOfCode:
         dt_format = "%b %d, %Y %I:%M:%S %p"
         self.creation_time: datetime = datetime.strptime(data["creationTime"], dt_format)
         self.start_time: datetime = datetime.strptime(data["startTime"], dt_format)
-        self.end_time: Optional[datetime] = datetime.strptime(data["endTime"], dt_format) if "endTime" in data else None
+        self.end_time: Optional[datetime] = (
+            datetime.strptime(data["endTime"], dt_format) if "endTime" in data else None
+        )
 
         self.time_before_start: float = data["msBeforeStart"] / 1000
-        self.time_before_end: Optional[float] = (data["msBeforeEnd"] / 1000) if "msBeforeEnd" in data else None
+        self.time_before_end: Optional[float] = (
+            (data["msBeforeEnd"] / 1000) if "msBeforeEnd" in data else None
+        )
 
         self.players: List[Player] = [
-            Player(client=self._client, coc=self, started=self.started, finished=self.finished, **player)
+            Player(
+                client=self._client,
+                coc=self,
+                started=self.started,
+                finished=self.finished,
+                **player,
+            )
             for player in data["players"]
         ]
 
@@ -117,7 +127,8 @@ class Player(BaseUser):
             Pseudo of the CodinGamer.
 
         avatar: Optional[:class:`int`]
-            Avatar ID of the CodinGamer, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
+            Avatar ID of the CodinGamer, if set else `None`.
+            You can get the avatar url with :attr:`avatar_url`.
 
         avatar_url: Optional[:class:`str`]
             Avatar URL of the CodinGamer, if set else `None`.
@@ -150,7 +161,8 @@ class Player(BaseUser):
             Score of the Player (between 0 and 100).
 
         code_length: Optional[:class:`int`]
-            Length of the Player's code. Only available when the Clash of Code's mode is ``SHORTEST``.
+            Length of the Player's code.
+            Only available when the Clash of Code's mode is ``SHORTEST``.
 
         solution_shared: Optional[:class:`bool`]
             If the Player shared his code.
