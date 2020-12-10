@@ -7,13 +7,15 @@ Basic wrapper for the undocumented CodinGame API.
 
 from typing import NamedTuple
 
-VersionInfo = NamedTuple("VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int)
+VersionInfo = NamedTuple(
+    "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
+)
 
-version_info = VersionInfo(major=0, minor=3, micro=4, releaselevel="", serial=0)
+version_info = VersionInfo(major=0, minor=3, micro=5, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "0.3.4"
+__version__ = "0.3.5"
 
 __all__ = [
     "Client",
