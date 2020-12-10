@@ -59,10 +59,12 @@ class CodinGamer(BaseUser):
             School of the CodinGamer, if set else `None`.
 
         avatar: Optional[:class:`int`]
-            Avatar ID of the CodinGamer, if set else `None`. You can get the avatar url with :attr:`avatar_url`.
+            Avatar ID of the CodinGamer, if set else `None`.
+            You can get the avatar url with :attr:`avatar_url`.
 
         cover: Optional[:class:`int`]
-            Cover ID of the CodinGamer, if set else `None`. You can get the cover url with :attr:`cover_url`.
+            Cover ID of the CodinGamer, if set else `None`.
+            You can get the cover url with :attr:`cover_url`.
 
         avatar_url: Optional[:class:`str`]
             Avatar URL of the CodinGamer, if set else `None`.
@@ -108,7 +110,9 @@ class CodinGamer(BaseUser):
         self.tagline = data.get("tagline", None) or None
         self.biography = data.get("biography", None) or None
         self.company = data.get("company", None) or data.get("companyField", None) or None
-        self.school = data.get("schoolField", None) or data.get("formValues", {}).get("school", None) or None
+        self.school = (
+            data.get("schoolField", None) or data.get("formValues", {}).get("school", None) or None
+        )
 
         self.avatar = data.get("avatar", None)
         self.cover = data.get("cover", None)
@@ -135,10 +139,15 @@ class CodinGamer(BaseUser):
                 The follower.
         """
 
-        if not self._client.logged_in or self.public_handle != self._client.codingamer.public_handle:
+        if (
+            not self._client.logged_in
+            or self.public_handle != self._client.codingamer.public_handle
+        ):
             raise LoginRequired()
 
-        r = self._client._session.post(Endpoints.CodinGamer_followers, json=[self.id, self.id, None])
+        r = self._client._session.post(
+            Endpoints.CodinGamer_followers, json=[self.id, self.id, None]
+        )
         for follower in r.json():
             yield CodinGamer(client=self._client, **follower)
 
@@ -149,7 +158,7 @@ class CodinGamer(BaseUser):
         Returns
         -------
             :class:`list`
-                A list of all the followers ids.
+                A list of all the followers ids. See :attr:`CodinGamer.id`.
         """
 
         r = self._client._session.post(Endpoints.CodinGamer_followers_ids, json=[self.id])
@@ -177,7 +186,10 @@ class CodinGamer(BaseUser):
                 The followed CodinGamer.
         """
 
-        if not self._client.logged_in or self.public_handle != self._client.codingamer.public_handle:
+        if (
+            not self._client.logged_in
+            or self.public_handle != self._client.codingamer.public_handle
+        ):
             raise LoginRequired()
 
         r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id])
@@ -191,7 +203,7 @@ class CodinGamer(BaseUser):
         Returns
         -------
             :class:`list`
-                A list of all the followed ids.
+                A list of all the followed ids. See :attr:`CodinGamer.id`.
         """
 
         r = self._client._session.post(Endpoints.CodinGamer_following_ids, json=[self.id])
@@ -211,4 +223,8 @@ class CodinGamer(BaseUser):
         return r.json()["rank"]
 
     def __repr__(self):
-        return "<CodinGamer public_handle={0.public_handle!r} id={0.id!r} pseudo={0.pseudo!r}>".format(self)
+        return (
+            "<CodinGamer public_handle={0.public_handle!r} id={0.id!r} pseudo={0.pseudo!r}>".format(
+                self
+            )
+        )
