@@ -1,3 +1,4 @@
+from codingame.leaderboard import Leaderboard
 import requests
 import re
 
@@ -68,7 +69,9 @@ class Client:
         if password == "":
             raise ValueError("Password is required")
 
-        r = self._session.post(Endpoints.CodinGamer_login, json=[email, password, True])
+        r = self._session.post(
+            Endpoints.CodinGamer_login, json=[email, password, True]
+        )
         json = r.json()
         if "id" in json and "message" in json:
             raise ValueError(f"{json['id']}: {json['message']}")
@@ -110,17 +113,23 @@ class Client:
             r = self._session.post(Endpoints.CodinGamer_id, json=[codingamer])
             json = r.json()
             if "id" in json and json["id"] == 404:
-                raise CodinGamerNotFound(f"No CodinGamer with id {codingamer!r}")
+                raise CodinGamerNotFound(
+                    f"No CodinGamer with id {codingamer!r}"
+                )
             return CodinGamer(client=self, **json)
 
         if not self._CODINGAMER_HANDLE_REGEX.match(codingamer):
-            r = self._session.post(Endpoints.Search, json=[codingamer, "en", None])
+            r = self._session.post(
+                Endpoints.Search, json=[codingamer, "en", None]
+            )
             search: List[dict] = r.json()
             users = [query for query in search if query["type"] == "USER"]
             if users:
                 handle = users[0]["id"]
             else:
-                raise CodinGamerNotFound(f"No CodinGamer with username {codingamer!r}")
+                raise CodinGamerNotFound(
+                    f"No CodinGamer with username {codingamer!r}"
+                )
         else:
             handle = codingamer
 
@@ -160,10 +169,14 @@ class Client:
                 "(regex: [0-9]{7}[0-9a-f]{32})."
             )
 
-        r = self._session.post(Endpoints.ClashOfCode, json=[clash_of_code_handle])
+        r = self._session.post(
+            Endpoints.ClashOfCode, json=[clash_of_code_handle]
+        )
         json = r.json()
         if "id" in json and "message" in json:
-            raise ClashOfCodeNotFound(f"No Clash of Code with handle {clash_of_code_handle!r}")
+            raise ClashOfCodeNotFound(
+                f"No Clash of Code with handle {clash_of_code_handle!r}"
+            )
         return ClashOfCode(client=self, **json)
 
     def get_pending_clash_of_code(self) -> Optional[ClashOfCode]:
@@ -215,6 +228,27 @@ class Client:
         if not self.logged_in:
             raise LoginRequired()
 
-        r = self._session.post(Endpoints.UnseenNotifications, json=[self.codingamer.id])
+        r = self._session.post(
+            Endpoints.UnseenNotifications, json=[self.codingamer.id]
+        )
         for notification in r.json():
             yield Notification(notification)
+
+    def get_global_leaderboard(
+        self, page: int = 1, type: str = "GENERAL"
+    ) -> Leaderboard:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        r = self._session.post(
+            Endpoints.global_leaderboard,
+            json=[
+                page,
+                type,
+                {"keyword": "", "active": False, "column": "", "filter": ""},
+                self.codingamer.public_handle,
+                True,
+                "global",
+            ],
+        )
+        return Leaderboard(self, type, page, r.json())

@@ -23,3 +23,8 @@ class Endpoints:
     ClashOfCode = BASE + "ClashOfCode/findClashByHandle"
     ClashOfCode_pending = BASE + "ClashOfCode/findPendingClashes"
     Solution = BASE + "Solution/findSolution"
+
+    # Leaderboards
+    global_leaderboard = BASE + "Leaderboards/getGlobalLeaderboard"
+    challenge_leaderboard = BASE + "Leaderboards/getFilteredChallengeLeaderboard"
+    puzzle_leaderboard = BASE + "Leaderboards/getFilteredPuzzleLeaderboard"
