@@ -11,11 +11,11 @@ VersionInfo = NamedTuple(
     "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
 )
 
-version_info = VersionInfo(major=0, minor=3, micro=5, releaselevel="", serial=0)
+version_info = VersionInfo(major=0, minor=4, micro=0, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "0.3.5"
+__version__ = "0.4.0"
 
 __all__ = [
     "Client",
@@ -23,6 +23,12 @@ __all__ = [
     "ClashOfCode",
     "Player",
     "Notification",
+    "GlobalRankedCodinGamer",
+    "GlobalLeaderboard",
+    "ChallengeRankedCodinGamer",
+    "ChallengeLeaderboard",
+    "PuzzleRankedCodinGamer",
+    "PuzzleLeaderboard",
     "CodinGameAPIError",
     "CodinGamerNotFound",
     "ClashOfCodeNotFound",
@@ -33,4 +39,17 @@ from .client import Client
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode, Player
 from .notification import Notification
-from .exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound, LoginRequired
+from .leaderboard import (
+    GlobalRankedCodinGamer,
+    GlobalLeaderboard,
+    ChallengeRankedCodinGamer,
+    ChallengeLeaderboard,
+    PuzzleRankedCodinGamer,
+    PuzzleLeaderboard,
+)
+from .exceptions import (
+    CodinGameAPIError,
+    CodinGamerNotFound,
+    ClashOfCodeNotFound,
+    LoginRequired,
+)

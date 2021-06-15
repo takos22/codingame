@@ -1,4 +1,3 @@
-from codingame.leaderboard import Leaderboard
 import requests
 import re
 
@@ -6,6 +5,7 @@ from typing import List, Optional, Iterator
 
 from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode
+from .leaderboard import GlobalLeaderboard, ChallengeLeaderboard, PuzzleLeaderboard
 from .notification import Notification
 
 from .endpoints import Endpoints
@@ -235,10 +235,36 @@ class Client:
             yield Notification(notification)
 
     def get_global_leaderboard(
-        self, page: int = 1, type: str = "GENERAL"
-    ) -> Leaderboard:
+        self, page: int = 1, type: str = "GENERAL", group: str = "global"
+    ) -> GlobalLeaderboard:
         if not self.logged_in:
             raise LoginRequired()
+
+        type = type.upper()
+        if type not in [
+            "GENERAL",
+            "CONTESTS",
+            "BOT_PROGRAMMING",
+            "OPTIM",
+            "CODEGOLF",
+        ]:
+            raise ValueError(
+                "type argument must be one of: GENERAL, CONTESTS, "
+                f"BOT_PROGRAMMING, OPTIM, CODEGOLF. Got: {type}"
+            )
+
+        group = group.lower()
+        if group not in [
+            "global",
+            "country",
+            "company",
+            "school",
+            "following",
+        ]:
+            raise ValueError(
+                "group argument must be one of: global, country, company, "
+                f"school, following. Got: {group}"
+            )
 
         r = self._session.post(
             Endpoints.global_leaderboard,
@@ -247,8 +273,68 @@ class Client:
                 type,
                 {"keyword": "", "active": False, "column": "", "filter": ""},
                 self.codingamer.public_handle,
-                True,
-                "global",
+                True,  # return count
+                group,
             ],
         )
-        return Leaderboard(self, type, page, r.json())
+        return GlobalLeaderboard(self, type, group, page, r.json())
+
+    def get_challenge_leaderboard(
+        self, challenge_id: str, group: str = "global"
+    ) -> ChallengeLeaderboard:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        group = group.lower()
+        if group not in [
+            "global",
+            "country",
+            "company",
+            "school",
+            "following",
+        ]:
+            raise ValueError(
+                "group argument must be one of: global, country, company, "
+                f"school, following. Got: {group}"
+            )
+
+        r = self._session.post(
+            Endpoints.challenge_leaderboard,
+            json=[
+                challenge_id,
+                self.codingamer.public_handle,
+                group,
+                {"keyword": "", "active": False, "column": "", "filter": ""},
+            ],
+        )
+        return ChallengeLeaderboard(self, challenge_id, group, r.json())
+
+    def get_puzzle_leaderboard(
+        self, puzzle_id: str, group: str = "global"
+    ) -> PuzzleLeaderboard:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        group = group.lower()
+        if group not in [
+            "global",
+            "country",
+            "company",
+            "school",
+            "following",
+        ]:
+            raise ValueError(
+                "group argument must be one of: global, country, company, "
+                f"school, following. Got: {group}"
+            )
+
+        r = self._session.post(
+            Endpoints.puzzle_leaderboard,
+            json=[
+                puzzle_id,
+                self.codingamer.public_handle,
+                group,
+                {"keyword": "", "active": False, "column": "", "filter": ""},
+            ],
+        )
+        return PuzzleLeaderboard(self, puzzle_id, group, r.json())

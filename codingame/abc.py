@@ -30,6 +30,7 @@ class BaseUser(abc.ABC):
     id: int
     avatar: Optional[int] = None
     cover: Optional[int] = None
+    pseudo: Optional[str] = None
 
     @property
     def avatar_url(self) -> Optional[str]:
@@ -42,7 +43,7 @@ class BaseUser(abc.ABC):
         return Endpoints.image.format(self.cover) if self.cover else None
 
     def __repr__(self):
-        return "<{0.__class__.__name__} public_handle={0.public_handle!r} id={0.id}>".format(self)
+        return "<{0.__class__.__name__} id={0.id!r} pseudo={0.pseudo!r}>".format(self)
 
     def __eq__(self, other):
         return self.public_handle == other.public_handle

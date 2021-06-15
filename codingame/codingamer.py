@@ -78,7 +78,7 @@ class CodinGamer(BaseUser):
     rank: int
     level: int
     xp: int
-    country_id: str
+    country_id: Optional[str]
     category: Optional[str]
     student: bool
     professional: bool
@@ -98,7 +98,7 @@ class CodinGamer(BaseUser):
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
         self.level = data["level"]
-        self.country_id = data["countryId"]
+        self.country_id = data.get("countryId")
 
         self.category = data["category"] if data.get("category", "UNKNOWN") != "UNKNOWN" else None
         self.student = self.category == "STUDENT"
@@ -222,9 +222,3 @@ class CodinGamer(BaseUser):
         r = self._client._session.post(Endpoints.CodinGamer_coc_rank, json=[self.id])
         return r.json()["rank"]
 
-    def __repr__(self):
-        return (
-            "<CodinGamer public_handle={0.public_handle!r} id={0.id!r} pseudo={0.pseudo!r}>".format(
-                self
-            )
-        )
