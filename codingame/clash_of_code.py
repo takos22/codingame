@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from typing import List, Optional
 
 from .abc import BaseUser
@@ -65,22 +64,32 @@ class ClashOfCode:
         self._client = client
 
         self.public_handle: str = data["publicHandle"]
-        self.join_url: str = f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
+        self.join_url: str = (
+            f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
+        )
         self.public: bool = data["publicClash"]
         self.min_players: int = data["nbPlayersMin"]
         self.max_players: int = data["nbPlayersMax"]
         self.modes: Optional[List] = data.get("modes", None)
-        self.programming_languages: Optional[List] = data.get("programmingLanguages", None)
+        self.programming_languages: Optional[List] = data.get(
+            "programmingLanguages", None
+        )
 
         self.started: bool = data["started"]
         self.finished: bool = data["finished"]
         self.mode: Optional[str] = data.get("mode", None)
 
         dt_format = "%b %d, %Y %I:%M:%S %p"
-        self.creation_time: datetime = datetime.strptime(data["creationTime"], dt_format)
-        self.start_time: datetime = datetime.strptime(data["startTime"], dt_format)
+        self.creation_time: datetime = datetime.strptime(
+            data["creationTime"], dt_format
+        )
+        self.start_time: datetime = datetime.strptime(
+            data["startTime"], dt_format
+        )
         self.end_time: Optional[datetime] = (
-            datetime.strptime(data["endTime"], dt_format) if "endTime" in data else None
+            datetime.strptime(data["endTime"], dt_format)
+            if "endTime" in data
+            else None
         )
 
         self.time_before_start: float = data["msBeforeStart"] / 1000
@@ -103,7 +112,9 @@ class ClashOfCode:
         return (
             "<ClashOfCode public_handle={0.public_handle!r} public={0.public!r} "
             "modes={0.modes!r} programming_languages={0.programming_languages!r} "
-            "started={0.started!r} finished={0.finished!r} players={0.players!r}>".format(self)
+            "started={0.started!r} finished={0.finished!r} players={0.players!r}>".format(
+                self
+            )
         )
 
 
@@ -190,7 +201,9 @@ class Player(BaseUser):
     solution_shared: Optional[bool]
     submission_id: Optional[int]
 
-    def __init__(self, *, client, coc: ClashOfCode, started: bool, finished: bool, **data):
+    def __init__(
+        self, *, client, coc: ClashOfCode, started: bool, finished: bool, **data
+    ):
         self._client = client
         self.clash_of_code: ClashOfCode = coc
 

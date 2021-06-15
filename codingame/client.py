@@ -1,15 +1,18 @@
-import requests
 import re
+from typing import Iterator, List, Optional
 
-from typing import List, Optional, Iterator
+import requests
 
-from .codingamer import CodinGamer
 from .clash_of_code import ClashOfCode
-from .leaderboard import GlobalLeaderboard, ChallengeLeaderboard, PuzzleLeaderboard
-from .notification import Notification
-
+from .codingamer import CodinGamer
 from .endpoints import Endpoints
-from .exceptions import CodinGamerNotFound, ClashOfCodeNotFound, LoginRequired
+from .exceptions import ClashOfCodeNotFound, CodinGamerNotFound, LoginRequired
+from .leaderboard import (
+    ChallengeLeaderboard,
+    GlobalLeaderboard,
+    PuzzleLeaderboard,
+)
+from .notification import Notification
 from .utils import validate_args
 
 

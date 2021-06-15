@@ -1,5 +1,5 @@
-from typing import get_type_hints
 from functools import wraps
+from typing import get_type_hints
 
 
 def validate_args(func):
@@ -15,7 +15,9 @@ def validate_args(func):
                 if not issubclass(arg_type, hints[arg]):
                     raise TypeError(
                         "Argument {0!r} needs to be of type {1.__name__!r} "
-                        "(got type {2.__name__!r})".format(arg, hints[arg], arg_type)
+                        "(got type {2.__name__!r})".format(
+                            arg, hints[arg], arg_type
+                        )
                     )
 
         result = func(*args, **kwargs)
@@ -24,7 +26,9 @@ def validate_args(func):
             if type(result) != hints["return"]:
                 raise TypeError(
                     "Return value needs to be of type {0.__name__!r} "
-                    "(got type {1.__name__!r})".format(hints["return"], type(result))
+                    "(got type {1.__name__!r})".format(
+                        hints["return"], type(result)
+                    )
                 )
 
         return result

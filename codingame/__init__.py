@@ -35,21 +35,21 @@ __all__ = [
     "LoginRequired",
 ]
 
+from .clash_of_code import ClashOfCode, Player
 from .client import Client
 from .codingamer import CodinGamer
-from .clash_of_code import ClashOfCode, Player
-from .notification import Notification
-from .leaderboard import (
-    GlobalRankedCodinGamer,
-    GlobalLeaderboard,
-    ChallengeRankedCodinGamer,
-    ChallengeLeaderboard,
-    PuzzleRankedCodinGamer,
-    PuzzleLeaderboard,
-)
 from .exceptions import (
+    ClashOfCodeNotFound,
     CodinGameAPIError,
     CodinGamerNotFound,
-    ClashOfCodeNotFound,
     LoginRequired,
 )
+from .leaderboard import (
+    ChallengeLeaderboard,
+    ChallengeRankedCodinGamer,
+    GlobalLeaderboard,
+    GlobalRankedCodinGamer,
+    PuzzleLeaderboard,
+    PuzzleRankedCodinGamer,
+)
+from .notification import Notification

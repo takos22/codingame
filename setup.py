@@ -20,6 +20,7 @@ with open("README.rst") as f:
 setup(
     name="codingame",
     author="takos22",
+    author_email="takos2210@gmail.com",
     url="https://github.com/takos22/codingame",
     project_urls={
         "Documentation": "https://codingame.readthedocs.io/en/latest/",

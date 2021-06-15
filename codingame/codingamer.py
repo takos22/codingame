@@ -1,4 +1,4 @@
-from typing import List, Optional, Iterator
+from typing import Iterator, Optional
 
 from .abc import BaseUser
 from .endpoints import Endpoints
@@ -100,7 +100,11 @@ class CodinGamer(BaseUser):
         self.level = data["level"]
         self.country_id = data.get("countryId")
 
-        self.category = data["category"] if data.get("category", "UNKNOWN") != "UNKNOWN" else None
+        self.category = (
+            data["category"]
+            if data.get("category", "UNKNOWN") != "UNKNOWN"
+            else None
+        )
         self.student = self.category == "STUDENT"
         self.professional = self.category == "PROFESSIONAL"
 
@@ -109,9 +113,13 @@ class CodinGamer(BaseUser):
         self.pseudo = data.get("pseudo", None) or None
         self.tagline = data.get("tagline", None) or None
         self.biography = data.get("biography", None) or None
-        self.company = data.get("company", None) or data.get("companyField", None) or None
+        self.company = (
+            data.get("company", None) or data.get("companyField", None) or None
+        )
         self.school = (
-            data.get("schoolField", None) or data.get("formValues", {}).get("school", None) or None
+            data.get("schoolField", None)
+            or data.get("formValues", {}).get("school", None)
+            or None
         )
 
         self.avatar = data.get("avatar", None)
@@ -161,7 +169,9 @@ class CodinGamer(BaseUser):
                 A list of all the followers ids. See :attr:`CodinGamer.id`.
         """
 
-        r = self._client._session.post(Endpoints.CodinGamer_followers_ids, json=[self.id])
+        r = self._client._session.post(
+            Endpoints.CodinGamer_followers_ids, json=[self.id]
+        )
         return r.json()
 
     @property
@@ -192,7 +202,9 @@ class CodinGamer(BaseUser):
         ):
             raise LoginRequired()
 
-        r = self._client._session.post(Endpoints.CodinGamer_following, json=[self.id, self.id])
+        r = self._client._session.post(
+            Endpoints.CodinGamer_following, json=[self.id, self.id]
+        )
         for followed in r.json():
             yield CodinGamer(client=self._client, **followed)
 
@@ -206,7 +218,9 @@ class CodinGamer(BaseUser):
                 A list of all the followed ids. See :attr:`CodinGamer.id`.
         """
 
-        r = self._client._session.post(Endpoints.CodinGamer_following_ids, json=[self.id])
+        r = self._client._session.post(
+            Endpoints.CodinGamer_following_ids, json=[self.id]
+        )
         return r.json()
 
     @property
@@ -219,6 +233,7 @@ class CodinGamer(BaseUser):
                 The Clash of Code rank of the CodinGamer.
         """
 
-        r = self._client._session.post(Endpoints.CodinGamer_coc_rank, json=[self.id])
+        r = self._client._session.post(
+            Endpoints.CodinGamer_coc_rank, json=[self.id]
+        )
         return r.json()["rank"]
-

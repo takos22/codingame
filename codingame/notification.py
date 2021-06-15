@@ -46,7 +46,9 @@ class Notification:
         self.id = notification["id"]
         self.type = notification["type"]
         self.type_group = notification["typeGroup"]
-        self.creation_time = datetime.utcfromtimestamp(notification["date"] / 1000.0)
+        self.creation_time = datetime.utcfromtimestamp(
+            notification["date"] / 1000.0
+        )
         self.priority = notification["priority"]
         self.urgent = notification["urgent"]
         self.data = notification.get("data", None)

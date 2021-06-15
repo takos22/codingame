@@ -1,21 +1,27 @@
 # TODO add more tests
-import pytest
 import os
-import sys
 import re
+import sys
+
+import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
 
 sys.path.insert(0, os.path.abspath("..."))
 
-from codingame.exceptions import CodinGameAPIError, CodinGamerNotFound, ClashOfCodeNotFound, LoginRequired
+from codingame.exceptions import ClashOfCodeNotFound
 
 
 def test_import():
     import codingame
 
-    assert codingame.__title__ == codingame.__name__ == codingame.__package__ == "codingame"
+    assert (
+        codingame.__title__
+        == codingame.__name__
+        == codingame.__package__
+        == "codingame"
+    )
     assert codingame.__author__ == "takos22"
 
 
@@ -64,7 +70,9 @@ def client():
 
 
 def test_client_codingamer_handle(codingame, client):
-    codingamer = client.get_codingamer(os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"))
+    codingamer = client.get_codingamer(
+        os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE")
+    )
 
     assert type(codingamer) == codingame.CodinGamer
 
@@ -87,7 +95,9 @@ def test_client_codingamer_username(codingame, client):
 
 
 def test_client_clash_of_code(codingame, client):
-    clash_of_code = client.get_clash_of_code(os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE"))
+    clash_of_code = client.get_clash_of_code(
+        os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
+    )
 
     assert type(clash_of_code) == codingame.ClashOfCode
 
@@ -95,14 +105,32 @@ def test_client_clash_of_code(codingame, client):
 @pytest.mark.parametrize(
     "public_handle, error, message_regex",
     [
-        (0, TypeError, re.escape("Argument 'clash_of_code_handle' needs to be of type 'str' (got type 'int')")),
-        ("", ValueError, re.escape("Clash of Code handle '' isn't in the good format (regex: [0-9]{7}[0-9a-f]{32}).")),
-        ("0" * 7 + "a" * 32, ClashOfCodeNotFound, re.escape(f"No Clash of Code with handle {'0' * 7 + 'a' * 32!r}")),
+        (
+            0,
+            TypeError,
+            re.escape(
+                "Argument 'clash_of_code_handle' needs to be of type 'str' (got type 'int')"
+            ),
+        ),
+        (
+            "",
+            ValueError,
+            re.escape(
+                "Clash of Code handle '' isn't in the good format (regex: [0-9]{7}[0-9a-f]{32})."
+            ),
+        ),
+        (
+            "0" * 7 + "a" * 32,
+            ClashOfCodeNotFound,
+            re.escape(f"No Clash of Code with handle {'0' * 7 + 'a' * 32!r}"),
+        ),
     ],
 )
-def test_client_clash_of_code_error(codingame, client, public_handle, error, message_regex):
+def test_client_clash_of_code_error(
+    codingame, client, public_handle, error, message_regex
+):
     with pytest.raises(error, match=message_regex):
-        clash_of_code = client.get_clash_of_code(public_handle)
+        client.get_clash_of_code(public_handle)
 
 
 def test_client_pending_clash_of_code(codingame, client):

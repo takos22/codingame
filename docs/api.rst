@@ -35,8 +35,8 @@ Client
 CodinGame Models
 ------------------
 
-Models are classes that are received from CodinGame and are not meant to be created by
-the user of the library.
+Models are classes that are received from CodinGame and are not meant to be
+created by the user of the library.
 
 .. danger::
 

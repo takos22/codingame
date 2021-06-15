@@ -2,9 +2,7 @@ autoflake
 black
 flake8
 isort
-pre-commit
 pytest
-pytest-asyncio
 pytest-cov
 requests
 twine

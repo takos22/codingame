@@ -26,5 +26,7 @@ class Endpoints:
 
     # Leaderboards
     global_leaderboard = BASE + "Leaderboards/getGlobalLeaderboard"
-    challenge_leaderboard = BASE + "Leaderboards/getFilteredChallengeLeaderboard"
+    challenge_leaderboard = (
+        BASE + "Leaderboards/getFilteredChallengeLeaderboard"
+    )
     puzzle_leaderboard = BASE + "Leaderboards/getFilteredPuzzleLeaderboard"

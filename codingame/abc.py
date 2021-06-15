@@ -5,6 +5,7 @@ from typing import Optional
 
 from .endpoints import Endpoints
 
+
 class BaseUser(abc.ABC):
     """ABC for codingame users (CodinGamer, Player, ...)
 
@@ -43,7 +44,11 @@ class BaseUser(abc.ABC):
         return Endpoints.image.format(self.cover) if self.cover else None
 
     def __repr__(self):
-        return "<{0.__class__.__name__} id={0.id!r} pseudo={0.pseudo!r}>".format(self)
+        return (
+            "<{0.__class__.__name__} id={0.id!r} pseudo={0.pseudo!r}>".format(
+                self
+            )
+        )
 
     def __eq__(self, other):
         return self.public_handle == other.public_handle
