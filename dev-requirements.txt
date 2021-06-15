@@ -1,4 +1,3 @@
-wheel
 autoflake
 black
 flake8
@@ -7,4 +6,5 @@ pytest
 pytest-cov
 requests
 twine
+python-dotenv
 git+https://github.com/PyCQA/doc8
