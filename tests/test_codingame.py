@@ -1,14 +1,11 @@
-# TODO add more tests
+# TODO rewrite tests
 import os
 import re
-import sys
 
 import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
-
-sys.path.insert(0, os.path.abspath("..."))
 
 from codingame.exceptions import ClashOfCodeNotFound
 
