@@ -4,26 +4,46 @@ from .abc import BaseUser
 
 
 class RankedCodinGamer(BaseUser):
+    """Base ranked CodinGamer.
+
+    Implements the common data for the leaderboard users.
+    """
+
     public_handle: str
+    """Public handle of the CodinGamer (hexadecimal str)."""
     id: int
+    """ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
+    reversed."""
+    pseudo: typing.Optional[str]
+    """Pseudo of the CodinGamer."""
+    avatar: typing.Optional[int]
+    """Avatar ID of the CodinGamer. You can get the avatar url with
+    :attr:`avatar_url`."""
+    cover: None
+    """Cover ID of the CodinGamer. In this case, always `None`."""
+
     level: int
+    """Level of the CodinGamer.."""
     country_id: typing.Optional[str]
+    """ID of the CodinGamer's country."""
     category: typing.Optional[str]
+    """Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``."""
     student: bool
+    """Whether the CodinGamer is a student."""
     professional: bool
+    """Whether the CodinGamer is a professional."""
+    school: typing.Optional[str]
+    """Company of the CodinGamer."""
+    company: typing.Optional[str]
+    """School of the CodinGamer."""
 
     rank: int
+    """Rank in the leaderboard of the CodinGamer."""
     score: float
-
-    pseudo: typing.Optional[str]
-    company: typing.Optional[str]
-    school: typing.Optional[str]
-    avatar: typing.Optional[int]
-    cover: None
-    avatar_url: typing.Optional[str]
-    cover_url: None
+    """Score of the CodinGamer."""
 
     leaderboard: "Leaderboard"
+    """The leaderboard in which this CodinGamer is ranked."""
 
     def __init__(self, client, leaderboard: "Leaderboard", data: dict):
         self._client = client
@@ -62,17 +82,24 @@ class RankedCodinGamer(BaseUser):
 
 
 class Leaderboard:
-    USER_CLASS: typing.Type[RankedCodinGamer] = RankedCodinGamer
+    """Base leaderboard.
+
+    Implements the common data for the leaderboards.
+    """
+
+    _USER_CLASS: typing.Type[RankedCodinGamer] = RankedCodinGamer
 
     count: int
-    users: typing.List[USER_CLASS]
+    """Number of users in the leaderboard."""
+    users: typing.List[_USER_CLASS]
+    """Leaderboard ranking."""
 
     def __init__(self, client, data: dict):
         self._client = client
 
         self.count = data["count"]
         self.users = [
-            self.USER_CLASS(client, self, user) for user in data["users"]
+            self._USER_CLASS(client, self, user) for user in data["users"]
         ]
 
     def __repr__(self):
@@ -80,6 +107,8 @@ class Leaderboard:
 
 
 class GlobalRankedCodinGamer(RankedCodinGamer):
+    """Ranked CodinGamer in global leaderboard."""
+
     xp: int
     achievements: int
     clash: int
@@ -103,11 +132,19 @@ class GlobalRankedCodinGamer(RankedCodinGamer):
 
 
 class GlobalLeaderboard(Leaderboard):
-    USER_CLASS = GlobalRankedCodinGamer
+    """Global leaderboard."""
+    _USER_CLASS = GlobalRankedCodinGamer
 
     type: str
+    """Global leaderboard type. One of GENERAL, CONTESTS, BOT_PROGRAMMING,
+    OPTIM, CODEGOLF."""
     group: str
+    """Group of CodinGamer who are ranked. One of global, country, company,
+    school, following."""
     page: int
+    """Page of the leaderboard."""
+    users: typing.List[GlobalRankedCodinGamer]
+    """Global leaderboard ranking."""
 
     def __init__(self, client, lb_type: str, group: str, page: int, data: dict):
         super().__init__(client, data)
@@ -123,7 +160,8 @@ class GlobalLeaderboard(Leaderboard):
 
 
 class League:
-    NAMES = [
+    """League in a challenge or puzzle leaserboard."""
+    _NAMES = [
         "Legend",
         "Gold",
         "Silver",
@@ -135,13 +173,16 @@ class League:
     ]
 
     index: int
+    """Index of the league."""
     count: int
+    """Number of users in the league."""
     name: str
+    """Name of the league."""
 
     def __init__(self, client, data: dict):
         self._client = client
         league_count: int = data["divisionCount"]
-        names = self.NAMES[league_count - 1 :: -1]
+        names = self._NAMES[league_count - 1 :: -1]
         self.index = data["divisionIndex"]
         self.count = data["divisionAgentsCount"]
         self.name = names[self.index]
@@ -157,6 +198,8 @@ class League:
 
 
 class ChallengeRankedCodinGamer(RankedCodinGamer):
+    """Ranked CodinGamer in challenge leaderboards."""
+
     percentage: typing.Optional[int]
     progress: typing.Optional[str]
     programming_language: str
@@ -184,12 +227,20 @@ class ChallengeRankedCodinGamer(RankedCodinGamer):
 
 
 class ChallengeLeaderboard(Leaderboard):
-    USER_CLASS = ChallengeRankedCodinGamer
+    """Challenge leaderboard."""
+    _USER_CLASS = ChallengeRankedCodinGamer
 
     name: str
+    """Name of the challenge."""
     leagues: typing.List[League]
+    """Leagues of the challenge. Empty list if no leagues."""
     group: str
+    """Group of CodinGamer who are ranked. One of global, country, company,
+    school, following."""
     programming_languages: typing.Dict[str, int]
+    """Number of CodinGamers who used a language in the challenge."""
+    users: typing.List[ChallengeRankedCodinGamer]
+    """Challenge leaderboard ranking."""
 
     def __init__(self, client, name: str, group: str, data: dict):
         self.leagues = [
@@ -209,6 +260,8 @@ class ChallengeLeaderboard(Leaderboard):
 
 
 class PuzzleRankedCodinGamer(RankedCodinGamer):
+    """Ranked CodinGamer in puzzle leaderboards."""
+
     percentage: typing.Optional[int]
     progress: typing.Optional[str]
     programming_language: str
@@ -236,12 +289,20 @@ class PuzzleRankedCodinGamer(RankedCodinGamer):
 
 
 class PuzzleLeaderboard(Leaderboard):
-    USER_CLASS = PuzzleRankedCodinGamer
+    """Puzzle leaderboard."""
+    _USER_CLASS = PuzzleRankedCodinGamer
 
     name: str
+    """Name of the puzzle."""
     leagues: typing.List[League]
+    """Leagues of the puzzle. Empty list if no leagues."""
     group: str
+    """Group of CodinGamer who are ranked. One of global, country, company,
+    school, following."""
     programming_languages: typing.Dict[str, int]
+    """Number of CodinGamers who used a language in the puzzle."""
+    users: typing.List[PuzzleRankedCodinGamer]
+    """Puzzle leaderboard ranking."""
 
     def __init__(self, client, name: str, group: str, data: dict):
         self.leagues = [

@@ -29,6 +29,7 @@ __all__ = [
     "ChallengeLeaderboard",
     "PuzzleRankedCodinGamer",
     "PuzzleLeaderboard",
+    "League",
     "CodinGameAPIError",
     "CodinGamerNotFound",
     "ClashOfCodeNotFound",
@@ -49,6 +50,7 @@ from .leaderboard import (
     ChallengeRankedCodinGamer,
     GlobalLeaderboard,
     GlobalRankedCodinGamer,
+    League,
     PuzzleLeaderboard,
     PuzzleRankedCodinGamer,
 )

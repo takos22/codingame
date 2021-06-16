@@ -7,40 +7,30 @@ from .endpoints import Endpoints
 
 
 class BaseUser(abc.ABC):
-    """ABC for codingame users (CodinGamer, Player, ...)
-
-    Attributes
-    -----------
-        public_handle: :class:`str`
-            Public handle of the User (hexadecimal str).
-
-        id: :class:`int`
-            ID of the User. Last 7 digits of the :attr:`public_handle` reversed.
-
-        avatar: Optional[:class:`int`]
-            Avatar ID of the User, if set else `None`.
-            You can get the avatar url with :attr:`avatar_url`.
-
-        cover: Optional[:class:`int`]
-            Cover ID of the User, if set else `None`.
-            You can get the cover url with :attr:`cover_url`.
-
-    """
+    """Abstract Base Class for codingame users (CodinGamer, Player, ...)."""
 
     public_handle: str
+    """Public handle of the CodinGamer (hexadecimal str)."""
     id: int
-    avatar: Optional[int] = None
-    cover: Optional[int] = None
-    pseudo: Optional[str] = None
+    """ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
+    reversed."""
+    pseudo: Optional[str]
+    """Pseudo of the CodinGamer."""
+    avatar: Optional[int]
+    """Avatar ID of the CodinGamer. You can get the avatar url with
+    :attr:`avatar_url`."""
+    cover: Optional[int]
+    """Cover ID of the CodinGamer. You can get the cover url with
+    :attr:`cover_url`."""
 
     @property
     def avatar_url(self) -> Optional[str]:
-        """Optional[:class:`str`]: Avatar URL of the User, if set else `None`."""
+        """Optional[:class:`str`]: Avatar URL of the CodinGamer."""
         return Endpoints.image.format(self.avatar) if self.avatar else None
 
     @property
     def cover_url(self) -> Optional[str]:
-        """Optional[:class:`str`]: Cover URL of the User, if set else `None`."""
+        """Optional[:class:`str`]: Cover URL of the CodinGamer."""
         return Endpoints.image.format(self.cover) if self.cover else None
 
     def __repr__(self):
