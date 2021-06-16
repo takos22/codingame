@@ -240,9 +240,6 @@ class Client:
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"
     ) -> GlobalLeaderboard:
-        if not self.logged_in:
-            raise LoginRequired()
-
         type = type.upper()
         if type not in [
             "GENERAL",
@@ -269,13 +266,19 @@ class Client:
                 f"school, following. Got: {group}"
             )
 
+        if (
+            group in ["country", "company", "school", "following"]
+            and not self.logged_in
+        ):
+            raise LoginRequired()
+
         r = self._session.post(
             Endpoints.global_leaderboard,
             json=[
                 page,
                 type,
                 {"keyword": "", "active": False, "column": "", "filter": ""},
-                self.codingamer.public_handle,
+                self.codingamer.public_handle if self.logged_in else "",
                 True,  # return count
                 group,
             ],
@@ -285,9 +288,6 @@ class Client:
     def get_challenge_leaderboard(
         self, challenge_id: str, group: str = "global"
     ) -> ChallengeLeaderboard:
-        if not self.logged_in:
-            raise LoginRequired()
-
         group = group.lower()
         if group not in [
             "global",
@@ -301,11 +301,17 @@ class Client:
                 f"school, following. Got: {group}"
             )
 
+        if (
+            group in ["country", "company", "school", "following"]
+            and not self.logged_in
+        ):
+            raise LoginRequired()
+
         r = self._session.post(
             Endpoints.challenge_leaderboard,
             json=[
                 challenge_id,
-                self.codingamer.public_handle,
+                self.codingamer.public_handle if self.logged_in else "",
                 group,
                 {"keyword": "", "active": False, "column": "", "filter": ""},
             ],
@@ -315,9 +321,6 @@ class Client:
     def get_puzzle_leaderboard(
         self, puzzle_id: str, group: str = "global"
     ) -> PuzzleLeaderboard:
-        if not self.logged_in:
-            raise LoginRequired()
-
         group = group.lower()
         if group not in [
             "global",
@@ -331,11 +334,17 @@ class Client:
                 f"school, following. Got: {group}"
             )
 
+        if (
+            group in ["country", "company", "school", "following"]
+            and not self.logged_in
+        ):
+            raise LoginRequired()
+
         r = self._session.post(
             Endpoints.puzzle_leaderboard,
             json=[
                 puzzle_id,
-                self.codingamer.public_handle,
+                self.codingamer.public_handle if self.logged_in else "",
                 group,
                 {"keyword": "", "active": False, "column": "", "filter": ""},
             ],
