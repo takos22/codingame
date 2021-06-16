@@ -13,7 +13,7 @@ codingame API wrapper
 .. image:: https://readthedocs.org/projects/codingame/badge/?version=latest
     :target: https://codingame.readthedocs.io
     :alt: Documentation build status
-.. image:: https://codecov.io/gh/takos22/codingame/branch/master/graph/badge.svg?token=0P3BV8D3AJ
+.. image:: https://codecov.io/gh/takos22/codingame/branch/master/graph/badge.svg?token=HQ3J3034Y2
     :target: https://codecov.io/gh/takos22/codingame
     :alt: Code coverage
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
