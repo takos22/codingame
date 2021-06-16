@@ -33,6 +33,11 @@ jobs:
         bash ./scripts/lint.sh
 
     - name: Run testing script
+      env:
+        TEST_LOGIN_EMAIL: ${{ secrets.TEST_LOGIN_EMAIL }}
+        TEST_LOGIN_PASSWORD: ${{ secrets.TEST_LOGIN_PASSWORD }}
+        TEST_CODINGAMER_PUBLIC_HANDLE: ${{ secrets.TEST_CODINGAMER_PUBLIC_HANDLE }}
+        TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
         bash ./scripts/test.sh --no-lint
 
