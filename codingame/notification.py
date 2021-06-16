@@ -1,3 +1,4 @@
+import typing
 from datetime import datetime
 
 
@@ -40,9 +41,11 @@ class Notification:
     creation_time: datetime
     priority: int
     urgent: bool
-    data: dict
+    data: typing.Optional[dict]
 
     def __init__(self, notification):
+        self._raw: dict = notification  # for attributes that arent wrapped
+
         self.id = notification["id"]
         self.type = notification["type"]
         self.type_group = notification["typeGroup"]
@@ -55,6 +58,7 @@ class Notification:
 
     def __repr__(self):
         return (
-            "<Notification id={0.id!r} type={0.type!r} date={0.date!r} priority={0.priority!r} "
+            "<Notification id={0.id!r} type={0.type!r} "
+            "creation_time={0.creation_time!r} priority={0.priority!r} "
             "urgent={0.urgent!r} data={0.data!r}>".format(self)
         )
