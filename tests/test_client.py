@@ -1,9 +1,15 @@
 import os
 import pytest
 
+from codingame.clash_of_code import ClashOfCode
 from codingame.client import Client
 from codingame.codingamer import CodinGamer
-from codingame.exceptions import CodinGamerNotFound
+from codingame.exceptions import (
+    ClashOfCodeNotFound,
+    CodinGamerNotFound,
+    LoginRequired,
+)
+from codingame.notification import Notification
 
 
 def test_client_create():
@@ -69,3 +75,40 @@ def test_client_get_codingamer(client: Client, codingamer_query):
 def test_client_get_codingamer_error(client: Client, codingamer_query):
     with pytest.raises(CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
+
+
+def test_client_get_clash_of_code(client: Client):
+    codingamer = client.get_clash_of_code(
+        os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
+    )
+    assert isinstance(codingamer, ClashOfCode)
+
+
+def test_client_get_clash_of_code_error(client: Client):
+    with pytest.raises(ValueError):
+        client.get_clash_of_code("0")
+
+    with pytest.raises(ClashOfCodeNotFound):
+        client.get_clash_of_code("0" * 7 + "a" * 32)
+
+
+def test_client_language_ids(client: Client):
+    language_ids = client.language_ids
+    assert isinstance(language_ids, list)
+    assert all(isinstance(language_id, str) for language_id in language_ids)
+
+    # chaching
+    assert hasattr(client, "_language_ids")
+    language_ids = client.language_ids
+    assert isinstance(language_ids, list)
+    assert all(isinstance(language_id, str) for language_id in language_ids)
+
+
+def test_client_notifications(auth_client: Client):
+    for notification in auth_client.notifications:
+        assert isinstance(notification, Notification)
+
+
+def test_client_notifications_error(client: Client):
+    with pytest.raises(LoginRequired):
+        next(client.notifications)
