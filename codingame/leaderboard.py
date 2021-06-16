@@ -133,6 +133,7 @@ class GlobalRankedCodinGamer(RankedCodinGamer):
 
 class GlobalLeaderboard(Leaderboard):
     """Global leaderboard."""
+
     _USER_CLASS = GlobalRankedCodinGamer
 
     type: str
@@ -161,6 +162,7 @@ class GlobalLeaderboard(Leaderboard):
 
 class League:
     """League in a challenge or puzzle leaserboard."""
+
     _NAMES = [
         "Legend",
         "Gold",
@@ -228,6 +230,7 @@ class ChallengeRankedCodinGamer(RankedCodinGamer):
 
 class ChallengeLeaderboard(Leaderboard):
     """Challenge leaderboard."""
+
     _USER_CLASS = ChallengeRankedCodinGamer
 
     name: str
@@ -290,6 +293,7 @@ class PuzzleRankedCodinGamer(RankedCodinGamer):
 
 class PuzzleLeaderboard(Leaderboard):
     """Puzzle leaderboard."""
+
     _USER_CLASS = PuzzleRankedCodinGamer
 
     name: str
