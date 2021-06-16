@@ -88,8 +88,8 @@ html_title = "Codingame"
 html_theme = "furo"
 html_theme_options = {
     "navigation_with_keys": True,
-    "light_logo": "small_logo_black.png",
-    "dark_logo": "small_logo.png",
+    "light_logo": "codingame.png",
+    "dark_logo": "codingame.png",
     "dark_css_variables": {
         "color-inline-code-background": "#292d2d",
     },
