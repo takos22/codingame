@@ -51,22 +51,50 @@ CodinGamer
 ~~~~~~~~~~~~
 
 .. autoclass:: CodinGamer()
-    :members:
 
 Clash of Code
 ~~~~~~~~~~~~~~~
 
 .. autoclass:: ClashOfCode()
-    :members:
 
 .. autoclass:: Player()
-    :members:
 
 Notification
 ~~~~~~~~~~~~
 
 .. autoclass:: Notification()
-    :members:
+
+Leaderboards
+~~~~~~~~~~~~
+
+Global leaderboard
+******************
+
+.. autoclass:: GlobalRankedCodinGamer()
+    :inherited-members:
+
+.. autoclass:: GlobalLeaderboard()
+    :inherited-members:
+
+Challenge leaderboard
+*********************
+
+.. autoclass:: League()
+
+.. autoclass:: ChallengeRankedCodinGamer()
+    :inherited-members:
+
+.. autoclass:: ChallengeLeaderboard()
+    :inherited-members:
+
+Puzzle leaderboard
+******************
+
+.. autoclass:: PuzzleRankedCodinGamer()
+    :inherited-members:
+
+.. autoclass:: PuzzleLeaderboard()
+    :inherited-members:
 
 Exceptions
 ------------
