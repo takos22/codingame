@@ -72,9 +72,7 @@ class Client:
         if password == "":
             raise ValueError("Password is required")
 
-        r = self._session.post(
-            Endpoints.CodinGamer_login, json=[email, password, True]
-        )
+        r = self._session.post(Endpoints.login, json=[email, password, True])
         json = r.json()
         if "id" in json and "message" in json:
             raise ValueError(f"{json['id']}: {json['message']}")
@@ -113,7 +111,9 @@ class Client:
         """
 
         if type(codingamer) == int:
-            r = self._session.post(Endpoints.CodinGamer_id, json=[codingamer])
+            r = self._session.post(
+                Endpoints.codingamer_from_id, json=[codingamer]
+            )
             json = r.json()
             if "id" in json and json["id"] == 404:
                 raise CodinGamerNotFound(
@@ -123,7 +123,7 @@ class Client:
 
         if not self._CODINGAMER_HANDLE_REGEX.match(codingamer):
             r = self._session.post(
-                Endpoints.Search, json=[codingamer, "en", None]
+                Endpoints.search, json=[codingamer, "en", None]
             )
             search: List[dict] = r.json()
             users = [query for query in search if query["type"] == "USER"]
@@ -136,7 +136,7 @@ class Client:
         else:
             handle = codingamer
 
-        r = self._session.post(Endpoints.CodinGamer, json=[handle])
+        r = self._session.post(Endpoints.codingamer_from_handle, json=[handle])
         json = r.json()
         if json is None:
             raise CodinGamerNotFound(f"No CodinGamer with handle {handle!r}")
@@ -173,7 +173,7 @@ class Client:
             )
 
         r = self._session.post(
-            Endpoints.ClashOfCode, json=[clash_of_code_handle]
+            Endpoints.clash_of_code, json=[clash_of_code_handle]
         )
         json = r.json()
         if "id" in json and "message" in json:
@@ -191,7 +191,7 @@ class Client:
                 The pending ClashOfCode if there's one or ``None``.
         """
 
-        r = self._session.post(Endpoints.ClashOfCode_pending, json=[])
+        r = self._session.post(Endpoints.clash_of_code_pending, json=[])
         json = r.json()
         if len(json) == 0:
             return None
@@ -204,7 +204,7 @@ class Client:
         if hasattr(self, "_language_ids"):
             return self._language_ids
         else:
-            r = self._session.post(Endpoints.LanguageIds, json=[])
+            r = self._session.post(Endpoints.language_ids, json=[])
             self._language_ids = r.json()
             return self._language_ids
 
@@ -232,7 +232,7 @@ class Client:
             raise LoginRequired()
 
         r = self._session.post(
-            Endpoints.UnseenNotifications, json=[self.codingamer.id]
+            Endpoints.unseen_notifications, json=[self.codingamer.id]
         )
         for notification in r.json():
             yield Notification(notification)

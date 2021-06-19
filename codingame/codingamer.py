@@ -154,7 +154,7 @@ class CodinGamer(BaseUser):
             raise LoginRequired()
 
         r = self._client._session.post(
-            Endpoints.CodinGamer_followers, json=[self.id, self.id, None]
+            Endpoints.codingamer_followers, json=[self.id, self.id, None]
         )
         for follower in r.json():
             yield CodinGamer(client=self._client, **follower)
@@ -170,7 +170,7 @@ class CodinGamer(BaseUser):
         """
 
         r = self._client._session.post(
-            Endpoints.CodinGamer_followers_ids, json=[self.id]
+            Endpoints.codingamer_followers_ids, json=[self.id]
         )
         return r.json()
 
@@ -203,7 +203,7 @@ class CodinGamer(BaseUser):
             raise LoginRequired()
 
         r = self._client._session.post(
-            Endpoints.CodinGamer_following, json=[self.id, self.id]
+            Endpoints.codingamer_following, json=[self.id, self.id]
         )
         for followed in r.json():
             yield CodinGamer(client=self._client, **followed)
@@ -219,7 +219,7 @@ class CodinGamer(BaseUser):
         """
 
         r = self._client._session.post(
-            Endpoints.CodinGamer_following_ids, json=[self.id]
+            Endpoints.codingamer_following_ids, json=[self.id]
         )
         return r.json()
 
@@ -234,6 +234,6 @@ class CodinGamer(BaseUser):
         """
 
         r = self._client._session.post(
-            Endpoints.CodinGamer_coc_rank, json=[self.id]
+            Endpoints.codingamer_clash_of_code_rank, json=[self.id]
         )
         return r.json()["rank"]
