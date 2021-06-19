@@ -32,7 +32,9 @@ author = "takos22"
 
 version = ""
 with open("../codingame/__init__.py") as f:
-    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
+    version = re.search(
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
+    ).group(1)
 
 # The full version, including alpha/beta/rc tags
 release = version
@@ -64,7 +66,7 @@ extensions = [
 # Links used for cross-referencing stuff in other documentation
 intersphinx_mapping = {
     "py": ("https://docs.python.org/3", None),
-    "req": ("https://requests.readthedocs.io/en/latest/", None)
+    "req": ("https://requests.readthedocs.io/en/latest/", None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
