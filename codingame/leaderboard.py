@@ -20,7 +20,7 @@ class RankedCodinGamer(BaseUser):
     """Avatar ID of the CodinGamer. You can get the avatar url with
     :attr:`avatar_url`."""
     cover: None
-    """Cover ID of the CodinGamer. In this case, always `None`."""
+    """Cover ID of the CodinGamer. In this case, always ``None``."""
 
     level: int
     """Level of the CodinGamer.."""
@@ -203,14 +203,24 @@ class ChallengeRankedCodinGamer(RankedCodinGamer):
     """Ranked CodinGamer in challenge leaderboards."""
 
     percentage: typing.Optional[int]
+    """Test cases completion percentage of the CodinGamer."""
     progress: typing.Optional[str]
+    """Progress of the CodinGamer. I don't understand what this is, so if you
+    know, please join the support server and tell me."""
     programming_language: str
+    """The programming language used by the CodinGamer in this puzzle."""
     test_session_handle: str
+    """The handle of the test session that tested the solution of the
+    CodinGamer."""
     league_rank: typing.Optional[int]
+    """The rank of the CodinGamer in their league."""
     global_rank: typing.Optional[int]
+    """The rank of the CodinGamer in the world."""
     league: typing.Optional[League]
+    """The league of the CodinGamer in this puzzle."""
 
     leaderboard: "ChallengeLeaderboard"
+    """The leaderboard that this CodinGamer is part of."""
 
     def __init__(self, client, leaderboard: "ChallengeLeaderboard", data: dict):
         super().__init__(client, leaderboard, data)
@@ -266,14 +276,24 @@ class PuzzleRankedCodinGamer(RankedCodinGamer):
     """Ranked CodinGamer in puzzle leaderboards."""
 
     percentage: typing.Optional[int]
+    """Test cases completion percentage of the CodinGamer."""
     progress: typing.Optional[str]
+    """Progress of the CodinGamer. I don't understand what this is, so if you
+    know, please join the support server and tell me."""
     programming_language: str
+    """The programming language used by the CodinGamer in this puzzle."""
     test_session_handle: str
+    """The handle of the test session that tested the solution of the
+    CodinGamer."""
     league_rank: typing.Optional[int]
+    """The rank of the CodinGamer in their league."""
     global_rank: typing.Optional[int]
+    """The rank of the CodinGamer in the world."""
     league: typing.Optional[League]
+    """The league of the CodinGamer in this puzzle."""
 
     leaderboard: "PuzzleLeaderboard"
+    """The leaderboard that this CodinGamer is part of."""
 
     def __init__(self, client, leaderboard: "PuzzleLeaderboard", data: dict):
         super().__init__(client, leaderboard, data)
