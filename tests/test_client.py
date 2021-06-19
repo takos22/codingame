@@ -9,6 +9,15 @@ from codingame.exceptions import (
     CodinGamerNotFound,
     LoginRequired,
 )
+from codingame.leaderboard import (
+    ChallengeLeaderboard,
+    ChallengeRankedCodinGamer,
+    GlobalLeaderboard,
+    GlobalRankedCodinGamer,
+    League,
+    PuzzleLeaderboard,
+    PuzzleRankedCodinGamer,
+)
 from codingame.notification import Notification
 
 
@@ -112,3 +121,24 @@ def test_client_notifications(auth_client: Client):
 def test_client_notifications_error(client: Client):
     with pytest.raises(LoginRequired):
         next(client.notifications)
+
+
+def test_client_get_global_leaderboard(client: Client):
+    global_leaderboard = client.get_global_leaderboard()
+    assert isinstance(global_leaderboard, GlobalLeaderboard)
+    assert isinstance(global_leaderboard.users[0], GlobalRankedCodinGamer)
+
+
+def test_client_get_challenge_leaderboard(client: Client):
+    challenge_leaderboard = client.get_challenge_leaderboard(
+        "spring-challenge-2021"
+    )
+    assert isinstance(challenge_leaderboard, ChallengeLeaderboard)
+    assert isinstance(challenge_leaderboard.users[0], ChallengeRankedCodinGamer)
+    assert isinstance(challenge_leaderboard.leagues[0], League)
+
+
+def test_client_get_puzzle_leaderboard(client: Client):
+    puzzle_leaderboard = client.get_puzzle_leaderboard("codingame-optim")
+    assert isinstance(puzzle_leaderboard, PuzzleLeaderboard)
+    assert isinstance(puzzle_leaderboard.users[0], PuzzleRankedCodinGamer)
