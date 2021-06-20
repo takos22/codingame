@@ -1,0 +1,22 @@
+class HTTPError(Exception):
+    def __init__(self, status_code: int, reason: str = ""):
+        self.status_code: int = status_code
+        self.reason: str = reason
+
+    def __str__(self):
+        return f"HTTPError: {self.status_code}: {self.reason}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.status_code}, {self.reason})"
+
+    @classmethod
+    def from_requests(cls, http_error) -> "HTTPError":
+        status_code = http_error.response.status_code
+        reason = http_error.response.reason
+        return cls(status_code, reason)
+
+    @classmethod
+    def from_aiohttp(cls, http_error) -> "HTTPError":
+        status_code = http_error.status
+        reason = http_error.message
+        return cls(status_code, reason)
