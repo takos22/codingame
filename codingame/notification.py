@@ -5,7 +5,8 @@ from datetime import datetime
 class Notification:
     """Represents a Notification.
 
-    Do not create this class yourself. Only get it through :attr:`Client.notifications`.
+    Do not create this class yourself. Only get it through
+    :meth:`Client.get_unseen_notifications`.
 
     Attributes
     -----------
@@ -43,7 +44,8 @@ class Notification:
     urgent: bool
     data: typing.Optional[dict]
 
-    def __init__(self, notification):
+    def __init__(self, state, notification):
+        self._state = state
         self._raw: dict = notification  # for attributes that arent wrapped
 
         self.id = notification["id"]
