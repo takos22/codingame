@@ -7,7 +7,8 @@ from .abc import BaseUser
 class ClashOfCode:
     """Represents a Clash of Code.
 
-    Do not create this class yourself. Only get it through :meth:`Client.get_clash_of_code()`.
+    Do not create this class yourself. Only get it through
+    :meth:`Client.get_clash_of_code()`.
 
     Attributes
     -----------
@@ -60,8 +61,8 @@ class ClashOfCode:
             List of the players in the Clash of Code.
     """
 
-    def __init__(self, *, client, **data):
-        self._client = client
+    def __init__(self, state, data):
+        self._state = state
 
         self.public_handle: str = data["publicHandle"]
         self.join_url: str = (
@@ -99,29 +100,30 @@ class ClashOfCode:
 
         self.players: List[Player] = [
             Player(
-                client=self._client,
-                coc=self,
-                started=self.started,
-                finished=self.finished,
-                **player,
+                self._state,
+                self,
+                self.started,
+                self.finished,
+                player,
             )
             for player in data["players"]
         ]
 
     def __repr__(self):
         return (
-            "<ClashOfCode public_handle={0.public_handle!r} public={0.public!r} "
-            "modes={0.modes!r} programming_languages={0.programming_languages!r} "
-            "started={0.started!r} finished={0.finished!r} players={0.players!r}>".format(
-                self
-            )
+            "<ClashOfCode public_handle={0.public_handle!r} "
+            "public={0.public!r} modes={0.modes!r} "
+            "programming_languages={0.programming_languages!r} "
+            "started={0.started!r} finished={0.finished!r} "
+            "players={0.players!r}>".format(self)
         )
 
 
 class Player(BaseUser):
     """Represents a Clash of Code player.
 
-    Do not create this class yourself. Only get it through :class:`ClashOfCode.players`.
+    Do not create this class yourself. Only get it through
+    :class:`ClashOfCode.players`.
 
     Attributes
     -----------
@@ -132,7 +134,8 @@ class Player(BaseUser):
             Public handle of the CodinGamer (hexadecimal str).
 
         id: :class:`int`
-            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
+            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
+            reversed.
 
         pseudo: :class:`int`
             Pseudo of the CodinGamer.
@@ -154,7 +157,8 @@ class Player(BaseUser):
             Status of the Player. Can be ``OWNER`` or ``STANDARD``.
 
             .. note::
-                You can use :attr:`owner` to get a :class:`bool` that describes the Player's status.
+                You can use :attr:`owner` to get a :class:`bool` that describes
+                the Player's status.
 
         position: Optional[:class:`int`]
             Join position of the Player.
@@ -202,9 +206,9 @@ class Player(BaseUser):
     submission_id: Optional[int]
 
     def __init__(
-        self, *, client, coc: ClashOfCode, started: bool, finished: bool, **data
+        self, state, coc: ClashOfCode, started: bool, finished: bool, data
     ):
-        self._client = client
+        self._state = state
         self.clash_of_code: ClashOfCode = coc
 
         self.public_handle = data["codingamerHandle"]
@@ -233,7 +237,9 @@ class Player(BaseUser):
     #     if not self.finished or not self.solution_shared:
     #         return
 
-    #     r = self.client._session.post(Endpoints.Solution, json=[self.id, self.submission_id])
+    #     r = self.client._session.post(
+    #         Endpoints.Solution, json=[self.id, self.submission_id]
+    #     )
     #     return r.json()["code"]
 
     def __repr__(self):
