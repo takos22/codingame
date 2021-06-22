@@ -245,6 +245,8 @@ class ChallengeLeaderboard(Leaderboard):
 
     name: str
     """Name of the challenge."""
+    has_leagues: bool
+    """Whether the challenge has leagues."""
     leagues: typing.List[League]
     """Leagues of the challenge. Empty list if no leagues."""
     group: str
@@ -259,6 +261,7 @@ class ChallengeLeaderboard(Leaderboard):
         self.leagues = [
             League(state, league) for league in data.get("leagues", {}).values()
         ]
+        self.has_leagues = bool(self.leagues)
         super().__init__(state, data)
         self.name = name
         self.group = group
@@ -317,6 +320,8 @@ class PuzzleLeaderboard(Leaderboard):
 
     name: str
     """Name of the puzzle."""
+    has_leagues: bool
+    """Whether the puzzle has leagues."""
     leagues: typing.List[League]
     """Leagues of the puzzle. Empty list if no leagues."""
     group: str
@@ -331,6 +336,7 @@ class PuzzleLeaderboard(Leaderboard):
         self.leagues = [
             League(state, league) for league in data.get("leagues", {}).values()
         ]
+        self.has_leagues = bool(self.leagues)
         super().__init__(state, data)
         self.name = name
         self.group = group
