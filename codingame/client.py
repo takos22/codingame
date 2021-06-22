@@ -44,6 +44,9 @@ class Client:
 
         self._state = ConnectionState(http_client)
 
+    def close(self):
+        self._state.http.close()
+
     @property
     def is_async(self) -> bool:
         "Whether the client is async."
