@@ -1,5 +1,8 @@
-import aiohttp
-import requests
+import typing
+
+if typing.TYPE_CHECKING:
+    import aiohttp
+    import requests
 
 
 class HTTPError(Exception):
@@ -15,14 +18,16 @@ class HTTPError(Exception):
         return f"{self.__class__.__name__}({self.status_code}, {self.reason})"
 
     @classmethod
-    def from_requests(cls, http_error: requests.HTTPError, data) -> "HTTPError":
+    def from_requests(
+        cls, http_error: "requests.HTTPError", data
+    ) -> "HTTPError":
         status_code = http_error.response.status_code
         reason = http_error.response.reason
         return cls(status_code, reason, data)
 
     @classmethod
     def from_aiohttp(
-        cls, http_error: aiohttp.ClientResponseError, data
+        cls, http_error: "aiohttp.ClientResponseError", data
     ) -> "HTTPError":
         status_code = http_error.status
         reason = http_error.message
