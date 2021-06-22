@@ -28,7 +28,7 @@ class HTTPError(Exception):
     @classmethod
     def from_aiohttp(
         cls, http_error: "aiohttp.ClientResponseError", data
-    ) -> "HTTPError":
+    ) -> "HTTPError":  # pragma: no cover
         status_code = http_error.status
         reason = http_error.message
         return cls(status_code, reason, data)

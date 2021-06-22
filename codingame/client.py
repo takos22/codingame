@@ -134,7 +134,7 @@ class Client:
                     raise CodinGamerNotFound(
                         f"No CodinGamer with id {codingamer!r}"
                     )
-                raise
+                raise  # pragma: no cover
             handle = data["publicHandle"]
 
         if handle is None and not _CODINGAMER_HANDLE_REGEX.match(codingamer):
@@ -190,7 +190,7 @@ class Client:
                 raise ClashOfCodeNotFound(
                     f"No Clash of Code with handle {handle!r}"
                 )
-            raise
+            raise  # pragma: no cover
         return ClashOfCode(self._state, data)
 
     def get_pending_clash_of_code(self) -> typing.Optional[ClashOfCode]:
@@ -204,8 +204,8 @@ class Client:
 
         data: list = self._state.http.get_pending_clash_of_code()
         if len(data) == 0:
-            return None
-        return ClashOfCode(self._state, data[0])
+            return None  # pragma: no cover
+        return ClashOfCode(self._state, data[0])  # pragma: no cover
 
     def get_language_ids(self) -> typing.List[str]:
         """Get the list of all available language ids."""
