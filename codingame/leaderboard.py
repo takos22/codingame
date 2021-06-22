@@ -45,8 +45,8 @@ class RankedCodinGamer(BaseUser):
     leaderboard: "Leaderboard"
     """The leaderboard in which this CodinGamer is ranked."""
 
-    def __init__(self, client, leaderboard: "Leaderboard", data: dict):
-        self._client = client
+    def __init__(self, state, leaderboard: "Leaderboard", data: dict):
+        self._state = state
         self.leaderboard = leaderboard
 
         codingamer = data["codingamer"]
@@ -94,12 +94,12 @@ class Leaderboard:
     users: typing.List[_USER_CLASS]
     """Leaderboard ranking."""
 
-    def __init__(self, client, data: dict):
-        self._client = client
+    def __init__(self, state, data: dict):
+        self._state = state
 
         self.count = data["count"]
         self.users = [
-            self._USER_CLASS(client, self, user) for user in data["users"]
+            self._USER_CLASS(state, self, user) for user in data["users"]
         ]
 
     def __repr__(self):
@@ -119,8 +119,8 @@ class GlobalRankedCodinGamer(RankedCodinGamer):
 
     leaderboard: "GlobalLeaderboard"
 
-    def __init__(self, client, leaderboard: "GlobalLeaderboard", data: dict):
-        super().__init__(client, leaderboard, data)
+    def __init__(self, state, leaderboard: "GlobalLeaderboard", data: dict):
+        super().__init__(state, leaderboard, data)
 
         self.xp = data["xp"]
         self.achievements = data["achievements"]
@@ -147,8 +147,8 @@ class GlobalLeaderboard(Leaderboard):
     users: typing.List[GlobalRankedCodinGamer]
     """Global leaderboard ranking."""
 
-    def __init__(self, client, lb_type: str, group: str, page: int, data: dict):
-        super().__init__(client, data)
+    def __init__(self, state, lb_type: str, group: str, page: int, data: dict):
+        super().__init__(state, data)
         self.type = lb_type
         self.group = group
         self.page = page
@@ -181,10 +181,10 @@ class League:
     name: str
     """Name of the league."""
 
-    def __init__(self, client, data: dict):
-        self._client = client
+    def __init__(self, state, data: dict):
+        self._state = state
         league_count: int = data["divisionCount"]
-        names = self._NAMES[league_count - 1 :: -1]
+        names = self._NAMES[league_count - 1 :: -1]  # noqa: E203
         self.index = data["divisionIndex"]
         self.count = data["divisionAgentsCount"]
         self.name = names[self.index]
@@ -222,8 +222,8 @@ class ChallengeRankedCodinGamer(RankedCodinGamer):
     leaderboard: "ChallengeLeaderboard"
     """The leaderboard that this CodinGamer is part of."""
 
-    def __init__(self, client, leaderboard: "ChallengeLeaderboard", data: dict):
-        super().__init__(client, leaderboard, data)
+    def __init__(self, state, leaderboard: "ChallengeLeaderboard", data: dict):
+        super().__init__(state, leaderboard, data)
 
         self.percentage = data.get("percentage")
         self.progress = data.get("progress")  # idk what this is
@@ -255,12 +255,11 @@ class ChallengeLeaderboard(Leaderboard):
     users: typing.List[ChallengeRankedCodinGamer]
     """Challenge leaderboard ranking."""
 
-    def __init__(self, client, name: str, group: str, data: dict):
+    def __init__(self, state, name: str, group: str, data: dict):
         self.leagues = [
-            League(client, league)
-            for league in data.get("leagues", {}).values()
+            League(state, league) for league in data.get("leagues", {}).values()
         ]
-        super().__init__(client, data)
+        super().__init__(state, data)
         self.name = name
         self.group = group
         self.programming_languages = data["programmingLanguages"]
@@ -295,8 +294,8 @@ class PuzzleRankedCodinGamer(RankedCodinGamer):
     leaderboard: "PuzzleLeaderboard"
     """The leaderboard that this CodinGamer is part of."""
 
-    def __init__(self, client, leaderboard: "PuzzleLeaderboard", data: dict):
-        super().__init__(client, leaderboard, data)
+    def __init__(self, state, leaderboard: "PuzzleLeaderboard", data: dict):
+        super().__init__(state, leaderboard, data)
 
         self.percentage = data.get("percentage")
         self.progress = data.get("progress")  # idk what this is
@@ -328,12 +327,11 @@ class PuzzleLeaderboard(Leaderboard):
     users: typing.List[PuzzleRankedCodinGamer]
     """Puzzle leaderboard ranking."""
 
-    def __init__(self, client, name: str, group: str, data: dict):
+    def __init__(self, state, name: str, group: str, data: dict):
         self.leagues = [
-            League(client, league)
-            for league in data.get("leagues", {}).values()
+            League(state, league) for league in data.get("leagues", {}).values()
         ]
-        super().__init__(client, data)
+        super().__init__(state, data)
         self.name = name
         self.group = group
         self.programming_languages = data["programmingLanguages"]
