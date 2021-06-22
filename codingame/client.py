@@ -1,19 +1,25 @@
 import re
-from typing import Iterator, List, Optional
-
-import requests
+import typing
 
 from .clash_of_code import ClashOfCode
 from .codingamer import CodinGamer
-from .endpoints import Endpoints
-from .exceptions import ClashOfCodeNotFound, CodinGamerNotFound, LoginRequired
+from .exceptions import (
+    ClashOfCodeNotFound,
+    CodinGamerNotFound,
+    LoginError,
+    LoginRequired,
+)
+from .http import AsyncHTTPClient, HTTPError, SyncHTTPClient
 from .leaderboard import (
     ChallengeLeaderboard,
     GlobalLeaderboard,
     PuzzleLeaderboard,
 )
 from .notification import Notification
-from .utils import validate_args
+from .state import ConnectionState
+
+_CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
+_CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
 
 
 class Client:
@@ -29,21 +35,28 @@ class Client:
             ``None`` if the client isn't logged in.
     """
 
-    _CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
-    _CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
+    def __init__(self, is_async: bool = False):
+        if is_async:
+            raise NotImplementedError("Async client isn't ready to be used yet")
+            http_client = AsyncHTTPClient()
+        else:
+            http_client = SyncHTTPClient()
 
-    logged_in: bool
-    codingamer: Optional[CodinGamer]
+        self._state = ConnectionState(http_client)
 
-    def __init__(self, email: str = None, password: str = None):
-        self._session = requests.Session()
+    @property
+    def is_async(self) -> bool:
+        "Whether the client is async."
+        return self._state.is_async
 
-        self.logged_in = False
-        self.codingamer = None
-        if email is not None and password is not None:
-            self.login(email, password)
+    @property
+    def logged_in(self) -> bool:
+        return self._state.logged_in
 
-    @validate_args
+    @property
+    def codingamer(self) -> typing.Optional[CodinGamer]:
+        return self._state.codingamer
+
     def login(self, email: str, password: str):
         """Login to a CodinGamer account.
 
@@ -67,32 +80,29 @@ class Client:
                 The CodinGamer that is logged in.
         """
 
-        if email == "":
-            raise ValueError("Email is required")
-        if password == "":
-            raise ValueError("Password is required")
+        try:
+            data = self._state.http.login(email, password)
+        except HTTPError as error:
+            raise LoginError.from_id(error.data["id"], error.data["message"])
 
-        r = self._session.post(Endpoints.login, json=[email, password, True])
-        json = r.json()
-        if "id" in json and "message" in json:
-            raise ValueError(f"{json['id']}: {json['message']}")
-        self.logged_in = True
-        self.codingamer = CodinGamer(client=self, **json["codinGamer"])
+        self._state.logged_in = True
+        self._state.codingamer = CodinGamer(self._state, data["codinGamer"])
         return self.codingamer
 
-    @validate_args
     def get_codingamer(self, codingamer) -> CodinGamer:
-        """Get a CodinGamer from their public handle, their id or from their username.
+        """Get a CodinGamer from their public handle, their id or from their
+        username.
 
         .. note::
-            ``codingamer`` can be the public handle, the id or the username. Using the public handle
-            or the id is reccomended because it won't change even if the codingamer changes
-            their username.
+            ``codingamer`` can be the public handle, the id or the username.
+            Using the public handle or the id is reccomended because it won't
+            change even if the codingamer changes their username.
 
-            The public handle is a 39 character long hexadecimal string that represents the user.
+            The public handle is a 39 character long hexadecimal string that
+            represents the user.
             Regex of a public handle: ``[0-9a-f]{32}[0-9]{7}``
 
-            The id is a 7 number long integer
+            The id is a 7 number long integer.
 
         Parameters
         -----------
@@ -102,7 +112,8 @@ class Client:
         Raises
         ------
             :exc:`.CodinGamerNotFound`
-                The CodinGamer with the given public handle, id or username isn't found.
+                The CodinGamer with the given public handle, id or username
+                isn't found.
 
         Returns
         --------
@@ -110,47 +121,44 @@ class Client:
                 The CodinGamer.
         """
 
-        if type(codingamer) == int:
-            r = self._session.post(
-                Endpoints.codingamer_from_id, json=[codingamer]
-            )
-            json = r.json()
-            if "id" in json and json["id"] == 404:
-                raise CodinGamerNotFound(
-                    f"No CodinGamer with id {codingamer!r}"
-                )
-            return CodinGamer(client=self, **json)
+        handle = None
 
-        if not self._CODINGAMER_HANDLE_REGEX.match(codingamer):
-            r = self._session.post(
-                Endpoints.search, json=[codingamer, "en", None]
-            )
-            search: List[dict] = r.json()
-            users = [query for query in search if query["type"] == "USER"]
+        if isinstance(codingamer, int):
+            try:
+                data = self._state.http.get_codingamer_from_id(codingamer)
+            except HTTPError as error:
+                if error.data["id"] == 404:
+                    raise CodinGamerNotFound(
+                        f"No CodinGamer with id {codingamer!r}"
+                    )
+                raise
+            handle = data["publicHandle"]
+
+        if handle is None and not _CODINGAMER_HANDLE_REGEX.match(codingamer):
+            results = self._state.http.search(codingamer)
+            users = [result for result in results if result["type"] == "USER"]
             if users:
                 handle = users[0]["id"]
             else:
                 raise CodinGamerNotFound(
                     f"No CodinGamer with username {codingamer!r}"
                 )
-        else:
+        elif handle is None:
             handle = codingamer
 
-        r = self._session.post(Endpoints.codingamer_from_handle, json=[handle])
-        json = r.json()
-        if json is None:
+        data = self._state.http.get_codingamer_from_handle(handle)
+        if data is None:
             raise CodinGamerNotFound(f"No CodinGamer with handle {handle!r}")
-        return CodinGamer(client=self, **json["codingamer"])
+        return CodinGamer(self._state, data["codingamer"])
 
-    @validate_args
-    def get_clash_of_code(self, clash_of_code_handle: str) -> ClashOfCode:
+    def get_clash_of_code(self, handle: str) -> ClashOfCode:
         """Get a Clash of Code from its public handle.
 
         Parameters
         -----------
-            clash_of_code_handle: :class:`str`
-                The Clash of Code's public handle.
-                39 character long hexadecimal string (regex: ``[0-9]{7}[0-9a-f]{32}``).
+            handle: :class:`str`
+                The Clash of Code's public handle. 39 character long hexadecimal
+                string (regex: ``[0-9]{7}[0-9a-f]{32}``).
 
         Raises
         ------
@@ -166,23 +174,23 @@ class Client:
                 The ClashOfCode.
         """
 
-        if not self._CLASH_OF_CODE_HANDLE_REGEX.match(clash_of_code_handle):
+        if not _CLASH_OF_CODE_HANDLE_REGEX.match(handle):
             raise ValueError(
-                f"Clash of Code handle {clash_of_code_handle!r} isn't in the good format "
+                f"Clash of Code handle {handle!r} isn't in the good format "
                 "(regex: [0-9]{7}[0-9a-f]{32})."
             )
 
-        r = self._session.post(
-            Endpoints.clash_of_code, json=[clash_of_code_handle]
-        )
-        json = r.json()
-        if "id" in json and "message" in json:
-            raise ClashOfCodeNotFound(
-                f"No Clash of Code with handle {clash_of_code_handle!r}"
-            )
-        return ClashOfCode(client=self, **json)
+        try:
+            data = self._state.http.get_clash_of_code_from_handle(handle)
+        except HTTPError as error:
+            if error.data["id"] == 502:
+                raise ClashOfCodeNotFound(
+                    f"No Clash of Code with handle {handle!r}"
+                )
+            raise
+        return ClashOfCode(self._state, data)
 
-    def get_pending_clash_of_code(self) -> Optional[ClashOfCode]:
+    def get_pending_clash_of_code(self) -> typing.Optional[ClashOfCode]:
         """Get a pending Clash of Code.
 
         Returns
@@ -191,28 +199,21 @@ class Client:
                 The pending ClashOfCode if there's one or ``None``.
         """
 
-        r = self._session.post(Endpoints.clash_of_code_pending, json=[])
-        json = r.json()
-        if len(json) == 0:
+        data: list = self._state.http.get_pending_clash_of_code()
+        if len(data) == 0:
             return None
-        return ClashOfCode(client=self, **json[0])
+        return ClashOfCode(self._state, data[0])
 
-    @property
-    def language_ids(self) -> List[str]:
-        """List[:class:`str`]: List of all available language ids."""
+    def get_language_ids(self) -> typing.List[str]:
+        """Get the list of all available language ids."""
 
-        if hasattr(self, "_language_ids"):
-            return self._language_ids
-        else:
-            r = self._session.post(Endpoints.language_ids, json=[])
-            self._language_ids = r.json()
-            return self._language_ids
+        return self._state.http.get_language_ids()
 
-    @property
-    def notifications(self) -> Iterator[Notification]:
+    def get_unseen_notifications(self) -> typing.Iterator[Notification]:
         """Get all the unseen notifications of the Client.
 
-        You need to be logged in to get notifications or else a :exc:`LoginRequired` will be raised.
+        You need to be logged in to get notifications or else a
+        :exc:`LoginRequired` will be raised.
 
         .. note::
             This property is a generator.
@@ -231,11 +232,9 @@ class Client:
         if not self.logged_in:
             raise LoginRequired()
 
-        r = self._session.post(
-            Endpoints.unseen_notifications, json=[self.codingamer.id]
-        )
-        for notification in r.json():
-            yield Notification(notification)
+        data = self._state.http.get_unseen_notifications(self.codingamer.id)
+        for notification in data:
+            yield Notification(self._state, notification)
 
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"
@@ -272,18 +271,13 @@ class Client:
         ):
             raise LoginRequired()
 
-        r = self._session.post(
-            Endpoints.global_leaderboard,
-            json=[
-                page,
-                type,
-                {"keyword": "", "active": False, "column": "", "filter": ""},
-                self.codingamer.public_handle if self.logged_in else "",
-                True,  # return count
-                group,
-            ],
+        data = self._state.http.get_global_leaderboard(
+            page,
+            type,
+            group,
+            self.codingamer.public_handle if self.logged_in else "",
         )
-        return GlobalLeaderboard(self, type, group, page, r.json())
+        return GlobalLeaderboard(self._state, type, group, page, data)
 
     def get_challenge_leaderboard(
         self, challenge_id: str, group: str = "global"
@@ -307,16 +301,12 @@ class Client:
         ):
             raise LoginRequired()
 
-        r = self._session.post(
-            Endpoints.challenge_leaderboard,
-            json=[
-                challenge_id,
-                self.codingamer.public_handle if self.logged_in else "",
-                group,
-                {"keyword": "", "active": False, "column": "", "filter": ""},
-            ],
+        data = self._state.http.get_challenge_leaderboard(
+            challenge_id,
+            group,
+            self.codingamer.public_handle if self.logged_in else "",
         )
-        return ChallengeLeaderboard(self, challenge_id, group, r.json())
+        return ChallengeLeaderboard(self._state, challenge_id, group, data)
 
     def get_puzzle_leaderboard(
         self, puzzle_id: str, group: str = "global"
@@ -340,13 +330,9 @@ class Client:
         ):
             raise LoginRequired()
 
-        r = self._session.post(
-            Endpoints.puzzle_leaderboard,
-            json=[
-                puzzle_id,
-                self.codingamer.public_handle if self.logged_in else "",
-                group,
-                {"keyword": "", "active": False, "column": "", "filter": ""},
-            ],
+        data = self._state.http.get_puzzle_leaderboard(
+            puzzle_id,
+            group,
+            self.codingamer.public_handle if self.logged_in else "",
         )
-        return PuzzleLeaderboard(self, puzzle_id, group, r.json())
+        return PuzzleLeaderboard(self._state, puzzle_id, group, data)
