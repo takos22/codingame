@@ -28,11 +28,33 @@ jobs:
         pip install -r requirements.txt
         pip install -r dev-requirements.txt
 
-    - name: Run linting script
+    - name: Lint with flake8
       run: |
-        bash ./scripts/lint.sh
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 codingame tests examples --count --select=E9,F63,F7,F82 --show-source \
+        --statistics --format='::error file=%(path)s,line=%(row)d,col=%(col)d::\
+        [flake8] %(code)s: %(text)s'"
+        # exit-zero treats all errors as warnings
+        flake8 codingame tests examples --count --exit-zero --statistics
 
-    - name: Run testing script
+    - name: Check formatting with black
+      run: |
+        black codingame tests examples --check --line-length 80
+
+    - name: Check import ordering with isort
+      run: |
+        isort codingame tests examples --check-only
+
+    - name: Lint the docs with doc8
+      run: |
+        doc8 docs --quiet
+
+    - name: Check package build
+      run: |
+        python setup.py --quiet sdist
+        twine check dist/*
+
+    - name: Test with pytest
       env:
         TEST_LOGIN_EMAIL: ${{ secrets.TEST_LOGIN_EMAIL }}
         TEST_LOGIN_PASSWORD: ${{ secrets.TEST_LOGIN_PASSWORD }}
@@ -43,7 +65,7 @@ jobs:
 
         TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        bash ./scripts/test.sh --no-lint
+        pytest
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
