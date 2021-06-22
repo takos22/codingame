@@ -4,21 +4,17 @@ from ..endpoints import Endpoints
 
 
 class HTTPClient(ABC):
-    @abstractmethod
-    def __init__(self):
-        ...
-
     @property
     def is_async(self):
         return False
 
     @abstractmethod
     def close(self):
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def request(self, url: str, json: list = []):
-        ...
+        ...  # pragma: no cover
 
     def login(self, email: str, password: str):
         return self.request(Endpoints.login, [email, password, True])
