@@ -10,7 +10,9 @@ dotenv.load_dotenv()
 
 @pytest.fixture(name="client", scope="function")
 def create_client() -> Client:
-    return Client()
+    client = Client()
+    yield client
+    client.close()
 
 
 @pytest.fixture(name="auth_client")
@@ -20,7 +22,8 @@ def create_logged_in_client() -> Client:
         os.environ.get("TEST_LOGIN_EMAIL"),
         os.environ.get("TEST_LOGIN_PASSWORD"),
     )
-    return client
+    yield client
+    client.close()
 
 
 @pytest.fixture(name="codingamer")

@@ -6,6 +6,19 @@ from codingame.codingamer import CodinGamer
 from codingame.exceptions import LoginRequired
 
 
+def test_codingamer_avatar_and_cover_urls(client: Client):
+    codingamer = client.get_codingamer("Takos")
+    assert isinstance(codingamer.avatar_url, str)
+    assert isinstance(codingamer.cover_url, str)
+
+
+def test_codingamer_eq(client: Client, codingamer: CodinGamer):
+    other_codingamer = client.get_codingamer(
+        os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE")
+    )
+    assert codingamer == other_codingamer
+
+
 def test_codingamer_get_followers(codingamer: CodinGamer):
     for follower in codingamer.get_followers():
         assert isinstance(follower, CodinGamer)

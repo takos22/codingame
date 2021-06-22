@@ -80,10 +80,10 @@ def test_client_get_codingamer_error(client: Client, codingamer_query):
 
 
 def test_client_get_clash_of_code(client: Client):
-    codingamer = client.get_clash_of_code(
+    clash_of_code = client.get_clash_of_code(
         os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
     )
-    assert isinstance(codingamer, ClashOfCode)
+    assert isinstance(clash_of_code, ClashOfCode)
 
 
 def test_client_get_clash_of_code_error(client: Client):
@@ -92,6 +92,11 @@ def test_client_get_clash_of_code_error(client: Client):
 
     with pytest.raises(ClashOfCodeNotFound):
         client.get_clash_of_code("0" * 7 + "a" * 32)
+
+
+def test_client_get_pending_clash_of_code(client: Client):
+    clash_of_code = client.get_pending_clash_of_code()
+    assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
 def test_client_language_ids(client: Client):
@@ -116,16 +121,58 @@ def test_client_get_global_leaderboard(client: Client):
     assert isinstance(global_leaderboard.users[0], GlobalRankedCodinGamer)
 
 
-def test_client_get_challenge_leaderboard(client: Client):
-    challenge_leaderboard = client.get_challenge_leaderboard(
-        "spring-challenge-2021"
-    )
+def test_client_get_global_leaderboard_error(client: Client):
+    with pytest.raises(ValueError):
+        client.get_global_leaderboard(type="NONEXISTENT")
+    with pytest.raises(ValueError):
+        client.get_global_leaderboard(group="nonexistent")
+    with pytest.raises(LoginRequired):
+        client.get_global_leaderboard(group="country")
+
+
+@pytest.mark.parametrize(
+    "challenge_id", ["coders-strike-back", "spring-challenge-2021"]
+)
+def test_client_get_challenge_leaderboard(client: Client, challenge_id: str):
+    challenge_leaderboard = client.get_challenge_leaderboard(challenge_id)
     assert isinstance(challenge_leaderboard, ChallengeLeaderboard)
     assert isinstance(challenge_leaderboard.users[0], ChallengeRankedCodinGamer)
-    assert isinstance(challenge_leaderboard.leagues[0], League)
+    if challenge_leaderboard.has_leagues:
+        assert isinstance(challenge_leaderboard.leagues[0], League)
 
 
-def test_client_get_puzzle_leaderboard(client: Client):
-    puzzle_leaderboard = client.get_puzzle_leaderboard("codingame-optim")
+def test_client_get_challenge_leaderboard_error(client: Client):
+    with pytest.raises(ValueError):
+        client.get_challenge_leaderboard(
+            "spring-challenge-2021", group="nonexistent"
+        )
+    with pytest.raises(LoginRequired):
+        client.get_challenge_leaderboard(
+            "spring-challenge-2021", group="country"
+        )
+
+
+@pytest.mark.parametrize("puzzle_id", ["coders-strike-back", "codingame-optim"])
+def test_client_get_puzzle_leaderboard(client: Client, puzzle_id: str):
+    puzzle_leaderboard = client.get_puzzle_leaderboard(puzzle_id)
     assert isinstance(puzzle_leaderboard, PuzzleLeaderboard)
     assert isinstance(puzzle_leaderboard.users[0], PuzzleRankedCodinGamer)
+    if puzzle_leaderboard.has_leagues:
+        assert isinstance(puzzle_leaderboard.leagues[0], League)
+
+        # test League.__eq__
+        assert puzzle_leaderboard.leagues[0] == League(
+            client._state,
+            {
+                "divisionCount": 6,
+                "divisionIndex": 0,
+                "divisionAgentsCount": 100,
+            },
+        )
+
+
+def test_client_get_puzzle_leaderboard_error(client: Client):
+    with pytest.raises(ValueError):
+        client.get_puzzle_leaderboard("codingame-optim", group="nonexistent")
+    with pytest.raises(LoginRequired):
+        client.get_puzzle_leaderboard("codingame-optim", group="country")
