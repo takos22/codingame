@@ -9,7 +9,7 @@ from .exceptions import (
     LoginError,
     LoginRequired,
 )
-from .http import AsyncHTTPClient, HTTPError, SyncHTTPClient
+from .http import HTTPError, SyncHTTPClient
 from .leaderboard import (
     ChallengeLeaderboard,
     GlobalLeaderboard,
@@ -38,7 +38,7 @@ class Client:
     def __init__(self, is_async: bool = False):
         if is_async:
             raise NotImplementedError("Async client isn't ready to be used yet")
-            http_client = AsyncHTTPClient()
+            # http_client = AsyncHTTPClient()
         else:
             http_client = SyncHTTPClient()
 
