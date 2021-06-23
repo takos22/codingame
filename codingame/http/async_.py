@@ -21,5 +21,5 @@ class AsyncHTTPClient(BaseHTTPClient):
             try:
                 response.raise_for_status()
             except aiohttp.ClientResponseError as error:
-                raise HTTPError.from_aiohttp(error, data) from Non
+                raise HTTPError.from_aiohttp(error, data) from None
             return data
