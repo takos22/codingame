@@ -310,7 +310,7 @@ class Client:
                 self.codingamer.public_handle if self.logged_in else "",
             )
         except HTTPError as error:
-            if error.data["id"] == "INVALID_PARAMETERS":
+            if error.data["id"] == 702:
                 raise exceptions.ChallengeNotFound(
                     f"No Challenge named {challenge_id!r}"
                 ) from None
@@ -347,7 +347,7 @@ class Client:
                 self.codingamer.public_handle if self.logged_in else "",
             )
         except HTTPError as error:
-            if error.data["id"] == "INVALID_PARAMETERS":
+            if error.data["code"] == "INVALID_PARAMETERS":
                 raise exceptions.PuzzleNotFound(
                     f"No Puzzle named {puzzle_id!r}"
                 ) from None

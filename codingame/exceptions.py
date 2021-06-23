@@ -50,6 +50,7 @@ class LoginRequired(LoginError):
             message or "You must be logged in to perform this action."
         )
 
+
 class NotFound(CodinGameAPIError):
     pass
 
