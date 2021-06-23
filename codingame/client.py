@@ -1,14 +1,9 @@
 import re
 import typing
 
+from . import exceptions
 from .clash_of_code import ClashOfCode
 from .codingamer import CodinGamer
-from .exceptions import (
-    ClashOfCodeNotFound,
-    CodinGamerNotFound,
-    LoginError,
-    LoginRequired,
-)
 from .http import HTTPError, SyncHTTPClient
 from .leaderboard import (
     ChallengeLeaderboard,
@@ -86,7 +81,9 @@ class Client:
         try:
             data = self._state.http.login(email, password)
         except HTTPError as error:
-            raise LoginError.from_id(error.data["id"], error.data["message"])
+            raise exceptions.LoginError.from_id(
+                error.data["id"], error.data["message"]
+            )
 
         self._state.logged_in = True
         self._state.codingamer = CodinGamer(self._state, data["codinGamer"])
@@ -131,7 +128,7 @@ class Client:
                 data = self._state.http.get_codingamer_from_id(codingamer)
             except HTTPError as error:
                 if error.data["id"] == 404:
-                    raise CodinGamerNotFound(
+                    raise exceptions.CodinGamerNotFound(
                         f"No CodinGamer with id {codingamer!r}"
                     )
                 raise  # pragma: no cover
@@ -143,7 +140,7 @@ class Client:
             if users:
                 handle = users[0]["id"]
             else:
-                raise CodinGamerNotFound(
+                raise exceptions.CodinGamerNotFound(
                     f"No CodinGamer with username {codingamer!r}"
                 )
         elif handle is None:
@@ -151,7 +148,9 @@ class Client:
 
         data = self._state.http.get_codingamer_from_handle(handle)
         if data is None:
-            raise CodinGamerNotFound(f"No CodinGamer with handle {handle!r}")
+            raise exceptions.CodinGamerNotFound(
+                f"No CodinGamer with handle {handle!r}"
+            )
         return CodinGamer(self._state, data["codingamer"])
 
     def get_clash_of_code(self, handle: str) -> ClashOfCode:
@@ -187,7 +186,7 @@ class Client:
             data = self._state.http.get_clash_of_code_from_handle(handle)
         except HTTPError as error:
             if error.data["id"] == 502:
-                raise ClashOfCodeNotFound(
+                raise exceptions.ClashOfCodeNotFound(
                     f"No Clash of Code with handle {handle!r}"
                 )
             raise  # pragma: no cover
@@ -233,7 +232,7 @@ class Client:
         """
 
         if not self.logged_in:
-            raise LoginRequired()
+            raise exceptions.LoginRequired()
 
         data = self._state.http.get_unseen_notifications(self.codingamer.id)
         for notification in data:
@@ -272,7 +271,7 @@ class Client:
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise LoginRequired()
+            raise exceptions.LoginRequired()
 
         data = self._state.http.get_global_leaderboard(
             page,
@@ -302,13 +301,21 @@ class Client:
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise LoginRequired()
+            raise exceptions.LoginRequired()
 
-        data = self._state.http.get_challenge_leaderboard(
-            challenge_id,
-            group,
-            self.codingamer.public_handle if self.logged_in else "",
-        )
+        try:
+            data = self._state.http.get_challenge_leaderboard(
+                challenge_id,
+                group,
+                self.codingamer.public_handle if self.logged_in else "",
+            )
+        except HTTPError as error:
+            if error.data["id"] == "INVALID_PARAMETERS":
+                raise exceptions.ChallengeNotFound(
+                    f"No Challenge named {challenge_id!r}"
+                ) from None
+            raise  # pragma: no cover
+
         return ChallengeLeaderboard(self._state, challenge_id, group, data)
 
     def get_puzzle_leaderboard(
@@ -331,11 +338,19 @@ class Client:
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise LoginRequired()
+            raise exceptions.LoginRequired()
 
-        data = self._state.http.get_puzzle_leaderboard(
-            puzzle_id,
-            group,
-            self.codingamer.public_handle if self.logged_in else "",
-        )
+        try:
+            data = self._state.http.get_puzzle_leaderboard(
+                puzzle_id,
+                group,
+                self.codingamer.public_handle if self.logged_in else "",
+            )
+        except HTTPError as error:
+            if error.data["id"] == "INVALID_PARAMETERS":
+                raise exceptions.PuzzleNotFound(
+                    f"No Puzzle named {puzzle_id!r}"
+                ) from None
+            raise  # pragma: no cover
+
         return PuzzleLeaderboard(self._state, puzzle_id, group, data)
