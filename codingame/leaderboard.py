@@ -184,7 +184,7 @@ class League:
     def __init__(self, state, data: dict):
         self._state = state
         league_count: int = data["divisionCount"]
-        names = self._NAMES[league_count - 1 :: -1]  # noqa: E203
+        names = self._NAMES[league_count - 1 :: -1]
         self.index = data["divisionIndex"]
         self.count = data["divisionAgentsCount"]
         self.name = names[self.index]
