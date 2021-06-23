@@ -12,10 +12,10 @@ class HTTPError(Exception):
         self.data = data
 
     def __str__(self):
-        return f"HTTPError: {self.status_code}: {self.reason}"
+        return f"HTTPError: {self.status_code}: {self.reason}, {self.data!r}"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.status_code}, {self.reason})"
+        return f"{self.__class__.__name__}({self.status_code}, {self.reason!r})"
 
     @classmethod
     def from_requests(

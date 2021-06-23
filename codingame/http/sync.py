@@ -17,5 +17,5 @@ class SyncHTTPClient(BaseHTTPClient):
             try:
                 response.raise_for_status()
             except requests.HTTPError as error:
-                raise HTTPError.from_requests(error, data) from error
+                raise HTTPError.from_requests(error, data) from None
             return data
