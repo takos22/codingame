@@ -180,6 +180,8 @@ class League:
     """Number of users in the league."""
     name: str
     """Name of the league."""
+    users: list
+    """Name of the league."""
 
     def __init__(self, state, data: dict):
         self._state = state
@@ -188,6 +190,7 @@ class League:
         self.index = data["divisionIndex"]
         self.count = data["divisionAgentsCount"]
         self.name = names[self.index]
+        self.users = []
 
     def __eq__(self, other: "League"):
         return self.index == other.index
@@ -236,6 +239,7 @@ class ChallengeRankedCodinGamer(RankedCodinGamer):
             self.league = self.leaderboard.leagues[
                 data["league"]["divisionIndex"]
             ]
+            self.league.users.append(self)
 
 
 class ChallengeLeaderboard(Leaderboard):
@@ -311,6 +315,7 @@ class PuzzleRankedCodinGamer(RankedCodinGamer):
             self.league = self.leaderboard.leagues[
                 data["league"]["divisionIndex"]
             ]
+            self.league.users.append(self)
 
 
 class PuzzleLeaderboard(Leaderboard):
