@@ -1,15 +1,10 @@
 import os
 import pytest
 
+from codingame import exceptions
 from codingame.clash_of_code import ClashOfCode
 from codingame.client import Client
 from codingame.codingamer import CodinGamer
-from codingame.exceptions import (
-    ClashOfCodeNotFound,
-    CodinGamerNotFound,
-    LoginError,
-    LoginRequired,
-)
 from codingame.leaderboard import (
     ChallengeLeaderboard,
     ChallengeRankedCodinGamer,
@@ -49,7 +44,7 @@ def test_client_login(client: Client):
     ],
 )
 def test_client_login_error(client: Client, email: str, password: str):
-    with pytest.raises(LoginError):
+    with pytest.raises(exceptions.LoginError):
         client.login(email, password)
 
 
@@ -75,7 +70,7 @@ def test_client_get_codingamer(client: Client, codingamer_query):
     ],
 )
 def test_client_get_codingamer_error(client: Client, codingamer_query):
-    with pytest.raises(CodinGamerNotFound):
+    with pytest.raises(exceptions.CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
 
 
@@ -90,7 +85,7 @@ def test_client_get_clash_of_code_error(client: Client):
     with pytest.raises(ValueError):
         client.get_clash_of_code("0")
 
-    with pytest.raises(ClashOfCodeNotFound):
+    with pytest.raises(exceptions.ClashOfCodeNotFound):
         client.get_clash_of_code("0" * 7 + "a" * 32)
 
 
@@ -111,7 +106,7 @@ def test_client_notifications(auth_client: Client):
 
 
 def test_client_notifications_error(client: Client):
-    with pytest.raises(LoginRequired):
+    with pytest.raises(exceptions.LoginRequired):
         next(client.get_unseen_notifications())
 
 
@@ -126,7 +121,7 @@ def test_client_get_global_leaderboard_error(client: Client):
         client.get_global_leaderboard(type="NONEXISTENT")
     with pytest.raises(ValueError):
         client.get_global_leaderboard(group="nonexistent")
-    with pytest.raises(LoginRequired):
+    with pytest.raises(exceptions.LoginRequired):
         client.get_global_leaderboard(group="country")
 
 
@@ -146,10 +141,12 @@ def test_client_get_challenge_leaderboard_error(client: Client):
         client.get_challenge_leaderboard(
             "spring-challenge-2021", group="nonexistent"
         )
-    with pytest.raises(LoginRequired):
+    with pytest.raises(exceptions.LoginRequired):
         client.get_challenge_leaderboard(
             "spring-challenge-2021", group="country"
         )
+    with pytest.raises(exceptions.ChallengeNotFound):
+        client.get_challenge_leaderboard("nonexistent")
 
 
 @pytest.mark.parametrize("puzzle_id", ["coders-strike-back", "codingame-optim"])
@@ -174,5 +171,7 @@ def test_client_get_puzzle_leaderboard(client: Client, puzzle_id: str):
 def test_client_get_puzzle_leaderboard_error(client: Client):
     with pytest.raises(ValueError):
         client.get_puzzle_leaderboard("codingame-optim", group="nonexistent")
-    with pytest.raises(LoginRequired):
+    with pytest.raises(exceptions.LoginRequired):
         client.get_puzzle_leaderboard("codingame-optim", group="country")
+    with pytest.raises(exceptions.PuzzleNotFound):
+        client.get_puzzle_leaderboard("nonexistent")
