@@ -42,18 +42,29 @@ class IncorrectPassword(LoginError):
     """Raised when the password given at login is incorrect."""
 
 
-class CodinGamerNotFound(CodinGameAPIError):
-    """Raised when a CodinGamer isn't found."""
-
-
-class ClashOfCodeNotFound(CodinGameAPIError):
-    """Raised when a Clash of Code isn't found."""
-
-
-class LoginRequired(CodinGameAPIError):
+class LoginRequired(LoginError):
     """Raised when an action requires the client to log in."""
 
     def __init__(self, message: str = None):
         super().__init__(
             message or "You must be logged in to perform this action."
         )
+
+class NotFound(CodinGameAPIError):
+    pass
+
+
+class CodinGamerNotFound(NotFound):
+    """Raised when a CodinGamer isn't found."""
+
+
+class ClashOfCodeNotFound(NotFound):
+    """Raised when a Clash of Code isn't found."""
+
+
+class ChallengeNotFound(NotFound):
+    """Raised when a Challenge isn't found."""
+
+
+class PuzzleNotFound(NotFound):
+    """Raised when a Puzzle isn't found."""
