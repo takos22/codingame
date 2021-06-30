@@ -1,6 +1,6 @@
 import requests
 
-from .base import HTTPClient as BaseHTTPClient
+from .base import BaseHTTPClient
 from .httperror import HTTPError
 
 

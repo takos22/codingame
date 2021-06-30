@@ -155,9 +155,23 @@ class CodinGamer(BaseUser):
         ):
             raise LoginRequired()
 
-        followers = self._state.http.get_codingamer_followers(self.id)
-        for follower in followers:
-            yield CodinGamer(self._state, follower)
+        if self._state.is_async:
+
+            async def _get_followers():
+                followers = await self._state.http.get_codingamer_followers(
+                    self.id
+                )
+                for follower in followers:
+                    yield CodinGamer(self._state, follower)
+
+        else:
+
+            def _get_followers():
+                followers = self._state.http.get_codingamer_followers(self.id)
+                for follower in followers:
+                    yield CodinGamer(self._state, follower)
+
+        return _get_followers()
 
     def get_followers_ids(self) -> list:
         """Get all the followers ids of a CodinGamer.
@@ -169,7 +183,7 @@ class CodinGamer(BaseUser):
         """
 
         follower_ids = self._state.http.get_codingamer_follower_ids(self.id)
-        return follower_ids
+        return follower_ids  # this can be a coroutine object
 
     def get_followed(self) -> Iterator:
         """Get all the followed CodinGamers.
@@ -198,9 +212,23 @@ class CodinGamer(BaseUser):
         ):
             raise LoginRequired()
 
-        followeds = self._state.http.get_codingamer_following(self.id)
-        for followed in followeds:
-            yield CodinGamer(self._state, followed)
+        if self._state.is_async:
+
+            async def _get_followed():
+                followeds = await self._state.http.get_codingamer_following(
+                    self.id
+                )
+                for followed in followeds:
+                    yield CodinGamer(self._state, followed)
+
+        else:
+
+            def _get_followed():
+                followeds = self._state.http.get_codingamer_following(self.id)
+                for followed in followeds:
+                    yield CodinGamer(self._state, followed)
+
+        return _get_followed()
 
     def get_followed_ids(self) -> list:
         """Get all the followed ids of a CodinGamer.
@@ -212,7 +240,7 @@ class CodinGamer(BaseUser):
         """
 
         followed_ids = self._state.http.get_codingamer_following_ids(self.id)
-        return followed_ids
+        return followed_ids  # this can be a coroutine object
 
     def get_clash_of_code_rank(self) -> int:
         """Get the Clash of Code rank of the CodinGamer.
@@ -223,5 +251,20 @@ class CodinGamer(BaseUser):
                 The Clash of Code rank of the CodinGamer.
         """
 
-        data = self._state.http.get_codingamer_clash_of_code_rank(self.id)
-        return data["rank"]
+        if self._state.is_async:
+
+            async def _get_clash_of_code_rank() -> int:
+                data = await self._state.http.get_codingamer_clash_of_code_rank(
+                    self.id
+                )
+                return data["rank"]
+
+        else:
+
+            def _get_clash_of_code_rank() -> int:
+                data = self._state.http.get_codingamer_clash_of_code_rank(
+                    self.id
+                )
+                return data["rank"]
+
+        return _get_clash_of_code_rank()

@@ -2,7 +2,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     from .codingamer import CodinGamer
-    from .http.base import HTTPClient
+    from .http import HTTPClient
 
 
 class ConnectionState:

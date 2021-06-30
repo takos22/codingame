@@ -1,3 +1,2 @@
-# from .async_ import AsyncHTTPClient
+from .client import HTTPClient
 from .httperror import HTTPError
-from .sync import SyncHTTPClient

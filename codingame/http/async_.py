@@ -1,6 +1,6 @@
 import aiohttp
 
-from .base import HTTPClient as BaseHTTPClient
+from .base import BaseHTTPClient
 from .httperror import HTTPError
 
 
@@ -16,7 +16,7 @@ class AsyncHTTPClient(BaseHTTPClient):
         await self.__session.close()
 
     async def request(self, url: str, json: list = []):
-        with self.__session.post(url, json=json) as response:
+        async with self.__session.post(url, json=json) as response:
             data = await response.json()
             try:
                 response.raise_for_status()
