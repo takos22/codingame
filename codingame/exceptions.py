@@ -52,7 +52,7 @@ class LoginRequired(LoginError):
 
 
 class NotFound(CodinGameAPIError):
-    pass
+    """Raised when something isn't found."""
 
 
 class CodinGamerNotFound(NotFound):
