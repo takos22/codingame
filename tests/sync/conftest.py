@@ -3,7 +3,7 @@ import pytest
 
 import dotenv
 
-from codingame import Client, CodinGamer
+from codingame import Client
 
 dotenv.load_dotenv()
 
@@ -24,10 +24,3 @@ def create_logged_in_client() -> Client:
     )
     yield client
     client.close()
-
-
-@pytest.fixture(name="codingamer")
-def get_codingamer(auth_client) -> CodinGamer:
-    return auth_client.get_codingamer(
-        os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE")
-    )

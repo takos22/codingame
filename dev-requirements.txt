@@ -4,6 +4,7 @@ flake8
 isort
 pytest
 pytest-cov
+pytest-asyncio
 requests
 twine
 python-dotenv

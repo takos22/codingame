@@ -6,6 +6,13 @@ from codingame.codingamer import CodinGamer
 from codingame.exceptions import LoginRequired
 
 
+@pytest.fixture(name="codingamer")
+def get_codingamer(auth_client) -> CodinGamer:
+    return auth_client.get_codingamer(
+        os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE")
+    )
+
+
 def test_codingamer_avatar_and_cover_urls(client: Client):
     codingamer = client.get_codingamer("Takos")
     assert isinstance(codingamer.avatar_url, str)
