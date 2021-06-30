@@ -1,13 +1,13 @@
 .. currentmodule:: codingame
 
-===============
+=============
 API Reference
-===============
+=============
 
 The following section outlines the API of codingame.
 
 Version Related Info
-----------------------
+--------------------
 
 There are two main ways to query version information about the library.
 
@@ -24,27 +24,29 @@ There are two main ways to query version information about the library.
     off of :pep:`440`.
 
 Client
---------
+------
 
 .. autoclass:: Client()
     :members:
+    :inherited-members:
 
 
 .. _codingame_api_models:
 
 CodinGame Models
-------------------
+----------------
 
-Models are classes that are received from CodinGame and are not meant to be
-created by the user of the library.
+Models are classes that are created from the data received from CodinGame and
+are not meant to be created by the user of the library.
 
 .. danger::
 
-    The classes listed below are **not intended to be created by users** and are also
-    **read-only**.
+    The classes listed below are **not intended to be created by users** and are
+    also **read-only**.
 
-    For example, this means that you should not make your own :class:`CodinGamer` instances
-    nor should you modify the :class:`CodinGamer` instance yourself.
+    For example, this means that you should not make your own
+    :class:`CodinGamer` instances nor should you modify the :class:`CodinGamer`
+    instance yourself.
 
 
 CodinGamer
@@ -103,17 +105,44 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: CodinGameAPIError
 
+.. autoexception:: LoginError
+
+.. autoexception:: EmailRequired
+
+.. autoexception:: MalformedEmail
+
+.. autoexception:: PasswordRequired
+
+.. autoexception:: EmailNotLinked
+
+.. autoexception:: IncorrectPassword
+
+.. autoexception:: LoginRequired
+
+.. autoexception:: NotFound
+
 .. autoexception:: CodinGamerNotFound
 
 .. autoexception:: ClashOfCodeNotFound
 
-.. autoexception:: LoginRequired
+.. autoexception:: ChallengeNotFound
+
+.. autoexception:: PuzzleNotFound
 
 Exception Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~
 
 - :exc:`Exception`
     - :exc:`CodinGameAPIError`
-        - :exc:`CodinGamerNotFound`
-        - :exc:`ClashOfCodeNotFound`
-        - :exc:`LoginRequired`
+        - :exc:`LoginError`
+            - :exc:`EmailRequired`
+            - :exc:`MalformedEmail`
+            - :exc:`PasswordRequired`
+            - :exc:`EmailNotLinked`
+            - :exc:`IncorrectPassword`
+            - :exc:`LoginRequired`
+        - :exc:`NotFound`
+            - :exc:`CodinGamerNotFound`
+            - :exc:`ClashOfCodeNotFound`
+            - :exc:`ChallengeNotFound`
+            - :exc:`PuzzleNotFound`
