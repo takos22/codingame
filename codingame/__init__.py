@@ -2,7 +2,7 @@
 CodinGame API Wrapper
 ~~~~~~~~~~~~~~~~~~~~~
 
-Basic wrapper for the undocumented CodinGame API.
+Wrapper for the undocumented CodinGame API.
 """
 
 from typing import NamedTuple
@@ -19,33 +19,23 @@ __title__ = "codingame"
 __author__ = "takos22"
 __version__ = "1.0.0a"
 
-__all__ = [
-    "Client",
-    "CodinGamer",
-    "ClashOfCode",
-    "Player",
-    "Notification",
-    "GlobalRankedCodinGamer",
-    "GlobalLeaderboard",
-    "ChallengeRankedCodinGamer",
-    "ChallengeLeaderboard",
-    "PuzzleRankedCodinGamer",
-    "PuzzleLeaderboard",
-    "League",
-    "CodinGameAPIError",
-    "CodinGamerNotFound",
-    "ClashOfCodeNotFound",
-    "LoginRequired",
-]
-
 from .clash_of_code import ClashOfCode, Player
 from .client import Client
 from .codingamer import CodinGamer
 from .exceptions import (
+    ChallengeNotFound,
     ClashOfCodeNotFound,
     CodinGameAPIError,
     CodinGamerNotFound,
+    EmailNotLinked,
+    EmailRequired,
+    IncorrectPassword,
+    LoginError,
     LoginRequired,
+    MalformedEmail,
+    NotFound,
+    PasswordRequired,
+    PuzzleNotFound,
 )
 from .leaderboard import (
     ChallengeLeaderboard,
@@ -57,3 +47,37 @@ from .leaderboard import (
     PuzzleRankedCodinGamer,
 )
 from .notification import Notification
+
+__all__ = [
+    # Client
+    Client,
+    # CodinGamer
+    CodinGamer,
+    # Clash of Code
+    ClashOfCode,
+    Player,
+    # Notification
+    Notification,
+    # Leaderboard
+    GlobalLeaderboard,
+    GlobalRankedCodinGamer,
+    League,
+    ChallengeLeaderboard,
+    ChallengeRankedCodinGamer,
+    PuzzleLeaderboard,
+    PuzzleRankedCodinGamer,
+    # Exceptions
+    CodinGameAPIError,
+    LoginError,
+    EmailRequired,
+    MalformedEmail,
+    PasswordRequired,
+    EmailNotLinked,
+    IncorrectPassword,
+    LoginRequired,
+    NotFound,
+    CodinGamerNotFound,
+    ClashOfCodeNotFound,
+    ChallengeNotFound,
+    PuzzleNotFound,
+]
