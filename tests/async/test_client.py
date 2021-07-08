@@ -27,6 +27,21 @@ async def test_client_create():
 
 
 @pytest.mark.asyncio
+async def test_client_context_manager():
+    async with Client(is_async=True) as client:
+        assert client.logged_in is False
+        assert client.codingamer is None
+        assert client.is_async is True
+
+
+@pytest.mark.asyncio
+async def test_client_context_manager_error():
+    with pytest.raises(TypeError):
+        with Client(is_async=True):
+            pass  # pragma: no cover
+
+
+@pytest.mark.asyncio
 async def test_client_login(client: AsyncClient):
     await client.login(
         os.environ.get("TEST_LOGIN_EMAIL"),
