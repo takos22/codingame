@@ -26,10 +26,19 @@ There are two main ways to query version information about the library.
 Client
 ------
 
-.. autoclass:: Client()
+.. autoclass:: Client
     :members:
     :inherited-members:
 
+.. autoclass:: codingame.client.sync.SyncClient()
+    :members:
+    :inherited-members:
+
+.. autoclass:: codingame.client.async_.AsyncClient()
+    :members:
+    :inherited-members:
+
+.. currentmodule:: codingame
 
 .. _codingame_api_models:
 

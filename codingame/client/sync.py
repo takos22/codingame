@@ -15,17 +15,7 @@ from .base import BaseClient
 
 
 class SyncClient(BaseClient):
-    """CodinGame API client.
-
-    Attributes
-    -----------
-        logged_in: :class:`bool`
-            If the client is logged in as a CodinGamer.
-
-        codingamer: Optional[:class:`CodinGamer`]
-            The CodinGamer that is logged in through the client.
-            ``None`` if the client isn't logged in.
-    """
+    """Synchronous client for the CodinGame client."""
 
     def __init__(self):
         super().__init__(is_async=False)

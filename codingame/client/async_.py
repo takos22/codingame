@@ -14,7 +14,9 @@ from ..utils import CLASH_OF_CODE_HANDLE_REGEX, CODINGAMER_HANDLE_REGEX
 from .base import BaseClient
 
 
-class AsyncClient(BaseClient):
+class AsyncClient(BaseClient, doc_prefix="|coro|"):
+    """Asynchronous client for the CodinGame API."""
+
     def __init__(self):
         super().__init__(is_async=True)
 

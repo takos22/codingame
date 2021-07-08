@@ -16,11 +16,60 @@ if typing.TYPE_CHECKING:
 
 
 class BaseClient(ABC):
+    def __init_subclass__(cls, doc_prefix: str = "", **kwargs):
+        super().__init_subclass__(**kwargs)
+
+        # Replaces the |maybe_coro| with a new prefix at the start of docstrings
+
+        doc_prefix = doc_prefix.strip() + "\n\n" * (len(doc_prefix) > 0)
+        prefix = "|maybe_coro|\n\n"
+
+        for name, method in cls.__dict__.items():
+            if not callable(method):
+                continue
+            if name.startswith("__"):
+                continue
+            if method.__doc__ is None:  # pragma: no cover
+                method.__doc__ = getattr(cls.__base__, name).__doc__
+
+            method.__doc__ = doc_prefix + (
+                method.__doc__[len(prefix) :]  # noqa: E203
+                if method.__doc__.startswith(prefix)
+                else method.__doc__
+            )
+
     def __init__(self, is_async: bool = False):
         http_client = HTTPClient(is_async=is_async)
         self._state = ConnectionState(http_client)
 
+    def __enter__(self):
+        if self.is_async:
+            raise TypeError(
+                "Asynchronous client must be used in an asynchronous "
+                "context manager (async with) not in a synchronous one (with)."
+            )
+        return self
+
+    def __exit__(self, *_):
+        self.close()
+
+    async def __aenter__(self):
+        if not self.is_async:
+            raise TypeError(
+                "Synchronous client must be used in a synchronous "
+                "context manager (with)not in an asynchronous one (async with)."
+            )
+        return self
+
+    async def __aexit__(self, *_):
+        await self.close()
+
     def close(self):
+        """|maybe_coro|
+
+        Closes the client session.
+        """
+
         self._state.http.close()
 
     @property
@@ -41,7 +90,9 @@ class BaseClient(ABC):
 
     @abstractmethod
     def login(self, email: str, password: str) -> "CodinGamer":
-        """Login to a CodinGamer account.
+        """|maybe_coro|
+
+        Login to a CodinGamer account.
 
         Parameters
         -----------
@@ -67,7 +118,9 @@ class BaseClient(ABC):
     def get_codingamer(
         self, codingamer: typing.Union[str, int]
     ) -> "CodinGamer":
-        """Get a CodinGamer from their public handle, their ID or from their
+        """|maybe_coro|
+
+        Get a CodinGamer from their public handle, their ID or from their
         username.
 
         .. note::
@@ -100,7 +153,9 @@ class BaseClient(ABC):
 
     @abstractmethod
     def get_clash_of_code(self, handle: str) -> "ClashOfCode":
-        """Get a Clash of Code from its public handle.
+        """|maybe_coro|
+
+        Get a Clash of Code from its public handle.
 
         Parameters
         -----------
@@ -124,7 +179,9 @@ class BaseClient(ABC):
 
     @abstractmethod
     def get_pending_clash_of_code(self) -> typing.Optional["ClashOfCode"]:
-        """Get a pending Clash of Code.
+        """|maybe_coro|
+
+        Get a pending Clash of Code.
 
         Returns
         --------
@@ -134,17 +191,22 @@ class BaseClient(ABC):
 
     @abstractmethod
     def get_language_ids(self) -> typing.List[str]:
-        """Get the list of all available language ids."""
+        """|maybe_coro|
+
+        Get the list of all available language ids.
+        """
 
     @abstractmethod
     def get_unseen_notifications(self) -> typing.Iterator["Notification"]:
-        """Get all the unseen notifications of the logged in CodinGamer.
+        """|maybe_coro|
+
+        Get all the unseen notifications of the logged in CodinGamer.
 
         You need to be logged in to get notifications or else a
         :exc:`LoginRequired` will be raised.
 
         .. note::
-            This property is a generator.
+            This method is a generator.
 
         Raises
         ------
@@ -161,7 +223,9 @@ class BaseClient(ABC):
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"
     ) -> "GlobalLeaderboard":
-        """Get the global leaderboard in CodinGame.
+        """|maybe_coro|
+
+        Get the global leaderboard in CodinGame.
 
         You can specify an optional page, type of leaderboard and the group of
         users to rank.
@@ -204,7 +268,9 @@ class BaseClient(ABC):
     def get_challenge_leaderboard(
         self, challenge_id: str, group: str = "global"
     ) -> "ChallengeLeaderboard":
-        """Get the leaderboard of a challenge.
+        """|maybe_coro|
+
+        Get the leaderboard of a challenge.
 
         You can specify an optional group of users to rank.
 
@@ -242,7 +308,9 @@ class BaseClient(ABC):
     def get_puzzle_leaderboard(
         self, puzzle_id: str, group: str = "global"
     ) -> "PuzzleLeaderboard":
-        """Get the leaderboard of a puzzle.
+        """|maybe_coro|
+
+        Get the leaderboard of a puzzle.
 
         You can specify an optional group of users to rank.
 
