@@ -54,6 +54,16 @@ class LoginRequired(LoginError):
 class NotFound(CodinGameAPIError):
     """Raised when something isn't found."""
 
+    @classmethod
+    def from_type(cls, type: str, message: str):
+        errors = {
+            "codingamer": CodinGamerNotFound,
+            "clash_of_code": ClashOfCodeNotFound,
+            "challenge": ChallengeNotFound,
+            "puzzle": PuzzleNotFound,
+        }
+        return errors.get(type, cls)(message)
+
 
 class CodinGamerNotFound(NotFound):
     """Raised when a CodinGamer isn't found."""

@@ -1,8 +1,8 @@
 import typing
 
-from .. import exceptions
 from ..clash_of_code import ClashOfCode
 from ..codingamer import CodinGamer
+from ..exceptions import LoginError, LoginRequired, NotFound
 from ..http import HTTPError
 from ..leaderboard import (
     ChallengeLeaderboard,
@@ -27,7 +27,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         try:
             data = await self._state.http.login(email, password)
         except HTTPError as error:
-            raise exceptions.LoginError.from_id(
+            raise LoginError.from_id(
                 error.data["id"], error.data["message"]
             ) from None
 
@@ -45,8 +45,8 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
                 data = await self._state.http.get_codingamer_from_id(codingamer)
             except HTTPError as error:
                 if error.data["id"] == 404:
-                    raise exceptions.CodinGamerNotFound(
-                        f"No CodinGamer with id {codingamer!r}"
+                    raise NotFound.from_type(
+                        "codingamer", f"No CodinGamer with id {codingamer!r}"
                     ) from None
                 raise  # pragma: no cover
             handle = data["publicHandle"]
@@ -57,16 +57,16 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             if users:
                 handle = users[0]["id"]
             else:
-                raise exceptions.CodinGamerNotFound(
-                    f"No CodinGamer with username {codingamer!r}"
+                raise NotFound.from_type(
+                    "codingamer", f"No CodinGamer with username {codingamer!r}"
                 )
         elif handle is None:
             handle = codingamer
 
         data = await self._state.http.get_codingamer_from_handle(handle)
         if data is None:
-            raise exceptions.CodinGamerNotFound(
-                f"No CodinGamer with handle {handle!r}"
+            raise NotFound.from_type(
+                "codingamer", f"No CodinGamer with handle {handle!r}"
             )
         return CodinGamer(self._state, data["codingamer"])
 
@@ -81,8 +81,8 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             data = await self._state.http.get_clash_of_code_from_handle(handle)
         except HTTPError as error:
             if error.data["id"] == 502:
-                raise exceptions.ClashOfCodeNotFound(
-                    f"No Clash of Code with handle {handle!r}"
+                raise NotFound.from_type(
+                    "clash_of_code", f"No Clash of Code with handle {handle!r}"
                 ) from None
             raise  # pragma: no cover
         return ClashOfCode(self._state, data)
@@ -100,7 +100,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     async def get_unseen_notifications(self) -> typing.Iterator[Notification]:
 
         if not self.logged_in:
-            raise exceptions.LoginRequired()
+            raise LoginRequired()
 
         data = await self._state.http.get_unseen_notifications(
             self.codingamer.id
@@ -141,7 +141,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise exceptions.LoginRequired()
+            raise LoginRequired()
 
         data = await self._state.http.get_global_leaderboard(
             page,
@@ -171,7 +171,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise exceptions.LoginRequired()
+            raise LoginRequired()
 
         try:
             data = await self._state.http.get_challenge_leaderboard(
@@ -181,8 +181,8 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             )
         except HTTPError as error:
             if error.data["id"] == 702:
-                raise exceptions.ChallengeNotFound(
-                    f"No Challenge named {challenge_id!r}"
+                raise NotFound.from_type(
+                    "challenge", f"No Challenge named {challenge_id!r}"
                 ) from None
             raise  # pragma: no cover
 
@@ -208,7 +208,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             group in ["country", "company", "school", "following"]
             and not self.logged_in
         ):
-            raise exceptions.LoginRequired()
+            raise LoginRequired()
 
         try:
             data = await self._state.http.get_puzzle_leaderboard(
@@ -218,8 +218,8 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             )
         except HTTPError as error:
             if error.data["code"] == "INVALID_PARAMETERS":
-                raise exceptions.PuzzleNotFound(
-                    f"No Puzzle named {puzzle_id!r}"
+                raise NotFound.from_type(
+                    "puzzle", f"No Puzzle named {puzzle_id!r}"
                 ) from None
             raise  # pragma: no cover
 
