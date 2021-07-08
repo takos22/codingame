@@ -34,6 +34,9 @@ class Notification:
             .. note::
                 Every notification type has different data.
                 So there isn't the same keys and values every time.
+
+        _raw: :class:`dict`
+            The dict from CdoinGame describing the notification.
     """
 
     id: int
