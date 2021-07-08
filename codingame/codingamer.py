@@ -1,4 +1,4 @@
-from typing import Iterator, Optional
+import typing
 
 from .abc import BaseUser
 from .exceptions import LoginRequired
@@ -80,19 +80,19 @@ class CodinGamer(BaseUser):
     rank: int
     level: int
     xp: int
-    country_id: Optional[str]
-    category: Optional[str]
+    country_id: typing.Optional[str]
+    category: typing.Optional[str]
     student: bool
     professional: bool
-    pseudo: Optional[str]
-    tagline: Optional[str]
-    biography: Optional[str]
-    company: Optional[str]
-    school: Optional[str]
-    avatar: Optional[int]
-    cover: Optional[int]
-    avatar_url: Optional[str]
-    cover_url: Optional[str]
+    pseudo: typing.Optional[str]
+    tagline: typing.Optional[str]
+    biography: typing.Optional[str]
+    company: typing.Optional[str]
+    school: typing.Optional[str]
+    avatar: typing.Optional[int]
+    cover: typing.Optional[int]
+    avatar_url: typing.Optional[str]
+    cover_url: typing.Optional[str]
 
     def __init__(self, state: ConnectionState, data):
         self._state = state
@@ -128,8 +128,14 @@ class CodinGamer(BaseUser):
         self.avatar = data.get("avatar", None)
         self.cover = data.get("cover", None)
 
-    def get_followers(self) -> Iterator:
-        """Get all the followers of a CodinGamer.
+    def get_followers(
+        self,
+    ) -> typing.Union[
+        typing.Iterator["CodinGamer"], typing.AsyncIterator["CodinGamer"]
+    ]:
+        """|maybe_coro|
+
+        Get all the followers of a CodinGamer.
 
         You need to be logged in as the CodinGamer to get its followers
         or else a :exc:`LoginRequired` will be raised. If you can't log in,
@@ -173,8 +179,12 @@ class CodinGamer(BaseUser):
 
         return _get_followers()
 
-    def get_followers_ids(self) -> list:
-        """Get all the followers ids of a CodinGamer.
+    def get_followers_ids(
+        self,
+    ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
+        """|maybe_coro|
+
+        Get all the IDs of followers of a CodinGamer.
 
         Returns
         -------
@@ -185,8 +195,14 @@ class CodinGamer(BaseUser):
         follower_ids = self._state.http.get_codingamer_follower_ids(self.id)
         return follower_ids  # this can be a coroutine object
 
-    def get_followed(self) -> Iterator:
-        """Get all the followed CodinGamers.
+    def get_followed(
+        self,
+    ) -> typing.Union[
+        typing.Iterator["CodinGamer"], typing.AsyncIterator["CodinGamer"]
+    ]:
+        """|maybe_coro|
+
+        Get all the followed CodinGamers.
 
         You need to be logged in as the CodinGamer to get its followed
         CodinGamers or else a :exc:`LoginRequired` will be raised. If you can't
@@ -230,8 +246,12 @@ class CodinGamer(BaseUser):
 
         return _get_followed()
 
-    def get_followed_ids(self) -> list:
-        """Get all the followed ids of a CodinGamer.
+    def get_followed_ids(
+        self,
+    ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
+        """|maybe_coro|
+
+        Get all the followed ids of a CodinGamer.
 
         Returns
         -------
@@ -242,8 +262,12 @@ class CodinGamer(BaseUser):
         followed_ids = self._state.http.get_codingamer_following_ids(self.id)
         return followed_ids  # this can be a coroutine object
 
-    def get_clash_of_code_rank(self) -> int:
-        """Get the Clash of Code rank of the CodinGamer.
+    def get_clash_of_code_rank(
+        self,
+    ) -> typing.Union[int, typing.Awaitable[int]]:
+        """|maybe_coro|
+
+        Get the Clash of Code rank of the CodinGamer.
 
         Returns
         -------
