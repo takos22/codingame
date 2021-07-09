@@ -1,6 +1,5 @@
 .. currentmodule:: codingame
 
-=============
 API Reference
 =============
 
@@ -26,13 +25,22 @@ There are two main ways to query version information about the library.
 Client
 ------
 
+Hybrid client
+*************
+
 .. autoclass:: Client
     :members:
     :inherited-members:
 
+Synchronous client
+******************
+
 .. autoclass:: codingame.client.sync.SyncClient()
     :members:
     :inherited-members:
+
+Asynchronous client
+*******************
 
 .. autoclass:: codingame.client.async_.AsyncClient()
     :members:
@@ -59,24 +67,24 @@ are not meant to be created by the user of the library.
 
 
 CodinGamer
-~~~~~~~~~~~~
+************
 
 .. autoclass:: CodinGamer()
 
 Clash of Code
-~~~~~~~~~~~~~~~
+***************
 
 .. autoclass:: ClashOfCode()
 
 .. autoclass:: Player()
 
 Notification
-~~~~~~~~~~~~
+************
 
 .. autoclass:: Notification()
 
 Leaderboards
-~~~~~~~~~~~~
+************
 
 Global leaderboard
 ******************
@@ -139,7 +147,7 @@ The following exceptions are thrown by the library.
 .. autoexception:: PuzzleNotFound
 
 Exception Hierarchy
-~~~~~~~~~~~~~~~~~~~~~
+*******************
 
 - :exc:`Exception`
     - :exc:`CodinGameAPIError`
