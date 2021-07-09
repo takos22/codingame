@@ -1,8 +1,10 @@
 import typing
 from datetime import datetime
 
+from .abc import BaseObject
 
-class Notification:
+
+class Notification(BaseObject):
     """Represents a Notification.
 
     Do not create this class yourself. Only get it through

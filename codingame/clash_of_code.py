@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import List, Optional
 
-from .abc import BaseUser
+from .abc import BaseObject, BaseUser
 
 
-class ClashOfCode:
+class ClashOfCode(BaseObject):
     """Represents a Clash of Code.
 
     Do not create this class yourself. Only get it through
@@ -62,8 +62,6 @@ class ClashOfCode:
     """
 
     def __init__(self, state, data):
-        self._state = state
-
         self.public_handle: str = data["publicHandle"]
         self.join_url: str = (
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
@@ -100,7 +98,7 @@ class ClashOfCode:
 
         self.players: List[Player] = [
             Player(
-                self._state,
+                state,
                 self,
                 self.started,
                 self.finished,
@@ -108,6 +106,8 @@ class ClashOfCode:
             )
             for player in data["players"]
         ]
+
+        super().__init__(state)
 
     def __repr__(self):
         return (
@@ -189,7 +189,7 @@ class Player(BaseUser):
     clash_of_code: ClashOfCode
     public_handle: str
     id: int
-    pseudo: str
+    pseudo: Optional[str]
     avatar: Optional[int]
     avatar_url: Optional[str]
     started: bool
@@ -205,10 +205,30 @@ class Player(BaseUser):
     solution_shared: Optional[bool]
     submission_id: Optional[int]
 
+    __slots__ = (
+        "clash_of_code",
+        "public_handle",
+        "id",
+        "pseudo",
+        "avatar",
+        "cover",
+        "started",
+        "finished",
+        "status",
+        "owner",
+        "position",
+        "rank",
+        "duration",
+        "language_id",
+        "score",
+        "code_length",
+        "solution_shared",
+        "submission_id",
+    )
+
     def __init__(
         self, state, coc: ClashOfCode, started: bool, finished: bool, data
     ):
-        self._state = state
         self.clash_of_code: ClashOfCode = coc
 
         self.public_handle = data["codingamerHandle"]
@@ -230,6 +250,8 @@ class Player(BaseUser):
         self.code_length = data.get("criterion", None)
         self.solution_shared = data.get("solutionShared", None)
         self.submission_id = data.get("submissionId", None)
+
+        super().__init__(state)
 
     # TODO: find a way to get the solution code without getting a 561 error
     # @property

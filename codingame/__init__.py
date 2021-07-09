@@ -1,6 +1,6 @@
 """
 CodinGame API Wrapper
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
 Wrapper for the undocumented CodinGame API.
 """

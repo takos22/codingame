@@ -77,6 +77,7 @@ class CodinGamer(BaseUser):
 
     public_handle: str
     id: int
+    pseudo: typing.Optional[str]
     rank: int
     level: int
     xp: int
@@ -84,7 +85,6 @@ class CodinGamer(BaseUser):
     category: typing.Optional[str]
     student: bool
     professional: bool
-    pseudo: typing.Optional[str]
     tagline: typing.Optional[str]
     biography: typing.Optional[str]
     company: typing.Optional[str]
@@ -94,9 +94,26 @@ class CodinGamer(BaseUser):
     avatar_url: typing.Optional[str]
     cover_url: typing.Optional[str]
 
-    def __init__(self, state: ConnectionState, data):
-        self._state = state
+    __slots__ = (
+        "public_handle",
+        "id",
+        "pseudo",
+        "rank",
+        "level",
+        "xp",
+        "country_id",
+        "category",
+        "student",
+        "professional",
+        "tagline",
+        "biography",
+        "company",
+        "school",
+        "avatar",
+        "cover",
+    )
 
+    def __init__(self, state: ConnectionState, data):
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
         self.level = data["level"]
@@ -127,6 +144,8 @@ class CodinGamer(BaseUser):
 
         self.avatar = data.get("avatar", None)
         self.cover = data.get("cover", None)
+
+        super().__init__(state)
 
     def get_followers(
         self,
