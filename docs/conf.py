@@ -131,6 +131,8 @@ pygments_dark_style = "monokai"
 # autodoc defaults
 autodoc_default_options = {
     "members": True,
+    "inherited-members": True,
+    "exclude-members": "with_traceback",
     # "undoc-members": True,
 }
 autodoc_member_order = "bysource"

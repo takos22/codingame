@@ -3,7 +3,8 @@
 API Reference
 =============
 
-The following section outlines the API of codingame.
+The following section outlines the API of the ``codingame`` module. All the
+public classes, methods and functions are documented here.
 
 Version Related Info
 --------------------
@@ -29,22 +30,16 @@ Hybrid client
 *************
 
 .. autoclass:: Client
-    :members:
-    :inherited-members:
 
 Synchronous client
 ******************
 
-.. autoclass:: codingame.client.sync.SyncClient()
-    :members:
-    :inherited-members:
+.. autoclass:: codingame.client.sync.SyncClient
 
 Asynchronous client
 *******************
 
-.. autoclass:: codingame.client.async_.AsyncClient()
-    :members:
-    :inherited-members:
+.. autoclass:: codingame.client.async_.AsyncClient
 
 .. currentmodule:: codingame
 
@@ -67,12 +62,12 @@ are not meant to be created by the user of the library.
 
 
 CodinGamer
-************
+**********
 
 .. autoclass:: CodinGamer()
 
 Clash of Code
-***************
+*************
 
 .. autoclass:: ClashOfCode()
 
@@ -87,36 +82,30 @@ Leaderboards
 ************
 
 Global leaderboard
-******************
+##################
 
 .. autoclass:: GlobalRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: GlobalLeaderboard()
-    :inherited-members:
 
 Challenge leaderboard
-*********************
+#####################
 
 .. autoclass:: League()
 
 .. autoclass:: ChallengeRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: ChallengeLeaderboard()
-    :inherited-members:
 
 Puzzle leaderboard
-******************
+##################
 
 .. autoclass:: PuzzleRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: PuzzleLeaderboard()
-    :inherited-members:
 
 Exceptions
-------------
+----------
 
 The following exceptions are thrown by the library.
 
