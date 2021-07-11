@@ -2,7 +2,7 @@
 
 ## Endpoints found
 
-### Get all rankings of a user
+### Get ranks in every category of a user
 
 Endpoint: `CodinGamer/findRankingPoints`  
 JSON: `[user id]`  
@@ -29,13 +29,6 @@ Endpoint: `Challenge/findAllChallenges`
 JSON: `[]`  
 Additional info: some attributes like `finished` are always false  
 [Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L354)
-
-### Get top certifications of a user
-
-Endpoint: `Certification/findTopCertifications`  
-JSON: `[user id]`  
-Additional info: none  
-[Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L337)
 
 ### Get number of done achievments of a user and number of total achievments
 
