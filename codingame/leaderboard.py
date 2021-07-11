@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import typing
 
 from .abc import BaseObject, BaseUser
@@ -57,7 +55,7 @@ class BaseRankedCodinGamer(BaseUser):
     score: float
     """Score of the CodinGamer."""
 
-    leaderboard: BaseLeaderboard
+    leaderboard: "BaseLeaderboard"
     """The leaderboard in which this CodinGamer is ranked."""
 
     __slots__ = (
@@ -74,7 +72,10 @@ class BaseRankedCodinGamer(BaseUser):
     )
 
     def __init__(
-        self, state: "ConnectionState", leaderboard: BaseLeaderboard, data: dict
+        self,
+        state: "ConnectionState",
+        leaderboard: "BaseLeaderboard",
+        data: dict,
     ):
         self.leaderboard = leaderboard
 
@@ -153,7 +154,7 @@ class GlobalRankedCodinGamer(BaseRankedCodinGamer):
     multi_training: int
     optim: int
 
-    leaderboard: GlobalLeaderboard
+    leaderboard: "GlobalLeaderboard"
 
     __slots__ = (
         "xp",
@@ -168,7 +169,7 @@ class GlobalRankedCodinGamer(BaseRankedCodinGamer):
     def __init__(
         self,
         state: "ConnectionState",
-        leaderboard: GlobalLeaderboard,
+        leaderboard: "GlobalLeaderboard",
         data: dict,
     ):
         self.xp = data["xp"]
@@ -265,7 +266,7 @@ class League(BaseObject):
 
         super().__init__(state)
 
-    def __eq__(self, other: League):
+    def __eq__(self, other: "League"):
         return self.index == other.index
 
     def __repr__(self):
@@ -295,7 +296,7 @@ class ChallengeRankedCodinGamer(BaseRankedCodinGamer):
     league: typing.Optional[League]
     """The league of the CodinGamer in this puzzle."""
 
-    leaderboard: ChallengeLeaderboard
+    leaderboard: "ChallengeLeaderboard"
     """The leaderboard that this CodinGamer is part of."""
 
     __slots__ = (
@@ -311,7 +312,7 @@ class ChallengeRankedCodinGamer(BaseRankedCodinGamer):
     def __init__(
         self,
         state: "ConnectionState",
-        leaderboard: ChallengeLeaderboard,
+        leaderboard: "ChallengeLeaderboard",
         data: dict,
     ):
         self.percentage = data.get("percentage")
@@ -395,7 +396,7 @@ class PuzzleRankedCodinGamer(BaseRankedCodinGamer):
     league: typing.Optional[League]
     """The league of the CodinGamer in this puzzle."""
 
-    leaderboard: PuzzleLeaderboard
+    leaderboard: "PuzzleLeaderboard"
     """The leaderboard that this CodinGamer is part of."""
 
     __slots__ = (
@@ -411,7 +412,7 @@ class PuzzleRankedCodinGamer(BaseRankedCodinGamer):
     def __init__(
         self,
         state: "ConnectionState",
-        leaderboard: PuzzleLeaderboard,
+        leaderboard: "PuzzleLeaderboard",
         data: dict,
     ):
         self.percentage = data.get("percentage")

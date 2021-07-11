@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import typing
 from datetime import datetime, timedelta
 
@@ -84,7 +82,7 @@ class ClashOfCode(BaseObject):
     end_time: typing.Optional[datetime]
     time_before_start: timedelta
     time_before_end: typing.Optional[timedelta]
-    players: typing.List[Player]
+    players: typing.List["Player"]
 
     __slots__ = (
         "public_handle",
