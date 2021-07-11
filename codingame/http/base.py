@@ -4,7 +4,16 @@ from ..endpoints import Endpoints
 
 
 __all__ = ("BaseHTTPClient",)
+
+
 class BaseHTTPClient(ABC):
+    headers: dict = {
+        "User-Agent": (
+            "CodinGame API wrapper in Python "
+            "(https://github.com/takos22/codingame)"
+        )
+    }
+
     @property
     def is_async(self):
         return False

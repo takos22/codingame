@@ -8,7 +8,9 @@ __all__ = ("AsyncHTTPClient",)
 
 class AsyncHTTPClient(BaseHTTPClient):
     def __init__(self):
-        self.__session: aiohttp.ClientSession = aiohttp.ClientSession()
+        self.__session: aiohttp.ClientSession = aiohttp.ClientSession(
+            headers=self.headers
+        )
 
     @property
     def is_async(self):
