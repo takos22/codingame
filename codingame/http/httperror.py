@@ -5,6 +5,7 @@ if typing.TYPE_CHECKING:
     import requests
 
 
+__all__ = ("HTTPError",)
 class HTTPError(Exception):
     def __init__(self, status_code: int, reason: str, data):
         self.status_code: int = status_code

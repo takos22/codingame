@@ -1,14 +1,21 @@
-from datetime import datetime
-from typing import List, Optional
+from __future__ import annotations
+
+import typing
+from datetime import datetime, timedelta
 
 from .abc import BaseObject, BaseUser
+
+if typing.TYPE_CHECKING:
+    from .state import ConnectionState
+
+__all__ = (
+    "ClashOfCode",
+    "Player",
+)
 
 
 class ClashOfCode(BaseObject):
     """Represents a Clash of Code.
-
-    Do not create this class yourself. Only get it through
-    :meth:`Client.get_clash_of_code()`.
 
     Attributes
     -----------
@@ -19,7 +26,7 @@ class ClashOfCode(BaseObject):
             URL to join the Clash of Code.
 
         public: :class:`bool`
-            If the Clash of Code is public.
+            Whether the Clash of Code is public.
 
         min_players: :class:`int`
             Minimum number of players.
@@ -27,76 +34,109 @@ class ClashOfCode(BaseObject):
         max_players: :class:`int`
             Maximum number of players.
 
-        modes: Optional[:class:`list`]
+        modes: Optional :class:`list` of :class:`str`
             List of possible modes.
 
-        programming_languages: Optional[:class:`list`]
+        programming_languages: Optional :class:`list` of :class:`str`
             List of possible programming languages.
 
         started: :class:`bool`
-            If the Clash of Code is started.
+            Whether the Clash of Code is started.
 
         finished: :class:`bool`
-            If the Clash of Code is finished.
+            Whether the Clash of Code is finished.
 
-        mode: :class:`str`
+        mode: Optional :class:`str`
             The mode of the Clash of Code.
 
         creation_time: :class:`datetime.datetime`
             Creation time of the Clash of Code.
 
         start_time: :class:`datetime.datetime`
-            Start time of the Clash of Code.
+            Start time of the Clash of Code. If the Clash of Code hasn't started
+            yet, this is the expected start time of the Clash of Code.
 
-        end_time: Optional[:class:`datetime.datetime`]
-            Start time of the Clash of Code.
+        end_time: Optional :class:`datetime.datetime`
+            End time of the Clash of Code.
 
-        time_before_start: :class:`float`
+        time_before_start: :class:`datetime.timedelta`
             Time before the start of the Clash of Code (in seconds).
 
-        time_before_end: Optional[:class:`float`]
+        time_before_end: Optional :class:`datetime.timedelta`
             Time before the end of the Clash of Code (in seconds).
 
-        players: List[:class:`Player`]
+        players: :class:`list` of :class:`Player`
             List of the players in the Clash of Code.
     """
 
-    def __init__(self, state, data):
-        self.public_handle: str = data["publicHandle"]
-        self.join_url: str = (
+    public_handle: str
+    join_url: str
+    public: bool
+    min_players: int
+    max_players: int
+    modes: typing.Optional[typing.List[str]]
+    programming_languages: typing.Optional[typing.List[str]]
+    started: bool
+    finished: bool
+    mode: typing.Optional[str]
+    creation_time: datetime
+    start_time: datetime
+    end_time: typing.Optional[datetime]
+    time_before_start: timedelta
+    time_before_end: typing.Optional[timedelta]
+    players: typing.List[Player]
+
+    __slots__ = (
+        "public_handle",
+        "join_url",
+        "public",
+        "min_players",
+        "max_players",
+        "modes",
+        "programming_languages",
+        "started",
+        "finished",
+        "mode",
+        "creation_time",
+        "start_time",
+        "end_time",
+        "time_before_start",
+        "time_before_end",
+        "players",
+    )
+
+    def __init__(self, state: "ConnectionState", data: dict):
+        self.public_handle = data["publicHandle"]
+        self.join_url = (
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
         )
-        self.public: bool = data["publicClash"]
-        self.min_players: int = data["nbPlayersMin"]
-        self.max_players: int = data["nbPlayersMax"]
-        self.modes: Optional[List] = data.get("modes", None)
-        self.programming_languages: Optional[List] = data.get(
-            "programmingLanguages", None
-        )
+        self.public = data["publicClash"]
+        self.min_players = data["nbPlayersMin"]
+        self.max_players = data["nbPlayersMax"]
+        self.modes = data.get("modes")
+        self.programming_languages = data.get("programmingLanguages")
 
-        self.started: bool = data["started"]
-        self.finished: bool = data["finished"]
-        self.mode: Optional[str] = data.get("mode", None)
+        self.started = data["started"]
+        self.finished = data["finished"]
+        self.mode = data.get("mode")
 
         dt_format = "%b %d, %Y %I:%M:%S %p"
-        self.creation_time: datetime = datetime.strptime(
-            data["creationTime"], dt_format
-        )
-        self.start_time: datetime = datetime.strptime(
-            data["startTime"], dt_format
-        )
-        self.end_time: Optional[datetime] = (
+        self.creation_time = datetime.strptime(data["creationTime"], dt_format)
+        self.start_time = datetime.strptime(data["startTime"], dt_format)
+        self.end_time = (
             datetime.strptime(data["endTime"], dt_format)
             if "endTime" in data
             else None
         )
 
-        self.time_before_start: float = data["msBeforeStart"] / 1000
-        self.time_before_end: Optional[float] = (
-            (data["msBeforeEnd"] / 1000) if "msBeforeEnd" in data else None
+        self.time_before_start = timedelta(milliseconds=data["msBeforeStart"])
+        self.time_before_end = (
+            timedelta(milliseconds=data["msBeforeEnd"])
+            if "msBeforeEnd" in data
+            else None
         )
 
-        self.players: List[Player] = [
+        self.players = [
             Player(
                 state,
                 self,
@@ -109,7 +149,7 @@ class ClashOfCode(BaseObject):
 
         super().__init__(state)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "<ClashOfCode public_handle={0.public_handle!r} "
             "public={0.public!r} modes={0.modes!r} "
@@ -121,9 +161,6 @@ class ClashOfCode(BaseObject):
 
 class Player(BaseUser):
     """Represents a Clash of Code player.
-
-    Do not create this class yourself. Only get it through
-    :class:`ClashOfCode.players`.
 
     Attributes
     -----------
@@ -140,70 +177,74 @@ class Player(BaseUser):
         pseudo: :class:`int`
             Pseudo of the CodinGamer.
 
-        avatar: Optional[:class:`int`]
+        avatar: Optional :class:`int`
             Avatar ID of the CodinGamer, if set else `None`.
             You can get the avatar url with :attr:`avatar_url`.
 
-        avatar_url: Optional[:class:`str`]
-            Avatar URL of the CodinGamer, if set else `None`.
+        cover: Optional :class:`int`
+            Cover ID of the CodinGamer. In this case, always ``None``.
 
         started: :class:`bool`
-            If the Clash of Code is started.
+            Whether the Clash of Code is started.
 
         finished: :class:`bool`
-            If the Clash of Code is finished.
+            Whether the Clash of Code is finished.
 
         status: :class:`str`
             Status of the Player. Can be ``OWNER`` or ``STANDARD``.
 
             .. note::
                 You can use :attr:`owner` to get a :class:`bool` that describes
-                the Player's status.
+                whether the player is the owner.
 
-        position: Optional[:class:`int`]
+        owner: :class:`bool`
+            Whether the player is the Clash of Code owner.
+
+        position: Optional :class:`int`
             Join position of the Player.
 
-        rank: Optional[:class:`int`]
-            Rank of the Player.
+        rank: Optional :class:`int`
+            Rank of the Player. Only use this when the Clash of Code is finished
+            because it isn't precise until then.
 
-        duration: Optional[:class:`float`]
-            Time of the player in the Clash of Code.
+        duration: Optional :class:`datetime.timedelta`
+            Time taken by the player to solve the problem of the Clash of Code.
 
-        language_id: Optional[:class:`str`]
+        language_id: Optional :class:`str`
             Language ID of the language the player used in the Clash of Code.
 
-        score: Optional[:class:`int`]
+        score: Optional :class:`int`
             Score of the Player (between 0 and 100).
 
-        code_length: Optional[:class:`int`]
+        code_length: Optional :class:`int`
             Length of the Player's code.
             Only available when the Clash of Code's mode is ``SHORTEST``.
 
-        solution_shared: Optional[:class:`bool`]
-            If the Player shared his code.
+        solution_shared: Optional :class:`bool`
+            Whether the Player shared his code.
 
-        submission_id: Optional[:class:`int`]
+        submission_id: Optional :class:`int`
             ID of the player's submission.
     """
 
     clash_of_code: ClashOfCode
     public_handle: str
     id: int
-    pseudo: Optional[str]
-    avatar: Optional[int]
-    avatar_url: Optional[str]
+    pseudo: typing.Optional[str]
+    avatar: typing.Optional[int]
+    cover: typing.Optional[int]
     started: bool
     finished: bool
     status: str
     owner: bool
-    position: Optional[int]
-    rank: Optional[int]
-    duration: Optional[float]
-    language_id: Optional[str]
-    score: Optional[int]
-    code_length: Optional[int]
-    solution_shared: Optional[bool]
-    submission_id: Optional[int]
+    position: typing.Optional[int]
+    rank: typing.Optional[int]
+    duration: typing.Optional[timedelta]
+    language_id: typing.Optional[str]
+    score: typing.Optional[int]
+    code_length: typing.Optional[int]
+    solution_shared: typing.Optional[bool]
+    submission_id: typing.Optional[int]
 
     __slots__ = (
         "clash_of_code",
@@ -227,44 +268,43 @@ class Player(BaseUser):
     )
 
     def __init__(
-        self, state, coc: ClashOfCode, started: bool, finished: bool, data
+        self,
+        state: "ConnectionState",
+        coc: ClashOfCode,
+        started: bool,
+        finished: bool,
+        data: dict,
     ):
         self.clash_of_code: ClashOfCode = coc
 
         self.public_handle = data["codingamerHandle"]
         self.id = data["codingamerId"]
         self.pseudo = data["codingamerNickname"]
-        self.avatar = data.get("codingamerAvatarId", None)
+        self.avatar = data.get("codingamerAvatarId")
+        self.cover = None
 
         self.started = started
         self.finished = finished
 
         self.status = data["status"]
         self.owner = self.status == "OWNER"
-        self.position = data.get("position", None)
-        self.rank = data.get("rank", None)
+        self.position = data.get("position")
+        self.rank = data.get("rank")
 
-        self.duration = data["duration"] / 1000 or None
-        self.language_id = data.get("languageId", None)
-        self.score = data.get("score", None)
-        self.code_length = data.get("criterion", None)
-        self.solution_shared = data.get("solutionShared", None)
-        self.submission_id = data.get("submissionId", None)
+        self.duration = (
+            timedelta(milliseconds=data["duration"])
+            if "duration" in data
+            else None
+        )
+        self.language_id = data.get("languageId")
+        self.score = data.get("score")
+        self.code_length = data.get("criterion")
+        self.solution_shared = data.get("solutionShared")
+        self.submission_id = data.get("submissionId")
 
         super().__init__(state)
 
-    # TODO: find a way to get the solution code without getting a 561 error
-    # @property
-    # def solution(self):
-    #     if not self.finished or not self.solution_shared:
-    #         return
-
-    #     r = self.client._session.post(
-    #         Endpoints.Solution, json=[self.id, self.submission_id]
-    #     )
-    #     return r.json()["code"]
-
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "<Player public_handle={0.public_handle!r} pseudo={0.pseudo!r} "
             "position={0.position!r} rank={0.rank!r} duration={0.duration!r} "

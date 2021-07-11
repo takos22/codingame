@@ -4,13 +4,21 @@ if typing.TYPE_CHECKING:
     from .codingamer import CodinGamer
     from .http import HTTPClient
 
+__all__ = ("ConnectionState",)
+
 
 class ConnectionState:
+    """Saves information about the state of the connection to the API."""
 
+    http: "HTTPClient"
     logged_in: bool
     codingamer: typing.Optional["CodinGamer"]
 
-    """Saves information about the state of the connection to the API."""
+    __slots__ = (
+        "http",
+        "logged_in",
+        "codingamer",
+    )
 
     def __init__(self, http_client: "HTTPClient"):
         self.http = http_client

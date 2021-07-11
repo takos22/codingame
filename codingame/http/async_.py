@@ -3,6 +3,8 @@ import aiohttp
 from .base import BaseHTTPClient
 from .httperror import HTTPError
 
+__all__ = ("AsyncHTTPClient",)
+
 
 class AsyncHTTPClient(BaseHTTPClient):
     def __init__(self):

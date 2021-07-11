@@ -1,6 +1,20 @@
+from __future__ import annotations
+
 import typing
 
 from .abc import BaseObject, BaseUser
+
+if typing.TYPE_CHECKING:
+    from .state import ConnectionState
+
+__all__ = (
+    "GlobalRankedCodinGamer",
+    "GlobalLeaderboard",
+    "ChallengeRankedCodinGamer",
+    "ChallengeLeaderboard",
+    "PuzzleRankedCodinGamer",
+    "PuzzleLeaderboard",
+)
 
 
 class BaseRankedCodinGamer(BaseUser):
@@ -42,10 +56,12 @@ class BaseRankedCodinGamer(BaseUser):
     score: float
     """Score of the CodinGamer."""
 
-    leaderboard: "BaseLeaderboard"
+    leaderboard: BaseLeaderboard
     """The leaderboard in which this CodinGamer is ranked."""
 
-    def __init__(self, state, leaderboard: "BaseLeaderboard", data: dict):
+    def __init__(
+        self, state: "ConnectionState", leaderboard: BaseLeaderboard, data: dict
+    ):
         self.leaderboard = leaderboard
 
         codingamer = data["codingamer"]
@@ -66,11 +82,11 @@ class BaseRankedCodinGamer(BaseUser):
         self.rank = data["rank"]
         self.score = data["score"]
 
-        self.pseudo = codingamer.get("pseudo", None) or None
-        self.company = data.get("company", None) or None
-        self.school = data.get("school", None) or None
+        self.pseudo = codingamer.get("pseudo") or None
+        self.company = data.get("company") or None
+        self.school = data.get("school") or None
 
-        self.avatar = data.get("avatar", None)
+        self.avatar = data.get("avatar")
         self.cover = None  # not included in leaderboard data
 
         super().__init__(state)
@@ -95,7 +111,7 @@ class BaseLeaderboard(BaseObject):
     users: typing.List[_USER_CLASS]
     """Leaderboard ranking."""
 
-    def __init__(self, state, data: dict):
+    def __init__(self, state: "ConnectionState", data: dict):
         self.count = data["count"]
         self.users = [
             self._USER_CLASS(state, self, user) for user in data["users"]
@@ -118,9 +134,14 @@ class GlobalRankedCodinGamer(BaseRankedCodinGamer):
     multi_training: int
     optim: int
 
-    leaderboard: "GlobalLeaderboard"
+    leaderboard: GlobalLeaderboard
 
-    def __init__(self, state, leaderboard: "GlobalLeaderboard", data: dict):
+    def __init__(
+        self,
+        state: "ConnectionState",
+        leaderboard: GlobalLeaderboard,
+        data: dict,
+    ):
         self.xp = data["xp"]
         self.achievements = data["achievements"]
         self.clash = data["clash"]
@@ -138,17 +159,24 @@ class GlobalLeaderboard(BaseLeaderboard):
     _USER_CLASS = GlobalRankedCodinGamer
 
     type: str
-    """Global leaderboard type. One of GENERAL, CONTESTS, BOT_PROGRAMMING,
-    OPTIM, CODEGOLF."""
+    """Global leaderboard type. One of ``"GENERAL"``, ``"CONTESTS"``,
+    ``"BOT_PROGRAMMING"``, ``"OPTIM"``, ``"CODEGOLF"``."""
     group: str
-    """Group of CodinGamer who are ranked. One of global, country, company,
-    school, following."""
+    """Group of CodinGamer who are ranked. One of ``"global"``, ``"country"``,
+    ``"company"``, ``"school"``, ``"following"``."""
     page: int
     """Page of the leaderboard."""
     users: typing.List[GlobalRankedCodinGamer]
     """Global leaderboard ranking."""
 
-    def __init__(self, state, lb_type: str, group: str, page: int, data: dict):
+    def __init__(
+        self,
+        state: "ConnectionState",
+        lb_type: str,
+        group: str,
+        page: int,
+        data: dict,
+    ):
         self.type = lb_type
         self.group = group
         self.page = page
@@ -185,7 +213,7 @@ class League(BaseObject):
     users: list
     """Name of the league."""
 
-    def __init__(self, state, data: dict):
+    def __init__(self, state: "ConnectionState", data: dict):
         league_count: int = data["divisionCount"]
         names = self._NAMES[league_count - 1 :: -1]  # noqa: E203
         self.index = data["divisionIndex"]
@@ -195,7 +223,7 @@ class League(BaseObject):
 
         super().__init__(state)
 
-    def __eq__(self, other: "League"):
+    def __eq__(self, other: League):
         return self.index == other.index
 
     def __repr__(self):
@@ -225,10 +253,15 @@ class ChallengeRankedCodinGamer(BaseRankedCodinGamer):
     league: typing.Optional[League]
     """The league of the CodinGamer in this puzzle."""
 
-    leaderboard: "ChallengeLeaderboard"
+    leaderboard: ChallengeLeaderboard
     """The leaderboard that this CodinGamer is part of."""
 
-    def __init__(self, state, leaderboard: "ChallengeLeaderboard", data: dict):
+    def __init__(
+        self,
+        state: "ConnectionState",
+        leaderboard: ChallengeLeaderboard,
+        data: dict,
+    ):
         self.percentage = data.get("percentage")
         self.progress = data.get("progress")  # idk what this is
         self.programming_language = data["programmingLanguage"]
@@ -255,14 +288,16 @@ class ChallengeLeaderboard(BaseLeaderboard):
     leagues: typing.List[League]
     """Leagues of the challenge. Empty list if no leagues."""
     group: str
-    """Group of CodinGamer who are ranked. One of global, country, company,
-    school, following."""
+    """Group of CodinGamer who are ranked. One of ``"global"``, ``"country"``,
+    ``"company"``, ``"school"``, ``"following"``."""
     programming_languages: typing.Dict[str, int]
     """Number of CodinGamers who used a language in the challenge."""
     users: typing.List[ChallengeRankedCodinGamer]
     """Challenge leaderboard ranking."""
 
-    def __init__(self, state, name: str, group: str, data: dict):
+    def __init__(
+        self, state: "ConnectionState", name: str, group: str, data: dict
+    ):
         self.leagues = [
             League(state, league) for league in data.get("leagues", {}).values()
         ]
@@ -300,10 +335,15 @@ class PuzzleRankedCodinGamer(BaseRankedCodinGamer):
     league: typing.Optional[League]
     """The league of the CodinGamer in this puzzle."""
 
-    leaderboard: "PuzzleLeaderboard"
+    leaderboard: PuzzleLeaderboard
     """The leaderboard that this CodinGamer is part of."""
 
-    def __init__(self, state, leaderboard: "PuzzleLeaderboard", data: dict):
+    def __init__(
+        self,
+        state: "ConnectionState",
+        leaderboard: PuzzleLeaderboard,
+        data: dict,
+    ):
         self.percentage = data.get("percentage")
         self.progress = data.get("progress")  # idk what this is
         self.programming_language = data["programmingLanguage"]
@@ -330,14 +370,16 @@ class PuzzleLeaderboard(BaseLeaderboard):
     leagues: typing.List[League]
     """Leagues of the puzzle. Empty list if no leagues."""
     group: str
-    """Group of CodinGamer who are ranked. One of global, country, company,
-    school, following."""
+    """Group of CodinGamer who are ranked. One of ``"global"``, ``"country"``,
+    ``"company"``, ``"school"``, ``"following"``."""
     programming_languages: typing.Dict[str, int]
     """Number of CodinGamers who used a language in the puzzle."""
     users: typing.List[PuzzleRankedCodinGamer]
     """Puzzle leaderboard ranking."""
 
-    def __init__(self, state, name: str, group: str, data: dict):
+    def __init__(
+        self, state: "ConnectionState", name: str, group: str, data: dict
+    ):
         self.leagues = [
             League(state, league) for league in data.get("leagues", {}).values()
         ]

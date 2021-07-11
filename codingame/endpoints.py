@@ -1,4 +1,8 @@
+__all__ = ("Endpoints",)
+
 class Endpoints:
+    """Class for storing the CodinGame API endpoints."""
+
     BASE = "https://www.codingame.com/services/"
 
     image = "https://static.codingame.com/servlet/fileservlet?id={}"

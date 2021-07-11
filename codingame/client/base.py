@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
     )
     from ..notification import Notification
 
+__all__ = ("BaseClient",)
 
 class BaseClient(ABC):
     def __init_subclass__(cls, doc_prefix: str = "", **kwargs):

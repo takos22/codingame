@@ -1,3 +1,20 @@
+__all__ = (
+    "CodinGameAPIError",
+    "LoginError",
+    "EmailRequired",
+    "MalformedEmail",
+    "PasswordRequired",
+    "EmailNotLinked",
+    "IncorrectPassword",
+    "LoginRequired",
+    "NotFound",
+    "CodinGamerNotFound",
+    "ClashOfCodeNotFound",
+    "ChallengeNotFound",
+    "PuzzleNotFound",
+)
+
+
 class CodinGameAPIError(Exception):
     """Base exception for the CodinGame API."""
 

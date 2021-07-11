@@ -13,6 +13,7 @@ from ..notification import Notification
 from ..utils import CLASH_OF_CODE_HANDLE_REGEX, CODINGAMER_HANDLE_REGEX
 from .base import BaseClient
 
+__all__ = ("SyncClient",)
 
 class SyncClient(BaseClient):
     """Synchronous client for the CodinGame client."""

@@ -3,12 +3,11 @@ from datetime import datetime
 
 from .abc import BaseObject
 
+__all__ = ("Notification",)
+
 
 class Notification(BaseObject):
     """Represents a Notification.
-
-    Do not create this class yourself. Only get it through
-    :meth:`Client.get_unseen_notifications`.
 
     Attributes
     -----------
@@ -38,7 +37,9 @@ class Notification(BaseObject):
                 So there isn't the same keys and values every time.
 
         _raw: :class:`dict`
-            The dict from CdoinGame describing the notification.
+            The dict from CodinGame describing the notification.
+            Useful when there's more data that isn't included in the normal
+            fields.
     """
 
     id: int
@@ -48,10 +49,21 @@ class Notification(BaseObject):
     priority: int
     urgent: bool
     data: typing.Optional[dict]
+    _raw: dict
+
+    __slots__ = (
+        "id",
+        "type",
+        "type_group",
+        "creation_time",
+        "priority",
+        "urgent",
+        "data",
+    )
 
     def __init__(self, state, notification):
         self._state = state
-        self._raw: dict = notification  # for attributes that arent wrapped
+        self._raw = notification  # for attributes that arent wrapped
 
         self.id = notification["id"]
         self.type = notification["type"]
@@ -61,7 +73,7 @@ class Notification(BaseObject):
         )
         self.priority = notification["priority"]
         self.urgent = notification["urgent"]
-        self.data = notification.get("data", None)
+        self.data = notification.get("data")
 
     def __repr__(self):
         return (

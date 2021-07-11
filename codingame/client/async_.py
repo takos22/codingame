@@ -13,6 +13,7 @@ from ..notification import Notification
 from ..utils import CLASH_OF_CODE_HANDLE_REGEX, CODINGAMER_HANDLE_REGEX
 from .base import BaseClient
 
+__all__ = ("AsyncClient",)
 
 class AsyncClient(BaseClient, doc_prefix="|coro|"):
     """Asynchronous client for the CodinGame API."""

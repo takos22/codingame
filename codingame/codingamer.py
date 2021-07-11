@@ -2,14 +2,15 @@ import typing
 
 from .abc import BaseUser
 from .exceptions import LoginRequired
-from .state import ConnectionState
+
+if typing.TYPE_CHECKING:
+    from .state import ConnectionState
+
+__all__ = ("CodinGamer",)
 
 
 class CodinGamer(BaseUser):
     """Represents a CodinGamer.
-
-    Do not create this class yourself. Only get it through
-    :meth:`Client.get_codingamer()`.
 
     Attributes
     -----------
@@ -32,7 +33,7 @@ class CodinGamer(BaseUser):
         country_id: :class:`str`
             Country ID of the CodinGamer.
 
-        category: Optional[:class:`str`]
+        category: Optional :class:`str`
             Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
 
             .. note::
@@ -45,34 +46,28 @@ class CodinGamer(BaseUser):
         professional: :class:`bool`
             If the CodinGamer is a professional.
 
-        pseudo: Optional[:class:`str`]
+        pseudo: Optional :class:`str`
             Pseudo of the CodinGamer, if set else `None`.
 
-        tagline: Optional[:class:`str`]
+        tagline: Optional :class:`str`
             Tagline of the CodinGamer, if set else `None`.
 
-        biography: Optional[:class:`str`]
+        biography: Optional :class:`str`
             Biography of the CodinGamer, if set else `None`.
 
-        company: Optional[:class:`str`]
+        company: Optional :class:`str`
             Company of the CodinGamer, if set else `None`.
 
-        school: Optional[:class:`str`]
+        school: Optional :class:`str`
             School of the CodinGamer, if set else `None`.
 
-        avatar: Optional[:class:`int`]
+        avatar: Optional :class:`int`
             Avatar ID of the CodinGamer, if set else `None`.
             You can get the avatar url with :attr:`avatar_url`.
 
-        cover: Optional[:class:`int`]
+        cover: Optional :class:`int`
             Cover ID of the CodinGamer, if set else `None`.
             You can get the cover url with :attr:`cover_url`.
-
-        avatar_url: Optional[:class:`str`]
-            Avatar URL of the CodinGamer, if set else `None`.
-
-        cover_url: Optional[:class:`str`]
-            Cover URL of the CodinGamer, if set else `None`.
     """
 
     public_handle: str
@@ -113,7 +108,7 @@ class CodinGamer(BaseUser):
         "cover",
     )
 
-    def __init__(self, state: ConnectionState, data):
+    def __init__(self, state: "ConnectionState", data: dict):
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
         self.level = data["level"]
@@ -127,23 +122,28 @@ class CodinGamer(BaseUser):
         self.student = self.category == "STUDENT"
         self.professional = self.category == "PROFESSIONAL"
 
-        self.xp = data.get("xp", None)
-        self.rank = data.get("rank", None)
-        self.pseudo = data.get("pseudo", None) or None
-        self.tagline = data.get("tagline", None) or None
-        self.biography = data.get("biography", None) or None
+        self.xp = data.get("xp")
+        self.rank = data.get("rank")
+
+        # account for empty strings and replace them by None
+        self.pseudo = data.get("pseudo") or None
+        self.tagline = data.get("tagline") or None
+        self.biography = data.get("biography") or None
         self.company = (
-            data.get("company", None) or data.get("companyField", None) or None
+            data.get("company")
+            or data.get("companyField")
+            or data.get("formValues", {}).get("company")
+            or None
         )
         self.school = (
-            data.get("school", None)
-            or data.get("schoolField", None)
-            or data.get("formValues", {}).get("school", None)
+            data.get("school")
+            or data.get("schoolField")
+            or data.get("formValues", {}).get("school")
             or None
         )
 
-        self.avatar = data.get("avatar", None)
-        self.cover = data.get("cover", None)
+        self.avatar = data.get("avatar")
+        self.cover = data.get("cover")
 
         super().__init__(state)
 

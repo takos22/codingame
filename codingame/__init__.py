@@ -48,7 +48,7 @@ from .leaderboard import (
 )
 from .notification import Notification
 
-__all__ = [
+__all__ = (
     # Client
     Client,
     # CodinGamer
@@ -80,4 +80,4 @@ __all__ = [
     ClashOfCodeNotFound,
     ChallengeNotFound,
     PuzzleNotFound,
-]
+)

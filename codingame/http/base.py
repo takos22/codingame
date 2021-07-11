@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from ..endpoints import Endpoints
 
 
+__all__ = ("BaseHTTPClient",)
 class BaseHTTPClient(ABC):
     @property
     def is_async(self):

@@ -3,6 +3,7 @@ import requests
 from .base import BaseHTTPClient
 from .httperror import HTTPError
 
+__all__ = ("SyncHTTPClient",)
 
 class SyncHTTPClient(BaseHTTPClient):
     def __init__(self):
