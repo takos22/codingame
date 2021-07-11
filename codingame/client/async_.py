@@ -15,6 +15,7 @@ from .base import BaseClient
 
 __all__ = ("AsyncClient",)
 
+
 class AsyncClient(BaseClient, doc_prefix="|coro|"):
     """Asynchronous client for the CodinGame API."""
 

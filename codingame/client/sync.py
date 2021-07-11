@@ -15,6 +15,7 @@ from .base import BaseClient
 
 __all__ = ("SyncClient",)
 
+
 class SyncClient(BaseClient):
     """Synchronous client for the CodinGame client."""
 

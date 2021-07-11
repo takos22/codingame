@@ -1,5 +1,6 @@
 __all__ = ("Endpoints",)
 
+
 class Endpoints:
     """Class for storing the CodinGame API endpoints."""
 

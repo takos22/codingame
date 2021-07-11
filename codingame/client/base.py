@@ -16,6 +16,7 @@ if typing.TYPE_CHECKING:
 
 __all__ = ("BaseClient",)
 
+
 class BaseClient(ABC):
     def __init_subclass__(cls, doc_prefix: str = "", **kwargs):
         super().__init_subclass__(**kwargs)

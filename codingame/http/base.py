@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 from ..endpoints import Endpoints
 
-
 __all__ = ("BaseHTTPClient",)
 
 
