@@ -41,32 +41,32 @@ class CodinGamer(BaseUser):
                 :class:`bool` that describes the CodinGamer's category.
 
         student: :class:`bool`
-            If the CodinGamer is a student.
+            Whether the CodinGamer is a student.
 
         professional: :class:`bool`
-            If the CodinGamer is a professional.
+            Whether the CodinGamer is a professional.
 
         pseudo: Optional :class:`str`
-            Pseudo of the CodinGamer, if set else `None`.
+            Pseudo of the CodinGamer.
 
         tagline: Optional :class:`str`
-            Tagline of the CodinGamer, if set else `None`.
+            Tagline of the CodinGamer.
 
         biography: Optional :class:`str`
-            Biography of the CodinGamer, if set else `None`.
+            Biography of the CodinGamer.
 
         company: Optional :class:`str`
-            Company of the CodinGamer, if set else `None`.
+            Company of the CodinGamer.
 
         school: Optional :class:`str`
-            School of the CodinGamer, if set else `None`.
+            School of the CodinGamer.
 
         avatar: Optional :class:`int`
-            Avatar ID of the CodinGamer, if set else `None`.
+            Avatar ID of the CodinGamer.
             You can get the avatar url with :attr:`avatar_url`.
 
         cover: Optional :class:`int`
-            Cover ID of the CodinGamer, if set else `None`.
+            Cover ID of the CodinGamer.
             You can get the cover url with :attr:`cover_url`.
     """
 
@@ -153,7 +153,7 @@ class CodinGamer(BaseUser):
 
         You need to be logged in as the CodinGamer to get its followers
         or else a :exc:`LoginRequired` will be raised. If you can't log in,
-        you can use :meth:`CodinGamer.followers_ids`.
+        you can use :meth:`CodinGamer.get_followers_ids` instead.
 
         .. note::
             This property is a generator.
@@ -198,16 +198,15 @@ class CodinGamer(BaseUser):
     ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
         """|maybe_coro|
 
-        Get all the IDs of followers of a CodinGamer.
+        Get all the IDs of the followers of a CodinGamer.
 
         Returns
         -------
             :class:`list`
-                A list of all the followers ids. See :attr:`CodinGamer.id`.
+                The CodinGamer's followers IDs. See :attr:`CodinGamer.id`.
         """
 
-        follower_ids = self._state.http.get_codingamer_follower_ids(self.id)
-        return follower_ids  # this can be a coroutine object
+        return self._state.http.get_codingamer_follower_ids(self.id)
 
     def get_followed(
         self,
@@ -220,7 +219,7 @@ class CodinGamer(BaseUser):
 
         You need to be logged in as the CodinGamer to get its followed
         CodinGamers or else a :exc:`LoginRequired` will be raised. If you can't
-        log in, you can use :meth:`CodinGamer.followed_ids`.
+        log in, you can use :meth:`CodinGamer.get_followed_ids` instead.
 
         .. note::
             This property is a generator.
@@ -265,16 +264,15 @@ class CodinGamer(BaseUser):
     ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
         """|maybe_coro|
 
-        Get all the followed ids of a CodinGamer.
+        Get all the IDs of the followed CodinGamers.
 
         Returns
         -------
             :class:`list`
-                A list of all the followed ids. See :attr:`CodinGamer.id`.
+                The IDs of the followed CodinGamers. See :attr:`CodinGamer.id`.
         """
 
-        followed_ids = self._state.http.get_codingamer_following_ids(self.id)
-        return followed_ids  # this can be a coroutine object
+        return self._state.http.get_codingamer_following_ids(self.id)
 
     def get_clash_of_code_rank(
         self,

@@ -58,10 +58,10 @@ class ClashOfCode(BaseObject):
             End time of the Clash of Code.
 
         time_before_start: :class:`datetime.timedelta`
-            Time before the start of the Clash of Code (in seconds).
+            Time before the start of the Clash of Code.
 
         time_before_end: Optional :class:`datetime.timedelta`
-            Time before the end of the Clash of Code (in seconds).
+            Time before the end of the Clash of Code.
 
         players: :class:`list` of :class:`Player`
             List of the players in the Clash of Code.
@@ -176,7 +176,7 @@ class Player(BaseUser):
             Pseudo of the CodinGamer.
 
         avatar: Optional :class:`int`
-            Avatar ID of the CodinGamer, if set else `None`.
+            Avatar ID of the CodinGamer.
             You can get the avatar url with :attr:`avatar_url`.
 
         cover: Optional :class:`int`

@@ -58,8 +58,8 @@ class BaseClient(ABC):
     async def __aenter__(self):
         if not self.is_async:
             raise TypeError(
-                "Synchronous client must be used in a synchronous "
-                "context manager (with)not in an asynchronous one (async with)."
+                "Synchronous client must be used in a synchronous context"
+                "manager (with) not in an asynchronous one (async with)."
             )
         return self
 

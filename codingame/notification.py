@@ -80,5 +80,5 @@ class Notification(BaseObject):
         return (
             "<Notification id={0.id!r} type={0.type!r} "
             "creation_time={0.creation_time!r} priority={0.priority!r} "
-            "urgent={0.urgent!r} data={0.data!r}>".format(self)
+            "urgent={0.urgent!r}>".format(self)
         )
