@@ -1,13 +1,13 @@
 .. currentmodule:: codingame
 
-===============
 API Reference
-===============
+=============
 
-The following section outlines the API of codingame.
+The following section outlines the API of the ``codingame`` module. All the
+public classes, methods and functions are documented here.
 
 Version Related Info
-----------------------
+--------------------
 
 There are two main ways to query version information about the library.
 
@@ -24,96 +24,131 @@ There are two main ways to query version information about the library.
     off of :pep:`440`.
 
 Client
---------
+------
 
-.. autoclass:: Client()
-    :members:
+Hybrid client
+*************
 
+.. autoclass:: Client
+
+Synchronous client
+******************
+
+.. autoclass:: codingame.client.sync.SyncClient
+
+Asynchronous client
+*******************
+
+.. autoclass:: codingame.client.async_.AsyncClient
+
+.. currentmodule:: codingame
 
 .. _codingame_api_models:
 
 CodinGame Models
-------------------
+----------------
 
-Models are classes that are received from CodinGame and are not meant to be
-created by the user of the library.
+Models are classes that are created from the data received from CodinGame and
+are not meant to be created by the user of the library.
 
 .. danger::
 
-    The classes listed below are **not intended to be created by users** and are also
-    **read-only**.
+    The classes listed below are **not intended to be created by users** and are
+    also **read-only**.
 
-    For example, this means that you should not make your own :class:`CodinGamer` instances
-    nor should you modify the :class:`CodinGamer` instance yourself.
+    For example, this means that you should not make your own
+    :class:`CodinGamer` instances nor should you modify the :class:`CodinGamer`
+    instance yourself.
 
 
 CodinGamer
-~~~~~~~~~~~~
+**********
 
 .. autoclass:: CodinGamer()
 
 Clash of Code
-~~~~~~~~~~~~~~~
+*************
 
 .. autoclass:: ClashOfCode()
 
 .. autoclass:: Player()
 
 Notification
-~~~~~~~~~~~~
+************
 
 .. autoclass:: Notification()
 
 Leaderboards
-~~~~~~~~~~~~
+************
 
 Global leaderboard
-******************
+##################
 
 .. autoclass:: GlobalRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: GlobalLeaderboard()
-    :inherited-members:
 
 Challenge leaderboard
-*********************
+#####################
 
 .. autoclass:: League()
 
 .. autoclass:: ChallengeRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: ChallengeLeaderboard()
-    :inherited-members:
 
 Puzzle leaderboard
-******************
+##################
 
 .. autoclass:: PuzzleRankedCodinGamer()
-    :inherited-members:
 
 .. autoclass:: PuzzleLeaderboard()
-    :inherited-members:
 
 Exceptions
-------------
+----------
 
 The following exceptions are thrown by the library.
 
 .. autoexception:: CodinGameAPIError
 
+.. autoexception:: LoginError
+
+.. autoexception:: EmailRequired
+
+.. autoexception:: MalformedEmail
+
+.. autoexception:: PasswordRequired
+
+.. autoexception:: EmailNotLinked
+
+.. autoexception:: IncorrectPassword
+
+.. autoexception:: LoginRequired
+
+.. autoexception:: NotFound
+
 .. autoexception:: CodinGamerNotFound
 
 .. autoexception:: ClashOfCodeNotFound
 
-.. autoexception:: LoginRequired
+.. autoexception:: ChallengeNotFound
+
+.. autoexception:: PuzzleNotFound
 
 Exception Hierarchy
-~~~~~~~~~~~~~~~~~~~~~
+*******************
 
 - :exc:`Exception`
     - :exc:`CodinGameAPIError`
-        - :exc:`CodinGamerNotFound`
-        - :exc:`ClashOfCodeNotFound`
-        - :exc:`LoginRequired`
+        - :exc:`LoginError`
+            - :exc:`EmailRequired`
+            - :exc:`MalformedEmail`
+            - :exc:`PasswordRequired`
+            - :exc:`EmailNotLinked`
+            - :exc:`IncorrectPassword`
+            - :exc:`LoginRequired`
+        - :exc:`NotFound`
+            - :exc:`CodinGamerNotFound`
+            - :exc:`ClashOfCodeNotFound`
+            - :exc:`ChallengeNotFound`
+            - :exc:`PuzzleNotFound`

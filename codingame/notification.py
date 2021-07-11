@@ -1,11 +1,13 @@
 import typing
 from datetime import datetime
 
+from .abc import BaseObject
 
-class Notification:
+__all__ = ("Notification",)
+
+
+class Notification(BaseObject):
     """Represents a Notification.
-
-    Do not create this class yourself. Only get it through :attr:`Client.notifications`.
 
     Attributes
     -----------
@@ -33,6 +35,11 @@ class Notification:
             .. note::
                 Every notification type has different data.
                 So there isn't the same keys and values every time.
+
+        _raw: :class:`dict`
+            The dict from CodinGame describing the notification.
+            Useful when there's more data that isn't included in the normal
+            fields.
     """
 
     id: int
@@ -42,9 +49,22 @@ class Notification:
     priority: int
     urgent: bool
     data: typing.Optional[dict]
+    _raw: dict
 
-    def __init__(self, notification):
-        self._raw: dict = notification  # for attributes that arent wrapped
+    __slots__ = (
+        "id",
+        "type",
+        "type_group",
+        "creation_time",
+        "priority",
+        "urgent",
+        "data",
+        "_raw",
+    )
+
+    def __init__(self, state, notification):
+        self._state = state
+        self._raw = notification  # for attributes that arent wrapped
 
         self.id = notification["id"]
         self.type = notification["type"]
@@ -54,11 +74,11 @@ class Notification:
         )
         self.priority = notification["priority"]
         self.urgent = notification["urgent"]
-        self.data = notification.get("data", None)
+        self.data = notification.get("data")
 
     def __repr__(self):
         return (
             "<Notification id={0.id!r} type={0.type!r} "
             "creation_time={0.creation_time!r} priority={0.priority!r} "
-            "urgent={0.urgent!r} data={0.data!r}>".format(self)
+            "urgent={0.urgent!r}>".format(self)
         )

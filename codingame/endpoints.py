@@ -1,28 +1,36 @@
+__all__ = ("Endpoints",)
+
+
 class Endpoints:
-    image = "https://static.codingame.com/servlet/fileservlet?id={}"
+    """Class for storing the CodinGame API endpoints."""
 
     BASE = "https://www.codingame.com/services/"
 
-    LanguageIds = BASE + "ProgrammingLanguage/findAllIds"
+    image = "https://static.codingame.com/servlet/fileservlet?id={}"
 
-    UnseenNotifications = BASE + "Notification/findUnseenNotifications"
-
-    Search = BASE + "search/search"
+    # general stuff
+    login = BASE + "CodinGamer/loginSiteV2"
+    language_ids = BASE + "ProgrammingLanguage/findAllIds"
+    unseen_notifications = BASE + "Notification/findUnseenNotifications"
+    search = BASE + "search/search"
 
     # CodinGamer
-    CodinGamer = BASE + "CodinGamer/findCodingamePointsStatsByHandle"
-    CodinGamer_id = BASE + "CodinGamer/findCodinGamerPublicInformations"
-    CodinGamer_login = BASE + "CodinGamer/loginSiteV2"
-    CodinGamer_followers = BASE + "CodinGamer/findFollowers"
-    CodinGamer_followers_ids = BASE + "CodinGamer/findFollowerIds"
-    CodinGamer_following = BASE + "CodinGamer/findFollowing"
-    CodinGamer_following_ids = BASE + "CodinGamer/findFollowingIds"
-    CodinGamer_coc_rank = BASE + "ClashOfCode/getClashRankByCodinGamerId"
+    codingamer_from_id = BASE + "CodinGamer/findCodinGamerPublicInformations"
+    codingamer_from_handle = (
+        BASE + "CodinGamer/findCodingamePointsStatsByHandle"
+    )
+    codingamer_followers = BASE + "CodinGamer/findFollowers"
+    codingamer_followers_ids = BASE + "CodinGamer/findFollowerIds"
+    codingamer_following = BASE + "CodinGamer/findFollowing"
+    codingamer_following_ids = BASE + "CodinGamer/findFollowingIds"
+    codingamer_clash_of_code_rank = (
+        BASE + "ClashOfCode/getClashRankByCodinGamerId"
+    )
 
     # Clash of Code
-    ClashOfCode = BASE + "ClashOfCode/findClashByHandle"
-    ClashOfCode_pending = BASE + "ClashOfCode/findPendingClashes"
-    Solution = BASE + "Solution/findSolution"
+    clash_of_code = BASE + "ClashOfCode/findClashByHandle"
+    clash_of_code_pending = BASE + "ClashOfCode/findPendingClashes"
+    clash_of_code_solution = BASE + "Solution/findSolution"
 
     # Leaderboards
     global_leaderboard = BASE + "Leaderboards/getGlobalLeaderboard"

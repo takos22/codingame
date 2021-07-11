@@ -1,36 +1,86 @@
-from functools import wraps
-from typing import get_type_hints
+import re
+
+from .exceptions import LoginRequired
+
+__all__ = (
+    "CODINGAMER_HANDLE_REGEX",
+    "CLASH_OF_CODE_HANDLE_REGEX",
+)
+
+CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
+CLASH_OF_CODE_HANDLE_REGEX = re.compile(r"[0-9]{7}[0-9a-f]{32}")
 
 
-def validate_args(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        hints = get_type_hints(func)
+def validate_leaderboard_type(type: str) -> str:
+    """Validates that the leaderboard type is one of ``"GENERAL"``,
+    ``"CONTESTS"``, ``"BOT_PROGRAMMING"``, ``"OPTIM"`` or ``"CODEGOLF"``.
 
-        all_args = dict(zip(func.__code__.co_varnames, args))
-        all_args.update(kwargs.copy())
+    Parameters
+    ----------
+        type : :class:`str`
+            The type to validate.
 
-        for arg, arg_type in ((i, type(j)) for i, j in all_args.items()):
-            if arg in hints:
-                if not issubclass(arg_type, hints[arg]):
-                    raise TypeError(
-                        "Argument {0!r} needs to be of type {1.__name__!r} "
-                        "(got type {2.__name__!r})".format(
-                            arg, hints[arg], arg_type
-                        )
-                    )
+    Returns
+    -------
+        :class:`str`
+            The valid type.
 
-        result = func(*args, **kwargs)
+    Raises
+    ------
+        ValueError
+            The type is invalid.
+    """
 
-        if "return" in hints:
-            if type(result) != hints["return"]:
-                raise TypeError(
-                    "Return value needs to be of type {0.__name__!r} "
-                    "(got type {1.__name__!r})".format(
-                        hints["return"], type(result)
-                    )
-                )
+    type = type.upper()
+    if type not in [
+        "GENERAL",
+        "CONTESTS",
+        "BOT_PROGRAMMING",
+        "OPTIM",
+        "CODEGOLF",
+    ]:
+        raise ValueError(
+            "type argument must be one of: GENERAL, CONTESTS, "
+            f"BOT_PROGRAMMING, OPTIM, CODEGOLF. Got: {type}"
+        )
+    return type
 
-        return result
 
-    return wrapper
+def validate_leaderboard_group(group: str, logged_in: bool) -> bool:
+    """Validates that the leaderboard group is one of ``"global"``,
+    ``"country"``, ``"company"``, ``"school"`` or ``"following"`` and that the
+    user is logged in except for ``"global"``.
+
+    Parameters
+    ----------
+        type : :class:`str`
+            The type to validate.
+        logged_in : :class:`bool`
+            Whether the user is logged in.
+
+    Returns
+    -------
+        :class:`str`
+            The valid group.
+
+    Raises
+    ------
+        ValueError
+            The group is invalid.
+    """
+
+    group = group.lower()
+    if group not in [
+        "global",
+        "country",
+        "company",
+        "school",
+        "following",
+    ]:
+        raise ValueError(
+            "group argument must be one of: global, country, company, "
+            f"school, following. Got: {group}"
+        )
+
+    if group in ["country", "company", "school", "following"] and not logged_in:
+        raise LoginRequired()

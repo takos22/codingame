@@ -1,14 +1,16 @@
-from typing import Iterator, Optional
+import typing
 
 from .abc import BaseUser
-from .endpoints import Endpoints
 from .exceptions import LoginRequired
+
+if typing.TYPE_CHECKING:
+    from .state import ConnectionState
+
+__all__ = ("CodinGamer",)
 
 
 class CodinGamer(BaseUser):
     """Represents a CodinGamer.
-
-    Do not create this class yourself. Only get it through :meth:`Client.get_codingamer()`.
 
     Attributes
     -----------
@@ -16,7 +18,8 @@ class CodinGamer(BaseUser):
             Public handle of the CodinGamer (hexadecimal str).
 
         id: :class:`int`
-            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle` reversed.
+            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
+            reversed.
 
         rank: :class:`int`
             Worldwide rank of the CodinGamer.
@@ -30,71 +33,77 @@ class CodinGamer(BaseUser):
         country_id: :class:`str`
             Country ID of the CodinGamer.
 
-        category: Optional[:class:`str`]
+        category: Optional :class:`str`
             Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
 
             .. note::
-                You can use :attr:`student` and :attr:`professional` to get a :class:`bool` that
-                describes the CodinGamer's category.
+                You can use :attr:`student` and :attr:`professional` to get a
+                :class:`bool` that describes the CodinGamer's category.
 
         student: :class:`bool`
-            If the CodinGamer is a student.
+            Whether the CodinGamer is a student.
 
         professional: :class:`bool`
-            If the CodinGamer is a professional.
+            Whether the CodinGamer is a professional.
 
-        pseudo: Optional[:class:`str`]
-            Pseudo of the CodinGamer, if set else `None`.
+        pseudo: Optional :class:`str`
+            Pseudo of the CodinGamer.
 
-        tagline: Optional[:class:`str`]
-            Tagline of the CodinGamer, if set else `None`.
+        tagline: Optional :class:`str`
+            Tagline of the CodinGamer.
 
-        biography: Optional[:class:`str`]
-            Biography of the CodinGamer, if set else `None`.
+        biography: Optional :class:`str`
+            Biography of the CodinGamer.
 
-        company: Optional[:class:`str`]
-            Company of the CodinGamer, if set else `None`.
+        company: Optional :class:`str`
+            Company of the CodinGamer.
 
-        school: Optional[:class:`str`]
-            School of the CodinGamer, if set else `None`.
+        school: Optional :class:`str`
+            School of the CodinGamer.
 
-        avatar: Optional[:class:`int`]
-            Avatar ID of the CodinGamer, if set else `None`.
+        avatar: Optional :class:`int`
+            Avatar ID of the CodinGamer.
             You can get the avatar url with :attr:`avatar_url`.
 
-        cover: Optional[:class:`int`]
-            Cover ID of the CodinGamer, if set else `None`.
+        cover: Optional :class:`int`
+            Cover ID of the CodinGamer.
             You can get the cover url with :attr:`cover_url`.
-
-        avatar_url: Optional[:class:`str`]
-            Avatar URL of the CodinGamer, if set else `None`.
-
-        cover_url: Optional[:class:`str`]
-            Cover URL of the CodinGamer, if set else `None`.
     """
 
     public_handle: str
     id: int
+    pseudo: typing.Optional[str]
     rank: int
     level: int
     xp: int
-    country_id: Optional[str]
-    category: Optional[str]
+    country_id: typing.Optional[str]
+    category: typing.Optional[str]
     student: bool
     professional: bool
-    pseudo: Optional[str]
-    tagline: Optional[str]
-    biography: Optional[str]
-    company: Optional[str]
-    school: Optional[str]
-    avatar: Optional[int]
-    cover: Optional[int]
-    avatar_url: Optional[str]
-    cover_url: Optional[str]
+    tagline: typing.Optional[str]
+    biography: typing.Optional[str]
+    company: typing.Optional[str]
+    school: typing.Optional[str]
+    avatar: typing.Optional[int]
+    cover: typing.Optional[int]
+    avatar_url: typing.Optional[str]
+    cover_url: typing.Optional[str]
 
-    def __init__(self, *, client, **data):
-        self._client = client
+    __slots__ = (
+        "rank",
+        "level",
+        "xp",
+        "country_id",
+        "category",
+        "student",
+        "professional",
+        "tagline",
+        "biography",
+        "company",
+        "school",
+    )
 
+    def __init__(self, state: "ConnectionState", data: dict):
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
         self.level = data["level"]
@@ -108,30 +117,43 @@ class CodinGamer(BaseUser):
         self.student = self.category == "STUDENT"
         self.professional = self.category == "PROFESSIONAL"
 
-        self.xp = data.get("xp", None)
-        self.rank = data.get("rank", None)
-        self.pseudo = data.get("pseudo", None) or None
-        self.tagline = data.get("tagline", None) or None
-        self.biography = data.get("biography", None) or None
+        self.xp = data.get("xp")
+        self.rank = data.get("rank")
+
+        # account for empty strings and replace them by None
+        self.pseudo = data.get("pseudo") or None
+        self.tagline = data.get("tagline") or None
+        self.biography = data.get("biography") or None
         self.company = (
-            data.get("company", None) or data.get("companyField", None) or None
+            data.get("company")
+            or data.get("companyField")
+            or data.get("formValues", {}).get("company")
+            or None
         )
         self.school = (
-            data.get("schoolField", None)
-            or data.get("formValues", {}).get("school", None)
+            data.get("school")
+            or data.get("schoolField")
+            or data.get("formValues", {}).get("school")
             or None
         )
 
-        self.avatar = data.get("avatar", None)
-        self.cover = data.get("cover", None)
+        self.avatar = data.get("avatar")
+        self.cover = data.get("cover")
 
-    @property
-    def followers(self) -> Iterator:
-        """Get all the followers of a CodinGamer.
+        super().__init__(state)
+
+    def get_followers(
+        self,
+    ) -> typing.Union[
+        typing.Iterator["CodinGamer"], typing.AsyncIterator["CodinGamer"]
+    ]:
+        """|maybe_coro|
+
+        Get all the followers of a CodinGamer.
 
         You need to be logged in as the CodinGamer to get its followers
         or else a :exc:`LoginRequired` will be raised. If you can't log in,
-        you can use :meth:`CodinGamer.followers_ids`.
+        you can use :meth:`CodinGamer.get_followers_ids` instead.
 
         .. note::
             This property is a generator.
@@ -148,39 +170,56 @@ class CodinGamer(BaseUser):
         """
 
         if (
-            not self._client.logged_in
-            or self.public_handle != self._client.codingamer.public_handle
+            not self._state.logged_in
+            or self.public_handle != self._state.codingamer.public_handle
         ):
             raise LoginRequired()
 
-        r = self._client._session.post(
-            Endpoints.CodinGamer_followers, json=[self.id, self.id, None]
-        )
-        for follower in r.json():
-            yield CodinGamer(client=self._client, **follower)
+        if self._state.is_async:
 
-    @property
-    def followers_ids(self) -> list:
-        """Get all the followers ids of a CodinGamer.
+            async def _get_followers():
+                followers = await self._state.http.get_codingamer_followers(
+                    self.id
+                )
+                for follower in followers:
+                    yield CodinGamer(self._state, follower)
+
+        else:
+
+            def _get_followers():
+                followers = self._state.http.get_codingamer_followers(self.id)
+                for follower in followers:
+                    yield CodinGamer(self._state, follower)
+
+        return _get_followers()
+
+    def get_followers_ids(
+        self,
+    ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
+        """|maybe_coro|
+
+        Get all the IDs of the followers of a CodinGamer.
 
         Returns
         -------
             :class:`list`
-                A list of all the followers ids. See :attr:`CodinGamer.id`.
+                The CodinGamer's followers IDs. See :attr:`CodinGamer.id`.
         """
 
-        r = self._client._session.post(
-            Endpoints.CodinGamer_followers_ids, json=[self.id]
-        )
-        return r.json()
+        return self._state.http.get_codingamer_follower_ids(self.id)
 
-    @property
-    def following(self) -> Iterator:
-        """Get all the followed CodinGamers.
+    def get_followed(
+        self,
+    ) -> typing.Union[
+        typing.Iterator["CodinGamer"], typing.AsyncIterator["CodinGamer"]
+    ]:
+        """|maybe_coro|
 
-        You need to be logged in as the CodinGamer to get its followed CodinGamers
-        or else a :exc:`LoginRequired` will be raised. If you can't log in,
-        you can use :meth:`CodinGamer.following_ids`.
+        Get all the followed CodinGamers.
+
+        You need to be logged in as the CodinGamer to get its followed
+        CodinGamers or else a :exc:`LoginRequired` will be raised. If you can't
+        log in, you can use :meth:`CodinGamer.get_followed_ids` instead.
 
         .. note::
             This property is a generator.
@@ -197,35 +236,50 @@ class CodinGamer(BaseUser):
         """
 
         if (
-            not self._client.logged_in
-            or self.public_handle != self._client.codingamer.public_handle
+            not self._state.logged_in
+            or self.public_handle != self._state.codingamer.public_handle
         ):
             raise LoginRequired()
 
-        r = self._client._session.post(
-            Endpoints.CodinGamer_following, json=[self.id, self.id]
-        )
-        for followed in r.json():
-            yield CodinGamer(client=self._client, **followed)
+        if self._state.is_async:
 
-    @property
-    def following_ids(self) -> list:
-        """Get all the followed ids of a CodinGamer.
+            async def _get_followed():
+                followeds = await self._state.http.get_codingamer_following(
+                    self.id
+                )
+                for followed in followeds:
+                    yield CodinGamer(self._state, followed)
+
+        else:
+
+            def _get_followed():
+                followeds = self._state.http.get_codingamer_following(self.id)
+                for followed in followeds:
+                    yield CodinGamer(self._state, followed)
+
+        return _get_followed()
+
+    def get_followed_ids(
+        self,
+    ) -> typing.Union[typing.List[int], typing.Awaitable[typing.List[int]]]:
+        """|maybe_coro|
+
+        Get all the IDs of the followed CodinGamers.
 
         Returns
         -------
             :class:`list`
-                A list of all the followed ids. See :attr:`CodinGamer.id`.
+                The IDs of the followed CodinGamers. See :attr:`CodinGamer.id`.
         """
 
-        r = self._client._session.post(
-            Endpoints.CodinGamer_following_ids, json=[self.id]
-        )
-        return r.json()
+        return self._state.http.get_codingamer_following_ids(self.id)
 
-    @property
-    def clash_of_code_rank(self) -> int:
-        """Get the Clash of Code rank of the CodinGamer.
+    def get_clash_of_code_rank(
+        self,
+    ) -> typing.Union[int, typing.Awaitable[int]]:
+        """|maybe_coro|
+
+        Get the Clash of Code rank of the CodinGamer.
 
         Returns
         -------
@@ -233,7 +287,20 @@ class CodinGamer(BaseUser):
                 The Clash of Code rank of the CodinGamer.
         """
 
-        r = self._client._session.post(
-            Endpoints.CodinGamer_coc_rank, json=[self.id]
-        )
-        return r.json()["rank"]
+        if self._state.is_async:
+
+            async def _get_clash_of_code_rank() -> int:
+                data = await self._state.http.get_codingamer_clash_of_code_rank(
+                    self.id
+                )
+                return data["rank"]
+
+        else:
+
+            def _get_clash_of_code_rank() -> int:
+                data = self._state.http.get_codingamer_clash_of_code_rank(
+                    self.id
+                )
+                return data["rank"]
+
+        return _get_clash_of_code_rank()
