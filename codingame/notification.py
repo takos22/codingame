@@ -59,6 +59,7 @@ class Notification(BaseObject):
         "priority",
         "urgent",
         "data",
+        "_raw",
     )
 
     def __init__(self, state, notification):

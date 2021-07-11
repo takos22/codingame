@@ -19,6 +19,8 @@ class BaseObject(abc.ABC):
 
     _state: "ConnectionState"
 
+    __slots__ = ("_state", "__initialised")
+
     def __init__(self, state: "ConnectionState"):
         self._state = state
         self.__initialised = True

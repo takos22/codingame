@@ -90,9 +90,6 @@ class CodinGamer(BaseUser):
     cover_url: typing.Optional[str]
 
     __slots__ = (
-        "public_handle",
-        "id",
-        "pseudo",
         "rank",
         "level",
         "xp",
@@ -104,8 +101,6 @@ class CodinGamer(BaseUser):
         "biography",
         "company",
         "school",
-        "avatar",
-        "cover",
     )
 
     def __init__(self, state: "ConnectionState", data: dict):

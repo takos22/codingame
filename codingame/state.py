@@ -14,12 +14,6 @@ class ConnectionState:
     logged_in: bool
     codingamer: typing.Optional["CodinGamer"]
 
-    __slots__ = (
-        "http",
-        "logged_in",
-        "codingamer",
-    )
-
     def __init__(self, http_client: "HTTPClient"):
         self.http = http_client
 

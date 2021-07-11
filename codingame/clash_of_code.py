@@ -248,11 +248,6 @@ class Player(BaseUser):
 
     __slots__ = (
         "clash_of_code",
-        "public_handle",
-        "id",
-        "pseudo",
-        "avatar",
-        "cover",
         "started",
         "finished",
         "status",

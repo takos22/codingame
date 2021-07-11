@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
 __all__ = (
     "GlobalRankedCodinGamer",
     "GlobalLeaderboard",
+    "League",
     "ChallengeRankedCodinGamer",
     "ChallengeLeaderboard",
     "PuzzleRankedCodinGamer",
@@ -58,6 +59,19 @@ class BaseRankedCodinGamer(BaseUser):
 
     leaderboard: BaseLeaderboard
     """The leaderboard in which this CodinGamer is ranked."""
+
+    __slots__ = (
+        "level",
+        "country_id",
+        "category",
+        "student",
+        "professional",
+        "school",
+        "company",
+        "rank",
+        "score",
+        "leaderboard",
+    )
 
     def __init__(
         self, state: "ConnectionState", leaderboard: BaseLeaderboard, data: dict
@@ -111,6 +125,11 @@ class BaseLeaderboard(BaseObject):
     users: typing.List[_USER_CLASS]
     """Leaderboard ranking."""
 
+    __slots__ = (
+        "count",
+        "users",
+    )
+
     def __init__(self, state: "ConnectionState", data: dict):
         self.count = data["count"]
         self.users = [
@@ -135,6 +154,16 @@ class GlobalRankedCodinGamer(BaseRankedCodinGamer):
     optim: int
 
     leaderboard: GlobalLeaderboard
+
+    __slots__ = (
+        "xp",
+        "achievements",
+        "clash",
+        "codegolf",
+        "contests",
+        "multi_training",
+        "optim",
+    )
 
     def __init__(
         self,
@@ -168,6 +197,12 @@ class GlobalLeaderboard(BaseLeaderboard):
     """Page of the leaderboard."""
     users: typing.List[GlobalRankedCodinGamer]
     """Global leaderboard ranking."""
+
+    __slots__ = (
+        "type",
+        "group",
+        "page",
+    )
 
     def __init__(
         self,
@@ -213,6 +248,13 @@ class League(BaseObject):
     users: list
     """Name of the league."""
 
+    __slots__ = (
+        "index",
+        "count",
+        "name",
+        "users",
+    )
+
     def __init__(self, state: "ConnectionState", data: dict):
         league_count: int = data["divisionCount"]
         names = self._NAMES[league_count - 1 :: -1]  # noqa: E203
@@ -256,6 +298,16 @@ class ChallengeRankedCodinGamer(BaseRankedCodinGamer):
     leaderboard: ChallengeLeaderboard
     """The leaderboard that this CodinGamer is part of."""
 
+    __slots__ = (
+        "percentage",
+        "progress",
+        "programming_language",
+        "test_session_handle",
+        "league_rank",
+        "global_rank",
+        "league",
+    )
+
     def __init__(
         self,
         state: "ConnectionState",
@@ -294,6 +346,14 @@ class ChallengeLeaderboard(BaseLeaderboard):
     """Number of CodinGamers who used a language in the challenge."""
     users: typing.List[ChallengeRankedCodinGamer]
     """Challenge leaderboard ranking."""
+
+    __slots__ = (
+        "name",
+        "has_leagues",
+        "leagues",
+        "group",
+        "programming_languages",
+    )
 
     def __init__(
         self, state: "ConnectionState", name: str, group: str, data: dict
@@ -338,6 +398,16 @@ class PuzzleRankedCodinGamer(BaseRankedCodinGamer):
     leaderboard: PuzzleLeaderboard
     """The leaderboard that this CodinGamer is part of."""
 
+    __slots__ = (
+        "percentage",
+        "progress",
+        "programming_language",
+        "test_session_handle",
+        "league_rank",
+        "global_rank",
+        "league",
+    )
+
     def __init__(
         self,
         state: "ConnectionState",
@@ -376,6 +446,14 @@ class PuzzleLeaderboard(BaseLeaderboard):
     """Number of CodinGamers who used a language in the puzzle."""
     users: typing.List[PuzzleRankedCodinGamer]
     """Puzzle leaderboard ranking."""
+
+    __slots__ = (
+        "name",
+        "has_leagues",
+        "leagues",
+        "group",
+        "programming_languages",
+    )
 
     def __init__(
         self, state: "ConnectionState", name: str, group: str, data: dict
