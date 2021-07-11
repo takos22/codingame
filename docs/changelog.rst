@@ -29,7 +29,8 @@ Rewrite.
   it compatible with async API calls. Here's a list of all of the changed ones:
 
     - :attr:`Client.language_ids` -> :meth:`Client.get_language_ids`
-    - :attr:`Client.unseen_notifications` -> :meth:`Client.get_unseen_notifications`
+    - :attr:`Client.unseen_notifications` ->
+      :meth:`Client.get_unseen_notifications`
     - :attr:`CodinGamer.followers` -> :meth:`CodinGamer.get_followers`
     - :attr:`CodinGamer.followers_ids` -> :meth:`CodinGamer.get_followers_ids`
     - :attr:`CodinGamer.following` -> :meth:`CodinGamer.get_followed`
