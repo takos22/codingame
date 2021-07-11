@@ -10,7 +10,12 @@ from ..leaderboard import (
     PuzzleLeaderboard,
 )
 from ..notification import Notification
-from ..utils import CLASH_OF_CODE_HANDLE_REGEX, CODINGAMER_HANDLE_REGEX
+from ..utils import (
+    CLASH_OF_CODE_HANDLE_REGEX,
+    CODINGAMER_HANDLE_REGEX,
+    validate_leaderboard_group,
+    validate_leaderboard_type,
+)
 from .base import BaseClient
 
 __all__ = ("SyncClient",)
@@ -85,7 +90,6 @@ class SyncClient(BaseClient):
         return ClashOfCode(self._state, data)
 
     def get_pending_clash_of_code(self) -> typing.Optional[ClashOfCode]:
-
         data: list = self._state.http.get_pending_clash_of_code()
         if len(data) == 0:
             return None  # pragma: no cover
@@ -95,7 +99,6 @@ class SyncClient(BaseClient):
         return self._state.http.get_language_ids()
 
     def get_unseen_notifications(self) -> typing.Iterator[Notification]:
-
         if not self.logged_in:
             raise LoginRequired()
 
@@ -106,37 +109,8 @@ class SyncClient(BaseClient):
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"
     ) -> GlobalLeaderboard:
-        type = type.upper()
-        if type not in [
-            "GENERAL",
-            "CONTESTS",
-            "BOT_PROGRAMMING",
-            "OPTIM",
-            "CODEGOLF",
-        ]:
-            raise ValueError(
-                "type argument must be one of: GENERAL, CONTESTS, "
-                f"BOT_PROGRAMMING, OPTIM, CODEGOLF. Got: {type}"
-            )
-
-        group = group.lower()
-        if group not in [
-            "global",
-            "country",
-            "company",
-            "school",
-            "following",
-        ]:
-            raise ValueError(
-                "group argument must be one of: global, country, company, "
-                f"school, following. Got: {group}"
-            )
-
-        if (
-            group in ["country", "company", "school", "following"]
-            and not self.logged_in
-        ):
-            raise LoginRequired()
+        type = validate_leaderboard_type(type)
+        group = validate_leaderboard_group(group, self.logged_in)
 
         data = self._state.http.get_global_leaderboard(
             page,
@@ -149,24 +123,7 @@ class SyncClient(BaseClient):
     def get_challenge_leaderboard(
         self, challenge_id: str, group: str = "global"
     ) -> ChallengeLeaderboard:
-        group = group.lower()
-        if group not in [
-            "global",
-            "country",
-            "company",
-            "school",
-            "following",
-        ]:
-            raise ValueError(
-                "group argument must be one of: global, country, company, "
-                f"school, following. Got: {group}"
-            )
-
-        if (
-            group in ["country", "company", "school", "following"]
-            and not self.logged_in
-        ):
-            raise LoginRequired()
+        group = validate_leaderboard_group(group, self.logged_in)
 
         try:
             data = self._state.http.get_challenge_leaderboard(
@@ -186,24 +143,7 @@ class SyncClient(BaseClient):
     def get_puzzle_leaderboard(
         self, puzzle_id: str, group: str = "global"
     ) -> PuzzleLeaderboard:
-        group = group.lower()
-        if group not in [
-            "global",
-            "country",
-            "company",
-            "school",
-            "following",
-        ]:
-            raise ValueError(
-                "group argument must be one of: global, country, company, "
-                f"school, following. Got: {group}"
-            )
-
-        if (
-            group in ["country", "company", "school", "following"]
-            and not self.logged_in
-        ):
-            raise LoginRequired()
+        group = validate_leaderboard_group(group, self.logged_in)
 
         try:
             data = self._state.http.get_puzzle_leaderboard(
