@@ -18,6 +18,7 @@ async def test_codingamer_avatar_and_cover_urls(client: AsyncClient):
     codingamer = await client.get_codingamer("Takos")
     assert isinstance(codingamer.avatar_url, str)
     assert isinstance(codingamer.cover_url, str)
+    assert isinstance(codingamer.profile_url, str)
 
 
 @pytest.mark.asyncio

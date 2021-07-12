@@ -17,6 +17,7 @@ def test_codingamer_avatar_and_cover_urls(client: Client):
     codingamer = client.get_codingamer("Takos")
     assert isinstance(codingamer.avatar_url, str)
     assert isinstance(codingamer.cover_url, str)
+    assert isinstance(codingamer.profile_url, str)
 
 
 def test_codingamer_eq(client: Client, codingamer: CodinGamer):
