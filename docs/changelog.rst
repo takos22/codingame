@@ -3,6 +3,11 @@
 Changelog
 =========
 
+v1.0.1
+------
+
+- Add :attr:`CodinGamer.profile_url`.
+
 v1.0.0
 ------
 

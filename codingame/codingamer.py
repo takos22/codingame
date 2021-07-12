@@ -142,6 +142,11 @@ class CodinGamer(BaseUser):
 
         super().__init__(state)
 
+    @property
+    def profile_url(self) -> str:
+        """:class:`str`: The URL of the CodinGamer profile."""
+        return f"https://www.codingame.com/profile/{self.public_handle}"
+
     def get_followers(
         self,
     ) -> typing.Union[
