@@ -21,7 +21,7 @@ Additional info: none
 Endpoint: `Challenge/findWorldCupByPublicId`  
 JSON: `[challenge public id, user id/null]`  
 Additional info: none  
-[Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L367)
+Source: network tab while searching on codingame
 
 ### Get info about all challenges
 
@@ -99,3 +99,10 @@ Endpoint: `Puzzle/findProgressByPrettyId`
 JSON: `[puzzle pretty id, user id]`  
 Additional info: Login needed  
 [Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L1003)
+
+### Register
+
+Endpoint: `CodinGamer/registerSite`  
+JSON: `[{"email": email, "password": password, "recaptchaResponse": recaptcha}, "CODINGAME", whether to subscribe to the newsletter]`  
+Additional info: need recaptcha  
+Source: network tab while searching on codingame
