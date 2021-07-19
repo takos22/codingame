@@ -8,4 +8,4 @@ pytest-asyncio
 requests
 twine
 python-dotenv
-git+https://github.com/PyCQA/doc8
+doc8
