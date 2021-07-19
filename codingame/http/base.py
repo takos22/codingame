@@ -1,6 +1,14 @@
+import typing
 from abc import ABC, abstractmethod
 
 from ..endpoints import Endpoints
+from ..types import (
+    ClashOfCode,
+    CodinGamerFromHandle,
+    CodinGamerFromID,
+    Follower,
+    Following,
+)
 
 __all__ = ("BaseHTTPClient",)
 
@@ -14,7 +22,7 @@ class BaseHTTPClient(ABC):
     }
 
     @property
-    def is_async(self):
+    def is_async(self) -> bool:
         return False
 
     @abstractmethod
@@ -31,34 +39,34 @@ class BaseHTTPClient(ABC):
     def search(self, query: str):
         return self.request(Endpoints.search, [query, "en", None])
 
-    def get_codingamer_from_handle(self, handle: str):
+    def get_codingamer_from_handle(self, handle: str) -> CodinGamerFromHandle:
         return self.request(Endpoints.codingamer_from_handle, [handle])
 
-    def get_codingamer_from_id(self, id: int):
+    def get_codingamer_from_id(self, id: int) -> CodinGamerFromID:
         return self.request(Endpoints.codingamer_from_id, [id])
 
-    def get_codingamer_followers(self, id: int):
+    def get_codingamer_followers(self, id: int) -> typing.List[Follower]:
         return self.request(Endpoints.codingamer_followers, [id, id, None])
 
-    def get_codingamer_follower_ids(self, id: int):
+    def get_codingamer_follower_ids(self, id: int) -> typing.List[int]:
         return self.request(Endpoints.codingamer_followers_ids, [id])
 
-    def get_codingamer_following(self, id: int):
+    def get_codingamer_following(self, id: int) -> typing.List[Following]:
         return self.request(Endpoints.codingamer_following, [id, id])
 
-    def get_codingamer_following_ids(self, id: int):
+    def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
         return self.request(Endpoints.codingamer_following_ids, [id])
 
-    def get_codingamer_clash_of_code_rank(self, id: int):
+    def get_codingamer_clash_of_code_rank(self, id: int) -> int:
         return self.request(Endpoints.codingamer_clash_of_code_rank, [id])
 
-    def get_clash_of_code_from_handle(self, handle: str):
+    def get_clash_of_code_from_handle(self, handle: str) -> ClashOfCode:
         return self.request(Endpoints.clash_of_code, [handle])
 
-    def get_pending_clash_of_code(self):
+    def get_pending_clash_of_code(self) -> ClashOfCode:
         return self.request(Endpoints.clash_of_code_pending)
 
-    def get_language_ids(self):
+    def get_language_ids(self) -> typing.List[str]:
         return self.request(Endpoints.language_ids)
 
     def get_unseen_notifications(self, id: int):
