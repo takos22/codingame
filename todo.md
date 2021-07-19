@@ -104,5 +104,19 @@ Additional info: Login needed
 
 Endpoint: `CodinGamer/registerSite`  
 JSON: `[{"email": email, "password": password, "recaptchaResponse": recaptcha}, "CODINGAME", whether to subscribe to the newsletter]`  
-Additional info: need recaptcha  
+Additional info: Recaptcha needed  
+Source: network tab while searching on codingame
+
+### Follow a codingamer
+
+Endpoint: `CodinGamer/setFollowing`  
+JSON: `[self id, codingamer to follow id, true]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Play clash of code
+
+Endpoint: `CodinGamer/registerSite`  
+JSON: `[user id, {"SHORT":true}, recaptcha]`  
+Additional info: Recaptcha and login needed  
 Source: network tab while searching on codingame
