@@ -120,3 +120,38 @@ Endpoint: `CodinGamer/registerSite`
 JSON: `[user id, {"SHORT":true}, recaptcha]`  
 Additional info: Recaptcha and login needed  
 Source: network tab while searching on codingame
+
+### Find unread notifications
+
+Endpoint: `Notification/findUnreadNotifications`  
+JSON: `[user id]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Mark notifications as seen
+
+Endpoint: `Notification/markAsSeen`  
+JSON: `[user id, [notification ids...]]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Mark notifications as read
+
+Endpoint: `Notification/markAsRead`  
+JSON: `[user id, [notification ids...]]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Find last read notifications
+
+Endpoint: `Notification/findLastReadNotifications`  
+JSON: `[user id, null]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Create private clash of code
+
+Endpoint: `ClashOfCode/createPrivateClash`  
+JSON: `[user id, {SHORT: true}, programming languages, modes]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
