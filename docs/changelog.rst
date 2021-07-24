@@ -58,14 +58,14 @@ Changed
   :meth:`CodinGamer.get_followers` to better differentiate API calls and to make
   it compatible with async API calls. Here's a list of all of the changed ones:
 
-    - :attr:`Client.language_ids` -> :meth:`Client.get_language_ids`
-    - :attr:`Client.unseen_notifications` ->
-      :meth:`Client.get_unseen_notifications`
-    - :attr:`CodinGamer.followers` -> :meth:`CodinGamer.get_followers`
-    - :attr:`CodinGamer.followers_ids` -> :meth:`CodinGamer.get_followers_ids`
-    - :attr:`CodinGamer.following` -> :meth:`CodinGamer.get_followed`
-    - :attr:`CodinGamer.following_ids` -> :meth:`CodinGamer.get_followed_ids`
-    - :attr:`CodinGamer.clash_of_code_rank` ->
+    - ``Client.language_ids`` -> :meth:`Client.get_language_ids`
+    - ``Client.unseen_notifications`` ->
+      ``Client.get_unseen_notifications``
+    - ``CodinGamer.followers`` -> :meth:`CodinGamer.get_followers`
+    - ``CodinGamer.followers_ids`` -> :meth:`CodinGamer.get_followers_ids`
+    - ``CodinGamer.following`` -> :meth:`CodinGamer.get_followed`
+    - ``CodinGamer.following_ids`` -> :meth:`CodinGamer.get_followed_ids`
+    - ``CodinGamer.clash_of_code_rank`` ->
       :meth:`CodinGamer.get_clash_of_code_rank`
 
 - Make all attributes of CodinGame models read-only.
@@ -112,7 +112,7 @@ Added
 
 - Get a user with their user ID in :meth:`Client.get_codingamer`.
 
-- :attr:`CodinGamer.followers_ids` and :attr:`CodinGamer.following_ids` to
+- ``CodinGamer.followers_ids`` and ``CodinGamer.following_ids`` properties to
   get information about followed users and followers without logging in.
 
 - :attr:`CodinGamer.clash_of_code_rank`.
@@ -147,7 +147,7 @@ Added
 Changed
 *******
 
-- Renamed :attr:`Notification.date` to :attr:`Notification.creation_time`.
+- Renamed ``Notification.date`` to :attr:`Notification.creation_time`.
 
 Version 0.3.1 (2020-09-20)
 --------------------------
@@ -155,7 +155,7 @@ Version 0.3.1 (2020-09-20)
 Added
 *****
 
-- :attr:`Client.notifications` property.
+- ``Client.notifications`` property.
 
 - :class:`Notification` class.
 
@@ -171,9 +171,9 @@ Added
 
 - :attr:`Client.logged_in` and :attr:`Client.codingamer`.
 
-- :attr:`Client.language_ids` property.
+- ``Client.language_ids`` property.
 
-- :attr:`CodinGamer.followers` and :attr:`CodinGamer.following` properties.
+- ``CodinGamer.followers`` and ``CodinGamer.following`` properties.
 
 Version 0.2.1 (2020-09-16)
 --------------------------
