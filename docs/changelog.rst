@@ -181,7 +181,7 @@ Added
 Changed
 *******
 
-- Renamed ``Notification.date`` to :attr:`Notification.creation_time`.
+- Renamed :attr:`Notification.date` to :attr:`Notification.creation_time`.
 
 Version 0.3.1 (2020-09-20)
 --------------------------
