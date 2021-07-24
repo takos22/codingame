@@ -1,5 +1,6 @@
 # requirements for building the docs
-sphinx>=3.1<4
+sphinx>=3.1,<4
 furo
 sphinx-inline-tabs
 sphinx-copybutton
+typing_extensions
