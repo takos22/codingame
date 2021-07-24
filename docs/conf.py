@@ -52,7 +52,7 @@ needs_sphinx = "3.0"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosectionlabel",
+    # "sphinx.ext.autosectionlabel",
     "sphinx.ext.coverage",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
