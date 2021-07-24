@@ -3,20 +3,32 @@
 Changelog
 =========
 
-v1.0.1
-------
+All notable changes to this project will be documented in this file.
 
-- Add :attr:`CodinGamer.profile_url`.
+The format is based on
+`Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
+adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-v1.0.0
-------
+Unreleased
+----------
 
-Rewrite.
+Version 1.0.1 (2021-07-12)
+--------------------------
 
-- Add support for asynchronous client with ``Client(is_async=True)``, see
-  :ref:`async`.
+Added
+*****
 
-- Add support for context managers:
+- :attr:`CodinGamer.profile_url`.
+
+Version 1.0.0 (2021-07-12)
+--------------------------
+
+Added
+*****
+
+- Asynchronous client with ``Client(is_async=True)``, see :ref:`async`.
+
+- Context managers:
 
     .. code-block:: python
 
@@ -28,6 +40,19 @@ Rewrite.
         async with Client(is_async=True) as client:
             await client.get_global_leaderboard()
 
+- More exceptions: :exc:`LoginError` regroups all the exceptions related
+  to login: :exc:`LoginRequired`, :exc:`EmailRequired`, :exc:`MalformedEmail`,
+  :exc:`PasswordRequired`, :exc:`EmailNotLinked` and :exc:`IncorrectPassword`.
+  And :exc:`NotFound` regroups :exc:`CodinGamerNotFound`,
+  :exc:`ClashOfCodeNotFound`, :exc:`ChallengeNotFound` and :exc:`PuzzleNotFound`
+
+- :attr:`ChallengeLeaderboard.has_leagues` and
+  :attr:`PuzzleLeaderboard.has_leagues`.
+
+- :attr:`Notification._raw`.
+
+Changed
+*******
 
 - Remove properties like ``CodinGamer.followers`` in favor of methods like
   :meth:`CodinGamer.get_followers` to better differentiate API calls and to make
@@ -43,120 +68,148 @@ Rewrite.
     - :attr:`CodinGamer.clash_of_code_rank` ->
       :meth:`CodinGamer.get_clash_of_code_rank`
 
-- Add more exceptions: :exc:`LoginError` regroups all the exceptions related
-  to login: :exc:`LoginRequired`, :exc:`EmailRequired`, :exc:`MalformedEmail`,
-  :exc:`PasswordRequired`, :exc:`EmailNotLinked` and :exc:`IncorrectPassword`.
-  And :exc:`NotFound` regroups :exc:`CodinGamerNotFound`,
-  :exc:`ClashOfCodeNotFound`, :exc:`ChallengeNotFound` and :exc:`PuzzleNotFound`
-
 - Make all attributes of CodinGame models read-only.
 
-- Add :attr:`ChallengeLeaderboard.has_leagues` and
-  :attr:`PuzzleLeaderboard.has_leagues`.
-
-- Add :attr:`Notification._raw`.
-
-- Change :attr:`ClashOfCode.time_before_start` and
+- Change type of :attr:`ClashOfCode.time_before_start` and
   :attr:`ClashOfCode.time_before_end` from :class:`float` to
   :class:`datetime.timedelta`.
-
-- Remove argument type validation, not my fault if you can't read the docs.
 
 - Rewrite the way the client works to implement a class to manage the connection
   state and separate the :class:`Client` that the user uses from the HTTP client
   that interacts with the API.
 
-v0.4.0
-------
+Removed
+*******
 
-Leaderboards support.
+- Remove argument type validation, not my fault if you can't read the docs.
 
-- Add :meth:`Client.get_global_leaderboard` with :class:`GlobalLeaderboard` and
+Version 0.4.0 (2021-06-19)
+--------------------------
+
+Added
+*****
+
+- :meth:`Client.get_global_leaderboard` with :class:`GlobalLeaderboard` and
   :class:`GlobalRankedCodinGamer`.
 
-- Add :meth:`Client.get_challenge_leaderboard` with
+- :meth:`Client.get_challenge_leaderboard` with
   :class:`ChallengeLeaderboard`, :class:`ChallengeRankedCodinGamer` and
   :class:`League`.
 
-- Add :meth:`Client.get_puzzle_leaderboard` with :class:`PuzzleLeaderboard`,
+- :meth:`Client.get_puzzle_leaderboard` with :class:`PuzzleLeaderboard`,
   :class:`PuzzleRankedCodinGamer` and :class:`League`.
+
+Changed
+*******
 
 - Update docs style, code style and tests.
 
-v0.3.5
-------
+Version 0.3.5 (2020-12-10)
+--------------------------
 
-- Add support for user IDs in :meth:`Client.get_codingamer`.
+Added
+*****
 
-- Add :attr:`CodinGamer.followers_ids` and :attr:`CodinGamer.following_ids` to
+- Get a user with their user ID in :meth:`Client.get_codingamer`.
+
+- :attr:`CodinGamer.followers_ids` and :attr:`CodinGamer.following_ids` to
   get information about followed users and followers without logging in.
 
-- Add :attr:`CodinGamer.clash_of_code_rank`.
+- :attr:`CodinGamer.clash_of_code_rank`.
 
-v0.3.4
-------
+Version 0.3.4 (2020-12-01)
+--------------------------
 
-- Add support for python 3.9.
+Added
+*****
 
-v0.3.3
-------
+- Support for python 3.9.
 
-- Add support for usernames in :meth:`Client.get_codingamer`.
+Version 0.3.3 (2020-11-06)
+--------------------------
 
-- Add :attr:`CodinGamer.xp`.
+Added
+*****
 
-v0.3.2
-------
+- Searching for a CodinGamer with their pseudo in :meth:`Client.get_codingamer`.
 
-Pending Clash of Code support.
+- :attr:`CodinGamer.xp`, thanks `@LiJu09 <https://github.com/LiJu09>`__
+  (`#3 <https://github.com/takos22/codingame/pull/3>`__).
 
-- Add :meth:`Client.get_pending_clash_of_code`.
+Version 0.3.2 (2020-09-23)
+--------------------------
 
-- Change :attr:`Notification.date` to :attr:`Notification.creation_time`.
+Added
+*****
 
-v0.3.1
-------
+- :meth:`Client.get_pending_clash_of_code`.
 
-Notification support.
+Changed
+*******
 
-- Add :attr:`Client.notifications` property and :class:`Notification` class.
+- Renamed :attr:`Notification.date` to :attr:`Notification.creation_time`.
 
-- Add :exc:`LoginRequired` exception.
+Version 0.3.1 (2020-09-20)
+--------------------------
 
-v0.3.0
-------
+Added
+*****
 
-Login support.
+- :attr:`Client.notifications` property.
 
-- Add :meth:`Client.login`.
+- :class:`Notification` class.
 
-- Add :attr:`Client.logged_in` and :attr:`Client.codingamer`.
+- :exc:`LoginRequired` exception.
 
-- Add :attr:`Client.language_ids` property.
+Version 0.3.0 (2020-09-20)
+--------------------------
 
-- Add :attr:`CodinGamer.followers` and :attr:`CodinGamer.following` properties.
+Added
+*****
 
-v0.2.1
-------
+- :meth:`Client.login`.
 
-- Add argument type validation.
+- :attr:`Client.logged_in` and :attr:`Client.codingamer`.
 
-v0.2.0
-------
+- :attr:`Client.language_ids` property.
 
-Clash of Code support.
+- :attr:`CodinGamer.followers` and :attr:`CodinGamer.following` properties.
 
-- Add :meth:`Client.get_clash_of_code`, :class:`ClashOfCode`, :class:`Player`
-  and :exc:`ClashOfCodeNotFound`.
+Version 0.2.1 (2020-09-16)
+--------------------------
 
-- Change ``Client.codingamer()`` to :meth:`Client.get_codingamer`.
+Added
+*****
 
-v0.1.0
-------
+- Argument type validation.
 
-First release.
+Version 0.2.0 (2020-09-13)
+--------------------------
 
-- Add :class:`Client`.
+Added
+*****
 
-- Add ``Client.codingamer()``, :class:`CodinGamer` and
-  :exc:`CodinGamerNotFound`.
+- :meth:`Client.get_clash_of_code`.
+
+- :class:`ClashOfCode` and :class:`Player` classes.
+
+- :exc:`ClashOfCodeNotFound` exception.
+
+Changed
+*******
+
+- Renamed ``Client.codingamer()`` to :meth:`Client.get_codingamer`.
+
+Version 0.1.0 (2020-09-12)
+--------------------------
+
+Added
+*****
+
+- :class:`Client` class.
+
+- ``Client.codingamer()`` method to get a codingamer.
+
+- :class:`CodinGamer` class.
+
+- :exc:`CodinGamerNotFound` exception.
