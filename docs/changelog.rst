@@ -18,7 +18,7 @@ Version 1.0.1 (2021-07-12)
 Added
 *****
 
-- :attr:`CodinGamer.profile_url`.
+- :meth:`CodinGamer.profile_url`.
 
 Version 1.0.0 (2021-07-12)
 --------------------------
@@ -115,7 +115,7 @@ Added
 - ``CodinGamer.followers_ids`` and ``CodinGamer.following_ids`` properties to
   get information about followed users and followers without logging in.
 
-- :attr:`CodinGamer.clash_of_code_rank`.
+- ``CodinGamer.clash_of_code_rank``.
 
 Version 0.3.4 (2020-12-01)
 --------------------------
@@ -169,7 +169,7 @@ Added
 
 - :meth:`Client.login`.
 
-- :attr:`Client.logged_in` and :attr:`Client.codingamer`.
+- :meth:`Client.logged_in` and :meth:`Client.codingamer`.
 
 - ``Client.language_ids`` property.
 
