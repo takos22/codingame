@@ -61,7 +61,7 @@ def main():
 
             obj = inventory.objects[index]
             links.append(
-                f"` ``{obj.dispname_expanded[len('codingame.'):]}`` "
+                f"`{obj.dispname_expanded[len('codingame.'):]} "
                 f"<{docs_url + obj.uri_expanded}>`__"
             )
 
