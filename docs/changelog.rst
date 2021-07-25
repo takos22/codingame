@@ -60,7 +60,7 @@ Changed
 
     - ``Client.language_ids`` -> :meth:`Client.get_language_ids`
     - ``Client.unseen_notifications`` ->
-      ``Client.get_unseen_notifications``
+      :meth:`Client.get_unseen_notifications`
     - ``CodinGamer.followers`` -> :meth:`CodinGamer.get_followers`
     - ``CodinGamer.followers_ids`` -> :meth:`CodinGamer.get_followers_ids`
     - ``CodinGamer.following`` -> :meth:`CodinGamer.get_followed`
