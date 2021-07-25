@@ -1,0 +1,10 @@
+name: "Generate CHANGELOG.rst"
+description: "Generate the CHANGELOG.tst file from docs/changelog.rst"
+author: "Takos22 <takos2210@gmail.com>"
+inputs:
+  token:
+    description: "Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"

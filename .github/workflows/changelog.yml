@@ -1,0 +1,12 @@
+name: Generate CHANGELOG.rst from docs/changelog.rst
+
+on: [push]
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/changelog
+        with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
