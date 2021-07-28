@@ -10,12 +10,16 @@ from .codingamer import (
     CodinGamerFromID,
     Follower,
     Following,
+    PartialCodinGamer,
+    PointsStatsFromHandle,
 )
 
 __all__ = (
     # codingamer
+    PartialCodinGamer,
     CodinGamerFromID,
     CodinGamerFromHandle,
+    PointsStatsFromHandle,
     Follower,
     Following,
     # clash of code
