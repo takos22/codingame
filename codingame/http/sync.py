@@ -13,7 +13,8 @@ class SyncHTTPClient(BaseHTTPClient):
     def close(self):
         self.__session.close()
 
-    def request(self, url: str, json: list = []):
+    def request(self, service: str, func: str, json: list = []):
+        url = self.BASE + service + "/" + func
         with self.__session.post(
             url, json=json, headers=self.headers
         ) as response:

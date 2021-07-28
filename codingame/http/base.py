@@ -1,7 +1,6 @@
 import typing
 from abc import ABC, abstractmethod
 
-from ..endpoints import Endpoints
 from ..types import (
     ClashOfCode,
     CodinGamerFromHandle,
@@ -14,6 +13,7 @@ __all__ = ("BaseHTTPClient",)
 
 
 class BaseHTTPClient(ABC):
+    BASE = "https://www.codingame.com/services/"
     headers: dict = {
         "User-Agent": (
             "CodinGame API wrapper in Python "
@@ -30,47 +30,59 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def request(self, url: str, json: list = []):
+    def request(self, service: str, func: str, json: list = []):
         ...  # pragma: no cover
 
+    def get_file_url(self, id: int, format: str = None) -> str:
+        url = f"https://static.codingame.com/servlet/fileservlet?id={id}"
+        if format:
+            url += f"&format={format}"
+        return url
+
     def login(self, email: str, password: str):
-        return self.request(Endpoints.login, [email, password, True])
+        return self.request(
+            "CodinGamer", "loginSiteV2", [email, password, True]
+        )
 
     def search(self, query: str):
-        return self.request(Endpoints.search, [query, "en", None])
+        return self.request("Search", "search", [query, "en", None])
 
     def get_codingamer_from_handle(self, handle: str) -> CodinGamerFromHandle:
-        return self.request(Endpoints.codingamer_from_handle, [handle])
+        return self.request(
+            "CodinGamer", "findCodingamePointsStatsByHandle", [handle]
+        )
 
     def get_codingamer_from_id(self, id: int) -> CodinGamerFromID:
-        return self.request(Endpoints.codingamer_from_id, [id])
+        return self.request(
+            "CodinGamer", "findCodinGamerPublicInformations", [id]
+        )
 
     def get_codingamer_followers(self, id: int) -> typing.List[Follower]:
-        return self.request(Endpoints.codingamer_followers, [id, id, None])
+        return self.request("CodinGamer", "findFollowers", [id, id, None])
 
     def get_codingamer_follower_ids(self, id: int) -> typing.List[int]:
-        return self.request(Endpoints.codingamer_followers_ids, [id])
+        return self.request("CodinGamer", "findFollowerIds", [id])
 
     def get_codingamer_following(self, id: int) -> typing.List[Following]:
-        return self.request(Endpoints.codingamer_following, [id, id])
+        return self.request("CodinGamer", "findFollowing", [id, id])
 
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
-        return self.request(Endpoints.codingamer_following_ids, [id])
+        return self.request("CodinGamer", "findFollowingIds", [id])
 
     def get_codingamer_clash_of_code_rank(self, id: int) -> int:
-        return self.request(Endpoints.codingamer_clash_of_code_rank, [id])
+        return self.request("ClashOfCode", "getClashRankByCodinGamerId", [id])
 
     def get_clash_of_code_from_handle(self, handle: str) -> ClashOfCode:
-        return self.request(Endpoints.clash_of_code, [handle])
+        return self.request("ClashOfCode", "findClashByHandle", [handle])
 
     def get_pending_clash_of_code(self) -> ClashOfCode:
-        return self.request(Endpoints.clash_of_code_pending)
+        return self.request("ClashOfCode", "findPendingClashes")
 
     def get_language_ids(self) -> typing.List[str]:
-        return self.request(Endpoints.language_ids)
+        return self.request("ProgrammingLanguage", "findAllIds")
 
     def get_unseen_notifications(self, id: int):
-        return self.request(Endpoints.unseen_notifications, [id])
+        return self.request("Notification", "findUnseenNotifications", [id])
 
     def get_global_leaderboard(
         self,
@@ -86,7 +98,8 @@ class BaseHTTPClient(ABC):
         },
     ):
         return self.request(
-            Endpoints.global_leaderboard,
+            "Leaderboards",
+            "getGlobalLeaderboard",
             [page, type, filter, handle, True, group],
         )
 
@@ -103,7 +116,8 @@ class BaseHTTPClient(ABC):
         },
     ):
         return self.request(
-            Endpoints.challenge_leaderboard,
+            "Leaderboards",
+            "getFilteredChallengeLeaderboard",
             [challenge_id, handle, group, filter],
         )
 
@@ -120,6 +134,7 @@ class BaseHTTPClient(ABC):
         },
     ):
         return self.request(
-            Endpoints.puzzle_leaderboard,
+            "Leaderboards",
+            "getFilteredPuzzleLeaderboard",
             [puzzle_id, handle, group, filter],
         )
