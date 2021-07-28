@@ -100,9 +100,11 @@ NotificationType = Literal[
 
 LanguageMapping = Dict[str, str]  # "language": "text"
 
+
 class GenericData(TypedDict):
     description: LanguageMapping
     url: str
+
 
 class CustomData(TypedDict):
     title: LanguageMapping
@@ -120,6 +122,7 @@ class _NotificationData(TypedDict):
     puzzleLevel: Optional[str]
     puzzlePrettyId: Optional[str]
     puzzleName: Optional[dict]
+
 
 NotificationData = Union[GenericData, CustomData, _NotificationData]
 
