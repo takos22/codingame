@@ -3,6 +3,9 @@ from datetime import datetime
 
 from .abc import BaseObject
 
+if typing.TYPE_CHECKING:
+    from .state import ConnectionState
+
 __all__ = ("Notification",)
 
 
@@ -62,7 +65,7 @@ class Notification(BaseObject):
         "_raw",
     )
 
-    def __init__(self, state, notification):
+    def __init__(self, state: "ConnectionState", notification):
         self._state = state
         self._raw = notification  # for attributes that arent wrapped
 
