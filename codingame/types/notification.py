@@ -4,7 +4,7 @@ codingame.types.notification
 Typings for the `Notifications/` endpoints of the CodinGame API.
 """
 
-from typing import Optional
+from typing import Dict, Optional, Union
 
 try:
     from typing import Literal, TypedDict
@@ -98,8 +98,21 @@ NotificationType = Literal[
     "recruiter-contact",
 ]
 
+LanguageMapping = Dict[str, str]  # "language": "text"
 
-class NotificationData(TypedDict):
+class GenericData(TypedDict):
+    description: LanguageMapping
+    url: str
+
+class CustomData(TypedDict):
+    title: LanguageMapping
+    descrition: LanguageMapping
+    image: str  # url of the image
+    url: str
+
+
+# TODO remove this and separate for every type
+class _NotificationData(TypedDict):
     puzzleOfTheWeekImageId: Optional[int]
     contributorNickname: Optional[str]
     contributorAvatarId: Optional[int]
@@ -107,7 +120,8 @@ class NotificationData(TypedDict):
     puzzleLevel: Optional[str]
     puzzlePrettyId: Optional[str]
     puzzleName: Optional[dict]
-    # TODO find more
+
+NotificationData = Union[GenericData, CustomData, _NotificationData]
 
 
 class Notification(TypedDict):
