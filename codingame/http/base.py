@@ -6,6 +6,7 @@ from ..types import (
     CodinGamerFromID,
     Follower,
     Following,
+    Notification,
     PointsStatsFromHandle,
 )
 
@@ -91,7 +92,7 @@ class BaseHTTPClient(ABC):
 
     # Notification
 
-    def get_unseen_notifications(self, id: int):
+    def get_unseen_notifications(self, id: int) -> typing.List[Notification]:
         return self.request("Notification", "findUnseenNotifications", [id])
 
     # Leaderboards

@@ -13,6 +13,12 @@ from .codingamer import (
     PartialCodinGamer,
     PointsStatsFromHandle,
 )
+from .notification import (
+    Notification,
+    NotificationData,
+    NotificationType,
+    NotificationTypeGroup,
+)
 
 __all__ = (
     # codingamer
@@ -25,4 +31,9 @@ __all__ = (
     # clash of code
     ClashOfCode,
     Player,
+    # notification
+    Notification,
+    NotificationData,
+    NotificationType,
+    NotificationTypeGroup,
 )
