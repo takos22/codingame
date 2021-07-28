@@ -116,7 +116,7 @@ Source: network tab while searching on codingame
 
 ### Play clash of code
 
-Endpoint: `CodinGamer/registerSite`  
+Endpoint: `ClashOfCode/playClash`  
 JSON: `[user id, {"SHORT":true}, recaptcha]`  
 Additional info: Recaptcha and login needed  
 Source: network tab while searching on codingame
