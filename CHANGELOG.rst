@@ -10,6 +10,11 @@ adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 Unreleased
 ----------
 
+Removed
+*******
+
+- ``codingame.endpoints``
+
 Version 1.0.1 (2021-07-12)
 --------------------------
 
