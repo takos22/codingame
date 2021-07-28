@@ -3,10 +3,10 @@ from abc import ABC, abstractmethod
 
 from ..types import (
     ClashOfCode,
-    CodinGamerFromHandle,
     CodinGamerFromID,
     Follower,
     Following,
+    PointsStatsFromHandle,
 )
 
 __all__ = ("BaseHTTPClient",)
@@ -39,15 +39,24 @@ class BaseHTTPClient(ABC):
             url += f"&format={format}"
         return url
 
+    # Search
+
+    def search(self, query: str):
+        return self.request("Search", "search", [query, "en", None])
+
+    # ProgrammingLanguage
+
+    def get_language_ids(self) -> typing.List[str]:
+        return self.request("ProgrammingLanguage", "findAllIds")
+
+    # CodinGamer
+
     def login(self, email: str, password: str):
         return self.request(
             "CodinGamer", "loginSiteV2", [email, password, True]
         )
 
-    def search(self, query: str):
-        return self.request("Search", "search", [query, "en", None])
-
-    def get_codingamer_from_handle(self, handle: str) -> CodinGamerFromHandle:
+    def get_codingamer_from_handle(self, handle: str) -> PointsStatsFromHandle:
         return self.request(
             "CodinGamer", "findCodingamePointsStatsByHandle", [handle]
         )
@@ -69,6 +78,8 @@ class BaseHTTPClient(ABC):
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowingIds", [id])
 
+    # ClashOfCode/
+
     def get_codingamer_clash_of_code_rank(self, id: int) -> int:
         return self.request("ClashOfCode", "getClashRankByCodinGamerId", [id])
 
@@ -78,11 +89,12 @@ class BaseHTTPClient(ABC):
     def get_pending_clash_of_code(self) -> ClashOfCode:
         return self.request("ClashOfCode", "findPendingClashes")
 
-    def get_language_ids(self) -> typing.List[str]:
-        return self.request("ProgrammingLanguage", "findAllIds")
+    # Notification
 
     def get_unseen_notifications(self, id: int):
         return self.request("Notification", "findUnseenNotifications", [id])
+
+    # Leaderboards
 
     def get_global_leaderboard(
         self,
