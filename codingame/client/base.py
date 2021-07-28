@@ -1,7 +1,6 @@
 import typing
 from abc import ABC, abstractmethod
 
-from ..http import HTTPClient
 from ..state import ConnectionState
 
 if typing.TYPE_CHECKING:
@@ -41,8 +40,7 @@ class BaseClient(ABC):
             )
 
     def __init__(self, is_async: bool = False):
-        http_client = HTTPClient(is_async=is_async)
-        self._state = ConnectionState(http_client)
+        self._state = ConnectionState(is_async)
 
     def __enter__(self):
         if self.is_async:

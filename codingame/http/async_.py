@@ -1,13 +1,19 @@
+import typing
+
 import aiohttp
 
 from .base import BaseHTTPClient
 from .httperror import HTTPError
 
+if typing.TYPE_CHECKING:
+    from ..state import ConnectionState
+
 __all__ = ("AsyncHTTPClient",)
 
 
 class AsyncHTTPClient(BaseHTTPClient):
-    def __init__(self):
+    def __init__(self, state: "ConnectionState"):
+        self.state = state
         self.__session: aiohttp.ClientSession = aiohttp.ClientSession(
             headers=self.headers
         )

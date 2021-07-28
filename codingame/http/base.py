@@ -10,6 +10,9 @@ from ..types import (
     PointsStatsFromHandle,
 )
 
+if typing.TYPE_CHECKING:
+    from ..state import ConnectionState
+
 __all__ = ("BaseHTTPClient",)
 
 
@@ -21,6 +24,7 @@ class BaseHTTPClient(ABC):
             "(https://github.com/takos22/codingame)"
         )
     }
+    state: "ConnectionState"
 
     @property
     def is_async(self) -> bool:
@@ -91,6 +95,9 @@ class BaseHTTPClient(ABC):
         return self.request("ClashOfCode", "findPendingClashes")
 
     # Notification
+
+    def get_unread_notifications(self, id: int) -> typing.List[Notification]:
+        return self.request("Notification", "findUnreadNotifications", [id])
 
     def get_unseen_notifications(self, id: int) -> typing.List[Notification]:
         return self.request("Notification", "findUnseenNotifications", [id])

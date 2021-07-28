@@ -1,13 +1,20 @@
+import typing
+
 import requests
 
 from .base import BaseHTTPClient
 from .httperror import HTTPError
 
+if typing.TYPE_CHECKING:
+    from ..state import ConnectionState
+
+
 __all__ = ("SyncHTTPClient",)
 
 
 class SyncHTTPClient(BaseHTTPClient):
-    def __init__(self):
+    def __init__(self, state: "ConnectionState"):
+        self.state = state
         self.__session: requests.Session = requests.Session()
 
     def close(self):

@@ -1,8 +1,9 @@
 import typing
 
+from .http import HTTPClient
+
 if typing.TYPE_CHECKING:
     from .codingamer import CodinGamer
-    from .http import HTTPClient
 
 __all__ = ("ConnectionState",)
 
@@ -14,8 +15,8 @@ class ConnectionState:
     logged_in: bool
     codingamer: typing.Optional["CodinGamer"]
 
-    def __init__(self, http_client: "HTTPClient"):
-        self.http = http_client
+    def __init__(self, is_async: bool = False):
+        self.http = HTTPClient(is_async, self)
 
         self.logged_in = False
         self.codingamer = None
