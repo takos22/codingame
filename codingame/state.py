@@ -16,7 +16,7 @@ class ConnectionState:
     codingamer: typing.Optional["CodinGamer"]
 
     def __init__(self, is_async: bool = False):
-        self.http = HTTPClient(is_async, self)
+        self.http = HTTPClient(self, is_async)
 
         self.logged_in = False
         self.codingamer = None

@@ -17,6 +17,10 @@ class SyncHTTPClient(BaseHTTPClient):
         self.state = state
         self.__session: requests.Session = requests.Session()
 
+    @property
+    def is_async(self) -> bool:
+        return False
+
     def close(self):
         self.__session.close()
 
