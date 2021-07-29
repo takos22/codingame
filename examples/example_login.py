@@ -2,8 +2,6 @@ import codingame
 
 client = codingame.Client()
 client.login("email", "password")
-# or
-client = codingame.Client("email", "password")
 
 # then you can access the logged in codingamer like this
 print(client.logged_in)
