@@ -62,9 +62,9 @@ NotificationType = Literal[
     # feature
     "feature",
     # arena
-    "promoted-league",
-    "eligible-for-next-league",
     "new-league",
+    "eligible-for-next-league",
+    "promoted-league",
     # contribution
     "contribution-received",
     "contribution-accepted",
@@ -100,10 +100,144 @@ NotificationType = Literal[
 
 LanguageMapping = Dict[str, str]  # "language": "text"
 
+# social
+
+FollowingData = None
+
+
+class FriendRegisteredData(TypedDict):
+    name: str
+
+
+InvitationAcceptedData = None
+
+# contest
+
+
+class _ContestData(TypedDict, total=False):
+    contest: str  # name
+    publicId: str
+    imageId: int
+
+
+class ContestScheduledData(_ContestData, total=True):
+    date: int  # UTC timestamp with ms
+
+
+class ContestSoonData(_ContestData, total=True):
+    hours: int  # hours until start
+
+
+class ContestStartedData(_ContestData, total=True):
+    pass
+
+
+class ContestOverData(_ContestData, total=True):
+    rank: int
+    playerCount: int
+
+
+# comment
+
+
+class _Contribution(TypedDict):
+    handle: str
+
+
+class _PuzzleSolution(TypedDict):
+    puzzleId: str
+    puzzleDetailsPageUrl: Optional[str]
+    testSessionSubmissionId: int
+
+
+class _NewCommentData(TypedDict, total=False):
+    type: LanguageMapping
+
+
+class _CompleteNewCommentData(_NewCommentData, total=True):
+    commentType: Literal["CONTRIBUTION", "SOLUTION"]
+    typeData: Union[_Contribution, _PuzzleSolution]
+    commentId: int
+
+
+class _URLNewCommentData(_NewCommentData, total=True):
+    url: str
+
+
+NewCommentData = NewCommentResponseData = Union[
+    _CompleteNewCommentData, _URLNewCommentData
+]
+
+# clash
+
+
+class ClashInviteData(TypedDict):
+    handle: str
+
+
+class ClashOverData(TypedDict):
+    handle: str
+    rank: int
+    playerCount: int
+
+
+# achievement
+
+
+class AchievementUnlockedData(TypedDict):
+    label: LanguageMapping
+    points: int
+    level: int
+    id: str
+    imageId: int
+
+
+# xp
+
+
+class NewLevelData(TypedDict):
+    level: int
+
+
+# blog
+
+
+class NewBlogData(TypedDict):
+    title: LanguageMapping
+    url: LanguageMapping
+
+
+# feature
+
+
+class FeatureData(TypedDict):
+    title: Optional[LanguageMapping]
+    description: LanguageMapping
+    "image-instant"  # : str
+    url: str
+
+
+FeatureData.__annotations__["image-instant"] = str
+
+
+# arena
+
+
+class NewLeagueData(TypedDict):
+    titleLabel: LanguageMapping
+    divisionIndex: int
+    thresholdIndex: int
+
+
+# generic
+
 
 class GenericData(TypedDict):
     description: LanguageMapping
     url: str
+
+
+# custom
 
 
 class CustomData(TypedDict):
