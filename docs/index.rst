@@ -60,7 +60,6 @@ User Guide
 
     user_guide/intro
     user_guide/quickstart
-    user_guide/async
 
 
 API Reference
