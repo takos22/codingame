@@ -27,8 +27,9 @@ class BaseHTTPClient(ABC):
     state: "ConnectionState"
 
     @property
+    @abstractmethod
     def is_async(self) -> bool:
-        return False
+        ...  # pragma: no cover
 
     @abstractmethod
     def close(self):
