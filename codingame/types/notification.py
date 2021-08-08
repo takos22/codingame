@@ -18,6 +18,38 @@ __all__ = (
     "NotificationType",
     "NotificationData",
     "Notification",
+    "FollowingData",
+    "FriendRegisteredData",
+    "InvitationAcceptedData",
+    "ContestScheduledData",
+    "ContestSoonData",
+    "ContestStartedData",
+    "ContestOverData",
+    "NewCommentData",
+    "NewCommentResponseData",
+    "ClashInviteData",
+    "ClashOverData",
+    "AchievementUnlockedData",
+    "NewLevelData",
+    "NewBlogData",
+    "FeatureData",
+    "NewLeagueData",
+    "ElligibleForNextLeagueData",
+    "PromotedLeague",
+    "ContributionReceivedData",
+    "ContributionAcceptedData",
+    "ContributionRefusedData",
+    "ContributionClashModeRemovedData",
+    "NewPuzzleData",
+    "PuzzleOfTheWeekData",
+    "NewLeagueOpenedData",
+    "NewHintData",
+    "ContributionModeratedData",
+    "QuestCompletedData",
+    "InfoGenericData",
+    "WarningGenericData",
+    "ImportantGenericData",
+    "CustomData",
 )
 
 NotificationTypeGroup = Literal[
@@ -80,12 +112,12 @@ NotificationType = Literal[
     "contribution-moderated",
     # quest
     "quest-completed",
-    # custom
-    "custom",
     # generic
+    "info-generic",
     "warning-generic",
     "important-generic",
-    "info-generic",
+    # custom
+    "custom",
     # other
     "career-new-candidate",
     "career-update-candidate",
@@ -142,6 +174,14 @@ class ContestOverData(_ContestData, total=True):
 
 class _Contribution(TypedDict):
     handle: str
+    title: str  # maybe optional
+    type: Literal[
+        "CLASHOFCODE",
+        "PUZZLE_INOUT",
+        "PUZZLE_MULTI",
+        "PUZZLE_SOLO",
+        "PUZZLE_OPTI",
+    ]  # maybe optional
 
 
 class _PuzzleSolution(TypedDict):
@@ -222,19 +262,82 @@ FeatureData.__annotations__["image-instant"] = str
 
 # arena
 
-
-class NewLeagueData(TypedDict):
+# for new-league, new-league-opened, elligible-for-next-league, promoted-league
+class _LeagueData(TypedDict):
     titleLabel: LanguageMapping
     divisionIndex: int
+    divisionCount: int
+    divisionOffset: int
     thresholdIndex: int
+    thumbnailBinaryId: int
+    testSessionHandle: str
+
+
+NewLeagueData = ElligibleForNextLeagueData = PromotedLeague = _LeagueData
+
+
+# contribution
+
+
+ContributionReceivedData = ContributionAcceptedData = _Contribution
+ContributionRefusedData = ContributionClashModeRemovedData = _Contribution
+
+
+# puzzle
+
+
+class NewPuzzleData(TypedDict):
+    level: LanguageMapping
+    name: LanguageMapping
+    image: str  # image url
+    puzzleId: str
+
+
+class PuzzleOfTheWeekData(TypedDict):
+    puzzleId: str
+    puzzleLevel: str
+    puzzlePrettyId: str
+    puzzleName: LanguageMapping
+    puzzleOfTheWeekImageId: int
+    contributorNickname: str
+    contributorAvatarId: Optional[int]
+
+
+NewLeagueOpenedData = _LeagueData
+
+# hint
+
+
+class NewHintData(TypedDict):
+    puzzleTitle: LanguageMapping
+    thumbnailBinaryId: int
+    testSessionHandle: str
+
+
+# moderation
+
+
+class ContributionModeratedData(TypedDict):
+    actionType: Literal["validate", "deny"]
+    contribution: _Contribution
+
+
+# quest
+
+
+class QuestCompletedData(TypedDict):
+    label: LanguageMapping
 
 
 # generic
 
 
-class GenericData(TypedDict):
+class _GenericData(TypedDict):
     description: LanguageMapping
     url: str
+
+
+InfoGenericData = WarningGenericData = ImportantGenericData = _GenericData
 
 
 # custom
@@ -247,18 +350,45 @@ class CustomData(TypedDict):
     url: str
 
 
-# TODO remove this and separate for every type
-class _NotificationData(TypedDict):
-    puzzleOfTheWeekImageId: Optional[int]
-    contributorNickname: Optional[str]
-    contributorAvatarId: Optional[int]
-    puzzleId: Optional[int]
-    puzzleLevel: Optional[str]
-    puzzlePrettyId: Optional[str]
-    puzzleName: Optional[dict]
+# TODO Add types for the other data types
 
 
-NotificationData = Union[GenericData, CustomData, _NotificationData]
+# notification
+
+NotificationData = Union[
+    FollowingData,
+    FriendRegisteredData,
+    InvitationAcceptedData,
+    ContestScheduledData,
+    ContestSoonData,
+    ContestStartedData,
+    ContestOverData,
+    NewCommentData,
+    NewCommentResponseData,
+    ClashInviteData,
+    ClashOverData,
+    AchievementUnlockedData,
+    NewLevelData,
+    NewBlogData,
+    FeatureData,
+    NewLeagueData,
+    ElligibleForNextLeagueData,
+    PromotedLeague,
+    ContributionReceivedData,
+    ContributionAcceptedData,
+    ContributionRefusedData,
+    ContributionClashModeRemovedData,
+    NewPuzzleData,
+    PuzzleOfTheWeekData,
+    NewLeagueOpenedData,
+    NewHintData,
+    ContributionModeratedData,
+    QuestCompletedData,
+    InfoGenericData,
+    WarningGenericData,
+    ImportantGenericData,
+    CustomData,
+]
 
 
 class Notification(TypedDict):
