@@ -13,7 +13,7 @@ roles = {
 refs = {
     "async": (
         "Asynchronous client",
-        "user_guide/async.html#asynchronous-client",
+        "user_guide/quickstart.html#about-the-asynchronous-client",
     )
 }
 
