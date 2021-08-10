@@ -27,6 +27,9 @@ class SyncClient(BaseClient):
     def __init__(self):
         super().__init__(is_async=False)
 
+    # --------------------------------------------------------------------------
+    # CodinGamer
+
     def login(self, email: str, password: str) -> CodinGamer:
         try:
             data = self._state.http.login(email, password)
@@ -72,6 +75,9 @@ class SyncClient(BaseClient):
             )
         return CodinGamer(self._state, data["codingamer"])
 
+    # --------------------------------------------------------------------------
+    # Clash of Code
+
     def get_clash_of_code(self, handle: str) -> ClashOfCode:
         if not CLASH_OF_CODE_HANDLE_REGEX.match(handle):
             raise ValueError(
@@ -95,8 +101,14 @@ class SyncClient(BaseClient):
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
 
+    # --------------------------------------------------------------------------
+    # Language IDs
+
     def get_language_ids(self) -> typing.List[str]:
         return self._state.http.get_language_ids()
+
+    # --------------------------------------------------------------------------
+    # Notifications
 
     def get_unseen_notifications(self) -> typing.Iterator[Notification]:
         if not self.logged_in:
@@ -105,6 +117,9 @@ class SyncClient(BaseClient):
         data = self._state.http.get_unseen_notifications(self.codingamer.id)
         for notification in data:
             yield Notification(self._state, notification)
+
+    # --------------------------------------------------------------------------
+    # Leaderboards
 
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"

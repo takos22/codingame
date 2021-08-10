@@ -30,6 +30,9 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     async def close(self):
         await self._state.http.close()
 
+    # --------------------------------------------------------------------------
+    # CodinGamer
+
     async def login(self, email: str, password: str) -> CodinGamer:
         try:
             data = await self._state.http.login(email, password)
@@ -77,6 +80,9 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             )
         return CodinGamer(self._state, data["codingamer"])
 
+    # --------------------------------------------------------------------------
+    # Clash of Code
+
     async def get_clash_of_code(self, handle: str) -> ClashOfCode:
         if not CLASH_OF_CODE_HANDLE_REGEX.match(handle):
             raise ValueError(
@@ -100,8 +106,14 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
 
+    # --------------------------------------------------------------------------
+    # Language IDs
+
     async def get_language_ids(self) -> typing.List[str]:
         return await self._state.http.get_language_ids()
+
+    # --------------------------------------------------------------------------
+    # Notifications
 
     async def get_unseen_notifications(self) -> typing.Iterator[Notification]:
         if not self.logged_in:
@@ -112,6 +124,9 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         )
         for notification in data:
             yield Notification(self._state, notification)
+
+    # --------------------------------------------------------------------------
+    # Leaderboards
 
     async def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"
