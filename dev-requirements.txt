@@ -1,11 +1,12 @@
 autoflake
 black
+doc8
 flake8
 isort
 pytest
-pytest-cov
 pytest-asyncio
+pytest-cov
+pytest-mock
+python-dotenv
 requests
 twine
-python-dotenv
-doc8

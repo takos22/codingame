@@ -123,7 +123,8 @@ async def test_client_get_pending_clash_of_code(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_language_ids(client: AsyncClient):
+async def test_client_language_ids(client: AsyncClient, mock_http):
+    mock_http(client._state.http, "get_language_ids")
     language_ids = await client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)

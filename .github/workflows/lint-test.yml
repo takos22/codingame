@@ -66,7 +66,7 @@ jobs:
 
         TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        pytest
+        pytest --no-mocking
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1

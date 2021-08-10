@@ -108,7 +108,8 @@ def test_client_get_pending_clash_of_code(client: Client):
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-def test_client_language_ids(client: Client):
+def test_client_language_ids(client: Client, mock_http):
+    mock_http(client._state.http, "get_language_ids")
     language_ids = client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
