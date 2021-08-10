@@ -14,6 +14,12 @@ import re
 import os
 import sys
 
+from typing import NamedTuple
+
+VersionInfo = NamedTuple(
+    "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
+)
+
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.append(os.path.abspath("extensions"))
 
@@ -30,16 +36,35 @@ author = "takos22"
 #
 # The short X.Y version.
 
-version = ""
 with open("../codingame/__init__.py") as f:
-    version = re.search(
-        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
+    # getting version info without importing the whole module
+    version_info_code = re.search(
+        r"^version_info\s*=\s*(VersionInfo\(\s*major=\d+,\s*minor=\d+,\s*"
+        r'micro=\d+,\s*releaselevel=[\'"]\w*[\'"],\s*serial=\d+\s*\))',
+        f.read(),
+        re.MULTILINE,
     ).group(1)
 
-# The full version, including alpha/beta/rc tags
-release = version
+version_info: VersionInfo = eval(
+    version_info_code, globals(), {"VersionInfo": VersionInfo}
+)
+version = "{0.major}.{0.minor}.{0.micro}".format(version_info)
 
-branch = "master" if version.endswith("a") else "v" + version
+
+# The full version, including alpha/beta/rc tags
+releaselevels = {
+    "alpha": "a",
+    "beta": "b",
+    "releasecandidate": "rc",
+}
+release = version + (
+    releaselevels.get(version_info.releaselevel, version_info.releaselevel)
+    + str(version_info.serial)
+    if version_info.releaselevel
+    else ""
+)
+
+branch = "master" if version_info.releaselevel else "v" + version
 
 
 # -- General configuration ---------------------------------------------------
@@ -111,6 +136,7 @@ html_static_path = ["_static"]
 
 resource_links = {
     "discord": "https://discord.gg/8HgtN6E",
+    "repo": "https://github.com/takos22/codingame",
     "issues": "https://github.com/takos22/codingame/issues",
     "examples": f"https://github.com/takos22/codingame/tree/{branch}/examples",
 }

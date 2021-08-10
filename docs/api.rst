@@ -1,7 +1,8 @@
-.. currentmodule:: codingame
+.. module:: codingame
+    :synopsis: Wrapper for the undocumented CodinGame API.
 
-API Reference
-=============
+codingame |version| API Reference
+=================================
 
 The following section outlines the API of the ``codingame`` module. All the
 public classes, methods and functions are documented here.
@@ -35,6 +36,8 @@ Synchronous client
 ******************
 
 .. autoclass:: codingame.client.sync.SyncClient
+
+.. currentmodule:: codingame
 
 Asynchronous client
 *******************
