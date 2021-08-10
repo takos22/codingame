@@ -29,7 +29,7 @@ Version 1.0.0 (2021-07-12)
 Added
 *****
 
-- Asynchronous client with ``Client(is_async=True)``, see `Asynchronous client <user_guide/async.html#asynchronous-client>`__.
+- Asynchronous client with ``Client(is_async=True)``, see `Asynchronous client <user_guide/quickstart.html#about-the-asynchronous-client>`__.
 
 - Context managers:
 
