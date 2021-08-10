@@ -7,6 +7,7 @@ from pytest_mock import MockerFixture
 if typing.TYPE_CHECKING:
     from _pytest.config import Config
     from _pytest.config.argparsing import Parser
+
     from codingame.http import HTTPClient
 
 
