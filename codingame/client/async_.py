@@ -129,6 +129,16 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         for notification in data:
             yield Notification(self._state, notification)
 
+    async def get_unread_notifications(self) -> typing.Iterator[Notification]:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        data = await self._state.http.get_unread_notifications(
+            self.codingamer.id
+        )
+        for notification in data:
+            yield Notification(self._state, notification)
+
     # --------------------------------------------------------------------------
     # Leaderboards
 
