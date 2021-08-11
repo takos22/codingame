@@ -106,7 +106,11 @@ def test_client_login_error(
         os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"),
     ],
 )
-def test_client_get_codingamer(client: Client, codingamer_query):
+def test_client_get_codingamer(client: Client, codingamer_query, mock_http):
+    mock_http(client._state.http, "search")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     codingamer = client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -119,7 +123,13 @@ def test_client_get_codingamer(client: Client, codingamer_query):
         "a" * 32 + "0" * 7,
     ],
 )
-def test_client_get_codingamer_error(client: Client, codingamer_query):
+def test_client_get_codingamer_error(
+    client: Client, codingamer_query, mock_http, mock_httperror
+):
+    mock_http(client._state.http, "search", [])
+    mock_httperror(client._state.http, "get_codingamer_from_id", {"id": 404})
+    mock_http(client._state.http, "get_codingamer_from_handle", None)
+
     with pytest.raises(exceptions.CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
 

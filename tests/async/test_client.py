@@ -112,7 +112,13 @@ async def test_client_login_error(
     ],
 )
 @pytest.mark.asyncio
-async def test_client_get_codingamer(client: AsyncClient, codingamer_query):
+async def test_client_get_codingamer(
+    client: AsyncClient, codingamer_query, mock_http
+):
+    mock_http(client._state.http, "search")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     codingamer = await client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -127,8 +133,12 @@ async def test_client_get_codingamer(client: AsyncClient, codingamer_query):
 )
 @pytest.mark.asyncio
 async def test_client_get_codingamer_error(
-    client: AsyncClient, codingamer_query
+    client: AsyncClient, codingamer_query, mock_http, mock_httperror
 ):
+    mock_http(client._state.http, "search", [])
+    mock_httperror(client._state.http, "get_codingamer_from_id", {"id": 404})
+    mock_http(client._state.http, "get_codingamer_from_handle", None)
+
     with pytest.raises(exceptions.CodinGamerNotFound):
         await client.get_codingamer(codingamer_query)
 
