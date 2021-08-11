@@ -56,17 +56,21 @@ class SyncClient(BaseClient):
                 raise  # pragma: no cover
             handle = data["publicHandle"]
 
-        if handle is None and not CODINGAMER_HANDLE_REGEX.match(codingamer):
-            results = self._state.http.search(codingamer)
-            users = [result for result in results if result["type"] == "USER"]
-            if users:
-                handle = users[0]["id"]
+        else:
+            if CODINGAMER_HANDLE_REGEX.match(codingamer):
+                handle = codingamer
             else:
-                raise NotFound.from_type(
-                    "codingamer", f"No CodinGamer with username {codingamer!r}"
-                )
-        elif handle is None:
-            handle = codingamer
+                results = self._state.http.search(codingamer)
+                users = [
+                    result for result in results if result["type"] == "USER"
+                ]
+                if users:
+                    handle = users[0]["id"]
+                else:
+                    raise NotFound.from_type(
+                        "codingamer",
+                        f"No CodinGamer with username {codingamer!r}",
+                    )
 
         data = self._state.http.get_codingamer_from_handle(handle)
         if data is None:
