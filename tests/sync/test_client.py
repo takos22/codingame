@@ -38,7 +38,8 @@ async def test_client_context_manager_error():
             pass  # pragma: no cover
 
 
-def test_client_login(client: Client):
+def test_client_login(client: Client, mock_http):
+    mock_http(client._state.http, "login")
     client.login(
         os.environ.get("TEST_LOGIN_EMAIL"),
         os.environ.get("TEST_LOGIN_PASSWORD"),
@@ -51,13 +52,48 @@ def test_client_login(client: Client):
     ["email", "password"],
     [
         ("", ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
-        ("nonexistant", "NonExistant"),
+        ("", "BadPassword"),
+        ("NotAnEmail", ""),
+        ("nonexistant@example.com", ""),
         ("nonexistant@example.com", "NonExistant"),
+        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
     ],
 )
-def test_client_login_error(client: Client, email: str, password: str):
+def test_client_login_error(
+    client: Client,
+    email: str,
+    password: str,
+    is_mocking: bool,
+    mock_httperror,
+):
+    if is_mocking:
+        if email == "":
+            error = {"id": 332, "message": "Email is required"}
+
+        elif email == "NotAnEmail":
+            error = {"id": 334, "message": "Malformed email"}
+
+        elif email == "nonexistant@example.com":
+            if password == "":
+                error = {"id": 336, "message": "Password is required"}
+
+            elif password == "NonExistant":
+                error = {
+                    "id": 393,
+                    "message": (
+                        "This email address is not linked to a "
+                        "CodinGamer account"
+                    ),
+                }
+
+        elif email == os.environ.get("TEST_LOGIN_EMAIL"):
+            error = {
+                "id": 396,
+                "message": "The password you entered is incorrect.",
+            }
+
+        mock_httperror(client._state.http, "login", error)
+
     with pytest.raises(exceptions.LoginError):
         client.login(email, password)
 
