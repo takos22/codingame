@@ -13,6 +13,9 @@ if typing.TYPE_CHECKING:
     from codingame.http import HTTPClient
 
 
+not_set = object()
+
+
 def pytest_addoption(parser: "Parser"):
     parser.addoption(
         "--nm",
@@ -59,9 +62,13 @@ def awaitable(obj):
 @pytest.fixture(name="mock_http")
 def mock_http_fixture(mocker: MockerFixture):
     def mock_http(
-        http_client: "HTTPClient", method: str, api_data=None, *args, **kwargs
+        http_client: "HTTPClient",
+        method: str,
+        api_data=not_set,
+        *args,
+        **kwargs,
     ):
-        if api_data is None:
+        if api_data is not_set:
             with open(f"tests/mock/responses/{method}.json") as f:
                 api_data = json.load(f)
 
