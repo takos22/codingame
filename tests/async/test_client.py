@@ -167,7 +167,7 @@ async def test_client_get_pending_clash_of_code(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_language_ids(client: AsyncClient, mock_http):
+async def test_client_get_language_ids(client: AsyncClient, mock_http):
     mock_http(client._state.http, "get_language_ids")
     language_ids = await client.get_language_ids()
     assert isinstance(language_ids, list)
@@ -175,15 +175,28 @@ async def test_client_language_ids(client: AsyncClient, mock_http):
 
 
 @pytest.mark.asyncio
-async def test_client_notifications(auth_client: AsyncClient):
+async def test_client_get_unseen_notifications(auth_client: AsyncClient):
     async for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
 
 
 @pytest.mark.asyncio
-async def test_client_notifications_error(client: AsyncClient):
+async def test_client_get_unseen_notifications_error(client: AsyncClient):
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_unseen_notifications():
+            pass  # pragma: no cover
+
+
+@pytest.mark.asyncio
+async def test_client_get_unread_notifications(auth_client: AsyncClient):
+    async for notification in auth_client.get_unread_notifications():
+        assert isinstance(notification, Notification)
+
+
+@pytest.mark.asyncio
+async def test_client_get_unread_notifications_error(client: AsyncClient):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_unread_notifications():
             pass  # pragma: no cover
 
 

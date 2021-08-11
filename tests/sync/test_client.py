@@ -154,21 +154,31 @@ def test_client_get_pending_clash_of_code(client: Client):
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-def test_client_language_ids(client: Client, mock_http):
+def test_client_get_language_ids(client: Client, mock_http):
     mock_http(client._state.http, "get_language_ids")
     language_ids = client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
-def test_client_notifications(auth_client: Client):
+def test_client_get_unseen_notifications(auth_client: Client):
     for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
 
 
-def test_client_notifications_error(client: Client):
+def test_client_get_unseen_notifications_error(client: Client):
     with pytest.raises(exceptions.LoginRequired):
         next(client.get_unseen_notifications())
+
+
+def test_client_get_unread_notifications(auth_client: Client):
+    for notification in auth_client.get_unread_notifications():
+        assert isinstance(notification, Notification)
+
+
+def test_client_get_unread_notifications_error(client: Client):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_unread_notifications())
 
 
 def test_client_get_global_leaderboard(client: Client):
