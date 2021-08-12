@@ -103,6 +103,11 @@ class BaseHTTPClient(ABC):
     def get_unseen_notifications(self, id: int) -> typing.List[Notification]:
         return self.request("Notification", "findUnseenNotifications", [id])
 
+    def get_last_read_notifications(self, id: int) -> typing.List[Notification]:
+        return self.request(
+            "Notification", "findLastReadNotifications", [id, None]
+        )
+
     # Leaderboards
 
     def get_global_leaderboard(
