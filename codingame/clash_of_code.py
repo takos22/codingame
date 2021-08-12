@@ -55,20 +55,20 @@ class ClashOfCode(BaseObject):
         mode: Optional :class:`str`
             The mode of the Clash of Code.
 
-        creation_time: :class:`datetime.datetime`
+        creation_time: :class:`~datetime.datetime`
             Creation time of the Clash of Code.
 
-        start_time: :class:`datetime.datetime`
+        start_time: :class:`~datetime.datetime`
             Start time of the Clash of Code. If the Clash of Code hasn't started
             yet, this is the expected start time of the Clash of Code.
 
-        end_time: Optional :class:`datetime.datetime`
+        end_time: Optional :class:`~datetime.datetime`
             End time of the Clash of Code.
 
-        time_before_start: :class:`datetime.timedelta`
+        time_before_start: :class:`~datetime.timedelta`
             Time before the start of the Clash of Code.
 
-        time_before_end: Optional :class:`datetime.timedelta`
+        time_before_end: Optional :class:`~datetime.timedelta`
             Time before the end of the Clash of Code.
 
         players: :class:`list` of :class:`Player`
@@ -213,7 +213,7 @@ class Player(BaseUser):
             Rank of the Player. Only use this when the Clash of Code is finished
             because it isn't precise until then.
 
-        duration: Optional :class:`datetime.timedelta`
+        duration: Optional :class:`~datetime.timedelta`
             Time taken by the player to solve the problem of the Clash of Code.
 
         language_id: Optional :class:`str`
