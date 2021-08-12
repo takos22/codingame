@@ -115,6 +115,8 @@ class BaseClient(ABC):
         --------
             :class:`~codingame.CodinGamer`
                 The CodinGamer that logged in.
+
+        .. versionadded:: 0.3
         """
 
     @abstractmethod
@@ -152,6 +154,18 @@ class BaseClient(ABC):
         --------
             :class:`~codingame.CodinGamer`
                 The requested CodinGamer.
+
+        .. versionadded:: 0.1
+
+        .. versionchanged:: 0.2
+            Renamed ``Client.codingamer()`` to
+            :meth:`~codingame.Client.get_codingamer`.
+
+        .. versionchanged:: 0.3.3
+            Add searching with CodinGamer pseudo.
+
+        .. versionchanged:: 0.3.5
+            Add searching with CodinGamer ID.
         """
 
     # --------------------------------------------------------------------------
@@ -179,9 +193,11 @@ class BaseClient(ABC):
                 The Clash of Code with the given public handle isn't found.
 
         Returns
-        --------
+        -------
             :class:`~codingame.ClashOfCode`
                 The requested Clash Of Code.
+
+        .. versionadded:: 0.2
         """
 
     @abstractmethod
@@ -191,10 +207,12 @@ class BaseClient(ABC):
         Get the pending public :class:`Clash of Code <codingame.ClashOfCode>`.
 
         Returns
-        --------
+        -------
             Optional :class:`~codingame.ClashOfCode`
                 The pending Clash Of Code if there's one, or ``None`` if there's
                 no current public Clash Of Code.
+
+        .. versionadded:: 0.3.2
         """
 
     # --------------------------------------------------------------------------
@@ -205,6 +223,17 @@ class BaseClient(ABC):
         """|maybe_coro|
 
         Get the list of all available language IDs.
+
+        Returns
+        -------
+            :class:`list` of :class:`int`
+                The language IDs.
+
+        .. versionadded:: 0.3
+
+        .. versionchanged:: 1.0
+            Renamed ``Client.language_ids`` to
+            :meth:`~codingame.Client.get_language_ids`.
         """
 
     # --------------------------------------------------------------------------
@@ -232,6 +261,12 @@ class BaseClient(ABC):
         -------
             :class:`~codingame.Notification`
                 An unseen notification.
+
+        .. versionadded:: 0.3.1
+
+        .. versionchanged:: 1.0
+            Renamed ``Client.notifications`` to
+            :meth:`~codingame.Client.get_unseen_notifications`.
         """
 
     @abstractmethod
@@ -256,6 +291,8 @@ class BaseClient(ABC):
         -------
             :class:`~codingame.Notification`
                 An unread notification.
+
+        .. versionadded:: 1.1
         """
 
     # --------------------------------------------------------------------------
@@ -305,6 +342,8 @@ class BaseClient(ABC):
         --------
             :class:`~codingame.GlobalLeaderboard`
                 The global leaderboard of CodinGame.
+
+        .. versionadded:: 0.4
         """
 
     @abstractmethod
@@ -346,6 +385,8 @@ class BaseClient(ABC):
         --------
             :class:`~codingame.ChallengeLeaderboard`
                 The leaderboard of the requested challenge.
+
+        .. versionadded:: 0.4
         """
 
     @abstractmethod
@@ -386,4 +427,6 @@ class BaseClient(ABC):
         --------
             :class:`~codingame.PuzzleLeaderboard`
                 The leaderboard of the requested puzzle.
+
+        .. versionadded:: 0.4
         """
