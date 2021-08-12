@@ -67,6 +67,8 @@ are not meant to be created by the user of the library.
 CodinGamer
 **********
 
+.. autoclass:: PartialCodinGamer()
+
 .. autoclass:: CodinGamer()
 
 Clash of Code

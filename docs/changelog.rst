@@ -9,18 +9,27 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.2.0 (unreleased)
+Version 1.1.0 (unreleased)
 --------------------------
 
 Added
 *****
 
 - :meth:`Client.get_unread_notifications`.
+- :class:`PartialCodinGamer`.
+- :attr:`Notification.codingamer`.
+
+Changed
+*******
+
+- Deprecated :attr:`Notification.creation_time` in favor of
+  :attr:`Notification.date`
 
 Removed
 *******
 
-- ``codingame.endpoints``
+- ``codingame.endpoints`` submodule.
+- ``Notification._raw``.
 
 Version 1.0.1 (2021-07-12)
 --------------------------
@@ -69,7 +78,7 @@ Changed
   it compatible with async API calls. Here's a list of all of the changed ones:
 
     - ``Client.language_ids`` -> :meth:`Client.get_language_ids`
-    - ``Client.unseen_notifications`` ->
+    - ``Client.notifications`` ->
       :meth:`Client.get_unseen_notifications`
     - ``CodinGamer.followers`` -> :meth:`CodinGamer.get_followers`
     - ``CodinGamer.followers_ids`` -> :meth:`CodinGamer.get_followers_ids`
