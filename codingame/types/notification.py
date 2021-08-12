@@ -225,11 +225,12 @@ class ClashOverData(TypedDict):
 
 
 class AchievementUnlockedData(TypedDict):
-    label: LanguageMapping
-    points: int
-    level: int
     id: str
     imageId: int
+    points: int
+    level: str
+    completionTime: int
+    label: LanguageMapping
 
 
 # xp
@@ -237,6 +238,8 @@ class AchievementUnlockedData(TypedDict):
 
 class NewLevelData(TypedDict):
     level: int
+    reward: Optional[LanguageMapping]
+    triggerCareerPopup: Optional[bool]
 
 
 # blog
@@ -326,6 +329,7 @@ class ContributionModeratedData(TypedDict):
 
 
 class QuestCompletedData(TypedDict):
+    questId: int
     label: LanguageMapping
 
 
@@ -396,7 +400,9 @@ class Notification(TypedDict):
     type: NotificationType
     typeGroup: NotificationTypeGroup
     priority: int
-    date: int  # UTC timestamp with ms
     urgent: bool
+    date: int  # UTC timestamp with ms
+    seenDate: Optional[int]  # UTC timestamp with ms
+    readDate: Optional[int]  # UTC timestamp with ms
     data: Optional[NotificationData]
     codingamer: Optional[PartialCodinGamer]

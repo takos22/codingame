@@ -1,12 +1,35 @@
 import typing
 from datetime import datetime
+from enum import Enum
 
 from .abc import BaseObject
+from .codingamer import PartialCodinGamer
+from .types.notification import Notification as NotificationDict
+from .types.notification import NotificationData
 
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
 
 __all__ = ("Notification",)
+
+
+class NotificationTypeGroup(str, Enum):
+    ACHIEVEMENT = "achievement"
+    ARENA = "arena"
+    BLOG = "blog"
+    CLASH = "clash"
+    COMMENT = "comment"
+    CONTEST = "contest"
+    CONTRIBUTION = "contribution"
+    FEATURE = "feature"
+    HINTS = "hints"
+    MODERATION = "moderation"
+    PUZZLE = "puzzle"
+    QUEST = "quest"
+    SOCIAL = "social"
+    XP = "xp"
+    CUSTOM = "custom"
+    OTHER = "other"
 
 
 class Notification(BaseObject):
@@ -23,14 +46,20 @@ class Notification(BaseObject):
         type: :class:`str`
             Precise type of the notification.
 
-        creation_time: :class:`datetime`
-            Creation time of the notification.
+        date: :class:`~datetime.datetime`
+            Date of the notification. Was ``notification.creation_time``.
+
+        creation_time: :class:`~datetime.datetime`
+            Date of the notification.
+
+            .. deprecated:: 1.2
+                Use :attr:`date` instead.
 
         priority: :class:`int`
             Priority of the notification.
 
         urgent: :class:`bool`
-            If the notification is urgent.
+            Whether the notification is urgent.
 
         data: :class:`dict`
             Data of the notification.
@@ -39,45 +68,50 @@ class Notification(BaseObject):
                 Every notification type has different data.
                 So there isn't the same keys and values every time.
 
-        _raw: :class:`dict`
-            The dict from CodinGame describing the notification.
-            Useful when there's more data that isn't included in the normal
-            fields.
+        codingamer: Optional :class:`PartialCodingamer`
+            CodinGamer that sent the notification, only appears in some
+            notification types.
     """
 
     id: int
     type: str  # TODO create notification type enum
-    type_group: str
-    creation_time: datetime
+    type_group: NotificationTypeGroup
+    date: datetime
     priority: int
     urgent: bool
-    data: typing.Optional[dict]
-    _raw: dict
+    seen: bool
+    seen_date: typing.Optional[datetime]
+    read: bool
+    read_date: typing.Optional[datetime]
+    data: typing.Optional[NotificationData]
+    codingamer: typing.Optional[PartialCodinGamer]
 
     __slots__ = (
         "id",
         "type",
         "type_group",
+        "date",
         "creation_time",
         "priority",
         "urgent",
         "data",
-        "_raw",
+        "codingamer",
     )
 
-    def __init__(self, state: "ConnectionState", notification):
-        self._state = state
-        self._raw = notification  # for attributes that arent wrapped
+    def __init__(self, state: "ConnectionState", data: NotificationDict):
+        self.id = data["id"]
+        self.type = data["type"]
+        self.type_group = NotificationTypeGroup(data["typeGroup"])
+        self.creation_time = datetime.utcfromtimestamp(data["date"] / 1000.0)
+        self.priority = data["priority"]
+        self.urgent = data["urgent"]
 
-        self.id = notification["id"]
-        self.type = notification["type"]
-        self.type_group = notification["typeGroup"]
-        self.creation_time = datetime.utcfromtimestamp(
-            notification["date"] / 1000.0
-        )
-        self.priority = notification["priority"]
-        self.urgent = notification["urgent"]
-        self.data = notification.get("data")
+        self.data = data.get("data")
+        self.codingamer = None
+        if data.get("codingamer"):
+            self.codingamer = PartialCodinGamer(state, data["codingamer"])
+
+        super().__init__(state)
 
     def __repr__(self):
         return (
