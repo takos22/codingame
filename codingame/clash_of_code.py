@@ -1,9 +1,17 @@
-import typing
 from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, List, Optional
 
 from .abc import BaseObject, BaseUser
+from .types.clash_of_code import ClashOfCode as ClashOfCodeDict
+from .types.clash_of_code import (
+    LanguageId,
+    LanguageIds,
+    Mode,
+    Modes,
+    PlayerStatus,
+)
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from .state import ConnectionState
 
 __all__ = (
@@ -72,17 +80,17 @@ class ClashOfCode(BaseObject):
     public: bool
     min_players: int
     max_players: int
-    modes: typing.Optional[typing.List[str]]
-    programming_languages: typing.Optional[typing.List[str]]
+    modes: Optional[Modes]
+    programming_languages: Optional[LanguageIds]
     started: bool
     finished: bool
-    mode: typing.Optional[str]
+    mode: Optional[Mode]
     creation_time: datetime
     start_time: datetime
-    end_time: typing.Optional[datetime]
+    end_time: Optional[datetime]
     time_before_start: timedelta
-    time_before_end: typing.Optional[timedelta]
-    players: typing.List["Player"]
+    time_before_end: Optional[timedelta]
+    players: List["Player"]
 
     __slots__ = (
         "public_handle",
@@ -103,7 +111,7 @@ class ClashOfCode(BaseObject):
         "players",
     )
 
-    def __init__(self, state: "ConnectionState", data: dict):
+    def __init__(self, state: "ConnectionState", data: ClashOfCodeDict):
         self.public_handle = data["publicHandle"]
         self.join_url = (
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
@@ -228,21 +236,21 @@ class Player(BaseUser):
     clash_of_code: ClashOfCode
     public_handle: str
     id: int
-    pseudo: typing.Optional[str]
-    avatar: typing.Optional[int]
-    cover: typing.Optional[int]
+    pseudo: Optional[str]
+    avatar: Optional[int]
+    cover: Optional[int]
     started: bool
     finished: bool
-    status: str
+    status: PlayerStatus
     owner: bool
-    position: typing.Optional[int]
-    rank: typing.Optional[int]
-    duration: typing.Optional[timedelta]
-    language_id: typing.Optional[str]
-    score: typing.Optional[int]
-    code_length: typing.Optional[int]
-    solution_shared: typing.Optional[bool]
-    submission_id: typing.Optional[int]
+    position: Optional[int]
+    rank: Optional[int]
+    duration: Optional[timedelta]
+    language_id: Optional[LanguageId]
+    score: Optional[int]
+    code_length: Optional[int]
+    solution_shared: Optional[bool]
+    submission_id: Optional[int]
 
     __slots__ = (
         "clash_of_code",
