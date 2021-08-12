@@ -7,18 +7,27 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.2.0 (unreleased)
+Version 1.1.0 (unreleased)
 --------------------------
 
 Added
 *****
 
 - `Client.get_unread_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unread_notifications>`__.
+- `PartialCodinGamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.PartialCodinGamer>`__.
+- `Notification.codingamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.codingamer>`__.
+
+Changed
+*******
+
+- Deprecated `Notification.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.creation_time>`__ in favor of
+  `Notification.date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.date>`__
 
 Removed
 *******
 
-- ``codingame.endpoints``
+- ``codingame.endpoints`` submodule.
+- ``Notification._raw``.
 
 Version 1.0.1 (2021-07-12)
 --------------------------
@@ -57,7 +66,7 @@ Added
 - `ChallengeLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.ChallengeLeaderboard.has_leagues>`__ and
   `PuzzleLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.PuzzleLeaderboard.has_leagues>`__.
 
-- `Notification._raw <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification._raw>`__.
+- ``Notification._raw``.
 
 Changed
 *******
@@ -67,7 +76,7 @@ Changed
   it compatible with async API calls. Here's a list of all of the changed ones:
 
     - ``Client.language_ids`` -> `Client.get_language_ids <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_language_ids>`__
-    - ``Client.unseen_notifications`` ->
+    - ``Client.notifications`` ->
       `Client.get_unseen_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unseen_notifications>`__
     - ``CodinGamer.followers`` -> `CodinGamer.get_followers <https://codingame.readthedocs.io/en/latest/api.html#codingame.CodinGamer.get_followers>`__
     - ``CodinGamer.followers_ids`` -> `CodinGamer.get_followers_ids <https://codingame.readthedocs.io/en/latest/api.html#codingame.CodinGamer.get_followers_ids>`__
