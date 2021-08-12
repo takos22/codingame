@@ -21,7 +21,7 @@ __version__ = "1.1.0a"
 
 from .clash_of_code import ClashOfCode, Player
 from .client import Client
-from .codingamer import CodinGamer
+from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
     ChallengeNotFound,
     ClashOfCodeNotFound,
@@ -53,6 +53,7 @@ __all__ = (
     Client,
     # CodinGamer
     CodinGamer,
+    PartialCodinGamer,
     # Clash of Code
     ClashOfCode,
     Player,
