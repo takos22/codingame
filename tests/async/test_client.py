@@ -178,6 +178,8 @@ async def test_client_get_language_ids(client: AsyncClient, mock_http):
 async def test_client_get_unseen_notifications(auth_client: AsyncClient):
     async for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.seen
+        assert not notification.read
 
 
 @pytest.mark.asyncio
@@ -191,12 +193,28 @@ async def test_client_get_unseen_notifications_error(client: AsyncClient):
 async def test_client_get_unread_notifications(auth_client: AsyncClient):
     async for notification in auth_client.get_unread_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.read
 
 
 @pytest.mark.asyncio
 async def test_client_get_unread_notifications_error(client: AsyncClient):
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_unread_notifications():
+            pass  # pragma: no cover
+
+
+@pytest.mark.asyncio
+async def test_client_get_read_notifications(auth_client: AsyncClient):
+    async for notification in auth_client.get_read_notifications():
+        assert isinstance(notification, Notification)
+        assert notification.seen
+        assert notification.read
+
+
+@pytest.mark.asyncio
+async def test_client_get_read_notifications_error(client: AsyncClient):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_read_notifications():
             pass  # pragma: no cover
 
 

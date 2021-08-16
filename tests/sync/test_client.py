@@ -164,6 +164,8 @@ def test_client_get_language_ids(client: Client, mock_http):
 def test_client_get_unseen_notifications(auth_client: Client):
     for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.seen
+        assert not notification.read
 
 
 def test_client_get_unseen_notifications_error(client: Client):
@@ -174,11 +176,24 @@ def test_client_get_unseen_notifications_error(client: Client):
 def test_client_get_unread_notifications(auth_client: Client):
     for notification in auth_client.get_unread_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.read
 
 
 def test_client_get_unread_notifications_error(client: Client):
     with pytest.raises(exceptions.LoginRequired):
         next(client.get_unread_notifications())
+
+
+def test_client_get_read_notifications(auth_client: Client):
+    for notification in auth_client.get_read_notifications():
+        assert isinstance(notification, Notification)
+        assert notification.seen
+        assert notification.read
+
+
+def test_client_get_read_notifications_error(client: Client):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_read_notifications())
 
 
 def test_client_get_global_leaderboard(client: Client):
