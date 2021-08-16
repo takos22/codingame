@@ -130,6 +130,14 @@ class SyncClient(BaseClient):
         for notification in data:
             yield Notification(self._state, notification)
 
+    def get_read_notifications(self) -> typing.Iterator[Notification]:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        data = self._state.http.get_last_read_notifications(self.codingamer.id)
+        for notification in data:
+            yield Notification(self._state, notification)
+
     # --------------------------------------------------------------------------
     # Leaderboards
 

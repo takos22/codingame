@@ -276,6 +276,8 @@ class BaseClient(ABC):
         Get all the unread :class:`notifications <codingame.Notification>` of
         the logged in :class:`~codingame.CodinGamer`.
 
+        This includes unseen notifications along with the unread ones.
+
         You need to be logged in to get notifications or else a
         :exc:`~codingame.LoginRequired` will be raised.
 
@@ -291,6 +293,35 @@ class BaseClient(ABC):
         -------
             :class:`~codingame.Notification`
                 An unread notification.
+
+        .. versionadded:: 1.1
+        """
+
+    @abstractmethod
+    def get_read_notifications(self) -> typing.Iterator["Notification"]:
+        """|maybe_coro|
+
+        Get the read :class:`notifications <codingame.Notification>` of the
+        logged in :class:`~codingame.CodinGamer`.
+
+        You need to be logged in to get notifications or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        .. warning::
+            There can be some old notifications missing.
+
+        .. note::
+            This method is a generator.
+
+        Raises
+        ------
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+        Yields
+        -------
+            :class:`~codingame.Notification`
+                A read notification.
 
         .. versionadded:: 1.1
         """
