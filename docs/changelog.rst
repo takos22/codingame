@@ -16,8 +16,11 @@ Added
 *****
 
 - :meth:`Client.get_unread_notifications`.
+- :meth:`Client.get_read_notifications`.
 - :class:`PartialCodinGamer`.
 - :attr:`Notification.codingamer`.
+- :attr:`Notification.seen`, :attr:`Notification.seen_date`,
+  :attr:`Notification.read` and :attr:`Notification.read_date`.
 
 Changed
 *******
