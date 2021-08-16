@@ -61,7 +61,19 @@ class Notification(BaseObject):
         urgent: :class:`bool`
             Whether the notification is urgent.
 
-        data: :class:`dict`
+        seen: :class:`bool`
+            Whether the notification has been seen.
+
+        seen_date: Optional :class:`~datetime.datetime`
+            Date when the notification was seen.
+
+        read: :class:`bool`
+            Whether the notification has been read.
+
+        read_date: Optional :class:`~datetime.datetime`
+            Date when the notification was read.
+
+        data: Optional :class:`dict`
             Data of the notification.
 
             .. note::
@@ -94,6 +106,10 @@ class Notification(BaseObject):
         "creation_time",
         "priority",
         "urgent",
+        "seen",
+        "seen_date",
+        "read",
+        "read_date",
         "data",
         "codingamer",
     )
@@ -102,9 +118,24 @@ class Notification(BaseObject):
         self.id = data["id"]
         self.type = data["type"]
         self.type_group = NotificationTypeGroup(data["typeGroup"])
-        self.creation_time = datetime.utcfromtimestamp(data["date"] / 1000.0)
+        self.date = datetime.utcfromtimestamp(data["date"] / 1000.0)
+        self.creation_time = self.date
         self.priority = data["priority"]
         self.urgent = data["urgent"]
+
+        self.seen = bool(data.get("seenDate"))
+        self.seen_date = None
+        if self.seen:
+            self.seen_date = datetime.utcfromtimestamp(
+                data["seenDate"] / 1000.0
+            )
+
+        self.read = bool(data.get("readDate"))
+        self.read_date = None
+        if self.read:
+            self.read_date = datetime.utcfromtimestamp(
+                data["readDate"] / 1000.0
+            )
 
         self.data = data.get("data")
         self.codingamer = None
@@ -116,6 +147,6 @@ class Notification(BaseObject):
     def __repr__(self):
         return (
             "<Notification id={0.id!r} type={0.type!r} "
-            "creation_time={0.creation_time!r} priority={0.priority!r} "
-            "urgent={0.urgent!r}>".format(self)
-        )
+            "date={0.date!r} urgent={0.urgent!r} "
+            "seen={0.seen!r} read={0.read!r}>"
+        ).format(self)
