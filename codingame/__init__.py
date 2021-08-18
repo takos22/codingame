@@ -46,7 +46,7 @@ from .leaderboard import (
     PuzzleLeaderboard,
     PuzzleRankedCodinGamer,
 )
-from .notification import Notification
+from .notification import Notification, NotificationType, NotificationTypeGroup
 
 __all__ = (
     # Client
@@ -59,6 +59,8 @@ __all__ = (
     Player,
     # Notification
     Notification,
+    NotificationType,
+    NotificationTypeGroup,
     # Leaderboard
     GlobalLeaderboard,
     GlobalRankedCodinGamer,
