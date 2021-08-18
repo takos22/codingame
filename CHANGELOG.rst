@@ -14,11 +14,11 @@ Added
 *****
 
 - `Client.get_unread_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unread_notifications>`__.
-- `Client.get_unread_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unread_notifications>`__.
+- `Client.get_read_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_read_notifications>`__.
 - `PartialCodinGamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.PartialCodinGamer>`__.
 - `Notification.codingamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.codingamer>`__.
-- ``Notification.seen``, ``Notification.seen_date``,
-  ``Notification.read`` and ``Notification.read_date``.
+- `Notification.seen <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.seen>`__, `Notification.seen_date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.seen_date>`__,
+  `Notification.read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read>`__ and `Notification.read_date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read_date>`__.
 
 Changed
 *******
@@ -69,7 +69,7 @@ Added
 - `ChallengeLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.ChallengeLeaderboard.has_leagues>`__ and
   `PuzzleLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.PuzzleLeaderboard.has_leagues>`__.
 
-- ``Notification._raw``.
+- `Notification.read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read>`__.
 
 Changed
 *******
