@@ -11,7 +11,10 @@ try:
 except ImportError:
     from typing_extensions import Literal, TypedDict
 
-    Literal.__module__ = TypedDict.__module__ = "typing"
+    try:
+        Literal.__module__ = TypedDict.__module__ = "typing"
+    except AttributeError:  # only in 3.6
+        pass
 
 from .codingamer import PartialCodinGamer
 
