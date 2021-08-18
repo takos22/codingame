@@ -6,14 +6,14 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import os
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import re
-import os
 import sys
-
 from typing import NamedTuple
 
 VersionInfo = NamedTuple(
@@ -86,6 +86,7 @@ extensions = [
     "sphinx_inline_tabs",
     "sphinx_copybutton",
     "resourcelinks",
+    "typed_dict_doc",
 ]
 
 # Links used for cross-referencing stuff in other documentation
