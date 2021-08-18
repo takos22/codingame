@@ -83,6 +83,15 @@ Notification
 
 .. autoclass:: Notification()
 
+Enumerations
+############
+
+.. autoclass:: NotificationTypeGroup()
+    :undoc-members:
+
+.. autoclass:: NotificationType()
+    :undoc-members:
+
 Notification data
 #################
 
