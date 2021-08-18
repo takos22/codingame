@@ -11,6 +11,8 @@ try:
 except ImportError:
     from typing_extensions import Literal, TypedDict
 
+    Literal.__module__ = TypedDict.__module__ = "typing"
+
 from .codingamer import PartialCodinGamer
 
 __all__ = (
@@ -172,7 +174,7 @@ class ContestOverData(_ContestData, total=True):
 # comment
 
 
-class _Contribution(TypedDict):
+class _ContributionData(TypedDict):
     handle: str
     title: str  # maybe optional
     type: Literal[
@@ -184,7 +186,7 @@ class _Contribution(TypedDict):
     ]  # maybe optional
 
 
-class _PuzzleSolution(TypedDict):
+class _PuzzleSolutionData(TypedDict):
     puzzleId: str
     puzzleDetailsPageUrl: Optional[str]
     testSessionSubmissionId: int
@@ -196,7 +198,7 @@ class _NewCommentData(TypedDict, total=False):
 
 class _CompleteNewCommentData(_NewCommentData, total=True):
     commentType: Literal["CONTRIBUTION", "SOLUTION"]
-    typeData: Union[_Contribution, _PuzzleSolution]
+    typeData: Union[_ContributionData, _PuzzleSolutionData]
     commentId: int
 
 
@@ -282,8 +284,8 @@ NewLeagueData = ElligibleForNextLeagueData = PromotedLeague = _LeagueData
 # contribution
 
 
-ContributionReceivedData = ContributionAcceptedData = _Contribution
-ContributionRefusedData = ContributionClashModeRemovedData = _Contribution
+ContributionReceivedData = ContributionAcceptedData = _ContributionData
+ContributionRefusedData = ContributionClashModeRemovedData = _ContributionData
 
 
 # puzzle
@@ -322,7 +324,7 @@ class NewHintData(TypedDict):
 
 class ContributionModeratedData(TypedDict):
     actionType: Literal["validate", "deny"]
-    contribution: _Contribution
+    contribution: _ContributionData
 
 
 # quest
