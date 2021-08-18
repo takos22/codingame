@@ -21,6 +21,8 @@ Added
 - :attr:`Notification.codingamer`.
 - :attr:`Notification.seen`, :attr:`Notification.seen_date`,
   :attr:`Notification.read` and :attr:`Notification.read_date`.
+- :class:`NotificationType` and :class:`NotificationTypeGroup` enums for
+  :attr:`Notification.type` and :attr:`Notification.type_group`.
 
 Changed
 *******
