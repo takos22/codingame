@@ -14,8 +14,11 @@ Added
 *****
 
 - `Client.get_unread_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unread_notifications>`__.
+- `Client.get_unread_notifications <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_unread_notifications>`__.
 - `PartialCodinGamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.PartialCodinGamer>`__.
 - `Notification.codingamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.codingamer>`__.
+- ``Notification.seen``, ``Notification.seen_date``,
+  ``Notification.read`` and ``Notification.read_date``.
 
 Changed
 *******
