@@ -22,8 +22,33 @@ def pytest_addoption(parser: "Parser"):
         "--no-mocking",
         action="store_true",
         dest="no_mocking",
-        help="Run tests with API calls",
+        help="Run all tests without mocking the API calls.",
     )
+    parser.addoption(
+        "--om",
+        "--only-mocked",
+        action="store_true",
+        dest="only_mocked",
+        help="Only run tests that have been mocked.",
+    )
+
+
+def pytest_collection_modifyitems(
+    config: "Config", items: typing.List[pytest.Item]
+):
+    mocking_fixture_name = "mocker"
+    if config.getoption("only_mocked", default=False):
+        selected_items = []
+        deselected_items = []
+
+        for item in items:
+            if mocking_fixture_name in getattr(item, "fixturenames", ()):
+                selected_items.append(item)
+            else:
+                deselected_items.append(item)
+
+        config.hook.pytest_deselected(items=deselected_items)
+        items[:] = selected_items
 
 
 @pytest.fixture(name="is_mocking")
