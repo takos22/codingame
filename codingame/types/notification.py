@@ -8,7 +8,7 @@ from typing import Dict, Optional, Union
 
 try:
     from typing import Literal, TypedDict
-except ImportError:
+except ImportError:  # pragma: cover
     from typing_extensions import Literal, TypedDict
 
     try:
@@ -271,7 +271,7 @@ FeatureData.__annotations__["image-instant"] = str
 # arena
 
 # for new-league, new-league-opened, elligible-for-next-league, promoted-league
-class _LeagueData(TypedDict):
+class LeagueData(TypedDict):
     titleLabel: LanguageMapping
     divisionIndex: int
     divisionCount: int
@@ -281,7 +281,7 @@ class _LeagueData(TypedDict):
     testSessionHandle: str
 
 
-NewLeagueData = ElligibleForNextLeagueData = PromotedLeague = _LeagueData
+NewLeagueData = ElligibleForNextLeagueData = PromotedLeague = LeagueData
 
 
 # contribution
@@ -311,7 +311,7 @@ class PuzzleOfTheWeekData(TypedDict):
     contributorAvatarId: Optional[int]
 
 
-NewLeagueOpenedData = _LeagueData
+NewLeagueOpenedData = LeagueData
 
 # hint
 

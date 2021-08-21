@@ -1,16 +1,24 @@
 import typing
+from collections.abc import Mapping
 from datetime import datetime
 from enum import Enum
 
 from .abc import BaseObject
 from .codingamer import PartialCodinGamer
-from .types.notification import Notification as NotificationDict
-from .types.notification import NotificationData
+from .types import notification as types
+from .utils import to_datetime
 
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
 
-__all__ = ("Notification",)
+__all__ = (
+    "Notification",
+    "NotificationType",
+    "NotificationTypeGroup",
+    "NotificationData",
+)
+
+# enums
 
 
 class NotificationTypeGroup(str, Enum):
@@ -161,6 +169,215 @@ class NotificationType(str, Enum):
     recruiter_contact = "recruiter-contact"
 
 
+# data
+
+
+class LanguageMapping(BaseObject):
+    en: str
+    fr: str
+
+    __slots__ = ("en", "fr")
+
+    def __init__(
+        self, state: "ConnectionState", mapping: types.LanguageMapping
+    ):
+        self.en = mapping["en"]
+        self.fr = mapping["fr"]
+
+        super().__init__(state)
+
+    def __getitem__(self, name: str) -> str:
+        if name == "en":
+            return self.en
+        if name == "fr":
+            return self.fr
+        raise AttributeError(name)
+
+
+class NotificationData(Mapping, BaseObject):
+    """Base class for the notification data classes.
+
+    Attributes
+    -----------
+        _raw: :class:`dict`
+            Raw data of the :class:`Notification`, useful when one of the values
+            isn't an attribute.
+    """
+
+    _raw: dict
+
+    __slots__ = ("_raw",)
+
+    def __init__(self, state: "ConnectionState", data: types.NotificationData):
+        self._raw = data
+        super(BaseObject).__init__(state)
+
+    def __getitem__(self, name: str):
+        return self._raw[name]
+
+    def __iter__(self):
+        return iter(self._raw)
+
+    def __len__(self):
+        return len(self._raw)
+
+    @classmethod
+    def from_type(cls, type: NotificationType, data: types.NotificationData):
+        NT = NotificationType
+        type_to_obj = {
+            NT.achievement_unlocked: AchievementUnlockedData,
+            NT.new_league: LeagueData,
+            NT.eligible_for_next_league: LeagueData,
+            NT.promoted_league: LeagueData,
+            NT.new_league_opened: LeagueData,
+        }
+        return type_to_obj.get(type, cls) if data is not None else None
+
+
+# achievement
+
+
+class AchievementUnlockedData(NotificationData):
+    """Data of a :attr:`NotificationType.achievement_unlocked` notification."""
+
+    id: str
+    label: LanguageMapping
+    points: int
+    level: str
+    completion_time: datetime
+    image_id: int
+
+    __slots__ = (
+        "id",
+        "label",
+        "points",
+        "level",
+        "completion_time",
+        "image_id",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: types.AchievementUnlockedData
+    ):
+        self.id = data["id"]
+        self.label = LanguageMapping(state, data["label"])
+        self.points = data["points"]
+        self.level = data["level"]
+        self.completion_time = to_datetime(data["completionTime"])
+        self.image_id = data["imageId"]
+
+        super().__init__(state, data)
+
+
+# arena and new-league-opened
+
+
+class LeagueData(NotificationData):
+    """Data of :attr:`NotificationType.new_league`,
+    :attr:`NotificationType.eligible_for_next_league`,
+    :attr:`NotificationType.promoted_league` and
+    :attr:`NotificationType.new_league_opened` notifications."""
+
+    title_label: LanguageMapping
+    division_index: int
+    division_count: int
+    division_offset: int
+    threshold_index: int
+    thumbnail_binary_id: int
+    test_session_handle: str
+
+    __slots__ = (
+        "title_label",
+        "division_index",
+        "division_count",
+        "division_offset",
+        "threshold_index",
+        "thumbnail_binary_id",
+        "test_session_handle",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.LeagueData):
+        self.title_label = LanguageMapping(state, data["titleLabel"])
+        self.division_index = data["divisionIndex"]
+        self.division_count = data["divisionCount"]
+        self.division_offset = data["divisionOffset"]
+        self.threshold_index = data["thresholdIndex"]
+        self.thumbnail_binary_id = data["thumbnailBinaryId"]
+        self.test_session_handle = data["testSessionHandle"]
+
+        super().__init__(state, data)
+
+
+# quest
+
+
+class QuestCompletedData(NotificationData):
+    """Data of a :attr:`NotificationType.quest_completed` notification."""
+
+    id: int
+    label: LanguageMapping
+
+    __slots__ = (
+        "id",
+        "label",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: types.QuestCompletedData
+    ):
+        self.id = data["questId"]
+        self.label = LanguageMapping(state, data["label"])
+
+        super().__init__(state, data)
+
+
+# social
+
+
+class FriendRegisteredData(NotificationData):
+    """Data of a :attr:`NotificationType.friend_registered` notification."""
+
+    name: str
+
+    __slots__ = ("name",)
+
+    def __init__(
+        self, state: "ConnectionState", data: types.FriendRegisteredData
+    ):
+        self.name = data["name"]
+
+        super().__init__(state, data)
+
+
+# xp
+
+
+class NewLevelData(NotificationData):
+    """Data of a :attr:`NotificationType.new_level` notification."""
+
+    level: int
+    reward: typing.Optional[LanguageMapping]
+    trigger_career_popup: typing.Optional[bool]
+
+    __slots__ = (
+        "level",
+        "reward",
+        "trigger_career_popup",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.NewLevelData):
+        self.level = data["level"]
+        self.reward = (
+            LanguageMapping(state, data["reward"]) if "reward" in data else None
+        )
+        self.trigger_career_popup = data.get("triggerCareerPopup")
+
+        super().__init__(state, data)
+
+
+# notification
+
+
 class Notification(BaseObject):
     """Represents a Notification.
 
@@ -243,7 +460,7 @@ class Notification(BaseObject):
         "codingamer",
     )
 
-    def __init__(self, state: "ConnectionState", data: NotificationDict):
+    def __init__(self, state: "ConnectionState", data: types.Notification):
         self.id = data["id"]
         try:
             self.type = NotificationType(data["type"])
@@ -253,6 +470,7 @@ class Notification(BaseObject):
                 f"unknown notification type {self.type}, please report this at "
                 "https://github.com/takos22/codingame/issues/new"
             )
+
         try:
             self.type_group = NotificationTypeGroup(data["typeGroup"])
         except ValueError:
@@ -261,7 +479,8 @@ class Notification(BaseObject):
                 f"unknown notification type group {self.type_group}, please "
                 "report this at https://github.com/takos22/codingame/issues/new"
             )
-        self.date = datetime.utcfromtimestamp(data["date"] / 1000.0)
+
+        self.date = to_datetime(data["date"])
         self.creation_time = self.date
         self.priority = data["priority"]
         self.urgent = data["urgent"]
@@ -269,16 +488,12 @@ class Notification(BaseObject):
         self.seen = bool(data.get("seenDate"))
         self.seen_date = None
         if self.seen:
-            self.seen_date = datetime.utcfromtimestamp(
-                data["seenDate"] / 1000.0
-            )
+            self.seen_date = to_datetime(data["seenDate"])
 
         self.read = bool(data.get("readDate"))
         self.read_date = None
         if self.read:
-            self.read_date = datetime.utcfromtimestamp(
-                data["readDate"] / 1000.0
-            )
+            self.read_date = to_datetime(data["readDate"])
 
         self.data = data.get("data")
         self.codingamer = None
