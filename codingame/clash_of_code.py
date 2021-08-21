@@ -10,6 +10,7 @@ from .types.clash_of_code import (
     Modes,
     PlayerStatus,
 )
+from .utils import to_datetime
 
 if TYPE_CHECKING:
     from .state import ConnectionState
@@ -126,14 +127,9 @@ class ClashOfCode(BaseObject):
         self.finished = data["finished"]
         self.mode = data.get("mode")
 
-        dt_format = "%b %d, %Y %I:%M:%S %p"
-        self.creation_time = datetime.strptime(data["creationTime"], dt_format)
-        self.start_time = datetime.strptime(data["startTime"], dt_format)
-        self.end_time = (
-            datetime.strptime(data["endTime"], dt_format)
-            if "endTime" in data
-            else None
-        )
+        self.creation_time = to_datetime(data["creationTime"])
+        self.start_time = to_datetime(data["startTime"])
+        self.end_time = to_datetime(data.get("endTime"))
 
         self.time_before_start = timedelta(milliseconds=data["msBeforeStart"])
         self.time_before_end = (
