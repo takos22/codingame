@@ -144,8 +144,8 @@ resource_links = {
     "examples": f"https://github.com/takos22/codingame/tree/{branch}/examples",
 }
 
-# remove type hints in docs
-autodoc_typehints = "none"
+# remove type hints in signatures 
+autodoc_typehints = "description"
 
 # display TODOs in docs
 todo_include_todos = True
