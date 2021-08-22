@@ -16,6 +16,15 @@ __all__ = (
     "NotificationType",
     "NotificationTypeGroup",
     "NotificationData",
+    # data classes
+    "AchievementUnlockedData",
+    "LeagueData",
+    "NewBlogData",
+    "ClashInviteData",
+    "ClashOverData",
+    "QuestCompletedData",
+    "FriendRegisteredData",
+    "NewLevelData",
 )
 
 # enums
@@ -172,7 +181,21 @@ class NotificationType(str, Enum):
 # data
 
 
-class LanguageMapping(BaseObject):
+class LanguageMapping(Mapping, BaseObject):
+    """Mapping to store text with multiple languages.
+
+    This class has the same interface as :class:`dict` for backwards
+    compatibility.
+
+    Attributes
+    -----------
+        en: :class:`str`
+            The text in english.
+
+        fr: :class:`str`
+            The text in french.
+    """
+
     en: str
     fr: str
 
@@ -184,18 +207,27 @@ class LanguageMapping(BaseObject):
         self.en = mapping["en"]
         self.fr = mapping["fr"]
 
-        super().__init__(state)
+        super(BaseObject).__init__(state)
 
-    def __getitem__(self, name: str) -> str:
-        if name == "en":
-            return self.en
-        if name == "fr":
-            return self.fr
-        raise AttributeError(name)
+    def __getitem__(self, language: str) -> str:
+        return {"en": self.en, "fr": self.fr}[language]
+
+    def __iter__(self):
+        return iter({"en": self.en, "fr": self.fr})
+
+    def __len__(self):
+        return 2
+
+    # TODO implement state.current_language
+    # def __str__(self) -> str:
+    #     return super().__str__()
 
 
 class NotificationData(Mapping, BaseObject):
     """Base class for the notification data classes.
+
+    This class has the same interface as :class:`dict` for backwards
+    compatibility.
 
     Attributes
     -----------
@@ -230,8 +262,14 @@ class NotificationData(Mapping, BaseObject):
             NT.eligible_for_next_league: LeagueData,
             NT.promoted_league: LeagueData,
             NT.new_league_opened: LeagueData,
+            NT.new_blog: NewBlogData,
+            NT.clash_invite: ClashInviteData,
+            NT.clash_over: ClashOverData,
+            NT.quest_completed: QuestCompletedData,
+            NT.friend_registered: FriendRegisteredData,
+            NT.new_level: NewLevelData,
         }
-        return type_to_obj.get(type, cls) if data is not None else None
+        return type_to_obj.get(type, cls) if data else None
 
 
 # achievement
@@ -304,6 +342,64 @@ class LeagueData(NotificationData):
         self.threshold_index = data["thresholdIndex"]
         self.thumbnail_binary_id = data["thumbnailBinaryId"]
         self.test_session_handle = data["testSessionHandle"]
+
+        super().__init__(state, data)
+
+
+# blog
+
+
+class NewBlogData(NotificationData):
+    """Data of a :attr:`NotificationType.new_blog` notification."""
+
+    title: LanguageMapping
+    url: LanguageMapping
+
+    __slots__ = (
+        "title",
+        "url",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.NewBlogData):
+        self.title = LanguageMapping(state, data["title"])
+        self.url = LanguageMapping(state, data["url"])
+
+        super().__init__(state, data)
+
+
+# clash
+
+
+class ClashInviteData(NotificationData):
+    """Data of a :attr:`NotificationType.clash_invite` notification."""
+
+    handle: str
+
+    __slots__ = ("handle",)
+
+    def __init__(self, state: "ConnectionState", data: types.ClashInviteData):
+        self.handle = data["handle"]
+
+        super().__init__(state, data)
+
+
+class ClashOverData(NotificationData):
+    """Data of a :attr:`NotificationType.clash_over` notification."""
+
+    handle: str
+    rank: int
+    player_count: int
+
+    __slots__ = (
+        "handle",
+        "rank",
+        "player_count",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.ClashOverData):
+        self.handle = data["handle"]
+        self.rank = data["rank"]
+        self.player_count = data["playerCount"]
 
         super().__init__(state, data)
 
@@ -495,7 +591,7 @@ class Notification(BaseObject):
         if self.read:
             self.read_date = to_datetime(data["readDate"])
 
-        self.data = data.get("data")
+        self.data = NotificationData.from_type(self.type, data.get("data"))
         self.codingamer = None
         if data.get("codingamer"):
             self.codingamer = PartialCodinGamer(state, data["codingamer"])

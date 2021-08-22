@@ -47,10 +47,18 @@ from .leaderboard import (
     PuzzleRankedCodinGamer,
 )
 from .notification import (
+    AchievementUnlockedData,
+    ClashInviteData,
+    ClashOverData,
+    FriendRegisteredData,
+    LeagueData,
+    NewBlogData,
+    NewLevelData,
     Notification,
     NotificationData,
     NotificationType,
     NotificationTypeGroup,
+    QuestCompletedData,
 )
 
 __all__ = (
@@ -67,6 +75,14 @@ __all__ = (
     NotificationType,
     NotificationTypeGroup,
     NotificationData,
+    AchievementUnlockedData,
+    LeagueData,
+    NewBlogData,
+    ClashInviteData,
+    ClashOverData,
+    QuestCompletedData,
+    FriendRegisteredData,
+    NewLevelData,
     # Leaderboard
     GlobalLeaderboard,
     GlobalRankedCodinGamer,
