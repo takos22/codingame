@@ -86,7 +86,6 @@ extensions = [
     "sphinx_inline_tabs",
     "sphinx_copybutton",
     "resourcelinks",
-    "typed_dict_doc",
 ]
 
 # Links used for cross-referencing stuff in other documentation
