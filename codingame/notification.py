@@ -255,6 +255,23 @@ class NotificationData(Mapping, BaseObject):
 
     @classmethod
     def from_type(cls, type: NotificationType, data: types.NotificationData):
+        """Create the correct :class:`NotificationData` subclass according to
+        the :class:`notification type <NotificationType>`.
+
+        Parameters
+        ----------
+            type : :class:`NotificationType`
+                The notification type.
+
+            data : :class:`dict`
+                The notification data.
+
+        Returns
+        -------
+            :class:`NotificationData`
+                The parsed data of the notifcation.
+        """
+
         NT = NotificationType
         type_to_obj = {
             NT.achievement_unlocked: AchievementUnlockedData,
