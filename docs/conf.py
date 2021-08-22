@@ -87,6 +87,7 @@ extensions = [
     "sphinx_inline_tabs",
     "sphinx_copybutton",
     "notfound.extension",
+    "hoverxref.extension",
     "resourcelinks",
 ]
 
@@ -176,3 +177,7 @@ notfound_context = {
         f'<a href="{notfound_urls_prefix}">homepage</a></p>'
     ),
 }
+
+hoverxref_auto_ref = True
+hoverxref_domains = ["py"]
+hoverxref_roles = ["func", "class", "meth", "attr", "data"]
