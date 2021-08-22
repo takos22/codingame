@@ -21,7 +21,7 @@ Added
   `Notification.read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read>`__ and `Notification.read_date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read_date>`__.
 - `NotificationType <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotificationType>`__ and `NotificationTypeGroup <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotificationTypeGroup>`__ enums for
   `Notification.type <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.type>`__ and `Notification.type_group <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.type_group>`__.
-- ``NotificationData`` and subclasses.
+- `NotificationData <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotificationData>`__ and subclasses.
 
 Changed
 *******
