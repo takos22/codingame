@@ -95,54 +95,41 @@ Enumerations
 Notification data
 #################
 
-These are typing annotations for :attr:`Notification.data`
+.. autoclass:: NotificationData()
+    :undoc-members:
+    :no-inherited-members:
 
-.. autotypeddict:: codingame.types.FriendRegisteredData()
-.. autotypeddict:: codingame.types.notification._ContestData()
-.. autotypeddict:: codingame.types.ContestScheduledData()
-.. autotypeddict:: codingame.types.ContestSoonData()
-.. autotypeddict:: codingame.types.ContestStartedData()
-.. autotypeddict:: codingame.types.ContestOverData()
-.. autotypeddict:: codingame.types.notification._ContributionData()
-.. autotypeddict:: codingame.types.notification._PuzzleSolutionData()
-.. autotypeddict:: codingame.types.notification._NewCommentData()
-.. autotypeddict:: codingame.types.notification._CompleteNewCommentData()
-.. autotypeddict:: codingame.types.notification._URLNewCommentData()
+.. autoclass:: AchievementUnlockedData()
+    :undoc-members:
+    :no-inherited-members:
 
-.. class:: codingame.types.notification.NewCommentData()
+.. autoclass:: LeagueData()
+    :undoc-members:
+    :no-inherited-members:
 
-    alias of :class:`codingame.types.notification._CompleteNewCommentData` or
-    :class:`codingame.types.notification._URLNewCommentData`
+.. autoclass:: NewBlogData()
+    :undoc-members:
+    :no-inherited-members:
 
-.. class:: codingame.types.notification.NewCommentResponseData()
+.. autoclass:: ClashInviteData()
+    :undoc-members:
+    :no-inherited-members:
 
-    alias of :class:`codingame.types.notification._CompleteNewCommentData` or
-    :class:`codingame.types.notification._URLNewCommentData`
+.. autoclass:: ClashOverData()
+    :undoc-members:
+    :no-inherited-members:
 
-.. autotypeddict:: codingame.types.notification.ClashInviteData()
-.. autotypeddict:: codingame.types.notification.ClashOverData()
-.. autotypeddict:: codingame.types.notification.AchievementUnlockedData()
-.. autotypeddict:: codingame.types.notification.NewLevelData()
-.. autotypeddict:: codingame.types.notification.NewBlogData()
-.. autotypeddict:: codingame.types.notification.FeatureData()
-.. autotypeddict:: codingame.types.notification._LeagueData()
-.. autotypeddict:: codingame.types.notification.NewLeagueData()
-.. autotypeddict:: codingame.types.notification.ElligibleForNextLeagueData()
-.. autotypeddict:: codingame.types.notification.ContributionReceivedData()
-.. autotypeddict:: codingame.types.notification.ContributionAcceptedData()
-.. autotypeddict:: codingame.types.notification.ContributionRefusedData()
-.. autotypeddict:: codingame.types.notification.ContributionClashModeRemovedData()
-.. autotypeddict:: codingame.types.notification.NewPuzzleData()
-.. autotypeddict:: codingame.types.notification.PuzzleOfTheWeekData()
-.. autotypeddict:: codingame.types.notification.NewLeagueOpenedData()
-.. autotypeddict:: codingame.types.notification.NewHintData()
-.. autotypeddict:: codingame.types.notification.ContributionModeratedData()
-.. autotypeddict:: codingame.types.notification.QuestCompletedData()
-.. autotypeddict:: codingame.types.notification._GenericData()
-.. autotypeddict:: codingame.types.notification.InfoGenericData()
-.. autotypeddict:: codingame.types.notification.WarningGenericData()
-.. autotypeddict:: codingame.types.notification.ImportantGenericData()
-.. autotypeddict:: codingame.types.notification.CustomData()
+.. autoclass:: QuestCompletedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: FriendRegisteredData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewLevelData()
+    :undoc-members:
+    :no-inherited-members:
 
 Leaderboards
 ************
