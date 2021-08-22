@@ -167,7 +167,13 @@ autodoc_default_options = {
 autodoc_member_order = "bysource"
 autoclass_content = "both"
 
-notfound_urls_prefix = "/en/latest/"
+if os.environ.get("READTHEDOCS", False):
+    rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+    rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
+    notfound_urls_prefix = f"/{rtd_lang}/{rtd_version}/"
+else:
+    notfound_urls_prefix = "/"
+
 notfound_context = {
     "title": "Page not found",
     "body": (
@@ -180,4 +186,17 @@ notfound_context = {
 
 hoverxref_auto_ref = True
 hoverxref_domains = ["py"]
-hoverxref_roles = ["func", "class", "meth", "attr", "data"]
+hoverxref_roles = [
+    "ref",
+    "doc",
+    "numref",
+    "mod",
+    "func",
+    "data",
+    "const",
+    "class",
+    "meth",
+    "attr",
+    "exc",
+    "obj",
+]
