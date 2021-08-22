@@ -8,7 +8,7 @@ from typing import Dict, Optional, Union
 
 try:
     from typing import Literal, TypedDict
-except ImportError:  # pragma: cover
+except ImportError:  # pragma: no cover
     from typing_extensions import Literal, TypedDict
 
     try:
@@ -151,25 +151,25 @@ InvitationAcceptedData = None
 # contest
 
 
-class _ContestData(TypedDict, total=False):
+class ContestData(TypedDict, total=False):
     contest: str  # name
     publicId: str
     imageId: int
 
 
-class ContestScheduledData(_ContestData, total=True):
+class ContestScheduledData(ContestData, total=True):
     date: int  # UTC timestamp with ms
 
 
-class ContestSoonData(_ContestData, total=True):
+class ContestSoonData(ContestData, total=True):
     hours: int  # hours until start
 
 
-class ContestStartedData(_ContestData, total=True):
+class ContestStartedData(ContestData, total=True):
     pass
 
 
-class ContestOverData(_ContestData, total=True):
+class ContestOverData(ContestData, total=True):
     rank: int
     playerCount: int
 
@@ -177,7 +177,7 @@ class ContestOverData(_ContestData, total=True):
 # comment
 
 
-class _ContributionData(TypedDict):
+class ContributionData(TypedDict):
     handle: str
     title: str  # maybe optional
     type: Literal[
@@ -189,28 +189,28 @@ class _ContributionData(TypedDict):
     ]  # maybe optional
 
 
-class _PuzzleSolutionData(TypedDict):
+class PuzzleSolutionData(TypedDict):
     puzzleId: str
     puzzleDetailsPageUrl: Optional[str]
     testSessionSubmissionId: int
 
 
-class _NewCommentData(TypedDict, total=False):
+class NewCommentData(TypedDict, total=False):
     type: LanguageMapping
 
 
-class _CompleteNewCommentData(_NewCommentData, total=True):
+class CompleteNewCommentData(NewCommentData, total=True):
     commentType: Literal["CONTRIBUTION", "SOLUTION"]
-    typeData: Union[_ContributionData, _PuzzleSolutionData]
+    typeData: Union[ContributionData, PuzzleSolutionData]
     commentId: int
 
 
-class _URLNewCommentData(_NewCommentData, total=True):
+class URLNewCommentData(NewCommentData, total=True):
     url: str
 
 
 NewCommentData = NewCommentResponseData = Union[
-    _CompleteNewCommentData, _URLNewCommentData
+    CompleteNewCommentData, URLNewCommentData
 ]
 
 # clash
@@ -287,8 +287,8 @@ NewLeagueData = ElligibleForNextLeagueData = PromotedLeague = LeagueData
 # contribution
 
 
-ContributionReceivedData = ContributionAcceptedData = _ContributionData
-ContributionRefusedData = ContributionClashModeRemovedData = _ContributionData
+ContributionReceivedData = ContributionAcceptedData = ContributionData
+ContributionRefusedData = ContributionClashModeRemovedData = ContributionData
 
 
 # puzzle
@@ -327,7 +327,7 @@ class NewHintData(TypedDict):
 
 class ContributionModeratedData(TypedDict):
     actionType: Literal["validate", "deny"]
-    contribution: _ContributionData
+    contribution: ContributionData
 
 
 # quest
@@ -341,12 +341,12 @@ class QuestCompletedData(TypedDict):
 # generic
 
 
-class _GenericData(TypedDict):
+class GenericData(TypedDict):
     description: LanguageMapping
     url: str
 
 
-InfoGenericData = WarningGenericData = ImportantGenericData = _GenericData
+InfoGenericData = WarningGenericData = ImportantGenericData = GenericData
 
 
 # custom
