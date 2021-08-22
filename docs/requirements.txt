@@ -3,4 +3,5 @@ sphinx>=3.1,<4
 furo
 sphinx-inline-tabs
 sphinx-copybutton
+sphinx-notfound-page
 typing_extensions

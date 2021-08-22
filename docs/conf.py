@@ -83,8 +83,10 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "sphinx_inline_tabs",
     "sphinx_copybutton",
+    "notfound.extension",
     "resourcelinks",
 ]
 
@@ -163,3 +165,14 @@ autodoc_default_options = {
 }
 autodoc_member_order = "bysource"
 autoclass_content = "both"
+
+notfound_urls_prefix = "/en/latest/"
+notfound_context = {
+    "title": "Page not found",
+    "body": (
+        "<h1>Page not found</h1>\n\n"
+        "<p>Unfortunately we couldn't find the page you were looking for.</p>"
+        "<p>Try using the search box or go to the "
+        f'<a href="{notfound_urls_prefix}">homepage</a></p>'
+    ),
+}
