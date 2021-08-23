@@ -1,3 +1,9 @@
+
+.. image:: _static/codingame.png
+  :alt: CodinGame logo
+  :align: right
+  :scale: 50%
+
 codingame |version| -- CodinGame API wrapper documentation
 ==========================================================
 

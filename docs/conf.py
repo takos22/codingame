@@ -76,6 +76,7 @@ needs_sphinx = "3.0"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx_toolbox.more_autodoc",
     "sphinx.ext.autodoc",
     # "sphinx.ext.autosectionlabel",
     "sphinx.ext.coverage",
@@ -88,7 +89,9 @@ extensions = [
     "sphinx_copybutton",
     "notfound.extension",
     "hoverxref.extension",
+    "sphinx_search.extension",
     "resourcelinks",
+    "og_tags",
 ]
 
 # Links used for cross-referencing stuff in other documentation
@@ -102,6 +105,7 @@ rst_prolog = """
 .. |maybe_coro| replace:: This function can be a |coroutine_link|_.
 .. |coroutine_link| replace:: *coroutine*
 .. _coroutine_link: https://docs.python.org/3/library/asyncio-task.html#coroutine
+.. |nbsp| unicode:: 0xA0\n   :trim:
 """  # noqa: E501
 
 # Add any paths that contain templates here, relative to this directory.
@@ -125,8 +129,8 @@ html_title = "Codingame"
 html_theme = "furo"
 html_theme_options = {
     "navigation_with_keys": True,
-    "light_logo": "codingame.png",
-    "dark_logo": "codingame.png",
+    # "light_logo": "codingame.png",
+    # "dark_logo": "codingame.png",
     "dark_css_variables": {
         "color-inline-code-background": "#292d2d",
     },
@@ -144,7 +148,7 @@ resource_links = {
     "examples": f"https://github.com/takos22/codingame/tree/{branch}/examples",
 }
 
-# remove type hints in signatures 
+# remove type hints in signatures
 autodoc_typehints = "none"
 
 # display TODOs in docs
@@ -167,9 +171,10 @@ autodoc_default_options = {
 autodoc_member_order = "bysource"
 autoclass_content = "both"
 
+rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
+
 if os.environ.get("READTHEDOCS", False):
-    rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE", "en")
-    rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
     notfound_urls_prefix = f"/{rtd_lang}/{rtd_version}/"
 else:
     notfound_urls_prefix = "/"
@@ -184,6 +189,8 @@ notfound_context = {
     ),
 }
 
+hoverxref_project = "codingame"
+hoverxref_version = rtd_version
 hoverxref_auto_ref = True
 hoverxref_domains = ["py"]
 hoverxref_roles = [
@@ -200,3 +207,21 @@ hoverxref_roles = [
     "exc",
     "obj",
 ]
+
+
+github_username = "takos22"
+github_repository = "codingame"
+hide_none_rtype = True
+
+og_site_name = "CodinGame documentation"
+og_desc = (
+    "The codingame module is a wrapper for the undocumented CodinGame API, "
+    "it enables developers to interact with CodinGame through a "
+    "Python programming interface."
+)
+og_image = (
+    "https://codingame.readthedocs.io/"
+    f"{rtd_lang}/{rtd_version}/_static/codingame.png"
+)
+if not os.environ.get("READTHEDOCS", False):
+    og_site_url = f"https://codingame.readthedocs.io/{rtd_lang}/{rtd_version}/"
