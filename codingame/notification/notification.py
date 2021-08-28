@@ -129,7 +129,9 @@ class Notification(BaseObject):
         if self.read:
             self.read_date = to_datetime(data["readDate"])
 
-        self.data = NotificationData.from_type(self.type, data.get("data"))
+        self.data = NotificationData.from_type(
+            self.type, state, data.get("data")
+        )
         self.codingamer = None
         if data.get("codingamer"):
             self.codingamer = PartialCodinGamer(state, data["codingamer"])
