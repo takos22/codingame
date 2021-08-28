@@ -195,17 +195,17 @@ class PuzzleSolutionData(TypedDict):
     testSessionSubmissionId: int
 
 
-class NewCommentData(TypedDict, total=False):
+class BaseNewCommentData(TypedDict, total=False):
     type: LanguageMapping
 
 
-class CompleteNewCommentData(NewCommentData, total=True):
+class CompleteNewCommentData(BaseNewCommentData, total=True):
     commentType: Literal["CONTRIBUTION", "SOLUTION"]
     typeData: Union[ContributionData, PuzzleSolutionData]
     commentId: int
 
 
-class URLNewCommentData(NewCommentData, total=True):
+class URLNewCommentData(BaseNewCommentData, total=True):
     url: str
 
 
