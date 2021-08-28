@@ -3,12 +3,12 @@
 # https://github.com/sphinx-contrib/ogp/blob/master/sphinxcontrib_ogp/ext.py
 
 import os
-from typing import Any, Dict, List, Tuple
-from urllib.parse import urlparse, urlunparse
+from typing import Any, Dict
+from urllib.parse import urljoin, urlparse, urlunparse
+
 from docutils import nodes
 from sphinx import addnodes
-from sphinx.application import Sphinx, Config
-from urllib.parse import urljoin
+from sphinx.application import Config, Sphinx
 
 
 class Visitor:
