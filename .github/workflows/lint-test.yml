@@ -60,7 +60,7 @@ jobs:
         pytest --only-mocked
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         fail_ci_if_error: true
         flags: mocked
@@ -79,7 +79,7 @@ jobs:
         pytest --no-mocking
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         fail_ci_if_error: true
         flags: api
