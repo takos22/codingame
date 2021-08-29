@@ -63,6 +63,7 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true
+        flags: mocked
 
     - name: Test with pytest without mocking API enpoints
       env:
@@ -81,3 +82,4 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true
+        flags: api
