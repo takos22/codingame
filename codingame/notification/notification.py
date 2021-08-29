@@ -98,7 +98,7 @@ class Notification(BaseObject):
         self.id = data["id"]
         try:
             self.type = NotificationType(data["type"])
-        except ValueError:
+        except ValueError:  # pragma: no cover
             self.type = data["type"]
             print(
                 f"unknown notification type {self.type}, please report this at "
@@ -107,7 +107,7 @@ class Notification(BaseObject):
 
         try:
             self.type_group = NotificationTypeGroup(data["typeGroup"])
-        except ValueError:
+        except ValueError:  # pragma: no cover
             self.type_group = data["typeGroup"]
             print(
                 f"unknown notification type group {self.type_group}, please "
