@@ -57,7 +57,7 @@ jobs:
 
     - name: Test the mocked API endpoints with pytest
       run: |
-        pytest --only-mocked
+        pytest --only-mocked -v
 
     - name: Test with pytest without mocking API enpoints
       env:
@@ -70,9 +70,9 @@ jobs:
 
         TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        pytest --no-mocking --cov-append
+        pytest --no-mocking --cov-append -v
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true
