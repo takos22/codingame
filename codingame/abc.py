@@ -75,12 +75,12 @@ class BaseUser(BaseObject):
 class Mapping(BaseMapping, BaseObject):
     _raw: dict
 
-    __slots__ = "_raw"
+    __slots__ = ("_raw",)
 
     def __init__(self, state: "ConnectionState", data: dict):
         self._raw = data
 
-        super(BaseObject).__init__(state)
+        super().__init__(state)
 
     def __getitem__(self, name: str):
         return self._raw[name]
