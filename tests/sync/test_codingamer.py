@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from codingame.client import Client

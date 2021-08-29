@@ -1,12 +1,12 @@
 import os
-import pytest
 
-import dotenv
+import pytest
+from dotenv import load_dotenv
 
 from codingame import Client
 from codingame.client.async_ import AsyncClient
 
-dotenv.load_dotenv()
+load_dotenv()
 
 
 @pytest.fixture(name="client", scope="function")
