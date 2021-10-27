@@ -33,7 +33,13 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     # --------------------------------------------------------------------------
     # CodinGamer
 
-    async def login(self, email: str, password: str) -> CodinGamer:
+    async def login(
+        self,
+        email: str,
+        password: str,
+        cg_session_cookie: typing.Optional[str] = None,
+    ) -> CodinGamer:
+        self._state.http.set_cookie("cgSession", cg_session_cookie)  # issue #5
         try:
             data = await self._state.http.login(email, password)
         except HTTPError as error:
