@@ -27,3 +27,6 @@ class AsyncHTTPClient(BaseHTTPClient):
             except aiohttp.ClientResponseError as error:
                 raise HTTPError.from_aiohttp(error, data) from None
             return data
+
+    def set_cookie(self, name: str, value: str):
+        self.__session.cookie_jar.update_cookies({name: value})

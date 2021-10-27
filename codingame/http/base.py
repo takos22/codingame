@@ -25,6 +25,10 @@ class BaseHTTPClient(ABC):
     def request(self, url: str, json: list = []):
         ...  # pragma: no cover
 
+    @abstractmethod
+    def set_cookie(self, name: str, value: str):
+        ...  # pragma: no cover
+
     def login(self, email: str, password: str):
         return self.request(Endpoints.login, [email, password, True])
 
