@@ -35,3 +35,6 @@ class SyncHTTPClient(BaseHTTPClient):
             except requests.HTTPError as error:
                 raise HTTPError.from_requests(error, data) from None
             return data
+
+    def set_cookie(self, name: str, value: str):
+        return self.__session.cookies.set(name, value)

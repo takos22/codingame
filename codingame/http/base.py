@@ -39,6 +39,10 @@ class BaseHTTPClient(ABC):
     def request(self, service: str, func: str, json: list = []):
         ...  # pragma: no cover
 
+    @abstractmethod
+    def set_cookie(self, name: str, value: str):
+        ...  # pragma: no cover
+
     def get_file_url(self, id: int, format: str = None) -> str:
         url = f"https://static.codingame.com/servlet/fileservlet?id={id}"
         if format:
