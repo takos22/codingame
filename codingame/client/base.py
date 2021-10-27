@@ -91,7 +91,12 @@ class BaseClient(ABC):
         return self._state.codingamer
 
     @abstractmethod
-    def login(self, email: str, password: str) -> "CodinGamer":
+    def login(
+        self,
+        email: str,
+        password: str,
+        cg_session_cookie: typing.Optional[str] = None,
+    ) -> "CodinGamer":
         """|maybe_coro|
 
         Login to a CodinGamer account.
@@ -103,6 +108,14 @@ class BaseClient(ABC):
 
             password: :class:`str`
                 Password of the CodinGamer.
+
+            cg_session_cookie: Optional :class:`str`
+                Session ID from CodinGame cookies.
+                Open https://codingame.com, log into your account, then access
+                the cookies and copy the one under ``www.codingame.come`` that
+                is named ``cgSession`` and pass it to this parameter.
+                This is needed as of 2021-10-27 because of an endpoint change,
+                see https://github.com/takos22/codingame/issues/5.
 
         Raises
         ------
