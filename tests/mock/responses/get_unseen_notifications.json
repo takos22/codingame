@@ -1,0 +1,154 @@
+[
+    {
+        "id": 19688568,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1629803400002,
+        "data": {
+            "puzzleOfTheWeekImageId": 68939147909919,
+            "contributorNickname": "mouton5000",
+            "contributorAvatarId": 8063098456757,
+            "puzzleId": 716,
+            "puzzleLevel": "hard",
+            "puzzlePrettyId": "binary-extension",
+            "puzzleName": {
+                "en": "Binary Extension",
+                "fr": "Binary Extension"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 19614202,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1629195000004,
+        "data": {
+            "puzzleOfTheWeekImageId": 68939022191880,
+            "contributorNickname": "nicola",
+            "contributorAvatarId": 26090852120005,
+            "puzzleId": 578,
+            "puzzleLevel": "medium",
+            "puzzlePrettyId": "propositions-in-freges-ideography",
+            "puzzleName": {
+                "en": "Propositions in Frege\u2019s ideography",
+                "fr": "Propositions in Frege\u2019s ideography"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 19543399,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1628586600011,
+        "data": {
+            "puzzleOfTheWeekImageId": 68042301278056,
+            "contributorNickname": "struct",
+            "contributorAvatarId": 61418101984360,
+            "puzzleId": 738,
+            "puzzleLevel": "multi",
+            "puzzlePrettyId": "amazons",
+            "puzzleName": {
+                "en": "Amazons",
+                "fr": "Amazons"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 19464756,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1627981800004,
+        "data": {
+            "puzzleOfTheWeekImageId": 68042209847746,
+            "contributorNickname": "P4V3L14K0V",
+            "contributorAvatarId": 65827828670120,
+            "puzzleId": 772,
+            "puzzleLevel": "medium",
+            "puzzlePrettyId": "folding-a-note",
+            "puzzleName": {
+                "en": "Folding a Note",
+                "fr": "Folding a Note"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 19393800,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1627377000003,
+        "data": {
+            "puzzleOfTheWeekImageId": 68042088705061,
+            "contributorNickname": "DPAmar",
+            "contributorAvatarId": 56994389567033,
+            "puzzleId": 609,
+            "puzzleLevel": "hard",
+            "puzzlePrettyId": "map-colorations",
+            "puzzleName": {
+                "en": "Map Colorations",
+                "fr": "Map Colorations"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 19388728,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1627321572007,
+        "data": {
+            "handle": "188450111c8b1cd116af0b7559a2a165cd09f3c",
+            "playerCount": 13,
+            "rank": 5
+        },
+        "urgent": false
+    },
+    {
+        "id": 19388580,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1627320402002,
+        "data": {
+            "handle": "1884476c88cb28554da689ea3b7ef71e22c6ea5",
+            "playerCount": 13,
+            "rank": 10
+        },
+        "urgent": false
+    },
+    {
+        "id": 19377198,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1627223437002,
+        "data": {
+            "handle": "188262310ce46a518c2d03920e6b9ba077d2bfe",
+            "playerCount": 2,
+            "rank": 2
+        },
+        "urgent": false
+    },
+    {
+        "id": 19377092,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1627222792001,
+        "data": {
+            "handle": "18826030020bd20b3f3b8d0ace47046e956ace6",
+            "playerCount": 3,
+            "rank": 1
+        },
+        "urgent": false
+    }
+]

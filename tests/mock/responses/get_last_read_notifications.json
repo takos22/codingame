@@ -1,0 +1,71 @@
+[
+    {
+        "id": 19235629,
+        "type": "new-level",
+        "typeGroup": "xp",
+        "priority": 0,
+        "date": 1626034449247,
+        "data": {
+            "level": 4
+        },
+        "readDate": 1626034452518,
+        "seenDate": 1626034452518,
+        "urgent": false
+    },
+    {
+        "id": 15551950,
+        "type": "new-level",
+        "typeGroup": "xp",
+        "priority": 0,
+        "date": 1600873019612,
+        "data": {
+            "level": 3,
+            "reward": {
+                "fr": "Vous avez dor\u00e9navant acc\u00e8s au chat de CodinGame! N'h\u00e9sitez pas \u00e0 passer dire bonjour.",
+                "en": "You have now access to the CodinGame chat! Don't hesitate to come and say hi."
+            }
+        },
+        "readDate": 1600873024344,
+        "seenDate": 1600873024344,
+        "urgent": false
+    },
+    {
+        "id": 15442143,
+        "type": "new-level",
+        "typeGroup": "xp",
+        "priority": 0,
+        "date": 1599943027257,
+        "data": {
+            "level": 2,
+            "reward": {
+                "fr": "Les niveaux vous permettent de suivre vos progr\u00e8s sur la plate-forme.",
+                "en": "Levels allow you to keep track of your progression while sharpening your skills."
+            },
+            "triggerCareerPopup": true
+        },
+        "readDate": 1599943571164,
+        "seenDate": 1599943571164,
+        "urgent": false
+    },
+    {
+        "id": 15442035,
+        "type": "achievement-unlocked",
+        "typeGroup": "achievement",
+        "priority": 0,
+        "date": 1599942080000,
+        "data": {
+            "id": "PFL_PSEUDO",
+            "imageId": 1923937611019,
+            "points": 10,
+            "level": "BRONZE",
+            "completionTime": 1599942080000,
+            "label": {
+                "fr": "Mon nom est Personne",
+                "en": "My name is Nobody"
+            }
+        },
+        "readDate": 1629144822456,
+        "seenDate": 1627220668516,
+        "urgent": true
+    }
+]
