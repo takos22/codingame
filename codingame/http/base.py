@@ -30,7 +30,9 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     def login(self, email: str, password: str):
-        return self.request(Endpoints.login, [email, password, True])
+        return self.request(
+            Endpoints.login, [email, password, True, "CODINGAME", ""]
+        )
 
     def search(self, query: str):
         return self.request(Endpoints.search, [query, "en", None])

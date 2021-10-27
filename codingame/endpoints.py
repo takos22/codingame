@@ -9,7 +9,7 @@ class Endpoints:
     image = "https://static.codingame.com/servlet/fileservlet?id={}"
 
     # general stuff
-    login = BASE + "CodinGamer/loginSiteV2"
+    login = BASE + "CodinGamer/loginSite"
     language_ids = BASE + "ProgrammingLanguage/findAllIds"
     unseen_notifications = BASE + "Notification/findUnseenNotifications"
     search = BASE + "search/search"
