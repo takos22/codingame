@@ -176,6 +176,8 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: IncorrectPassword
 
+.. autoexception:: WrongCaptchaAnswer
+
 .. autoexception:: LoginRequired
 
 .. autoexception:: NotFound
@@ -199,6 +201,7 @@ Exception Hierarchy
             - :exc:`PasswordRequired`
             - :exc:`EmailNotLinked`
             - :exc:`IncorrectPassword`
+            - :exc:`WrongCaptchaAnswer`
             - :exc:`LoginRequired`
         - :exc:`NotFound`
             - :exc:`CodinGamerNotFound`
