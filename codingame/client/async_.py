@@ -35,21 +35,35 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
 
     async def login(
         self,
-        email: str,
-        password: str,
-        cg_session_cookie: typing.Optional[str] = None,
-    ) -> CodinGamer:
-        self._state.http.set_cookie("cgSession", cg_session_cookie)  # issue #5
-        try:
-            data = await self._state.http.login(email, password)
-        except HTTPError as error:
-            raise LoginError.from_id(
-                error.data["id"], error.data["message"]
-            ) from None
+        email: typing.Optional[str] = None,
+        password: typing.Optional[str] = None,
+        remember_me_cookie: typing.Optional[str] = None,
+    ) -> typing.Optional[CodinGamer]:
+        if remember_me_cookie is not None:
+            # see issue #5
+            self._state.http.set_cookie("rememberMe", remember_me_cookie)
+            self._state.logged_in = True
 
-        self._state.logged_in = True
-        self._state.codingamer = CodinGamer(self._state, data["codinGamer"])
-        return self.codingamer
+            codingamer_id = int(remember_me_cookie[:7])
+            self._state.codingamer = await self.get_codingamer(codingamer_id)
+
+            return self._state.codingamer
+        else:
+            raise LoginError(
+                "Email/password login is unavailable, use cookie authentication"
+                " instead, with the ``remember_me_cookie`` parameter."
+            )
+
+        # try:
+        #     data = await self._state.http.login(email, password)
+        # except HTTPError as error:
+        #     raise LoginError.from_id(
+        #         error.data["id"], error.data["message"]
+        #     ) from None
+
+        # self._state.logged_in = True
+        # self._state.codingamer = CodinGamer(self._state, data["codinGamer"])
+        # return self.codingamer
 
     async def get_codingamer(
         self, codingamer: typing.Union[str, int]

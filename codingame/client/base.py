@@ -94,29 +94,33 @@ class BaseClient(ABC):
     @abstractmethod
     def login(
         self,
-        email: str,
-        password: str,
-        cg_session_cookie: typing.Optional[str] = None,
-    ) -> "CodinGamer":
+        email: typing.Optional[str] = None,
+        password: typing.Optional[str] = None,
+        remember_me_cookie: typing.Optional[str] = None,
+    ) -> typing.Optional["CodinGamer"]:
         """|maybe_coro|
 
         Login to a CodinGame account.
 
+        .. error::
+            As of 2021-10-27, the only way to login is with cookie
+            authentication, so with the``remember_me_cookie`` parameter, because
+            of an endpoint change, see :ref:`login`. Using email/password
+            authentication will raise a :exc:`LoginError`.
+
         Parameters
         -----------
-            email: :class:`str`
-                Email adress of the account.
+            email: Optional :class:`str`
+                Email adress of the CodinGamer.
+                Not needed if using session ID login.
 
-            password: :class:`str`
-                Password of the account.
+            password: Optional :class:`str`
+                Password of the CodinGamer.
+                Not needed if using cookie login.
 
-            cg_session_cookie: Optional :class:`str`
-                Session ID from CodinGame cookies.
-                Open https://codingame.com, log into your account, then access
-                the cookies and copy the one under ``www.codingame.come`` that
-                is named ``cgSession`` and pass it to this parameter.
-                This is needed as of 2021-10-27 because of an endpoint change,
-                see https://github.com/takos22/codingame/issues/5.
+            remember_me_cookie: Optional :class:`str`
+                ``rememberMe`` cookie from CodinGame cookies.
+                Not needed if using email/password login.
 
         Raises
         ------
