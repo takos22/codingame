@@ -18,7 +18,6 @@ def create_client() -> Client:
 def create_logged_in_client() -> Client:
     with Client() as client:
         client.login(
-            os.environ.get("TEST_LOGIN_EMAIL"),
-            os.environ.get("TEST_LOGIN_PASSWORD"),
+            remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
         )
         yield client
