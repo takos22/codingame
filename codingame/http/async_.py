@@ -1,5 +1,6 @@
 import typing
-from http.cookies import Morsel, _quote as cookie_quote
+from http.cookies import Morsel
+from http.cookies import _quote as cookie_quote
 
 import aiohttp
 
