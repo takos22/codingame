@@ -36,6 +36,7 @@ from .exceptions import (
     NotFound,
     PasswordRequired,
     PuzzleNotFound,
+    WrongCaptchaAnswer,
 )
 from .leaderboard import (
     ChallengeLeaderboard,
@@ -99,6 +100,7 @@ __all__ = (
     PasswordRequired,
     EmailNotLinked,
     IncorrectPassword,
+    WrongCaptchaAnswer,
     LoginRequired,
     NotFound,
     CodinGamerNotFound,
