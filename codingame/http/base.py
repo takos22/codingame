@@ -1,3 +1,4 @@
+import typing
 from abc import ABC, abstractmethod
 
 from ..endpoints import Endpoints
@@ -26,7 +27,12 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def set_cookie(self, name: str, value: str):
+    def set_cookie(
+        self,
+        name: str,
+        value: typing.Optional[str] = None,
+        domain: str = "www.codingame.com",
+    ):
         ...  # pragma: no cover
 
     def login(self, email: str, password: str):

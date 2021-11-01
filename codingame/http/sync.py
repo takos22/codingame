@@ -1,3 +1,5 @@
+import typing
+
 import requests
 
 from .base import BaseHTTPClient
@@ -24,5 +26,10 @@ class SyncHTTPClient(BaseHTTPClient):
                 raise HTTPError.from_requests(error, data) from None
             return data
 
-    def set_cookie(self, name: str, value: str):
-        return self.__session.cookies.set(name, value)
+    def set_cookie(
+        self,
+        name: str,
+        value: typing.Optional[str] = None,
+        domain: str = "www.codingame.com",
+    ):
+        return self.__session.cookies.set(name, value, domain=domain)

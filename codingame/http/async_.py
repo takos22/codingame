@@ -1,3 +1,6 @@
+import typing
+from http.cookies import Morsel, _quote as cookie_quote
+
 import aiohttp
 
 from .base import BaseHTTPClient
@@ -28,5 +31,16 @@ class AsyncHTTPClient(BaseHTTPClient):
                 raise HTTPError.from_aiohttp(error, data) from None
             return data
 
-    def set_cookie(self, name: str, value: str):
-        self.__session.cookie_jar.update_cookies({name: value})
+    def set_cookie(
+        self,
+        name: str,
+        value: typing.Optional[str] = None,
+        domain: str = "www.codingame.com",
+    ):
+        if value is not None:
+            morsel = Morsel()
+            morsel.set(name, value, cookie_quote(value))
+            morsel["domain"] = domain
+            self.__session.cookie_jar.update_cookies({name: morsel})
+        else:
+            self.__session.cookie_jar._cookies.get(domain, {}).pop(name, None)
