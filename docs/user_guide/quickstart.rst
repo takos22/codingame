@@ -68,20 +68,50 @@ Let's get a :class:`Clash of Code <ClashOfCode>` from its public handle with the
     See :meth:`Client.get_pending_clash_of_code`,
     :meth:`Client.get_clash_of_code` and :class:`ClashOfCode` for more info.
 
+.. _login:
+
 Login
 -----
 
-Let's log in into a profile with the email and password with the
-:meth:`Client.login` method:
+As of 2021-10-27, logging in with the email and the password no longer works
+because of an endpoint change, see
+`issue #5 <https://github.com/takos22/codingame/issues/5>`__.
+The only way to fix it is to log in with cookie authentication, you need to get
+the ``rememberMe`` cookie from :resource:`CodinGame <codingame>`. This cookie
+should be valid for 1 year, but you might need to update it every time you log
+in on CodinGame.
+
+1. Open https://codingame.com.
+2. Log into your account, if you're not logged in already.
+3. Access and copy the ``rememberMe`` cookie:
+
+    .. tab:: Chrome
+
+        Open the developer console (:kbd:`F12`), go to the **Application** tab,
+        look for the ``rememberMe`` cookie then copy its value.
+
+        .. image:: /_static/chrome_cookie.png
+           :alt: Screenshot of where to find the cookie in Chrome
+
+    .. tab:: Firefox
+
+        Open the developer console (:kbd:`F12`), go to the **Storage** tab,
+        look for the ``rememberMe`` cookie then copy its value.
+
+        .. image:: /_static/firefox_cookie.png
+           :alt: Screenshot of where to find the cookie in Firefox
+
+.. credits to https://github.com/s-vivien/CGBenchmark for the screenshots
+
+4. Paste the ``rememberMe`` cookie in the code below:
 
 .. code-block:: python3
 
     import codingame
 
-    client = codingame.Client("email", "password")
+    client = codingame.Client(remember_me_cookie="your cookie here")
 
     # then you can access the logged in codingamer like this
-    print(client.logged_in)
     print(client.codingamer)
     print(client.codingamer.pseudo)
     print(client.codingamer.public_handle)
@@ -91,5 +121,4 @@ Let's log in into a profile with the email and password with the
     See :class:`Client` and :meth:`Client.login` for more info.
 
 .. note::
-    Don't worry, the email and the password aren't stored.
-    You can see that `here <https://github.com/takos22/codingame/blob/master/codingame/client/sync.py#L23-33/>`__.
+    Don't worry, the cookie isn't saved nor shared.

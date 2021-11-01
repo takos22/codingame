@@ -113,6 +113,7 @@ resource_links = {
     "discord": "https://discord.gg/8HgtN6E",
     "issues": "https://github.com/takos22/codingame/issues",
     "examples": f"https://github.com/takos22/codingame/tree/{branch}/examples",
+    "codingame": "https://codingame.com",
 }
 
 # remove type hints in docs
