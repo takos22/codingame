@@ -40,7 +40,12 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def set_cookie(self, name: str, value: str):
+    def set_cookie(
+        self,
+        name: str,
+        value: typing.Optional[str] = None,
+        domain: str = "www.codingame.com",
+    ):
         ...  # pragma: no cover
 
     def get_file_url(self, id: int, format: str = None) -> str:
