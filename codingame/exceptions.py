@@ -34,6 +34,7 @@ class LoginError(CodinGameAPIError):
             336: PasswordRequired,
             393: EmailNotLinked,
             396: IncorrectPassword,
+            701: WrongCaptchaAnswer,
         }
         return errors.get(id, cls)(message)
 
@@ -57,6 +58,12 @@ class EmailNotLinked(LoginError):
 
 class IncorrectPassword(LoginError):
     """Raised when the password given at login is incorrect."""
+
+
+class WrongCaptchaAnswer(LoginError):
+    """Raised when the captcha in the email/password login is incorrect.
+
+    See :ref:`login` to fix this"""
 
 
 class LoginRequired(LoginError):
