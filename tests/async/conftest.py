@@ -19,7 +19,6 @@ async def create_client() -> AsyncClient:
 async def create_logged_in_client() -> AsyncClient:
     async with Client(is_async=True) as client:
         await client.login(
-            os.environ.get("TEST_LOGIN_EMAIL"),
-            os.environ.get("TEST_LOGIN_PASSWORD"),
+            remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
         )
         yield client

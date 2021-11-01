@@ -46,13 +46,13 @@ async def test_client_context_manager_error():
 async def test_client_login(client: AsyncClient, mock_http):
     mock_http(client._state.http, "login")
     await client.login(
-        os.environ.get("TEST_LOGIN_EMAIL"),
-        os.environ.get("TEST_LOGIN_PASSWORD"),
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
     assert client.logged_in is True
     assert client.codingamer is not None
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize(
     ["email", "password"],
     [
