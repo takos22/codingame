@@ -61,8 +61,7 @@ jobs:
 
     - name: Test with pytest without mocking API enpoints
       env:
-        TEST_LOGIN_EMAIL: ${{ secrets.TEST_LOGIN_EMAIL }}
-        TEST_LOGIN_PASSWORD: ${{ secrets.TEST_LOGIN_PASSWORD }}
+        TEST_LOGIN_REMEMBER_ME_COOKIE: ${{ secrets.TEST_LOGIN_REMEMBER_ME_COOKIE }}
 
         TEST_CODINGAMER_ID: ${{ secrets.TEST_CODINGAMER_ID }}
         TEST_CODINGAMER_PSEUDO: ${{ secrets.TEST_CODINGAMER_PSEUDO }}
