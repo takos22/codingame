@@ -46,11 +46,6 @@ Changed
 - Update :attr:`Client.login` to bypass captcha on login endpoint with
   cookie based authentication, see :ref:`login`.
 
-Removed
-*******
-
-- ``codingame.endpoints``
-
 Version 1.0.1 (2021-07-12)
 --------------------------
 
