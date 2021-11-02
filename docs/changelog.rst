@@ -9,7 +9,7 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.1.0 (unreleased)
+Version 1.2.0 (unreleased)
 --------------------------
 
 Added
@@ -36,6 +36,15 @@ Removed
 
 - ``codingame.endpoints`` submodule.
 - ``Notification._raw``.
+
+Version 1.1.0 (2021-11-01)
+--------------------------
+
+Changed
+*******
+
+- Update :attr:`CodinGamer.login` to bypass captcha on login endpoint with
+  cookie based authentication, see :ref:`login`.
 
 Version 1.0.1 (2021-07-12)
 --------------------------
