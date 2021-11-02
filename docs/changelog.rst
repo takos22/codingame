@@ -42,7 +42,7 @@ Version 1.1.0 (2021-11-01)
 Changed
 *******
 
-- Update :attr:`CodinGamer.login` to bypass captcha on login endpoint with
+- Update :attr:`Client.login` to bypass captcha on login endpoint with
   cookie based authentication, see :ref:`login`.
 
 Version 1.0.1 (2021-07-12)
