@@ -139,8 +139,6 @@ Getting a :class:`Clash of Code <ClashOfCode>` from its public handle with the
     :meth:`Client.get_pending_clash_of_code` and :class:`ClashOfCode`
     for more info.
 
-.. _login:
-
 Login
 -----
 
