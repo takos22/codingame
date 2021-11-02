@@ -11,6 +11,10 @@ class Client(BaseClient):
     Instanciates a :class:`~codingame.client.async_.AsyncClient` if ``is_async``
     is ``True``.
 
+    .. note::
+        There are docs for both :class:`~codingame.client.sync.SyncClient` and
+        :class:`~codingame.client.async_.AsyncClient`.
+
     Parameters
     ----------
         is_async : bool

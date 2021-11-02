@@ -1,11 +1,11 @@
 import os
-import pytest
 
-import dotenv
+import pytest
+from dotenv import load_dotenv
 
 from codingame import Client
 
-dotenv.load_dotenv()
+load_dotenv()
 
 
 @pytest.fixture(name="client", scope="function")

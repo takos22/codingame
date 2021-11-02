@@ -1,16 +1,23 @@
 import typing
+from typing import Optional  # appears so many times
 
 from .abc import BaseUser
 from .exceptions import LoginRequired
+from .types.codingamer import Category
+from .types.codingamer import CodinGamerFromHandle as CodinGamerFromHandleDict
+from .types.codingamer import PartialCodinGamer as PartialCodinGamerDict
 
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
 
-__all__ = ("CodinGamer",)
+__all__ = ("PartialCodinGamer", "CodinGamer")
 
 
-class CodinGamer(BaseUser):
-    """Represents a CodinGamer.
+class PartialCodinGamer(BaseUser):
+    """Represents a partial CodinGamer.
+
+    This class doesn't have all the data of a CodinGamer.
+    Use ``client.get_codingamer(partial_codingamer.public_handle)`` for that.
 
     Attributes
     -----------
@@ -21,45 +28,11 @@ class CodinGamer(BaseUser):
             ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
             reversed.
 
-        rank: :class:`int`
-            Worldwide rank of the CodinGamer.
-
-        level: :class:`int`
-            Level of the CodinGamer.
-
-        xp: :class:`int`
-            XP points of the CodinGamer.
-
-        country_id: :class:`str`
-            Country ID of the CodinGamer.
-
-        category: Optional :class:`str`
-            Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
-
-            .. note::
-                You can use :attr:`student` and :attr:`professional` to get a
-                :class:`bool` that describes the CodinGamer's category.
-
-        student: :class:`bool`
-            Whether the CodinGamer is a student.
-
-        professional: :class:`bool`
-            Whether the CodinGamer is a professional.
-
         pseudo: Optional :class:`str`
             Pseudo of the CodinGamer.
 
-        tagline: Optional :class:`str`
-            Tagline of the CodinGamer.
-
-        biography: Optional :class:`str`
-            Biography of the CodinGamer.
-
-        company: Optional :class:`str`
-            Company of the CodinGamer.
-
-        school: Optional :class:`str`
-            School of the CodinGamer.
+        country_id: :class:`str`
+            Country ID of the CodinGamer.
 
         avatar: Optional :class:`int`
             Avatar ID of the CodinGamer.
@@ -72,70 +45,22 @@ class CodinGamer(BaseUser):
 
     public_handle: str
     id: int
-    pseudo: typing.Optional[str]
-    rank: int
-    level: int
-    xp: int
-    country_id: typing.Optional[str]
-    category: typing.Optional[str]
-    student: bool
-    professional: bool
-    tagline: typing.Optional[str]
-    biography: typing.Optional[str]
-    company: typing.Optional[str]
-    school: typing.Optional[str]
-    avatar: typing.Optional[int]
-    cover: typing.Optional[int]
-    avatar_url: typing.Optional[str]
-    cover_url: typing.Optional[str]
+    pseudo: Optional[str]
+    country_id: Optional[str]
+    avatar: Optional[int]
+    cover: Optional[int]
+    avatar_url: Optional[str]
+    cover_url: Optional[str]
 
-    __slots__ = (
-        "rank",
-        "level",
-        "xp",
-        "country_id",
-        "category",
-        "student",
-        "professional",
-        "tagline",
-        "biography",
-        "company",
-        "school",
-    )
+    __slots__ = ("country_id",)
 
-    def __init__(self, state: "ConnectionState", data: dict):
+    def __init__(self, state: "ConnectionState", data: PartialCodinGamerDict):
         self.public_handle = data["publicHandle"]
         self.id = data["userId"]
-        self.level = data["level"]
         self.country_id = data.get("countryId")
-
-        self.category = (
-            data["category"]
-            if data.get("category", "UNKNOWN") != "UNKNOWN"
-            else None
-        )
-        self.student = self.category == "STUDENT"
-        self.professional = self.category == "PROFESSIONAL"
-
-        self.xp = data.get("xp")
-        self.rank = data.get("rank")
 
         # account for empty strings and replace them by None
         self.pseudo = data.get("pseudo") or None
-        self.tagline = data.get("tagline") or None
-        self.biography = data.get("biography") or None
-        self.company = (
-            data.get("company")
-            or data.get("companyField")
-            or data.get("formValues", {}).get("company")
-            or None
-        )
-        self.school = (
-            data.get("school")
-            or data.get("schoolField")
-            or data.get("formValues", {}).get("school")
-            or None
-        )
 
         self.avatar = data.get("avatar")
         self.cover = data.get("cover")
@@ -162,6 +87,10 @@ class CodinGamer(BaseUser):
 
         .. note::
             This property is a generator.
+
+        .. warning::
+            The :attr:`~CodinGamer.xp` attribute of the following codingamers is
+            ``None``.
 
         Raises
         ------
@@ -207,7 +136,7 @@ class CodinGamer(BaseUser):
 
         Returns
         -------
-            :class:`list`
+            :class:`list` of :class:`int`
                 The CodinGamer's followers IDs. See :attr:`CodinGamer.id`.
         """
 
@@ -228,6 +157,10 @@ class CodinGamer(BaseUser):
 
         .. note::
             This property is a generator.
+
+        .. warning::
+            The :attr:`~CodinGamer.xp` attribute of the followed codingamers is
+            ``None``.
 
         Raises
         ------
@@ -273,7 +206,7 @@ class CodinGamer(BaseUser):
 
         Returns
         -------
-            :class:`list`
+            :class:`list` of :class:`int`
                 The IDs of the followed CodinGamers. See :attr:`CodinGamer.id`.
         """
 
@@ -309,3 +242,130 @@ class CodinGamer(BaseUser):
                 return data["rank"]
 
         return _get_clash_of_code_rank()
+
+
+class CodinGamer(PartialCodinGamer):
+    """Represents a CodinGamer.
+
+    Attributes
+    -----------
+        public_handle: :class:`str`
+            Public handle of the CodinGamer (hexadecimal str).
+
+        id: :class:`int`
+            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
+            reversed.
+
+        pseudo: Optional :class:`str`
+            Pseudo of the CodinGamer.
+
+        rank: :class:`int`
+            Worldwide rank of the CodinGamer.
+
+        level: :class:`int`
+            Level of the CodinGamer.
+
+        xp: :class:`int`
+            XP points of the CodinGamer.
+
+        country_id: :class:`str`
+            Country ID of the CodinGamer.
+
+        category: Optional :class:`str`
+            Category of the CodinGamer. Can be ``STUDENT`` or ``PROFESSIONAL``.
+
+            .. note::
+                You can use :attr:`student` and :attr:`professional` to get a
+                :class:`bool` that describes the CodinGamer's category.
+
+        student: :class:`bool`
+            Whether the CodinGamer is a student.
+
+        professional: :class:`bool`
+            Whether the CodinGamer is a professional.
+
+        tagline: Optional :class:`str`
+            Tagline of the CodinGamer.
+
+        biography: Optional :class:`str`
+            Biography of the CodinGamer.
+
+        company: Optional :class:`str`
+            Company of the CodinGamer.
+
+        school: Optional :class:`str`
+            School of the CodinGamer.
+
+        avatar: Optional :class:`int`
+            Avatar ID of the CodinGamer.
+            You can get the avatar url with :attr:`avatar_url`.
+
+        cover: Optional :class:`int`
+            Cover ID of the CodinGamer.
+            You can get the cover url with :attr:`cover_url`.
+    """
+
+    public_handle: str
+    id: int
+    pseudo: Optional[str]
+    rank: int
+    level: int
+    xp: Optional[int]
+    country_id: Optional[str]
+    category: Optional[Category]
+    student: bool
+    professional: bool
+    tagline: Optional[str]
+    biography: Optional[str]
+    company: Optional[str]
+    school: Optional[str]
+    avatar: Optional[int]
+    cover: Optional[int]
+    avatar_url: Optional[str]
+    cover_url: Optional[str]
+
+    __slots__ = (
+        "rank",
+        "level",
+        "xp",
+        "category",
+        "student",
+        "professional",
+        "tagline",
+        "biography",
+        "company",
+        "school",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: CodinGamerFromHandleDict
+    ):
+        self.rank = data["rank"]
+        self.level = data["level"]
+        self.xp = data.get("xp")  # only None for followers/followed
+
+        self.category = (
+            data["category"]
+            if data.get("category", "UNKNOWN") != "UNKNOWN"
+            else None
+        )
+        self.student = self.category == "STUDENT"
+        self.professional = self.category == "PROFESSIONAL"
+
+        # account for empty strings and replace them by None
+        self.tagline = data.get("tagline") or None
+        self.biography = data.get("biography") or None
+        self.company = (
+            data.get("company")
+            or data.get("companyField")
+            or data.get("formValues", {}).get("company")
+            or None
+        )
+        self.school = (
+            data.get("school")
+            or data.get("schoolField")
+            or data.get("formValues", {}).get("school")
+            or None
+        )
+
+        super().__init__(state, data)

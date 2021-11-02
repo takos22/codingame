@@ -73,13 +73,13 @@ However, for the quick and dirty:
 
         .. code:: sh
 
-            cd your-website-dir
+            cd your-project-dir
 
     .. tab:: Windows
 
         .. code:: sh
 
-            cd your-website-dir
+            cd your-project-dir
 
 2. Create a virtual environment:
 

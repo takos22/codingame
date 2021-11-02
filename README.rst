@@ -83,3 +83,10 @@ Links
 - `PyPi <https://pypi.org/project/codingame/>`_
 - `Documentation <https://codingame.readthedocs.io/en/latest/index.html>`_
 - `Discord support server <https://discord.gg/8HgtN6E>`_
+
+Disclaimer
+----------
+
+This extension was developed as a proof of concept and as an exploratory project.
+CodinGame is not responsible for any content or security issues that may arise
+due to this module, if you do find any, feel free to open an issue or a pull request.

@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from codingame import exceptions
@@ -38,7 +39,8 @@ async def test_client_context_manager_error():
             pass  # pragma: no cover
 
 
-def test_client_login(client: Client):
+def test_client_login(client: Client, mock_http):
+    mock_http(client._state.http, "login")
     client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
@@ -51,13 +53,48 @@ def test_client_login(client: Client):
     ["email", "password"],
     [
         ("", ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
-        ("nonexistant", "NonExistant"),
+        ("", "BadPassword"),
+        ("NotAnEmail", ""),
+        ("nonexistant@example.com", ""),
         ("nonexistant@example.com", "NonExistant"),
+        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
     ],
 )
-def test_client_login_error(client: Client, email: str, password: str):
+def test_client_login_error(
+    client: Client,
+    email: str,
+    password: str,
+    is_mocking: bool,
+    mock_httperror,
+):
+    if is_mocking:
+        if email == "":
+            error = {"id": 332, "message": "Email is required"}
+
+        elif email == "NotAnEmail":
+            error = {"id": 334, "message": "Malformed email"}
+
+        elif email == "nonexistant@example.com":
+            if password == "":
+                error = {"id": 336, "message": "Password is required"}
+
+            elif password == "NonExistant":
+                error = {
+                    "id": 393,
+                    "message": (
+                        "This email address is not linked to a "
+                        "CodinGamer account"
+                    ),
+                }
+
+        elif email == os.environ.get("TEST_LOGIN_EMAIL"):
+            error = {
+                "id": 396,
+                "message": "The password you entered is incorrect.",
+            }
+
+        mock_httperror(client._state.http, "login", error)
+
     with pytest.raises(exceptions.LoginError):
         client.login(email, password)
 
@@ -70,7 +107,11 @@ def test_client_login_error(client: Client, email: str, password: str):
         os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"),
     ],
 )
-def test_client_get_codingamer(client: Client, codingamer_query):
+def test_client_get_codingamer(client: Client, codingamer_query, mock_http):
+    mock_http(client._state.http, "search")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     codingamer = client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -83,7 +124,13 @@ def test_client_get_codingamer(client: Client, codingamer_query):
         "a" * 32 + "0" * 7,
     ],
 )
-def test_client_get_codingamer_error(client: Client, codingamer_query):
+def test_client_get_codingamer_error(
+    client: Client, codingamer_query, mock_http, mock_httperror
+):
+    mock_http(client._state.http, "search", [])
+    mock_httperror(client._state.http, "get_codingamer_from_id", {"id": 404})
+    mock_http(client._state.http, "get_codingamer_from_handle", None)
+
     with pytest.raises(exceptions.CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
 
@@ -108,20 +155,46 @@ def test_client_get_pending_clash_of_code(client: Client):
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-def test_client_language_ids(client: Client):
+def test_client_get_language_ids(client: Client, mock_http):
+    mock_http(client._state.http, "get_language_ids")
     language_ids = client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
-def test_client_notifications(auth_client: Client):
+def test_client_get_unseen_notifications(auth_client: Client):
     for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.seen
+        assert not notification.read
 
 
-def test_client_notifications_error(client: Client):
+def test_client_get_unseen_notifications_error(client: Client):
     with pytest.raises(exceptions.LoginRequired):
         next(client.get_unseen_notifications())
+
+
+def test_client_get_unread_notifications(auth_client: Client):
+    for notification in auth_client.get_unread_notifications():
+        assert isinstance(notification, Notification)
+        assert not notification.read
+
+
+def test_client_get_unread_notifications_error(client: Client):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_unread_notifications())
+
+
+def test_client_get_read_notifications(auth_client: Client):
+    for notification in auth_client.get_read_notifications():
+        assert isinstance(notification, Notification)
+        assert notification.seen
+        assert notification.read
+
+
+def test_client_get_read_notifications_error(client: Client):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_read_notifications())
 
 
 def test_client_get_global_leaderboard(client: Client):

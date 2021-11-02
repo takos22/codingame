@@ -1,7 +1,6 @@
 import typing
 from abc import ABC, abstractmethod
 
-from ..http import HTTPClient
 from ..state import ConnectionState
 
 if typing.TYPE_CHECKING:
@@ -41,8 +40,7 @@ class BaseClient(ABC):
             )
 
     def __init__(self, is_async: bool = False):
-        http_client = HTTPClient(is_async=is_async)
-        self._state = ConnectionState(http_client)
+        self._state = ConnectionState(is_async)
 
     def __enter__(self):
         if self.is_async:
@@ -86,9 +84,12 @@ class BaseClient(ABC):
 
     @property
     def codingamer(self) -> typing.Optional["CodinGamer"]:
-        """Optional :class:`CodinGamer`: The CodinGamer that is logged in.
-        ``None`` if the client isn't logged in."""
+        """Optional :class:`~codingame.CodinGamer`: The CodinGamer that is
+        logged in. ``None`` if the client isn't logged in."""
         return self._state.codingamer
+
+    # --------------------------------------------------------------------------
+    # CodinGamer
 
     @abstractmethod
     def login(
@@ -99,7 +100,13 @@ class BaseClient(ABC):
     ) -> typing.Optional["CodinGamer"]:
         """|maybe_coro|
 
-        Login to a CodinGamer account.
+        Login to a CodinGame account.
+
+        .. error::
+            As of 2021-10-27, the only way to login is with cookie
+            authentication, so with the``remember_me_cookie`` parameter, because
+            of an endpoint change, see :ref:`login`. Using email/password
+            authentication will raise a :exc:`LoginError`.
 
         .. error::
             As of 2021-10-27, the only way to login is with cookie
@@ -123,14 +130,16 @@ class BaseClient(ABC):
 
         Raises
         ------
-            :exc:`LoginError`
+            :exc:`~codingame.LoginError`
                 Error with the login (empty email, empty password,
                 wrong email format, incorrect password, etc).
 
         Returns
         --------
-            :class:`CodinGamer`
+            :class:`~codingame.CodinGamer`
                 The CodinGamer that logged in.
+
+        .. versionadded:: 0.3
         """
 
     @abstractmethod
@@ -139,16 +148,16 @@ class BaseClient(ABC):
     ) -> "CodinGamer":
         """|maybe_coro|
 
-        Get a CodinGamer from their public handle, their ID or from their
-        username.
+        Get a :class:`~codingame.CodinGamer` from their public handle, their ID
+        or from their pseudo.
 
         .. note::
-            ``codingamer`` can be the public handle, the id or the username.
+            ``codingamer`` can be the public handle, the ID or the pseudo.
             Using the public handle or the ID is reccomended because it won't
-            change even if the codingamer changes their username.
+            change even if the codingamer changes their pseudo.
 
             The public handle is a 39 character long hexadecimal string that
-            represents the user.
+            is unique to the CodinGamer and identifies them.
             Regex of a public handle: ``[0-9a-f]{32}[0-9]{7}``
 
             The ID is a 7 number long integer.
@@ -156,25 +165,41 @@ class BaseClient(ABC):
         Parameters
         -----------
             codingamer: :class:`str` or :class:`int`
-                The CodinGamer's public handle, ID or username.
+                The CodinGamer's public handle, ID or pseudo.
 
         Raises
         ------
-            :exc:`CodinGamerNotFound`
-                The CodinGamer with the given public handle, ID or username
+            :exc:`~codingame.CodinGamerNotFound`
+                The CodinGamer with the given public handle, ID or pseudo
                 isn't found.
 
         Returns
         --------
-            :class:`CodinGamer`
-                The CodinGamer.
+            :class:`~codingame.CodinGamer`
+                The requested CodinGamer.
+
+        .. versionadded:: 0.1
+
+        .. versionchanged:: 0.2
+            Renamed ``Client.codingamer()`` to
+            :meth:`~codingame.Client.get_codingamer`.
+
+        .. versionchanged:: 0.3.3
+            Add searching with CodinGamer pseudo.
+
+        .. versionchanged:: 0.3.5
+            Add searching with CodinGamer ID.
         """
+
+    # --------------------------------------------------------------------------
+    # Clash of Code
 
     @abstractmethod
     def get_clash_of_code(self, handle: str) -> "ClashOfCode":
         """|maybe_coro|
 
-        Get a Clash of Code from its public handle.
+        Get a :class:`Clash of Code <codingame.ClashOfCode>` from its public
+        handle.
 
         Parameters
         -----------
@@ -187,56 +212,145 @@ class BaseClient(ABC):
             :exc:`ValueError`
                 The Clash of Code handle isn't in the good format.
 
-            :exc:`ClashOfCodeNotFound`
+            :exc:`~codingame.ClashOfCodeNotFound`
                 The Clash of Code with the given public handle isn't found.
 
         Returns
-        --------
-            :class:`ClashOfCode`
-                The ClashOfCode.
+        -------
+            :class:`~codingame.ClashOfCode`
+                The requested Clash Of Code.
+
+        .. versionadded:: 0.2
         """
 
     @abstractmethod
     def get_pending_clash_of_code(self) -> typing.Optional["ClashOfCode"]:
         """|maybe_coro|
 
-        Get a pending Clash of Code.
+        Get the pending public :class:`Clash of Code <codingame.ClashOfCode>`.
 
         Returns
-        --------
-            Optional :class:`ClashOfCode`
-                The pending ClashOfCode if there's one or ``None``.
+        -------
+            Optional :class:`~codingame.ClashOfCode`
+                The pending Clash Of Code if there's one, or ``None`` if there's
+                no current public Clash Of Code.
+
+        .. versionadded:: 0.3.2
         """
+
+    # --------------------------------------------------------------------------
+    # Language IDs
 
     @abstractmethod
     def get_language_ids(self) -> typing.List[str]:
         """|maybe_coro|
 
-        Get the list of all available language ids.
+        Get the list of all available language IDs.
+
+        Returns
+        -------
+            :class:`list` of :class:`int`
+                The language IDs.
+
+        .. versionadded:: 0.3
+
+        .. versionchanged:: 1.0
+            Renamed ``Client.language_ids`` to
+            :meth:`~codingame.Client.get_language_ids`.
         """
+
+    # --------------------------------------------------------------------------
+    # Notifications
 
     @abstractmethod
     def get_unseen_notifications(self) -> typing.Iterator["Notification"]:
         """|maybe_coro|
 
-        Get all the unseen notifications of the logged in CodinGamer.
+        Get all the unseen :class:`notifications <codingame.Notification>` of
+        the logged in :class:`~codingame.CodinGamer`.
 
         You need to be logged in to get notifications or else a
-        :exc:`LoginRequired` will be raised.
+        :exc:`~codingame.LoginRequired` will be raised.
 
         .. note::
             This method is a generator.
 
         Raises
         ------
-            :exc:`LoginRequired`
+            :exc:`~codingame.LoginRequired`
                 The Client needs to log in. See :meth:`login`.
 
         Yields
         -------
-            :class:`Notification`
-                A Notification.
+            :class:`~codingame.Notification`
+                An unseen notification.
+
+        .. versionadded:: 0.3.1
+
+        .. versionchanged:: 1.0
+            Renamed ``Client.notifications`` to
+            :meth:`~codingame.Client.get_unseen_notifications`.
         """
+
+    @abstractmethod
+    def get_unread_notifications(self) -> typing.Iterator["Notification"]:
+        """|maybe_coro|
+
+        Get all the unread :class:`notifications <codingame.Notification>` of
+        the logged in :class:`~codingame.CodinGamer`.
+
+        This includes unseen notifications along with the unread ones.
+
+        You need to be logged in to get notifications or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        .. note::
+            This method is a generator.
+
+        Raises
+        ------
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+        Yields
+        -------
+            :class:`~codingame.Notification`
+                An unread notification.
+
+        .. versionadded:: 1.1
+        """
+
+    @abstractmethod
+    def get_read_notifications(self) -> typing.Iterator["Notification"]:
+        """|maybe_coro|
+
+        Get the read :class:`notifications <codingame.Notification>` of the
+        logged in :class:`~codingame.CodinGamer`.
+
+        You need to be logged in to get notifications or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        .. warning::
+            There can be some old notifications missing.
+
+        .. note::
+            This method is a generator.
+
+        Raises
+        ------
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+        Yields
+        -------
+            :class:`~codingame.Notification`
+                A read notification.
+
+        .. versionadded:: 1.1
+        """
+
+    # --------------------------------------------------------------------------
+    # Leaderboards
 
     @abstractmethod
     def get_global_leaderboard(
@@ -244,7 +358,8 @@ class BaseClient(ABC):
     ) -> "GlobalLeaderboard":
         """|maybe_coro|
 
-        Get the global leaderboard in CodinGame.
+        Get the :class:`global leaderboard <codingame.GlobalLeaderboard>` of
+        CodinGame.
 
         You can specify an optional page, type of leaderboard and the group of
         users to rank.
@@ -273,14 +388,16 @@ class BaseClient(ABC):
             :exc:`ValueError`
                 One of the arguments isn't one of the accepted arguments.
 
-            :exc:`LoginRequired`
+            :exc:`~codingame.LoginRequired`
                 The client isn't logged in and the group is one of
                 ``"country"``, ``"company"``, ``"school"`` or ``"following"``.
 
         Returns
         --------
-            :class:`GlobalLeaderboard`
-                The global leaderboard.
+            :class:`~codingame.GlobalLeaderboard`
+                The global leaderboard of CodinGame.
+
+        .. versionadded:: 0.4
         """
 
     @abstractmethod
@@ -289,7 +406,8 @@ class BaseClient(ABC):
     ) -> "ChallengeLeaderboard":
         """|maybe_coro|
 
-        Get the leaderboard of a challenge.
+        Get the
+        :class:`leaderboard of a challenge <codingame.ChallengeLeaderboard>`.
 
         You can specify an optional group of users to rank.
 
@@ -310,17 +428,19 @@ class BaseClient(ABC):
             :exc:`ValueError`
                 One of the arguments isn't one of the accepted arguments.
 
-            :exc:`LoginRequired`
+            :exc:`~codingame.LoginRequired`
                 The client isn't logged in and the group is one of
                 ``"country"``, ``"company"``, ``"school"`` or ``"following"``.
 
-            :exc:`ChallengeNotFound`
-                There is no challenge with the given challenge_id.
+            :exc:`~codingame.ChallengeNotFound`
+                There is no challenge with the given ``challenge_id``.
 
         Returns
         --------
-            :class:`ChallengeLeaderboard`
-                The challenge leaderboard.
+            :class:`~codingame.ChallengeLeaderboard`
+                The leaderboard of the requested challenge.
+
+        .. versionadded:: 0.4
         """
 
     @abstractmethod
@@ -329,7 +449,7 @@ class BaseClient(ABC):
     ) -> "PuzzleLeaderboard":
         """|maybe_coro|
 
-        Get the leaderboard of a puzzle.
+        Get the :class:`leaderboard of a puzzle <codingame.PuzzleLeaderboard>`.
 
         You can specify an optional group of users to rank.
 
@@ -350,15 +470,17 @@ class BaseClient(ABC):
             :exc:`ValueError`
                 One of the arguments isn't one of the accepted arguments.
 
-            :exc:`LoginRequired`
+            :exc:`~codingame.LoginRequired`
                 The client isn't logged in and the group is one of
                 ``"country"``, ``"company"``, ``"school"`` or ``"following"``.
 
-            :exc:`PuzzleNotFound`
-                There is no puzzle with the given puzzle_id.
+            :exc:`~codingame.PuzzleNotFound`
+                There is no puzzle with the given ``puzzle_id``.
 
         Returns
         --------
-            :class:`PuzzleLeaderboard`
-                The puzzle leaderboard.
+            :class:`~codingame.PuzzleLeaderboard`
+                The leaderboard of the requested puzzle.
+
+        .. versionadded:: 0.4
         """

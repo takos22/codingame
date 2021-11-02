@@ -1,7 +1,8 @@
-.. currentmodule:: codingame
+.. module:: codingame
+    :synopsis: Wrapper for the undocumented CodinGame API.
 
-API Reference
-=============
+codingame |version| API Reference
+=================================
 
 The following section outlines the API of the ``codingame`` module. All the
 public classes, methods and functions are documented here.
@@ -36,6 +37,8 @@ Synchronous client
 
 .. autoclass:: codingame.client.sync.SyncClient
 
+.. currentmodule:: codingame
+
 Asynchronous client
 *******************
 
@@ -64,6 +67,8 @@ are not meant to be created by the user of the library.
 CodinGamer
 **********
 
+.. autoclass:: PartialCodinGamer()
+
 .. autoclass:: CodinGamer()
 
 Clash of Code
@@ -77,6 +82,54 @@ Notification
 ************
 
 .. autoclass:: Notification()
+
+Enumerations
+############
+
+.. autoclass:: NotificationTypeGroup()
+    :undoc-members:
+
+.. autoclass:: NotificationType()
+    :undoc-members:
+
+Notification data
+#################
+
+.. autoclass:: NotificationData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: AchievementUnlockedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: LeagueData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewBlogData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ClashInviteData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ClashOverData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: QuestCompletedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: FriendRegisteredData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewLevelData()
+    :undoc-members:
+    :no-inherited-members:
 
 Leaderboards
 ************

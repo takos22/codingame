@@ -19,7 +19,7 @@ __version__ = "1.1.0"
 
 from .clash_of_code import ClashOfCode, Player
 from .client import Client
-from .codingamer import CodinGamer
+from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
     ChallengeNotFound,
     ClashOfCodeNotFound,
@@ -45,18 +45,43 @@ from .leaderboard import (
     PuzzleLeaderboard,
     PuzzleRankedCodinGamer,
 )
-from .notification import Notification
+from .notification import (
+    AchievementUnlockedData,
+    ClashInviteData,
+    ClashOverData,
+    FriendRegisteredData,
+    LeagueData,
+    NewBlogData,
+    NewLevelData,
+    Notification,
+    NotificationData,
+    NotificationType,
+    NotificationTypeGroup,
+    QuestCompletedData,
+)
 
 __all__ = (
     # Client
     Client,
     # CodinGamer
     CodinGamer,
+    PartialCodinGamer,
     # Clash of Code
     ClashOfCode,
     Player,
     # Notification
     Notification,
+    NotificationType,
+    NotificationTypeGroup,
+    NotificationData,
+    AchievementUnlockedData,
+    LeagueData,
+    NewBlogData,
+    ClashInviteData,
+    ClashOverData,
+    QuestCompletedData,
+    FriendRegisteredData,
+    NewLevelData,
     # Leaderboard
     GlobalLeaderboard,
     GlobalRankedCodinGamer,

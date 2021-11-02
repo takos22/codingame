@@ -21,7 +21,7 @@ Additional info: none
 Endpoint: `Challenge/findWorldCupByPublicId`  
 JSON: `[challenge public id, user id/null]`  
 Additional info: none  
-[Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L367)
+Source: network tab while searching on codingame
 
 ### Get info about all challenges
 
@@ -99,3 +99,59 @@ Endpoint: `Puzzle/findProgressByPrettyId`
 JSON: `[puzzle pretty id, user id]`  
 Additional info: Login needed  
 [Source](https://github.com/tbali0524/codingame_api/blob/6d2bf1a8d10da552304eb1d4bee5cf75771c294b/cg_api.php#L1003)
+
+### Register
+
+Endpoint: `CodinGamer/registerSite`  
+JSON: `[{"email": email, "password": password, "recaptchaResponse": recaptcha}, "CODINGAME", whether to subscribe to the newsletter]`  
+Additional info: Recaptcha needed  
+Source: network tab while searching on codingame
+
+### Follow a codingamer
+
+Endpoint: `CodinGamer/setFollowing`  
+JSON: `[self id, codingamer to follow id, true]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Play clash of code
+
+Endpoint: `ClashOfCode/playClash`  
+JSON: `[user id, {"SHORT":true}, recaptcha]`  
+Additional info: Recaptcha and login needed  
+Source: network tab while searching on codingame
+
+### Find unread notifications
+
+Endpoint: `Notification/findUnreadNotifications`  
+JSON: `[user id]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Mark notifications as seen
+
+Endpoint: `Notification/markAsSeen`  
+JSON: `[user id, [notification ids...]]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Mark notifications as read
+
+Endpoint: `Notification/markAsRead`  
+JSON: `[user id, [notification ids...]]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Find last read notifications
+
+Endpoint: `Notification/findLastReadNotifications`  
+JSON: `[user id, null]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame
+
+### Create private clash of code
+
+Endpoint: `ClashOfCode/createPrivateClash`  
+JSON: `[user id, {SHORT: true}, programming languages, modes]`  
+Additional info: Login needed  
+Source: network tab while searching on codingame

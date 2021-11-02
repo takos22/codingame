@@ -1,10 +1,16 @@
 import re
+import typing
+from datetime import datetime
 
 from .exceptions import LoginRequired
 
 __all__ = (
     "CODINGAMER_HANDLE_REGEX",
     "CLASH_OF_CODE_HANDLE_REGEX",
+    "validate_leaderboard_type",
+    "validate_leaderboard_group",
+    "DT_FORMAT",
+    "to_datetime",
 )
 
 CODINGAMER_HANDLE_REGEX = re.compile(r"[0-9a-f]{32}[0-9]{7}")
@@ -84,3 +90,17 @@ def validate_leaderboard_group(group: str, logged_in: bool) -> bool:
 
     if group in ["country", "company", "school", "following"] and not logged_in:
         raise LoginRequired()
+
+
+DT_FORMAT = "%b %d, %Y %I:%M:%S %p"
+
+
+def to_datetime(data: typing.Optional[typing.Union[int, str]]) -> datetime:
+    if isinstance(data, int):
+        return datetime.utcfromtimestamp(data / 1000.0)
+    elif isinstance(data, str):
+        return datetime.strptime(data, DT_FORMAT)
+    elif data is None:
+        return None
+    else:
+        raise TypeError  # pragma: no cover

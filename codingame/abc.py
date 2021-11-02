@@ -2,8 +2,7 @@
 
 import abc
 import typing
-
-from .endpoints import Endpoints
+from collections.abc import Mapping as BaseMapping
 
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
@@ -53,12 +52,14 @@ class BaseUser(BaseObject):
     @property
     def avatar_url(self) -> typing.Optional[str]:
         """Optional :class:`str`: Avatar URL of the CodinGamer."""
-        return Endpoints.image.format(self.avatar) if self.avatar else None
+        return (
+            self._state.http.get_file_url(self.avatar) if self.avatar else None
+        )
 
     @property
     def cover_url(self) -> typing.Optional[str]:
         """Optional :class:`str`: Cover URL of the CodinGamer."""
-        return Endpoints.image.format(self.cover) if self.cover else None
+        return self._state.http.get_file_url(self.cover) if self.cover else None
 
     def __repr__(self):
         return (
@@ -69,3 +70,23 @@ class BaseUser(BaseObject):
 
     def __eq__(self, other):
         return self.public_handle == other.public_handle
+
+
+class Mapping(BaseMapping, BaseObject):
+    _raw: dict
+
+    __slots__ = ("_raw",)
+
+    def __init__(self, state: "ConnectionState", data: dict):
+        self._raw = data
+
+        super().__init__(state)
+
+    def __getitem__(self, name: str):
+        return self._raw[name]
+
+    def __iter__(self):
+        return iter(self._raw)
+
+    def __len__(self):
+        return len(self._raw)

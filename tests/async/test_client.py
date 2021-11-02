@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from codingame import exceptions
@@ -42,7 +43,8 @@ async def test_client_context_manager_error():
 
 
 @pytest.mark.asyncio
-async def test_client_login(client: AsyncClient):
+async def test_client_login(client: AsyncClient, mock_http):
+    mock_http(client._state.http, "login")
     await client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
@@ -55,16 +57,49 @@ async def test_client_login(client: AsyncClient):
     ["email", "password"],
     [
         ("", ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
-        ("nonexistant", "NonExistant"),
+        ("", "BadPassword"),
+        ("NotAnEmail", ""),
+        ("nonexistant@example.com", ""),
         ("nonexistant@example.com", "NonExistant"),
+        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
     ],
 )
 @pytest.mark.asyncio
 async def test_client_login_error(
-    client: AsyncClient, email: str, password: str
+    client: AsyncClient,
+    email: str,
+    password: str,
+    is_mocking: bool,
+    mock_httperror,
 ):
+    if is_mocking:
+        if email == "":
+            error = {"id": 332, "message": "Email is required"}
+
+        elif email == "NotAnEmail":
+            error = {"id": 334, "message": "Malformed email"}
+
+        elif email == "nonexistant@example.com":
+            if password == "":
+                error = {"id": 336, "message": "Password is required"}
+
+            elif password == "NonExistant":
+                error = {
+                    "id": 393,
+                    "message": (
+                        "This email address is not linked to a "
+                        "CodinGamer account"
+                    ),
+                }
+
+        elif email == os.environ.get("TEST_LOGIN_EMAIL"):
+            error = {
+                "id": 396,
+                "message": "The password you entered is incorrect.",
+            }
+
+        mock_httperror(client._state.http, "login", error)
+
     with pytest.raises(exceptions.LoginError):
         await client.login(email, password)
 
@@ -78,7 +113,13 @@ async def test_client_login_error(
     ],
 )
 @pytest.mark.asyncio
-async def test_client_get_codingamer(client: AsyncClient, codingamer_query):
+async def test_client_get_codingamer(
+    client: AsyncClient, codingamer_query, mock_http
+):
+    mock_http(client._state.http, "search")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     codingamer = await client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -93,8 +134,12 @@ async def test_client_get_codingamer(client: AsyncClient, codingamer_query):
 )
 @pytest.mark.asyncio
 async def test_client_get_codingamer_error(
-    client: AsyncClient, codingamer_query
+    client: AsyncClient, codingamer_query, mock_http, mock_httperror
 ):
+    mock_http(client._state.http, "search", [])
+    mock_httperror(client._state.http, "get_codingamer_from_id", {"id": 404})
+    mock_http(client._state.http, "get_codingamer_from_handle", None)
+
     with pytest.raises(exceptions.CodinGamerNotFound):
         await client.get_codingamer(codingamer_query)
 
@@ -123,22 +168,54 @@ async def test_client_get_pending_clash_of_code(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_language_ids(client: AsyncClient):
+async def test_client_get_language_ids(client: AsyncClient, mock_http):
+    mock_http(client._state.http, "get_language_ids")
     language_ids = await client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
 @pytest.mark.asyncio
-async def test_client_notifications(auth_client: AsyncClient):
+async def test_client_get_unseen_notifications(auth_client: AsyncClient):
     async for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.seen
+        assert not notification.read
 
 
 @pytest.mark.asyncio
-async def test_client_notifications_error(client: AsyncClient):
+async def test_client_get_unseen_notifications_error(client: AsyncClient):
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_unseen_notifications():
+            pass  # pragma: no cover
+
+
+@pytest.mark.asyncio
+async def test_client_get_unread_notifications(auth_client: AsyncClient):
+    async for notification in auth_client.get_unread_notifications():
+        assert isinstance(notification, Notification)
+        assert not notification.read
+
+
+@pytest.mark.asyncio
+async def test_client_get_unread_notifications_error(client: AsyncClient):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_unread_notifications():
+            pass  # pragma: no cover
+
+
+@pytest.mark.asyncio
+async def test_client_get_read_notifications(auth_client: AsyncClient):
+    async for notification in auth_client.get_read_notifications():
+        assert isinstance(notification, Notification)
+        assert notification.seen
+        assert notification.read
+
+
+@pytest.mark.asyncio
+async def test_client_get_read_notifications_error(client: AsyncClient):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_read_notifications():
             pass  # pragma: no cover
 
 

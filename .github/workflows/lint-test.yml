@@ -55,7 +55,11 @@ jobs:
         python setup.py --quiet sdist
         twine check dist/*
 
-    - name: Test with pytest
+    - name: Test the mocked API endpoints with pytest
+      run: |
+        pytest --only-mocked -v
+
+    - name: Test with pytest without mocking API enpoints
       env:
         TEST_LOGIN_REMEMBER_ME_COOKIE: ${{ secrets.TEST_LOGIN_REMEMBER_ME_COOKIE }}
 
@@ -65,7 +69,7 @@ jobs:
 
         TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        pytest
+        pytest --no-mocking --cov-append -v
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
