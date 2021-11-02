@@ -68,8 +68,6 @@ Let's get a :class:`Clash of Code <ClashOfCode>` from its public handle with the
     See :meth:`Client.get_pending_clash_of_code`,
     :meth:`Client.get_clash_of_code` and :class:`ClashOfCode` for more info.
 
-.. _login:
-
 Login
 -----
 
