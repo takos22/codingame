@@ -141,8 +141,6 @@ Getting a :class:`Clash of Code <ClashOfCode>` from its public handle with the
 
 .. _login:
 
-.. _login:
-
 Login
 -----
 
