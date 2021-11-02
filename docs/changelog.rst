@@ -9,13 +9,41 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Unreleased
-----------
+Version 1.2.0 (unreleased)
+--------------------------
+
+Added
+*****
+
+- :meth:`Client.get_unread_notifications`.
+- :meth:`Client.get_read_notifications`.
+- :class:`PartialCodinGamer`.
+- :attr:`Notification.codingamer`.
+- :attr:`Notification.seen`, :attr:`Notification.seen_date`,
+  :attr:`Notification.read` and :attr:`Notification.read_date`.
+- :class:`NotificationType` and :class:`NotificationTypeGroup` enums for
+  :attr:`Notification.type` and :attr:`Notification.type_group`.
+- :class:`NotificationData` and subclasses.
+
+Changed
+*******
+
+- Deprecated :attr:`Notification.creation_time` in favor of
+  :attr:`Notification.date`
 
 Removed
 *******
 
 - ``codingame.endpoints``
+
+Version 1.1.0 (2021-11-01)
+--------------------------
+
+Changed
+*******
+
+- Update :attr:`CodinGamer.login` to bypass captcha on login endpoint with
+  cookie based authentication, see :ref:`login`.
 
 Version 1.0.1 (2021-07-12)
 --------------------------
