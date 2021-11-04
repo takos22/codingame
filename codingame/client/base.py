@@ -95,7 +95,7 @@ class BaseClient(ABC):
     ) -> typing.Any:
         """|maybe_coro|
 
-        Make a request to a CodinGame service.
+        Make a request to the CodinGame API service.
 
         This is useful if you want to use some services that aren't implemented
         yet in this library, but you want to use the authentication that this
