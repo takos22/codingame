@@ -105,3 +105,4 @@ if __name__ == "__main__":
             f"title={e.__class__.__name__}: {str(e)}:: "
             + traceback.format_exc()
         )
+        raise e from None
