@@ -52,9 +52,7 @@ def test_client_request(client: SyncClient):
         ("", "findSession"),
     ],
 )
-def test_client_request_error(
-    client: SyncClient, service: str, func: str
-):
+def test_client_request_error(client: SyncClient, service: str, func: str):
     with pytest.raises(ValueError):
         client.request(service, func)
 
