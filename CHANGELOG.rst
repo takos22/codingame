@@ -40,7 +40,7 @@ Version 1.2.0 (Unreleased)
 Added
 *****
 
-- ``Client.request`` to make requests to CodinGame API services that aren't
+- `Client.request <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.request>`__ to make requests to CodinGame API services that aren't
   implemented yet in the library.
 
 Removed
