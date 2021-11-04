@@ -31,7 +31,7 @@ Changed
 - Deprecated :attr:`Notification.creation_time` in favor of
   :attr:`Notification.date`
 
-Version 1.2.0 (Unreleased)
+Version 1.2.0 (2021-11-04)
 --------------------------
 
 Added
