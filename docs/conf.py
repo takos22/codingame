@@ -64,7 +64,7 @@ release = version + (
     else ""
 )
 
-branch = "master" if version_info.releaselevel else "v" + version
+branch = "dev" if version_info.releaselevel else "v" + version
 
 
 # -- General configuration ---------------------------------------------------

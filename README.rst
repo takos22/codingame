@@ -7,13 +7,13 @@ codingame API wrapper
 .. image:: https://img.shields.io/pypi/pyversions/codingame?color=orange
     :target: https://pypi.python.org/pypi/codingame
     :alt: Supported Python versions
-.. image:: https://img.shields.io/github/checks-status/takos22/codingame/master?label=tests
+.. image:: https://img.shields.io/github/checks-status/takos22/codingame/dev?label=tests
     :target: https://github.com/takos22/codingame/actions/workflows/lint-test.yml
     :alt: Lint and test workflow status
 .. image:: https://readthedocs.org/projects/codingame/badge/?version=latest
     :target: https://codingame.readthedocs.io
     :alt: Documentation build status
-.. image:: https://codecov.io/gh/takos22/codingame/branch/master/graph/badge.svg?token=HQ3J3034Y2
+.. image:: https://codecov.io/gh/takos22/codingame/branch/dev/graph/badge.svg?token=HQ3J3034Y2
     :target: https://codecov.io/gh/takos22/codingame
     :alt: Code coverage
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
