@@ -14,6 +14,10 @@ refs = {
     "async": (
         "Asynchronous client",
         "user_guide/quickstart.html#about-the-asynchronous-client",
+    ),
+    "login": (
+        "Login",
+        "user_guide/quickstart.html#login",
     )
 }
 
