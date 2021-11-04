@@ -1,0 +1,69 @@
+{
+    "nbPlayersMin": 2,
+    "nbPlayersMax": 100,
+    "publicHandle": "1234567fedcba9876543210fedcba9876543210",
+    "clashDurationTypeId": "SHORT",
+    "mode": "REVERSE",
+    "creationTime": "Jan 1, 2021 12:34:56 PM",
+    "startTime": "Jan 1, 2021 12:36:56 PM",
+    "endTime": "Jan 1, 2021 12:51:56 PM",
+    "msBeforeStart": -26220184000,
+    "msBeforeEnd": -26219284000,
+    "finished": true,
+    "started": true,
+    "publicClash": false,
+    "players": [
+        {
+            "codingamerId": 1234567,
+            "codingamerNickname": "Player 1",
+            "codingamerHandle": "0123456789abcdef0123456789abcdef7654321",
+            "score": 100,
+            "duration": 123456,
+            "status": "STANDARD",
+            "testSessionStatus": "COMPLETED",
+            "languageId": "Python3",
+            "rank": 1,
+            "position": 2,
+            "solutionShared": true,
+            "testSessionHandle": "12345678fedcba9876543210fedcba9876543210",
+            "submissionId": 12345678
+        },
+        {
+            "codingamerId": 2345678,
+            "codingamerNickname": "Player 2",
+            "codingamerHandle": "f0123456789abcdef0123456789abcde8765432",
+            "score": 100,
+            "duration": 234567,
+            "status": "STANDARD",
+            "testSessionStatus": "COMPLETED",
+            "languageId": "C++",
+            "rank": 2,
+            "position": 3,
+            "solutionShared": true,
+            "testSessionHandle": "23456789edcba9876543210fedcba9876543210f",
+            "submissionId": 23456789
+        },
+        {
+            "codingamerId": 3456789,
+            "codingamerNickname": "Player 3",
+            "codingamerHandle": "ef0123456789abcdef0123456789abcd9876543",
+            "codingamerAvatarId": 12345678901234,
+            "score": 0,
+            "duration": 345678,
+            "status": "OWNER",
+            "testSessionStatus": "COMPLETED",
+            "languageId": "Javascript",
+            "rank": 3,
+            "position": 1,
+            "solutionShared": false,
+            "testSessionHandle": "34567890dcba9876543210fedcba9876543210fe",
+            "submissionId": 34567890
+        }
+    ],
+    "programmingLanguages": [
+        "Python3", "C", "C++", "Java", "Javascript"
+    ],
+    "modes": [
+        "REVERSE", "SHORTEST"
+    ]
+}

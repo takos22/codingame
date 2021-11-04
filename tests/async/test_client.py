@@ -45,6 +45,9 @@ async def test_client_context_manager_error():
 @pytest.mark.asyncio
 async def test_client_login(client: AsyncClient, mock_http):
     mock_http(client._state.http, "login")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     await client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )

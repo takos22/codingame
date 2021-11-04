@@ -23,6 +23,10 @@ def mock_environ(force_new=True):
 
     set_environ("TEST_LOGIN_EMAIL", "email@example.com")
     set_environ("TEST_LOGIN_PASSWORD", "VerySafePassword")
+    set_environ(
+        "TEST_LOGIN_REMEMBER_ME_COOKIE",
+        "1234567fedcba9876543210fedcba9876543210",
+    )
 
     set_environ("TEST_CODINGAMER_ID", "1234567")
     set_environ("TEST_CODINGAMER_PSEUDO", "Pseudo123")
