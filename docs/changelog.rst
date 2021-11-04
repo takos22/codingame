@@ -43,7 +43,7 @@ Added
 Removed
 *******
 
-- ``codingame.endpoints``
+- ``codingame.endpoints`` submodule.
 
 Version 1.1.0 (2021-11-01)
 --------------------------
