@@ -101,7 +101,7 @@ Changed
   it compatible with async API calls. Here's a list of all of the changed ones:
 
     - ``Client.language_ids`` -> :meth:`Client.get_language_ids`
-    - ``Client.unseen_notifications`` ->
+    - ``Client.notifications`` ->
       :meth:`Client.get_unseen_notifications`
     - ``CodinGamer.followers`` -> :meth:`CodinGamer.get_followers`
     - ``CodinGamer.followers_ids`` -> :meth:`CodinGamer.get_followers_ids`
