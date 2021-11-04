@@ -85,7 +85,9 @@ def main():
         len(".. currentmodule:: codingame\n\n") :  # noqa: E203
     ]
 
-    changelog = repo.get_contents("CHANGELOG.rst")
+    changelog = repo.get_contents(
+        "CHANGELOG.rst", settings.github_ref.split("/")[-1]
+    )
     if new_content != changelog.decoded_content.decode():
         repo.update_file(
             changelog.path,
