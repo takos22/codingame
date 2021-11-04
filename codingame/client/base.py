@@ -131,6 +131,7 @@ class BaseClient(ABC):
             Anything
                 The data returned by the CodinGame API, usually a :class:`dict`.
 
+        .. versionadded:: 1.2.0
         """
 
         if service == "":
