@@ -1,9 +1,8 @@
 import codingame
 
 client = codingame.Client()
-client.login("email", "password")
-# or
-client = codingame.Client("email", "password")
+# see https://codingame.readthedocs.io/en/1.2.x/user_guide/quickstart.html#login
+client.login(remember_me_cookie="your cookie here")
 
 # then you can access the logged in codingamer like this
 print(client.logged_in)

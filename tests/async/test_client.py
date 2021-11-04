@@ -42,6 +42,28 @@ async def test_client_context_manager_error():
 
 
 @pytest.mark.asyncio
+async def test_client_request(client: AsyncClient):
+    session = await client.request("session", "findSession")
+    assert isinstance(session, dict)
+
+
+@pytest.mark.parametrize(
+    ["service", "func"],
+    [
+        ("", ""),
+        ("session", ""),
+        ("", "findSession"),
+    ],
+)
+@pytest.mark.asyncio
+async def test_client_request_error(
+    client: AsyncClient, service: str, func: str
+):
+    with pytest.raises(ValueError):
+        await client.request(service, func)
+
+
+@pytest.mark.asyncio
 async def test_client_login(client: AsyncClient):
     await client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
@@ -50,7 +72,6 @@ async def test_client_login(client: AsyncClient):
     assert client.codingamer is not None
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize(
     ["email", "password"],
     [

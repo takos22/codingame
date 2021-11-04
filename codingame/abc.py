@@ -3,8 +3,6 @@
 import abc
 import typing
 
-from .endpoints import Endpoints
-
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
 
@@ -53,12 +51,14 @@ class BaseUser(BaseObject):
     @property
     def avatar_url(self) -> typing.Optional[str]:
         """Optional :class:`str`: Avatar URL of the CodinGamer."""
-        return Endpoints.image.format(self.avatar) if self.avatar else None
+        return (
+            self._state.http.get_file_url(self.avatar) if self.avatar else None
+        )
 
     @property
     def cover_url(self) -> typing.Optional[str]:
         """Optional :class:`str`: Cover URL of the CodinGamer."""
-        return Endpoints.image.format(self.cover) if self.cover else None
+        return self._state.http.get_file_url(self.cover) if self.cover else None
 
     def __repr__(self):
         return (

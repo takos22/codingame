@@ -4,6 +4,7 @@ import pytest
 from codingame import exceptions
 from codingame.clash_of_code import ClashOfCode
 from codingame.client import Client
+from codingame.client.sync import SyncClient
 from codingame.codingamer import CodinGamer
 from codingame.leaderboard import (
     ChallengeLeaderboard,
@@ -38,7 +39,25 @@ async def test_client_context_manager_error():
             pass  # pragma: no cover
 
 
-def test_client_login(client: Client):
+def test_client_request(client: SyncClient):
+    session = client.request("session", "findSession")
+    assert isinstance(session, dict)
+
+
+@pytest.mark.parametrize(
+    ["service", "func"],
+    [
+        ("", ""),
+        ("session", ""),
+        ("", "findSession"),
+    ],
+)
+def test_client_request_error(client: SyncClient, service: str, func: str):
+    with pytest.raises(ValueError):
+        client.request(service, func)
+
+
+def test_client_login(client: SyncClient):
     client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
@@ -46,7 +65,6 @@ def test_client_login(client: Client):
     assert client.codingamer is not None
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize(
     ["email", "password"],
     [
@@ -57,7 +75,7 @@ def test_client_login(client: Client):
         ("nonexistant@example.com", "NonExistant"),
     ],
 )
-def test_client_login_error(client: Client, email: str, password: str):
+def test_client_login_error(client: SyncClient, email: str, password: str):
     with pytest.raises(exceptions.LoginError):
         client.login(email, password)
 
@@ -70,7 +88,7 @@ def test_client_login_error(client: Client, email: str, password: str):
         os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"),
     ],
 )
-def test_client_get_codingamer(client: Client, codingamer_query):
+def test_client_get_codingamer(client: SyncClient, codingamer_query):
     codingamer = client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -83,19 +101,19 @@ def test_client_get_codingamer(client: Client, codingamer_query):
         "a" * 32 + "0" * 7,
     ],
 )
-def test_client_get_codingamer_error(client: Client, codingamer_query):
+def test_client_get_codingamer_error(client: SyncClient, codingamer_query):
     with pytest.raises(exceptions.CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
 
 
-def test_client_get_clash_of_code(client: Client):
+def test_client_get_clash_of_code(client: SyncClient):
     clash_of_code = client.get_clash_of_code(
         os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
     )
     assert isinstance(clash_of_code, ClashOfCode)
 
 
-def test_client_get_clash_of_code_error(client: Client):
+def test_client_get_clash_of_code_error(client: SyncClient):
     with pytest.raises(ValueError):
         client.get_clash_of_code("0")
 
@@ -103,34 +121,34 @@ def test_client_get_clash_of_code_error(client: Client):
         client.get_clash_of_code("0" * 7 + "a" * 32)
 
 
-def test_client_get_pending_clash_of_code(client: Client):
+def test_client_get_pending_clash_of_code(client: SyncClient):
     clash_of_code = client.get_pending_clash_of_code()
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-def test_client_language_ids(client: Client):
+def test_client_language_ids(client: SyncClient):
     language_ids = client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
-def test_client_notifications(auth_client: Client):
+def test_client_notifications(auth_client: SyncClient):
     for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
 
 
-def test_client_notifications_error(client: Client):
+def test_client_notifications_error(client: SyncClient):
     with pytest.raises(exceptions.LoginRequired):
         next(client.get_unseen_notifications())
 
 
-def test_client_get_global_leaderboard(client: Client):
+def test_client_get_global_leaderboard(client: SyncClient):
     global_leaderboard = client.get_global_leaderboard()
     assert isinstance(global_leaderboard, GlobalLeaderboard)
     assert isinstance(global_leaderboard.users[0], GlobalRankedCodinGamer)
 
 
-def test_client_get_global_leaderboard_error(client: Client):
+def test_client_get_global_leaderboard_error(client: SyncClient):
     with pytest.raises(ValueError):
         client.get_global_leaderboard(type="NONEXISTENT")
     with pytest.raises(ValueError):
@@ -142,7 +160,9 @@ def test_client_get_global_leaderboard_error(client: Client):
 @pytest.mark.parametrize(
     "challenge_id", ["coders-strike-back", "spring-challenge-2021"]
 )
-def test_client_get_challenge_leaderboard(client: Client, challenge_id: str):
+def test_client_get_challenge_leaderboard(
+    client: SyncClient, challenge_id: str
+):
     challenge_leaderboard = client.get_challenge_leaderboard(challenge_id)
     assert isinstance(challenge_leaderboard, ChallengeLeaderboard)
     assert isinstance(challenge_leaderboard.users[0], ChallengeRankedCodinGamer)
@@ -150,7 +170,7 @@ def test_client_get_challenge_leaderboard(client: Client, challenge_id: str):
         assert isinstance(challenge_leaderboard.leagues[0], League)
 
 
-def test_client_get_challenge_leaderboard_error(client: Client):
+def test_client_get_challenge_leaderboard_error(client: SyncClient):
     with pytest.raises(ValueError):
         client.get_challenge_leaderboard(
             "spring-challenge-2021", group="nonexistent"
@@ -164,7 +184,7 @@ def test_client_get_challenge_leaderboard_error(client: Client):
 
 
 @pytest.mark.parametrize("puzzle_id", ["coders-strike-back", "codingame-optim"])
-def test_client_get_puzzle_leaderboard(client: Client, puzzle_id: str):
+def test_client_get_puzzle_leaderboard(client: SyncClient, puzzle_id: str):
     puzzle_leaderboard = client.get_puzzle_leaderboard(puzzle_id)
     assert isinstance(puzzle_leaderboard, PuzzleLeaderboard)
     assert isinstance(puzzle_leaderboard.users[0], PuzzleRankedCodinGamer)
@@ -182,7 +202,7 @@ def test_client_get_puzzle_leaderboard(client: Client, puzzle_id: str):
         )
 
 
-def test_client_get_puzzle_leaderboard_error(client: Client):
+def test_client_get_puzzle_leaderboard_error(client: SyncClient):
     with pytest.raises(ValueError):
         client.get_puzzle_leaderboard("codingame-optim", group="nonexistent")
     with pytest.raises(exceptions.LoginRequired):
