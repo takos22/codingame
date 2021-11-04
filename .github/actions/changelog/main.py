@@ -1,5 +1,7 @@
 import re
+import traceback
 import typing
+
 from github import Github
 from pydantic import BaseSettings, SecretStr
 from sphobjinv import Inventory
@@ -18,7 +20,7 @@ refs = {
     "login": (
         "Login",
         "user_guide/quickstart.html#login",
-    )
+    ),
 }
 
 
@@ -88,4 +90,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(
+            "::error file=.github/actions/changelog/main.py,"
+            f"title={e.__class__.__name__}: {str(e)}:: "
+            + traceback.format_exc()
+        )
