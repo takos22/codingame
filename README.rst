@@ -49,9 +49,6 @@ Create an application, in ``example.py``:
 
    client = codingame.Client()
 
-   # if you want to log in
-   client.login("email@example.com", "password")
-
    # get a codingamer
    codingamer = client.get_codingamer("username")
    print(codingamer.pseudo)
@@ -61,6 +58,7 @@ Create an application, in ``example.py``:
    # print the pseudo of the top codingamer
    print(global_leaderboard.users[0].pseudo)
 
+See `the docs <https://codingame.readthedocs.io/en/stable/user_guide/quickstart.html>`__.
 
 Contribute
 ----------
