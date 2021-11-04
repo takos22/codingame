@@ -49,7 +49,7 @@ Version 1.1.0 (2021-11-01)
 Changed
 *******
 
-- Update ``Client.login`` to bypass captcha on login endpoint with
+- Update `Client.login <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.login>`__ to bypass captcha on login endpoint with
   cookie based authentication, see `Login <user_guide/quickstart.html#login>`__.
 
 Version 1.0.1 (2021-07-12)
