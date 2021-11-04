@@ -30,7 +30,7 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def request(self, service: str, func: str, json: list = []):
+    def request(self, service: str, func: str, parameters: list = []):
         ...  # pragma: no cover
 
     @abstractmethod
