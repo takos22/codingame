@@ -27,6 +27,7 @@ refs = {
 class Settings(BaseSettings):
     input_token: SecretStr
     github_repository: str
+    github_ref: str
 
 
 def main():
@@ -34,7 +35,9 @@ def main():
     inventory = Inventory(url=docs_url + "objects.inv")
     github = Github(settings.input_token.get_secret_value())
     repo = github.get_repo(settings.github_repository)
-    docs_changelog = repo.get_contents("docs/changelog.rst")
+    docs_changelog = repo.get_contents(
+        "docs/changelog.rst", settings.github_ref
+    )
 
     content = docs_changelog.decoded_content.decode()
     new_content = content
