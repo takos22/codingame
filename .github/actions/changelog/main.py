@@ -36,7 +36,7 @@ def main():
     github = Github(settings.input_token.get_secret_value())
     repo = github.get_repo(settings.github_repository)
     docs_changelog = repo.get_contents(
-        "docs/changelog.rst", settings.github_ref
+        "docs/changelog.rst", settings.github_ref.split("/")[-1]
     )
 
     content = docs_changelog.decoded_content.decode()
@@ -88,7 +88,11 @@ def main():
     changelog = repo.get_contents("CHANGELOG.rst")
     if new_content != changelog.decoded_content.decode():
         repo.update_file(
-            changelog.path, "Update CHANGELOG.rst", new_content, changelog.sha
+            changelog.path,
+            "Update CHANGELOG.rst",
+            new_content,
+            changelog.sha,
+            branch=settings.github_ref.split("/")[-1],
         )
 
 
