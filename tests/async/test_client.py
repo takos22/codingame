@@ -43,11 +43,32 @@ async def test_client_context_manager_error():
 
 
 @pytest.mark.asyncio
+async def test_client_request(client: AsyncClient):
+    session = await client.request("session", "findSession")
+    assert isinstance(session, dict)
+
+
+@pytest.mark.parametrize(
+    ["service", "func"],
+    [
+        ("", ""),
+        ("session", ""),
+        ("", "findSession"),
+    ],
+)
+@pytest.mark.asyncio
+async def test_client_request_error(
+    client: AsyncClient, service: str, func: str
+):
+    with pytest.raises(ValueError):
+        await client.request(service, func)
+
+
+@pytest.mark.asyncio
 async def test_client_login(client: AsyncClient, mock_http):
     mock_http(client._state.http, "login")
     mock_http(client._state.http, "get_codingamer_from_id")
     mock_http(client._state.http, "get_codingamer_from_handle")
-
     await client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
@@ -55,7 +76,6 @@ async def test_client_login(client: AsyncClient, mock_http):
     assert client.codingamer is not None
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize(
     ["email", "password"],
     [
@@ -72,37 +92,7 @@ async def test_client_login_error(
     client: AsyncClient,
     email: str,
     password: str,
-    is_mocking: bool,
-    mock_httperror,
 ):
-    if is_mocking:
-        if email == "":
-            error = {"id": 332, "message": "Email is required"}
-
-        elif email == "NotAnEmail":
-            error = {"id": 334, "message": "Malformed email"}
-
-        elif email == "nonexistant@example.com":
-            if password == "":
-                error = {"id": 336, "message": "Password is required"}
-
-            elif password == "NonExistant":
-                error = {
-                    "id": 393,
-                    "message": (
-                        "This email address is not linked to a "
-                        "CodinGamer account"
-                    ),
-                }
-
-        elif email == os.environ.get("TEST_LOGIN_EMAIL"):
-            error = {
-                "id": 396,
-                "message": "The password you entered is incorrect.",
-            }
-
-        mock_httperror(client._state.http, "login", error)
-
     with pytest.raises(exceptions.LoginError):
         await client.login(email, password)
 

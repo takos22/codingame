@@ -9,7 +9,7 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.2.0 (unreleased)
+Version 1.3.0 (Unreleased)
 --------------------------
 
 Added
@@ -34,8 +34,21 @@ Changed
 Removed
 *******
 
-- ``codingame.endpoints`` submodule.
 - ``Notification._raw``.
+
+Version 1.2.0 (Unreleased)
+--------------------------
+
+Added
+*****
+
+- :meth:`Client.request` to make requests to CodinGame API services that aren't
+  implemented yet in the library.
+
+Removed
+*******
+
+- ``codingame.endpoints`` submodule.
 
 Version 1.1.0 (2021-11-01)
 --------------------------

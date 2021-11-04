@@ -36,7 +36,7 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def request(self, service: str, func: str, json: list = []):
+    def request(self, service: str, func: str, parameters: list = []):
         ...  # pragma: no cover
 
     @abstractmethod
@@ -68,7 +68,7 @@ class BaseHTTPClient(ABC):
 
     def login(self, email: str, password: str):
         return self.request(
-            "CodinGamer", "loginSiteV2", [email, password, True]
+            "CodinGamer", "loginSite", [email, password, True, "CODINGAME", ""]
         )
 
     def get_codingamer_from_handle(self, handle: str) -> PointsStatsFromHandle:

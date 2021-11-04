@@ -88,6 +88,57 @@ class BaseClient(ABC):
         logged in. ``None`` if the client isn't logged in."""
         return self._state.codingamer
 
+    def request(
+        self, service: str, func: str, parameters: list = []
+    ) -> typing.Any:
+        """|maybe_coro|
+
+        Make a request to the CodinGame API service.
+
+        This is useful if you want to use some services that aren't implemented
+        yet in this library, but you want to use the authentication that this
+        library provides.
+
+        .. note::
+            The CodinGame API URLs are in the format
+            ``https://www.codingame.com/services/{service}/{func}``.
+
+        Parameters
+        -----------
+            service: :class:`str`
+                The CodinGame API service.
+
+            func: :class:`str`
+                The CodinGame API function.
+
+            parameters: Optional :class:`list`
+                The parameters to the API.
+                Default: ``[]``
+
+        Raises
+        ------
+            :exc:`ValueError`
+                ``service`` or ``function`` parameter is empty.
+
+            :exc:`HTTPError`
+                Error with the API (service or function not found, wrong number
+                of parameters, bad parameters, etc).
+
+        Returns
+        --------
+            Anything
+                The data returned by the CodinGame API, usually a :class:`dict`.
+
+        .. versionadded:: 1.2.0
+        """
+
+        if service == "":
+            raise ValueError("service argument must not be empty")
+        if func == "":
+            raise ValueError("func argument must not be empty")
+
+        return self._state.http.request(service, func, parameters)
+
     # --------------------------------------------------------------------------
     # CodinGamer
 
