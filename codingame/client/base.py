@@ -155,15 +155,9 @@ class BaseClient(ABC):
 
         .. error::
             As of 2021-10-27, the only way to login is with cookie
-            authentication, so with the``remember_me_cookie`` parameter, because
-            of an endpoint change, see :ref:`login`. Using email/password
-            authentication will raise a :exc:`LoginError`.
-
-        .. error::
-            As of 2021-10-27, the only way to login is with cookie
-            authentication, so with the``remember_me_cookie`` parameter, because
-            of an endpoint change, see :ref:`login`. Using email/password
-            authentication will raise a :exc:`LoginError`.
+            authentication, so with the ``remember_me_cookie`` parameter,
+            because of an endpoint change, see :ref:`login`. Using
+            email/password authentication will raise a :exc:`LoginError`.
 
         Parameters
         -----------
