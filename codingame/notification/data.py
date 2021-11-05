@@ -4,10 +4,38 @@ from datetime import datetime
 from ..abc import Mapping
 from ..types import notification as types
 from ..utils import to_datetime
-from .enums import CommentType, ContributionType, NotificationType
+from .enums import (
+    CommentType,
+    ContributionModeratedActionType,
+    ContributionType,
+    NotificationType,
+)
 
 if typing.TYPE_CHECKING:
     from ..state import ConnectionState
+
+__all__ = (
+    "LanguageMapping",
+    "NotificationData",
+    "AchievementUnlockedData",
+    "LeagueData",
+    "NewBlogData",
+    "ClashInviteData",
+    "ClashOverData",
+    "Contribution",
+    "PuzzleSolution",
+    "NewCommentData",
+    "NewCommentResponseData",
+    "ContributionData",
+    "FeaturedData",
+    "NewHintData",
+    "ContributionModeratedData",
+    "NewPuzzleData",
+    "PuzzleOfTheWeekData",
+    "QuestCompletedData",
+    "FriendRegisteredData",
+    "NewLevelData",
+)
 
 
 class LanguageMapping(Mapping):
@@ -333,6 +361,167 @@ class NewCommentResponseData(NotificationData):
                 else PuzzleSolution(state, data["typeData"])
             )
         self.url = data.get("url")
+
+        super().__init__(state, data)
+
+
+# contribution
+
+
+class ContributionData(Mapping):
+    """Data of :attr:`NotificationType.contribution_received`,
+    :attr:`NotificationType.contribution_accepted`,
+    :attr:`NotificationType.contribution_refused` and
+    :attr:`NotificationType.contribution_clash_mode_removed` notifications."""
+
+    handle: str
+    title: typing.Optional[str]
+    type: typing.Optional[ContributionType]
+
+    __slots__ = ("handle", "title", "type")
+
+    def __init__(self, state: "ConnectionState", data: types.ContributionData):
+        self.handle = data["handle"]
+        self.title = data.get("title")
+        self.type = ContributionType(data["type"]) if "type" in data else None
+
+        super().__init__(state, data)
+
+
+# feature
+
+
+class FeaturedData(NotificationData):
+    """Data of a :attr:`NotificationType.feature` notification."""
+
+    title: typing.Optional[LanguageMapping]
+    description: LanguageMapping
+    image_url: str
+    url: str
+
+    __slots__ = (
+        "title",
+        "description",
+        "image_url",
+        "url",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.FeatureData):
+        self.title = (
+            LanguageMapping(state, data["title"]) if "title" in data else None
+        )
+        self.description = LanguageMapping(state, data["description"])
+        self.image_url = data["image-instant"]
+        self.url = data["url"]
+
+        super().__init__(state, data)
+
+
+# hints
+
+
+class NewHintData(NotificationData):
+    """Data of a :attr:`NotificationType.new_hint` notification."""
+
+    puzzle_title: LanguageMapping
+    thumbnail_binary_id: int
+    test_session_handle: str
+
+    __slots__ = (
+        "puzzle_title",
+        "thumbnail_binary_id",
+        "test_session_handle",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.NewHintData):
+        self.puzzle_title = LanguageMapping(state, data["puzzleTitle"])
+        self.thumbnail_binary_id = data["thumbnailBinaryId"]
+        self.test_session_handle = data["testSessionHandle"]
+
+        super().__init__(state, data)
+
+
+# moderation
+
+
+class ContributionModeratedData(NotificationData):
+    """Data of a :attr:`NotificationType.contribution_moderated`
+    notification."""
+
+    action_type: ContributionModeratedActionType
+    contribution: Contribution
+
+    __slots__ = (
+        "action_type",
+        "contribution",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: types.ContributionModeratedData
+    ):
+        self.action_type = ContributionModeratedActionType(data["actionType"])
+        self.contribution = Contribution(state, data["contribution"])
+
+        super().__init__(state, data)
+
+
+# puzzle
+
+
+class NewPuzzleData(NotificationData):
+    """Data of a :attr:`NotificationType.new_puzzle` notification."""
+
+    level: LanguageMapping
+    name: LanguageMapping
+    image_url: str
+    puzzle_id: int
+
+    __slots__ = (
+        "level",
+        "name",
+        "image_url",
+        "puzzle_id",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.NewPuzzleData):
+        self.level = LanguageMapping(state, data["level"])
+        self.name = LanguageMapping(state, data["name"])
+        self.image_url = data["image"]
+
+        super().__init__(state, data)
+
+
+class PuzzleOfTheWeekData(NotificationData):
+    """Data of a :attr:`NotificationType.puzzle_of_the_week` notification."""
+
+    puzzle_id: int
+    puzzle_level: str
+    puzzle_pretty_id: str
+    puzzle_name: LanguageMapping
+    puzzle_image_id: int
+    contributor_pseudo: str
+    contributor_avatar_id: typing.Optional[int]
+
+    __slots__ = (
+        "puzzle_id",
+        "puzzle_level",
+        "puzzle_pretty_id",
+        "puzzle_name",
+        "puzzle_image_id",
+        "contributor_pseudo",
+        "contributor_avatar_id",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: types.PuzzleOfTheWeekData
+    ):
+        self.puzzle_id = data["puzzleId"]
+        self.puzzle_level = data["puzzleLevel"]
+        self.puzzle_pretty_id = data["puzzlePrettyId"]
+        self.puzzle_name = LanguageMapping(state, data["puzzleName"])
+        self.puzzle_image_id = data["puzzleOfTheWeekImageId"]
+        self.contributor_pseudo = data["contributorNickname"]
+        self.contributor_avatar_id = data.get("contributorAvatarId")
 
         super().__init__(state, data)
 

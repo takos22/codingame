@@ -5,6 +5,7 @@ __all__ = (
     "NotificationType",
     "ContributionType",
     "CommentType",
+    "ContributionModeratedActionType",
 )
 
 
@@ -167,3 +168,8 @@ class ContributionType(str, Enum):
 class CommentType(str, Enum):
     contribution = "CONTRIBUTION"
     solution = "SOLUTION"
+
+
+class ContributionModeratedActionType(str, Enum):
+    validate = "validate"
+    deny = "deny"

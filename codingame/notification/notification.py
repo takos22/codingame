@@ -11,6 +11,8 @@ from .enums import NotificationType, NotificationTypeGroup
 if typing.TYPE_CHECKING:
     from ..state import ConnectionState
 
+__all__ = ("Notification",)
+
 
 class Notification(BaseObject):
     """Represents a Notification.
