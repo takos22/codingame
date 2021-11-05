@@ -298,11 +298,11 @@ class NewPuzzleData(TypedDict):
     level: LanguageMapping
     name: LanguageMapping
     image: str  # image url
-    puzzleId: str
+    puzzleId: int
 
 
 class PuzzleOfTheWeekData(TypedDict):
-    puzzleId: str
+    puzzleId: int
     puzzleLevel: str
     puzzlePrettyId: str
     puzzleName: LanguageMapping
