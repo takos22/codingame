@@ -1,5 +1,7 @@
 import re
+import traceback
 import typing
+
 from github import Github
 from pydantic import BaseSettings, SecretStr
 from sphobjinv import Inventory
@@ -18,13 +20,14 @@ refs = {
     "login": (
         "Login",
         "user_guide/quickstart.html#login",
-    )
+    ),
 }
 
 
 class Settings(BaseSettings):
     input_token: SecretStr
     github_repository: str
+    github_ref: str
 
 
 def main():
@@ -32,7 +35,9 @@ def main():
     inventory = Inventory(url=docs_url + "objects.inv")
     github = Github(settings.input_token.get_secret_value())
     repo = github.get_repo(settings.github_repository)
-    docs_changelog = repo.get_contents("docs/changelog.rst")
+    docs_changelog = repo.get_contents(
+        "docs/changelog.rst", settings.github_ref.split("/")[-1]
+    )
 
     content = docs_changelog.decoded_content.decode()
     new_content = content
@@ -80,12 +85,26 @@ def main():
         len(".. currentmodule:: codingame\n\n") :  # noqa: E203
     ]
 
-    changelog = repo.get_contents("CHANGELOG.rst")
+    changelog = repo.get_contents(
+        "CHANGELOG.rst", settings.github_ref.split("/")[-1]
+    )
     if new_content != changelog.decoded_content.decode():
         repo.update_file(
-            changelog.path, "Update CHANGELOG.rst", new_content, changelog.sha
+            changelog.path,
+            "Update CHANGELOG.rst",
+            new_content,
+            changelog.sha,
+            branch=settings.github_ref.split("/")[-1],
         )
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(
+            "::error file=.github/actions/changelog/main.py,"
+            f"title={e.__class__.__name__}: {str(e)}:: "
+            + traceback.format_exc()
+        )
+        raise e from None

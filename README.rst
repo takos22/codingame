@@ -58,7 +58,7 @@ Create an application, in ``example.py``:
    # print the pseudo of the top codingamer
    print(global_leaderboard.users[0].pseudo)
 
-See `the docs <https://codingame.readthedocs.io/en/stable/user_guide/quickstart.html#login>`__.
+See `the docs <https://codingame.readthedocs.io/en/stable/user_guide/quickstart.html>`__.
 
 Contribute
 ----------

@@ -36,7 +36,7 @@ Removed
 
 - ``Notification._raw``.
 
-Version 1.2.0 (Unreleased)
+Version 1.2.0 (2021-11-04)
 --------------------------
 
 Added
@@ -56,7 +56,7 @@ Version 1.1.0 (2021-11-01)
 Changed
 *******
 
-- Update :attr:`Client.login` to bypass captcha on login endpoint with
+- Update :meth:`Client.login` to bypass captcha on login endpoint with
   cookie based authentication, see :ref:`login`.
 
 Version 1.0.1 (2021-07-12)
