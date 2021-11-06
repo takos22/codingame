@@ -27,7 +27,7 @@ __all__ = (
     "NewCommentData",
     "NewCommentResponseData",
     "ContributionData",
-    "FeaturedData",
+    "FeatureData",
     "NewHintData",
     "ContributionModeratedData",
     "NewPuzzleData",
@@ -125,6 +125,11 @@ class NotificationData(Mapping):
             NT.clash_over: ClashOverData,
             NT.new_comment: NewCommentData,
             NT.new_comment_response: NewCommentResponseData,
+            NT.contribution_received: ContributionData,
+            NT.contribution_accepted: ContributionData,
+            NT.contribution_refused: ContributionData,
+            NT.contribution_clash_mode_removed: ContributionData,
+            NT.feature: FeatureData,
             NT.quest_completed: QuestCompletedData,
             NT.friend_registered: FriendRegisteredData,
             NT.new_level: NewLevelData,
@@ -391,7 +396,7 @@ class ContributionData(Mapping):
 # feature
 
 
-class FeaturedData(NotificationData):
+class FeatureData(NotificationData):
     """Data of a :attr:`NotificationType.feature` notification."""
 
     title: typing.Optional[LanguageMapping]
