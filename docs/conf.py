@@ -171,6 +171,10 @@ autodoc_default_options = {
 }
 autodoc_member_order = "bysource"
 autoclass_content = "both"
+autodoc_mock_imports = ["codingame.state", "aiohttp"]
+set_type_checking_flag = True
+typehints_document_rtype = False
+
 
 rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE", "en")
 rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
@@ -208,6 +212,7 @@ hoverxref_roles = [
     "exc",
     "obj",
 ]
+hoverxref_role_types = {role: "tooltip" for role in hoverxref_roles}
 
 
 github_username = "takos22"

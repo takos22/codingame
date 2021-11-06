@@ -92,8 +92,20 @@ Enumerations
 .. autoclass:: NotificationType()
     :undoc-members:
 
+.. autoclass:: ContributionType()
+    :undoc-members:
+
+.. autoclass:: CommentType()
+    :undoc-members:
+
+.. autoclass:: ContributionModeratedActionType()
+    :undoc-members:
+
 Notification data
 #################
+
+.. autoclass:: LanguageMapping()
+    :no-inherited-members:
 
 .. autoclass:: NotificationData()
     :undoc-members:
@@ -116,6 +128,46 @@ Notification data
     :no-inherited-members:
 
 .. autoclass:: ClashOverData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: Contribution()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: PuzzleSolution()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewCommentData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewCommentResponseData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ContributionData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: FeaturedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewHintData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ContributionModeratedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewPuzzleData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: PuzzleOfTheWeekData()
     :undoc-members:
     :no-inherited-members:
 
