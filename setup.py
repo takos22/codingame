@@ -27,7 +27,7 @@ def get_packages(package) -> typing.List[str]:
     """Return root package and all sub-packages."""
 
     return [
-        dirpath
+        dirpath.replace("\\", ".")
         for dirpath, *_ in os.walk(package)
         if os.path.exists(os.path.join(dirpath, "__init__.py"))
     ]
