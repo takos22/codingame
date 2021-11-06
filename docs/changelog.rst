@@ -37,7 +37,7 @@ Version 1.2.1 (2021-11-06)
 Fixed
 *****
 
-- :exc:`ModuleNotFoundError` of ``codingame.types`` submodule when importint
+- :exc:`ModuleNotFoundError` of ``codingame.types`` submodule when importing
   ``codingame``.
 
 Version 1.2.0 (2021-11-04)
