@@ -11,11 +11,11 @@ VersionInfo = NamedTuple(
     "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
 )
 
-version_info = VersionInfo(major=1, minor=2, micro=1, releaselevel="", serial=0)
+version_info = VersionInfo(major=1, minor=2, micro=2, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
 from . import types  # needed for including codingame.types submodule in release
 from .clash_of_code import ClashOfCode, Player
