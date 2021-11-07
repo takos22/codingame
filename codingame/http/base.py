@@ -1,14 +1,13 @@
 import typing
 from abc import ABC, abstractmethod
 
-if typing.TYPE_CHECKING:
-    from codingame.types import (
-        ClashOfCode,
-        CodinGamerFromID,
-        Follower,
-        Following,
-        PointsStatsFromHandle,
-    )
+from ..types import (
+    ClashOfCode,
+    CodinGamerFromID,
+    Follower,
+    Following,
+    PointsStatsFromHandle,
+)
 
 __all__ = ("BaseHTTPClient",)
 
@@ -66,25 +65,23 @@ class BaseHTTPClient(ABC):
             "CodinGamer", "loginSite", [email, password, True, "CODINGAME", ""]
         )
 
-    def get_codingamer_from_handle(
-        self, handle: str
-    ) -> "PointsStatsFromHandle":
+    def get_codingamer_from_handle(self, handle: str) -> PointsStatsFromHandle:
         return self.request(
             "CodinGamer", "findCodingamePointsStatsByHandle", [handle]
         )
 
-    def get_codingamer_from_id(self, id: int) -> "CodinGamerFromID":
+    def get_codingamer_from_id(self, id: int) -> CodinGamerFromID:
         return self.request(
             "CodinGamer", "findCodinGamerPublicInformations", [id]
         )
 
-    def get_codingamer_followers(self, id: int) -> typing.List["Follower"]:
+    def get_codingamer_followers(self, id: int) -> typing.List[Follower]:
         return self.request("CodinGamer", "findFollowers", [id, id, None])
 
     def get_codingamer_follower_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowerIds", [id])
 
-    def get_codingamer_following(self, id: int) -> typing.List["Following"]:
+    def get_codingamer_following(self, id: int) -> typing.List[Following]:
         return self.request("CodinGamer", "findFollowing", [id, id])
 
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
@@ -95,10 +92,10 @@ class BaseHTTPClient(ABC):
     def get_codingamer_clash_of_code_rank(self, id: int) -> int:
         return self.request("ClashOfCode", "getClashRankByCodinGamerId", [id])
 
-    def get_clash_of_code_from_handle(self, handle: str) -> "ClashOfCode":
+    def get_clash_of_code_from_handle(self, handle: str) -> ClashOfCode:
         return self.request("ClashOfCode", "findClashByHandle", [handle])
 
-    def get_pending_clash_of_code(self) -> "ClashOfCode":
+    def get_pending_clash_of_code(self) -> ClashOfCode:
         return self.request("ClashOfCode", "findPendingClashes")
 
     # Notification

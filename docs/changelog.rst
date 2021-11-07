@@ -31,6 +31,15 @@ Changed
 - Deprecated :attr:`Notification.creation_time` in favor of
   :attr:`Notification.date`
 
+Version 1.2.3 (2021-11-07)
+--------------------------
+
+Fixed
+*****
+
+- :exc:`ImportError` of ``codingame.types`` submodule when importing
+  ``codingame``, the ``1.2.1`` and ``1.2.2`` fixes don't work.
+
 Version 1.2.2 (2021-11-06)
 --------------------------
 

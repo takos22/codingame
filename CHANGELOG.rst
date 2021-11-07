@@ -29,6 +29,15 @@ Changed
 - Deprecated `Notification.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.creation_time>`__ in favor of
   `Notification.date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.date>`__
 
+Version 1.2.3 (2021-11-07)
+--------------------------
+
+Fixed
+*****
+
+- ``ImportError`` of ``codingame.types`` submodule when importing
+  ``codingame``, the ``1.2.1`` and ``1.2.2`` fixes don't work.
+
 Version 1.2.2 (2021-11-06)
 --------------------------
 

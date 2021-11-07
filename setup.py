@@ -64,11 +64,7 @@ setup(
     long_description_content_type="text/x-rst",
     author="takos22",
     author_email="takos2210@gmail.com",
-    packages=[
-        "codingame",
-        "codingame.client",
-        "codingame.http",
-    ],
+    packages=get_packages("codingame"),
     python_requires=">=3.6",
     install_requires=get_requirements(),
     extras_require=extra_requires,
