@@ -1,14 +1,13 @@
 import typing
 from abc import ABC, abstractmethod
 
-if typing.TYPE_CHECKING:
-    from codingame.types import (
-        ClashOfCode,
-        CodinGamerFromID,
-        Follower,
-        Following,
-        PointsStatsFromHandle,
-    )
+from ..types import (
+    ClashOfCode,
+    CodinGamerFromID,
+    Follower,
+    Following,
+    PointsStatsFromHandle,
+)
 
 __all__ = ("BaseHTTPClient",)
 
