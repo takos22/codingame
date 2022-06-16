@@ -81,9 +81,9 @@ class PartialCodinGamer(BaseUser):
 
         Get all the followers of a CodinGamer.
 
-        You need to be logged in as the CodinGamer to get its followers
-        or else a :exc:`LoginRequired` will be raised. If you can't log in,
-        you can use :meth:`CodinGamer.get_followers_ids` instead.
+        You need to be logged in to get the followers or else a
+        :exc:`LoginRequired` will be raised. If you can't log in, you can use
+        :meth:`CodinGamer.get_followers_ids` instead.
 
         .. note::
             This property is a generator.
@@ -103,17 +103,14 @@ class PartialCodinGamer(BaseUser):
                 The follower.
         """
 
-        if (
-            not self._state.logged_in
-            or self.public_handle != self._state.codingamer.public_handle
-        ):
+        if not self._state.logged_in:
             raise LoginRequired()
 
         if self._state.is_async:
 
             async def _get_followers():
                 followers = await self._state.http.get_codingamer_followers(
-                    self.id
+                    self.id, self._state.codingamer.id
                 )
                 for follower in followers:
                     yield CodinGamer(self._state, follower)
@@ -121,7 +118,9 @@ class PartialCodinGamer(BaseUser):
         else:
 
             def _get_followers():
-                followers = self._state.http.get_codingamer_followers(self.id)
+                followers = self._state.http.get_codingamer_followers(
+                    self.id, self._state.codingamer.id
+                )
                 for follower in followers:
                     yield CodinGamer(self._state, follower)
 
@@ -151,9 +150,9 @@ class PartialCodinGamer(BaseUser):
 
         Get all the followed CodinGamers.
 
-        You need to be logged in as the CodinGamer to get its followed
-        CodinGamers or else a :exc:`LoginRequired` will be raised. If you can't
-        log in, you can use :meth:`CodinGamer.get_followed_ids` instead.
+        You need to be logged in to get the followed CodinGamers or else a
+        :exc:`LoginRequired` will be raised. If you can't log in, you can use
+        :meth:`CodinGamer.get_followed_ids` instead.
 
         .. note::
             This property is a generator.
@@ -173,17 +172,14 @@ class PartialCodinGamer(BaseUser):
                 The followed CodinGamer.
         """
 
-        if (
-            not self._state.logged_in
-            or self.public_handle != self._state.codingamer.public_handle
-        ):
+        if not self._state.logged_in:
             raise LoginRequired()
 
         if self._state.is_async:
 
             async def _get_followed():
                 followeds = await self._state.http.get_codingamer_following(
-                    self.id
+                    self.id, self._state.codingamer.id
                 )
                 for followed in followeds:
                     yield CodinGamer(self._state, followed)
@@ -191,7 +187,9 @@ class PartialCodinGamer(BaseUser):
         else:
 
             def _get_followed():
-                followeds = self._state.http.get_codingamer_following(self.id)
+                followeds = self._state.http.get_codingamer_following(
+                    self.id, self._state.codingamer.id
+                )
                 for followed in followeds:
                     yield CodinGamer(self._state, followed)
 
