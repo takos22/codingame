@@ -116,7 +116,7 @@ Added
 - `ChallengeLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.ChallengeLeaderboard.has_leagues>`__ and
   `PuzzleLeaderboard.has_leagues <https://codingame.readthedocs.io/en/latest/api.html#codingame.PuzzleLeaderboard.has_leagues>`__.
 
-- `Notification.read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.read>`__.
+- `NotificationData._raw <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotificationData._raw>`__.
 
 Changed
 *******
