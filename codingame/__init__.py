@@ -11,11 +11,11 @@ VersionInfo = NamedTuple(
     "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
 )
 
-version_info = VersionInfo(major=1, minor=2, micro=3, releaselevel="", serial=0)
+version_info = VersionInfo(major=1, minor=2, micro=4, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "1.2.3"
+__version__ = "1.2.4"
 
 from .clash_of_code import ClashOfCode, Player
 from .client import Client
