@@ -29,6 +29,16 @@ Changed
 - Deprecated `Notification.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.creation_time>`__ in favor of
   `Notification.date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.date>`__
 
+Version 1.2.4 (2022-06-17)
+--------------------------
+
+Fixed
+*****
+
+- `CodinGamer.get_followers <https://codingame.readthedocs.io/en/latest/api.html#codingame.CodinGamer.get_followers>`__ and `CodinGamer.get_followed <https://codingame.readthedocs.io/en/latest/api.html#codingame.CodinGamer.get_followed>`__ now work
+  while being logged in as any user, not just as the user you want to get the
+  followers of.
+
 Version 1.2.3 (2021-11-07)
 --------------------------
 
