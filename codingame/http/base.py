@@ -75,14 +75,22 @@ class BaseHTTPClient(ABC):
             "CodinGamer", "findCodinGamerPublicInformations", [id]
         )
 
-    def get_codingamer_followers(self, id: int) -> typing.List[Follower]:
-        return self.request("CodinGamer", "findFollowers", [id, id, None])
+    def get_codingamer_followers(
+        self, id: int, current_id: int = None
+    ) -> typing.List[Follower]:
+        return self.request(
+            "CodinGamer", "findFollowers", [id, current_id or id, None]
+        )
 
     def get_codingamer_follower_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowerIds", [id])
 
-    def get_codingamer_following(self, id: int) -> typing.List[Following]:
-        return self.request("CodinGamer", "findFollowing", [id, id])
+    def get_codingamer_following(
+        self, id: int, current_id: int = None
+    ) -> typing.List[Following]:
+        return self.request(
+            "CodinGamer", "findFollowing", [id, current_id or id]
+        )
 
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowingIds", [id])
