@@ -109,7 +109,8 @@ in on CodinGame.
 
     import codingame
 
-    client = codingame.Client(remember_me_cookie="your cookie here")
+    client = codingame.Client()
+    client.login(remember_me_cookie="your cookie here")
 
     # then you can access the logged in codingamer like this
     print(client.codingamer)
