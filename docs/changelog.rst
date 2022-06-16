@@ -31,6 +31,16 @@ Changed
 - Deprecated :attr:`Notification.creation_time` in favor of
   :attr:`Notification.date`
 
+Version 1.2.4 (2022-06-17)
+--------------------------
+
+Fixed
+*****
+
+- :meth:`CodinGamer.get_followers` and :meth:`CodinGamer.get_followed` now work
+  while being logged in as any user, not just as the user you want to get the
+  followers of.
+
 Version 1.2.3 (2021-11-07)
 --------------------------
 
