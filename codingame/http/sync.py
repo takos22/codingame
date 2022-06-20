@@ -25,7 +25,7 @@ class SyncHTTPClient(BaseHTTPClient):
         self.__session.close()
 
     def request(self, service: str, func: str, parameters: list = []):
-        url = self.BASE + service + "/" + func
+        url = self.API_URL + service + "/" + func
         with self.__session.post(
             url, json=parameters, headers=self.headers
         ) as response:
