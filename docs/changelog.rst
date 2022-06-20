@@ -9,7 +9,7 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.3.0 (Unreleased)
+Version 1.3.0 (2022-06-21)
 --------------------------
 
 Added
@@ -30,6 +30,11 @@ Changed
 
 - Deprecated :attr:`Notification.creation_time` in favor of
   :attr:`Notification.date`
+
+Removed
+*******
+
+- Removed `Notification._raw`.
 
 Version 1.2.4 (2022-06-17)
 --------------------------
