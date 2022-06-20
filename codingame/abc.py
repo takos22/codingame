@@ -2,6 +2,7 @@
 
 import abc
 import typing
+from collections.abc import Mapping as BaseMapping
 
 if typing.TYPE_CHECKING:
     from .state import ConnectionState
@@ -69,3 +70,23 @@ class BaseUser(BaseObject):
 
     def __eq__(self, other):
         return self.public_handle == other.public_handle
+
+
+class Mapping(BaseMapping, BaseObject):
+    _raw: dict
+
+    __slots__ = ("_raw",)
+
+    def __init__(self, state: "ConnectionState", data: dict):
+        self._raw = data
+
+        super().__init__(state)
+
+    def __getitem__(self, name: str):  # pragma: no cover
+        return self._raw[name]
+
+    def __iter__(self):  # pragma: no cover
+        return iter(self._raw)
+
+    def __len__(self):  # pragma: no cover
+        return len(self._raw)

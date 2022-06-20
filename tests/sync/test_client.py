@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from codingame import exceptions
@@ -57,7 +58,10 @@ def test_client_request_error(client: SyncClient, service: str, func: str):
         client.request(service, func)
 
 
-def test_client_login(client: SyncClient):
+def test_client_login(client: SyncClient, mock_http):
+    mock_http(client._state.http, "login")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
     client.login(
         remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
     )
@@ -69,10 +73,11 @@ def test_client_login(client: SyncClient):
     ["email", "password"],
     [
         ("", ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), ""),
-        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
-        ("nonexistant", "NonExistant"),
+        ("", "BadPassword"),
+        ("NotAnEmail", ""),
+        ("nonexistant@example.com", ""),
         ("nonexistant@example.com", "NonExistant"),
+        (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
     ],
 )
 def test_client_login_error(client: SyncClient, email: str, password: str):
@@ -88,7 +93,11 @@ def test_client_login_error(client: SyncClient, email: str, password: str):
         os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"),
     ],
 )
-def test_client_get_codingamer(client: SyncClient, codingamer_query):
+def test_client_get_codingamer(client: SyncClient, codingamer_query, mock_http):
+    mock_http(client._state.http, "search")
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+
     codingamer = client.get_codingamer(codingamer_query)
     assert isinstance(codingamer, CodinGamer)
 
@@ -101,45 +110,132 @@ def test_client_get_codingamer(client: SyncClient, codingamer_query):
         "a" * 32 + "0" * 7,
     ],
 )
-def test_client_get_codingamer_error(client: SyncClient, codingamer_query):
+def test_client_get_codingamer_error(
+    client: SyncClient, codingamer_query, mock_http, mock_httperror
+):
+    mock_http(client._state.http, "search", [])
+    mock_httperror(client._state.http, "get_codingamer_from_id", {"id": 404})
+    mock_http(client._state.http, "get_codingamer_from_handle", None)
+
     with pytest.raises(exceptions.CodinGamerNotFound):
         client.get_codingamer(codingamer_query)
 
 
-def test_client_get_clash_of_code(client: SyncClient):
+def test_client_get_clash_of_code(client: SyncClient, mock_http):
+    mock_http(client._state.http, "get_clash_of_code_from_handle")
     clash_of_code = client.get_clash_of_code(
         os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
     )
     assert isinstance(clash_of_code, ClashOfCode)
 
 
-def test_client_get_clash_of_code_error(client: SyncClient):
+def test_client_get_clash_of_code_error(client: SyncClient, mock_httperror):
     with pytest.raises(ValueError):
         client.get_clash_of_code("0")
 
+    mock_httperror(
+        client._state.http, "get_clash_of_code_from_handle", {"id": 502}
+    )
     with pytest.raises(exceptions.ClashOfCodeNotFound):
         client.get_clash_of_code("0" * 7 + "a" * 32)
 
 
-def test_client_get_pending_clash_of_code(client: SyncClient):
+def test_client_get_pending_clash_of_code(client: SyncClient, mock_http):
+    mock_http(client._state.http, "get_pending_clash_of_code")
     clash_of_code = client.get_pending_clash_of_code()
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-def test_client_language_ids(client: SyncClient):
+def test_client_get_language_ids(client: SyncClient, mock_http):
+    mock_http(client._state.http, "get_language_ids")
     language_ids = client.get_language_ids()
     assert isinstance(language_ids, list)
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
-def test_client_notifications(auth_client: SyncClient):
+def test_client_get_unseen_notifications(auth_client: SyncClient, mock_http):
+    mock_http(auth_client._state.http, "get_unseen_notifications")
     for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
+        assert not notification.seen
+        assert not notification.read
 
 
-def test_client_notifications_error(client: SyncClient):
+def test_client_get_unseen_notifications_error(
+    client: SyncClient, is_mocking: bool, mock_http, mock_httperror
+):
     with pytest.raises(exceptions.LoginRequired):
         next(client.get_unseen_notifications())
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(client._state.http, "get_unseen_notifications", {"id": 492})
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_unseen_notifications())
+
+
+def test_client_get_unread_notifications(auth_client: SyncClient, mock_http):
+    mock_http(auth_client._state.http, "get_unread_notifications")
+    for notification in auth_client.get_unread_notifications():
+        assert isinstance(notification, Notification)
+        assert not notification.read
+
+
+def test_client_get_unread_notifications_error(
+    client: SyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_unread_notifications())
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(client._state.http, "get_unread_notifications", {"id": 492})
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_unread_notifications())
+
+
+def test_client_get_read_notifications(auth_client: SyncClient, mock_http):
+    mock_http(auth_client._state.http, "get_last_read_notifications")
+    for notification in auth_client.get_read_notifications():
+        assert isinstance(notification, Notification)
+        assert notification.seen
+        assert notification.read
+
+
+def test_client_get_read_notifications_error(
+    client: SyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_read_notifications())
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(
+        client._state.http, "get_last_read_notifications", {"id": 492}
+    )
+    with pytest.raises(exceptions.LoginRequired):
+        next(client.get_read_notifications())
 
 
 def test_client_get_global_leaderboard(client: SyncClient):

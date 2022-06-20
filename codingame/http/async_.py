@@ -7,11 +7,15 @@ import aiohttp
 from .base import BaseHTTPClient
 from .httperror import HTTPError
 
+if typing.TYPE_CHECKING:
+    from ..state import ConnectionState
+
 __all__ = ("AsyncHTTPClient",)
 
 
 class AsyncHTTPClient(BaseHTTPClient):
-    def __init__(self):
+    def __init__(self, state: "ConnectionState"):
+        self.state = state
         self.__session: aiohttp.ClientSession = aiohttp.ClientSession(
             headers=self.headers
         )
@@ -24,7 +28,7 @@ class AsyncHTTPClient(BaseHTTPClient):
         await self.__session.close()
 
     async def request(self, service: str, func: str, parameters: list = []):
-        url = self.BASE + service + "/" + func
+        url = self.API_URL + service + "/" + func
         async with self.__session.post(url, json=parameters) as response:
             data = await response.json()
             try:
@@ -44,5 +48,5 @@ class AsyncHTTPClient(BaseHTTPClient):
             morsel.set(name, value, cookie_quote(value))
             morsel["domain"] = domain
             self.__session.cookie_jar.update_cookies({name: morsel})
-        else:
+        else:  # pragma: no cover
             self.__session.cookie_jar._cookies.get(domain, {}).pop(name, None)

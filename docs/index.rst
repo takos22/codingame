@@ -1,5 +1,11 @@
-CodinGame API wrapper documentation
-===================================
+
+.. image:: _static/codingame.png
+  :alt: CodinGame logo
+  :align: right
+  :scale: 50%
+
+codingame |version| -- CodinGame API wrapper documentation
+==========================================================
 
 The ``codingame`` module is a wrapper for the undocumented CodinGame API, it
 enables developers to interact with CodinGame through a Python programming
@@ -30,6 +36,7 @@ interface.
 **Features:**
 
 - Easy to develop
+- Wraps main functionalities of the API.
 - Supports both synchronous and asynchronous code
 
 Getting started
@@ -46,7 +53,7 @@ Getting help
 
 If you're having trouble with something, these resources might help.
 
-- Ask us and hang out with us in our :resource:`Discord <discord>` server.
+- Ask us and hang out with us in our :resource:`Discord server <discord>`.
 - If you're looking for something specific, try the :ref:`index <genindex>`
   or :ref:`searching <search>`.
 - Report bugs in the :resource:`issue tracker <issues>`.
@@ -60,7 +67,6 @@ User Guide
 
     user_guide/intro
     user_guide/quickstart
-    user_guide/async
 
 
 API Reference
@@ -69,14 +75,14 @@ API Reference
 .. toctree::
     :maxdepth: 3
 
-    api
+    API reference <api>
 
 
 Changelog
 ---------
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
 
     changelog
 

@@ -27,6 +27,9 @@ class SyncClient(BaseClient):
     def __init__(self):
         super().__init__(is_async=False)
 
+    # --------------------------------------------------------------------------
+    # CodinGamer
+
     def login(
         self,
         email: typing.Optional[str] = None,
@@ -73,17 +76,21 @@ class SyncClient(BaseClient):
                 raise  # pragma: no cover
             handle = data["publicHandle"]
 
-        if handle is None and not CODINGAMER_HANDLE_REGEX.match(codingamer):
-            results = self._state.http.search(codingamer)
-            users = [result for result in results if result["type"] == "USER"]
-            if users:
-                handle = users[0]["id"]
+        else:
+            if CODINGAMER_HANDLE_REGEX.match(codingamer):
+                handle = codingamer
             else:
-                raise NotFound.from_type(
-                    "codingamer", f"No CodinGamer with username {codingamer!r}"
-                )
-        elif handle is None:
-            handle = codingamer
+                results = self._state.http.search(codingamer)
+                users = [
+                    result for result in results if result["type"] == "USER"
+                ]
+                if users:
+                    handle = users[0]["id"]
+                else:
+                    raise NotFound.from_type(
+                        "codingamer",
+                        f"No CodinGamer with username {codingamer!r}",
+                    )
 
         data = self._state.http.get_codingamer_from_handle(handle)
         if data is None:
@@ -91,6 +98,9 @@ class SyncClient(BaseClient):
                 "codingamer", f"No CodinGamer with handle {handle!r}"
             )
         return CodinGamer(self._state, data["codingamer"])
+
+    # --------------------------------------------------------------------------
+    # Clash of Code
 
     def get_clash_of_code(self, handle: str) -> ClashOfCode:
         if not CLASH_OF_CODE_HANDLE_REGEX.match(handle):
@@ -115,16 +125,61 @@ class SyncClient(BaseClient):
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
 
+    # --------------------------------------------------------------------------
+    # Language IDs
+
     def get_language_ids(self) -> typing.List[str]:
         return self._state.http.get_language_ids()
+
+    # --------------------------------------------------------------------------
+    # Notifications
 
     def get_unseen_notifications(self) -> typing.Iterator[Notification]:
         if not self.logged_in:
             raise LoginRequired()
 
-        data = self._state.http.get_unseen_notifications(self.codingamer.id)
+        try:
+            data = self._state.http.get_unseen_notifications(self.codingamer.id)
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
         for notification in data:
             yield Notification(self._state, notification)
+
+    def get_unread_notifications(self) -> typing.Iterator[Notification]:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        try:
+            data = self._state.http.get_unread_notifications(self.codingamer.id)
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
+        for notification in data:
+            yield Notification(self._state, notification)
+
+    def get_read_notifications(self) -> typing.Iterator[Notification]:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        try:
+            data = self._state.http.get_last_read_notifications(
+                self.codingamer.id
+            )
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
+        for notification in data:
+            yield Notification(self._state, notification)
+
+    # --------------------------------------------------------------------------
+    # Leaderboards
 
     def get_global_leaderboard(
         self, page: int = 1, type: str = "GENERAL", group: str = "global"

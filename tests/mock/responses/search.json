@@ -1,0 +1,51 @@
+[
+    {
+        "type": "PUZZLE",
+        "name": "Spring Challenge 2020",
+        "level": "multi",
+        "id": "spring-challenge-2020",
+        "imageBinaryId": 44730303396746
+    },
+    {
+        "type": "PUZZLE",
+        "name": "Spring Challenge 2021",
+        "level": "multi",
+        "id": "spring-challenge-2021",
+        "imageBinaryId": 64484028993851
+    },
+    {
+        "finished": true,
+        "type": "CHALLENGE",
+        "name": "Spring Challenge 2020",
+        "id": "spring-challenge-2020",
+        "imageBinaryId": 42443007839121
+    },
+    {
+        "finished": true,
+        "type": "CHALLENGE",
+        "name": "Spring Challenge 2021",
+        "id": "spring-challenge-2021",
+        "imageBinaryId": 61169048207966
+    },
+    {
+        "type": "PLAYGROUND",
+        "name": "Python Hello World program",
+        "id": "56235",
+        "imageBinaryId": 56048941552661
+    },
+    {
+        "type": "PLAYGROUND",
+        "name": "Hello World in C++, the long way",
+        "id": "304"
+    },
+    {
+        "type": "USER",
+        "name": "Pseudo123",
+        "id": "0123456789abcdef0123456789abcdef7654321"
+    },
+    {
+        "type": "USER",
+        "name": "Pseudo1234",
+        "id": "fedcba9876543210fedcba98765432107654321"
+    }
+]

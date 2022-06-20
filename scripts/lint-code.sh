@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-folders="codingame tests examples"
+folders="codingame tests examples docs setup.py"
 
 set -x
 

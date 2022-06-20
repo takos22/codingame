@@ -7,7 +7,7 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
-Version 1.3.0 (unreleased)
+Version 1.3.0 (2022-06-21)
 --------------------------
 
 Added
@@ -28,6 +28,11 @@ Changed
 
 - Deprecated `Notification.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.creation_time>`__ in favor of
   `Notification.date <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.date>`__
+
+Removed
+*******
+
+- Removed `Notification._raw`.
 
 Version 1.2.4 (2022-06-17)
 --------------------------

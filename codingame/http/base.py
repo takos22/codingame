@@ -6,24 +6,33 @@ from ..types import (
     CodinGamerFromID,
     Follower,
     Following,
+    Notification,
     PointsStatsFromHandle,
 )
+
+if typing.TYPE_CHECKING:
+    from ..state import ConnectionState
 
 __all__ = ("BaseHTTPClient",)
 
 
 class BaseHTTPClient(ABC):
-    BASE = "https://www.codingame.com/services/"
+    BASE_URL = "https://www.codingame.com"
+    API_URL = BASE_URL + "/services/"
+    STATIC_URL = "https://static.codingame.com"
+
     headers: dict = {
         "User-Agent": (
             "CodinGame API wrapper in Python "
             "(https://github.com/takos22/codingame)"
         )
     }
+    state: "ConnectionState"
 
     @property
+    @abstractmethod
     def is_async(self) -> bool:
-        return False
+        ...  # pragma: no cover
 
     @abstractmethod
     def close(self):
@@ -43,7 +52,7 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     def get_file_url(self, id: int, format: str = None) -> str:
-        url = f"https://static.codingame.com/servlet/fileservlet?id={id}"
+        url = f"{self.STATIC_URL}/servlet/fileservlet?id={id}"
         if format:
             url += f"&format={format}"
         return url
@@ -60,7 +69,7 @@ class BaseHTTPClient(ABC):
 
     # CodinGamer
 
-    def login(self, email: str, password: str):
+    def login(self, email: str, password: str):  # pragma: no cover
         return self.request(
             "CodinGamer", "loginSite", [email, password, True, "CODINGAME", ""]
         )
@@ -95,7 +104,7 @@ class BaseHTTPClient(ABC):
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowingIds", [id])
 
-    # ClashOfCode/
+    # ClashOfCode
 
     def get_codingamer_clash_of_code_rank(self, id: int) -> int:
         return self.request("ClashOfCode", "getClashRankByCodinGamerId", [id])
@@ -103,13 +112,21 @@ class BaseHTTPClient(ABC):
     def get_clash_of_code_from_handle(self, handle: str) -> ClashOfCode:
         return self.request("ClashOfCode", "findClashByHandle", [handle])
 
-    def get_pending_clash_of_code(self) -> ClashOfCode:
+    def get_pending_clash_of_code(self) -> typing.List[ClashOfCode]:
         return self.request("ClashOfCode", "findPendingClashes")
 
     # Notification
 
-    def get_unseen_notifications(self, id: int):
+    def get_unread_notifications(self, id: int) -> typing.List[Notification]:
+        return self.request("Notification", "findUnreadNotifications", [id])
+
+    def get_unseen_notifications(self, id: int) -> typing.List[Notification]:
         return self.request("Notification", "findUnseenNotifications", [id])
+
+    def get_last_read_notifications(self, id: int) -> typing.List[Notification]:
+        return self.request(
+            "Notification", "findLastReadNotifications", [id, None]
+        )
 
     # Leaderboards
 

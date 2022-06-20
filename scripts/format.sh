@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-folders="codingame tests examples"
+folders="codingame tests examples docs setup.py"
 
 set -x
 
@@ -9,9 +9,8 @@ set -x
 isort $folders --force-single-line-imports
 # remove unused imports and variables
 autoflake $folders --remove-all-unused-imports --recursive --remove-unused-variables --in-place --exclude=__init__.py
+# resort imports
+isort $folders
 
 # format code
 black $folders --line-length 80
-
-# resort imports
-isort $folders

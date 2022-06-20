@@ -13,6 +13,7 @@ except ImportError:
 
 __all__ = (
     "PartialCodinGamer",
+    "Category",
     "CodinGamerFromID",
     "CodinGamerFromHandle",
     "PointsStatsFromHandle",
@@ -58,13 +59,13 @@ class CodinGamerFromID(_BaseCodinGamerFrom, total=True):
     pass
 
 
-_Category = Literal["STUDENT", "PROFESSIONAL", "UNKNOWN"]
+Category = Literal["STUDENT", "PROFESSIONAL", "UNKNOWN"]
 
 
 class CodinGamerFromHandle(_BaseCodinGamerFrom, total=True):
     rank: int
     xp: int
-    category: _Category
+    category: Category
     onlineSince: Optional[int]
 
 

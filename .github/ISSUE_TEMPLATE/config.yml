@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security bug report
+    url: https://mailxto.com/hibec0
+    about: To avoid leaking the security issues, send me a mail at takos2210@gmail.com.
+  - name: Need help?
+    url: https://discord.gg/PGC3eAznJ6
+    about: Join the discord support server

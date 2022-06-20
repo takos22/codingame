@@ -1,0 +1,622 @@
+[
+    {
+        "id": 10000000,
+        "type": "following",
+        "typeGroup": "social",
+        "codingamer": {
+            "userId": 1234567,
+            "pseudo": "Pseudo123",
+            "countryId": "US",
+            "publicHandle": "0123456789abcdef0123456789abcdef7654321",
+            "enable": false,
+            "hiddenFromFriendFinder": false
+        },
+        "priority": 0,
+        "date": 1600000000000,
+        "urgent": false
+    },
+    {
+        "id": 11000000,
+        "type": "friend-registered",
+        "typeGroup": "social",
+        "priority": 0,
+        "date": 1601000000000,
+        "data": {
+            "name": "John"
+        },
+        "urgent": false
+    },
+    {
+        "id": 12000000,
+        "type": "invitation-accepted",
+        "typeGroup": "social",
+        "priority": 0,
+        "date": 1602000000000,
+        "urgent": false
+    },
+    {
+        "id": 13000000,
+        "type": "contest-scheduled",
+        "typeGroup": "contest",
+        "priority": 0,
+        "date": 1603000000000,
+        "data": {
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "date": 1650000000000
+        },
+        "urgent": false
+    },
+    {
+        "id": 14000000,
+        "type": "contest-soon",
+        "typeGroup": "contest",
+        "priority": 0,
+        "date": 1604000000000,
+        "data": {
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "hours": 12800
+        },
+        "urgent": false
+    },
+    {
+        "id": 15000000,
+        "type": "contest-started",
+        "typeGroup": "contest",
+        "priority": 0,
+        "date": 1650000000000,
+        "data": {
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000
+        },
+        "urgent": false
+    },
+    {
+        "id": 16000000,
+        "type": "contest-over",
+        "typeGroup": "contest",
+        "priority": 0,
+        "date": 1655000000000,
+        "data": {
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "rank": 123,
+            "playerCount": 1234
+        },
+        "urgent": false
+    },
+    {
+        "id": 17000000,
+        "type": "new-comment",
+        "typeGroup": "comment",
+        "priority": 0,
+        "date": 1605000000000,
+        "data": {
+            "type": {
+                "en": "New comment",
+                "fr": "Nouveau commentaire"
+            },
+            "commentType": "CONTRIBUTION",
+            "typeData": {
+                "handle": "12345abcdef1234567890abcdef1234567890",
+                "title": "Contribution 1",
+                "type": "PUZZLE_SOLO"
+            },
+            "commentId": 10000
+        },
+        "urgent": false
+    },
+    {
+        "id": 18000000,
+        "type": "new-comment-response",
+        "typeGroup": "comment",
+        "priority": 0,
+        "date": 1606000000000,
+        "data": {
+            "type": {
+                "en": "New comment response",
+                "fr": "Nouvelle réponse à votre commentaire"
+            },
+            "commentType": "SOLUTION",
+            "typeData": {
+                "puzzleId": 100,
+                "puzzleDetailsPageUrl": "/training/hard/very-hard-puzzle",
+                "testSessionSubmissionId": 25000000
+            },
+            "commentId": 10000
+        },
+        "urgent": false
+    },
+    {
+        "id": 19000000,
+        "type": "clash-invite",
+        "typeGroup": "clash",
+        "codingamer": {
+            "userId": 1234567,
+            "pseudo": "Pseudo123",
+            "countryId": "US",
+            "publicHandle": "0123456789abcdef0123456789abcdef7654321",
+            "enable": false,
+            "hiddenFromFriendFinder": false
+        },
+        "priority": 0,
+        "date": 1607000000000,
+        "data": {
+            "handle": "1234567fedcba9876543210fedcba9876543210"
+        },
+        "urgent": true
+    },
+    {
+        "id": 20000000,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1608000000000,
+        "data": {
+            "handle": "1234567fedcba9876543210fedcba9876543210",
+            "rank": 1,
+            "playerCount": 10
+        },
+        "urgent": false
+    },
+    {
+        "id": 21000000,
+        "type": "achievement-unlocked",
+        "typeGroup": "achievement",
+        "priority": 0,
+        "date": 1609000000000,
+        "data": {
+            "id": "PZ_ACHIEVEMENT_1",
+            "imageId": 20000000000000,
+            "points": 10,
+            "level": "BRONZE",
+            "completionTime": 1607999999000,
+            "label": {
+                "fr": "Premier succès",
+                "en": "First achievement"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 22000000,
+        "type": "new-level",
+        "typeGroup": "xp",
+        "priority": 0,
+        "date": 1610000000000,
+        "data": {
+            "level": 2,
+            "reward": {
+                "fr": "Les niveaux vous permettent de suivre vos progrès sur la plate-forme.",
+                "en": "Levels allow you to keep track of your progression while sharpening your skills."
+            },
+            "triggerCareerPopup": true
+        },
+        "urgent": false
+    },
+    {
+        "id": 23000000,
+        "type": "new-blog",
+        "typeGroup": "blog",
+        "priority": 0,
+        "date": 1611000000000,
+        "data": {
+            "title": {
+                "fr": "Premier blog",
+                "en": "First blog"
+            },
+            "url": {
+                "fr": "https://www.codingame.com/blog/premier-blog",
+                "en": "https://www.codingame.com/blog/first-blog"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 24000000,
+        "type": "feature",
+        "typeGroup": "feature",
+        "priority": 0,
+        "date": 1612000000000,
+        "data": {
+            "title": {
+                "fr": "Nouvelle fonctionnalité",
+                "en": "New feature"
+            },
+            "description": {
+                "fr": "Cela ajoute beaucoup de nouveau",
+                "en": "This adds many new things"
+            },
+            "image-instant": "https://static.codingame.com/servlet/fileservlet?id=30000000000000",
+            "url": "https://www.codingame.com/home"
+        },
+        "urgent": false
+    },
+    {
+        "id": 25000000,
+        "type": "new-league",
+        "typeGroup": "arena",
+        "priority": 0,
+        "date": 1613000000000,
+        "data": {
+            "titleLabel": {
+                "fr": "Nouvelle ligue",
+                "en": "New league"
+            },
+            "divisionIndex": 1,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 40000000000000,
+            "testSessionHandle": ""
+        },
+        "urgent": false
+    },
+    {
+        "id": 26000000,
+        "type": "new-league-opened",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1614000000000,
+        "data": {
+            "titleLabel": {
+                "fr": "Nouvelle ligue ouverte",
+                "en": "New league opened"
+            },
+            "divisionIndex": 2,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 50000000000000,
+            "testSessionHandle": ""
+        },
+        "urgent": false
+    },
+    {
+        "id": 27000000,
+        "type": "eligible-for-next-league",
+        "typeGroup": "arena",
+        "priority": 0,
+        "date": 1615000000000,
+        "data": {
+            "titleLabel": {
+                "fr": "Éligible pour la ligue suivante",
+                "en": "Eligible for next league"
+            },
+            "divisionIndex": 3,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 60000000000000,
+            "testSessionHandle": ""
+        },
+        "urgent": false
+    },
+    {
+        "id": 28000000,
+        "type": "promoted-league",
+        "typeGroup": "arena",
+        "priority": 0,
+        "date": 1616000000000,
+        "data": {
+            "titleLabel": {
+                "fr": "Promotion de la ligue",
+                "en": "Promoted league"
+            },
+            "divisionIndex": 4,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 70000000000000,
+            "testSessionHandle": ""
+        },
+        "urgent": false
+    },
+    {
+        "id": 29000000,
+        "type": "contribution-received",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1617000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 2",
+            "type": "PUZZLE_OPTI"
+        },
+        "urgent": false
+    },
+    {
+        "id": 30000000,
+        "type": "contribution-accepted",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1618000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 3",
+            "type": "PUZZLE_INOUT"
+        },
+        "urgent": false
+    },
+    {
+        "id": 31000000,
+        "type": "contribution-refused",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1619000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 4",
+            "type": "PUZZLE_MULTI"
+        },
+        "urgent": false
+    },
+    {
+        "id": 32000000,
+        "type": "contribution-clash-mode-removed",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1620000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 5",
+            "type": "CLASHOFCODE"
+        },
+        "urgent": false
+    },
+    {
+        "id": 33000000,
+        "type": "new-puzzle",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1621000000000,
+        "data": {
+            "level": {
+                "en": "easy",
+                "fr": "facile"
+            },
+            "name": {
+                "en": "Very easy puzzle",
+                "fr": "Puzzle très facile"
+            },
+            "image": "https://static.codingame.com/servlet/fileservlet?id=80000000000000",
+            "puzzleId": 200
+        },
+        "urgent": false
+    },
+    {
+        "id": 34000000,
+        "type": "puzzle-of-the-week",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1622000000000,
+        "data": {
+            "puzzleOfTheWeekImageId": 90000000000000,
+            "contributorNickname": "Pseudo123",
+            "contributorAvatarId": 1000000000000,
+            "puzzleId": 300,
+            "puzzleLevel": "hard",
+            "puzzlePrettyId": "very-hard-puzzle",
+            "puzzleName": {
+                "en": "Very hard puzzle",
+                "fr": "Puzzle très difficile"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 35000000,
+        "type": "new-hint",
+        "typeGroup": "hints",
+        "priority": 0,
+        "date": 1623000000000,
+        "data": {
+            "puzzleTitle": {
+                "en": "Very medium puzzle",
+                "fr": "Puzzle très moyen"
+            },
+            "thumbnailBinaryId": 10000000000000,
+            "testSessionHandle": ""
+        },
+        "urgent": false
+    },
+    {
+        "id": 36000000,
+        "type": "contribution-moderated",
+        "typeGroup": "moderation",
+        "priority": 0,
+        "date": 1624000000000,
+        "data": {
+            "actionType": "validate",
+            "contribution": {
+                "handle": "12345abcdef1234567890abcdef1234567890",
+                "title": "Contribution 6",
+                "type": "CLASHOFCODE"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 37000000,
+        "type": "quest-completed",
+        "typeGroup": "quest",
+        "priority": 0,
+        "date": 1625000000000,
+        "data": {
+            "questId": 1,
+            "label": {
+                "fr": "Bienvenue sur CodinGame !",
+                "en": "Welcome to CodinGame!"
+            }
+        },
+        "urgent": true
+    },
+    {
+        "id": 38000000,
+        "type": "info-generic",
+        "typeGroup": "generic",
+        "priority": 0,
+        "date": 1626000000000,
+        "data": {
+            "description": {
+                "fr": "Nouvelle information !",
+                "en": "New info!"
+            },
+            "url": "https://www.codingame.com/home"
+        },
+        "urgent": false
+    },
+    {
+        "id": 39000000,
+        "type": "warning-generic",
+        "typeGroup": "generic",
+        "priority": 0,
+        "date": 1627000000000,
+        "data": {
+            "description": {
+                "fr": "Nouvel avertissement !",
+                "en": "New warning!"
+            },
+            "url": "https://www.codingame.com/home"
+        },
+        "urgent": true
+    },
+    {
+        "id": 40000000,
+        "type": "important-generic",
+        "typeGroup": "generic",
+        "priority": 0,
+        "date": 1628000000000,
+        "data": {
+            "description": {
+                "fr": "Nouvelle information importante !",
+                "en": "New important info!"
+            },
+            "url": "https://www.codingame.com/home"
+        },
+        "urgent": true
+    },
+    {
+        "id": 41000000,
+        "type": "custom",
+        "typeGroup": "custom",
+        "priority": 0,
+        "date": 1629000000000,
+        "data": {
+            "title": {
+                "en": "New custom notification!",
+                "fr": "Nouvelle notification personnalisée !"
+            },
+            "description": {
+                "en": "This is a notification.",
+                "fr": "Ceci est une notification."
+            },
+            "image": "https://www.codingame.com/servlet/fileservlet?id=10000000000000",
+            "url": "https://www.codingame.com/home"
+        },
+        "urgent": true
+    },
+    {
+        "id": 42000000,
+        "type": "career-new-candidate",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1630000000000,
+        "data": {
+            "handle": "0123456789abcdef0123456789abcdef7654321",
+            "username": "Pseudo123",
+            "country": "US",
+            "region": "NYC"
+        },
+        "urgent": false
+    },
+    {
+        "id": 43000000,
+        "type": "career-update-candidate",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1631000000000,
+        "data": {
+            "handle": "0123456789abcdef0123456789abcdef7654321",
+            "username": "Pseudo123",
+            "country": "US",
+            "region": "NYC"
+        },
+        "urgent": false
+    },
+    {
+        "id": 44000000,
+        "type": "test-finished",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1632000000000,
+        "data": {
+            "campaignId": 100,
+            "candidateId": 1234567,
+            "candidateName": "Pseudo123",
+            "candidateEmail": "candidate@example.com"
+        },
+        "urgent": false
+    },
+    {
+        "id": 45000000,
+        "type": "job-accepted",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1633000000000,
+        "data": {
+            "jobName": "Best Job",
+            "jobOfferLocation": "worldcup",
+            "challengeId": 100
+        },
+        "urgent": false
+    },
+    {
+        "id": 46000000,
+        "type": "job-expired",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1634000000000,
+        "data": {
+            "jobName": "Best Job"
+        },
+        "urgent": false
+    },
+    {
+        "id": 47000000,
+        "type": "new-work-blog",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1635000000000,
+        "data": {
+            "title": {
+                "fr": "Premier blog de travail",
+                "en": "First work blog"
+            },
+            "url": {
+                "fr": "/blog/premier-blog-travail",
+                "en": "/blog/first-work-blog"
+            }
+        },
+        "urgent": false
+    },
+    {
+        "id": 48000000,
+        "type": "offer-apply",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1636000000000,
+        "data": {
+            "candidateName": "Pseudo123",
+            "jobName": "Best Job",
+            "jobOfferLocation": "worldcup",
+            "challengeId": 100
+        },
+        "urgent": false
+    }
+]

@@ -6,13 +6,19 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import os
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import re
-import os
 import sys
+from typing import NamedTuple
+
+VersionInfo = NamedTuple(
+    "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
+)
 
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.append(os.path.abspath("extensions"))
@@ -30,16 +36,35 @@ author = "takos22"
 #
 # The short X.Y version.
 
-version = ""
 with open("../codingame/__init__.py") as f:
-    version = re.search(
-        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
+    # getting version info without importing the whole module
+    version_info_code = re.search(
+        r"^version_info\s*=\s*(VersionInfo\(\s*major=\d+,\s*minor=\d+,\s*"
+        r'micro=\d+,\s*releaselevel=[\'"]\w*[\'"],\s*serial=\d+\s*\))',
+        f.read(),
+        re.MULTILINE,
     ).group(1)
 
-# The full version, including alpha/beta/rc tags
-release = version
+version_info: VersionInfo = eval(
+    version_info_code, globals(), {"VersionInfo": VersionInfo}
+)
+version = "{0.major}.{0.minor}.{0.micro}".format(version_info)
 
-branch = "master" if version.endswith("a") else "v" + version
+
+# The full version, including alpha/beta/rc tags
+releaselevels = {
+    "alpha": "a",
+    "beta": "b",
+    "releasecandidate": "rc",
+}
+release = version + (
+    releaselevels.get(version_info.releaselevel, version_info.releaselevel)
+    + str(version_info.serial)
+    if version_info.releaselevel
+    else ""
+)
+
+branch = "dev" if version_info.releaselevel else "v" + version
 
 
 # -- General configuration ---------------------------------------------------
@@ -51,6 +76,7 @@ needs_sphinx = "3.0"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx_toolbox.more_autodoc",
     "sphinx.ext.autodoc",
     # "sphinx.ext.autosectionlabel",
     "sphinx.ext.coverage",
@@ -58,9 +84,14 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "sphinx_inline_tabs",
     "sphinx_copybutton",
+    "notfound.extension",
+    "hoverxref.extension",
+    "sphinx_search.extension",
     "resourcelinks",
+    "og_tags",
 ]
 
 # Links used for cross-referencing stuff in other documentation
@@ -74,6 +105,7 @@ rst_prolog = """
 .. |maybe_coro| replace:: This function can be a |coroutine_link|_.
 .. |coroutine_link| replace:: *coroutine*
 .. _coroutine_link: https://docs.python.org/3/library/asyncio-task.html#coroutine
+.. |nbsp| unicode:: 0xA0\n   :trim:
 """  # noqa: E501
 
 # Add any paths that contain templates here, relative to this directory.
@@ -97,8 +129,8 @@ html_title = "Codingame"
 html_theme = "furo"
 html_theme_options = {
     "navigation_with_keys": True,
-    "light_logo": "codingame.png",
-    "dark_logo": "codingame.png",
+    # "light_logo": "codingame.png",
+    # "dark_logo": "codingame.png",
     "dark_css_variables": {
         "color-inline-code-background": "#292d2d",
     },
@@ -111,12 +143,13 @@ html_static_path = ["_static"]
 
 resource_links = {
     "discord": "https://discord.gg/8HgtN6E",
+    "repo": "https://github.com/takos22/codingame",
     "issues": "https://github.com/takos22/codingame/issues",
     "examples": f"https://github.com/takos22/codingame/tree/{branch}/examples",
     "codingame": "https://codingame.com",
 }
 
-# remove type hints in docs
+# remove type hints in signatures
 autodoc_typehints = "none"
 
 # display TODOs in docs
@@ -138,3 +171,63 @@ autodoc_default_options = {
 }
 autodoc_member_order = "bysource"
 autoclass_content = "both"
+autodoc_mock_imports = ["codingame.state", "aiohttp"]
+set_type_checking_flag = True
+typehints_document_rtype = False
+
+
+rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE", "en")
+rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
+
+if os.environ.get("READTHEDOCS", False):
+    notfound_urls_prefix = f"/{rtd_lang}/{rtd_version}/"
+else:
+    notfound_urls_prefix = "/"
+
+notfound_context = {
+    "title": "Page not found",
+    "body": (
+        "<h1>Page not found</h1>\n\n"
+        "<p>Unfortunately we couldn't find the page you were looking for.</p>"
+        "<p>Try using the search box or go to the "
+        f'<a href="{notfound_urls_prefix}">homepage</a></p>'
+    ),
+}
+
+hoverxref_project = "codingame"
+hoverxref_version = rtd_version
+hoverxref_auto_ref = True
+hoverxref_domains = ["py"]
+hoverxref_roles = [
+    "ref",
+    "doc",
+    "numref",
+    "mod",
+    "func",
+    "data",
+    "const",
+    "class",
+    "meth",
+    "attr",
+    "exc",
+    "obj",
+]
+hoverxref_role_types = {role: "tooltip" for role in hoverxref_roles}
+
+
+github_username = "takos22"
+github_repository = "codingame"
+hide_none_rtype = True
+
+og_site_name = "CodinGame documentation"
+og_desc = (
+    "The codingame module is a wrapper for the undocumented CodinGame API, "
+    "it enables developers to interact with CodinGame through a "
+    "Python programming interface."
+)
+og_image = (
+    "https://codingame.readthedocs.io/"
+    f"{rtd_lang}/{rtd_version}/_static/codingame.png"
+)
+if not os.environ.get("READTHEDOCS", False):
+    og_site_url = f"https://codingame.readthedocs.io/{rtd_lang}/{rtd_version}/"

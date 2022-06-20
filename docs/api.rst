@@ -1,7 +1,8 @@
-.. currentmodule:: codingame
+.. module:: codingame
+    :synopsis: Wrapper for the undocumented CodinGame API.
 
-API Reference
-=============
+codingame |version| API Reference
+=================================
 
 The following section outlines the API of the ``codingame`` module. All the
 public classes, methods and functions are documented here.
@@ -36,6 +37,8 @@ Synchronous client
 
 .. autoclass:: codingame.client.sync.SyncClient
 
+.. currentmodule:: codingame
+
 Asynchronous client
 *******************
 
@@ -64,6 +67,8 @@ are not meant to be created by the user of the library.
 CodinGamer
 **********
 
+.. autoclass:: PartialCodinGamer()
+
 .. autoclass:: CodinGamer()
 
 Clash of Code
@@ -77,6 +82,135 @@ Notification
 ************
 
 .. autoclass:: Notification()
+
+Enumerations
+############
+
+.. autoclass:: NotificationTypeGroup()
+    :undoc-members:
+
+.. autoclass:: NotificationType()
+    :undoc-members:
+
+.. autoclass:: ContributionType()
+    :undoc-members:
+
+.. autoclass:: CommentType()
+    :undoc-members:
+
+.. autoclass:: ContributionModeratedActionType()
+    :undoc-members:
+
+Notification data
+#################
+
+.. autoclass:: LanguageMapping()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NotificationData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: AchievementUnlockedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: LeagueData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewBlogData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ClashInviteData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ClashOverData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: Contribution()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: PuzzleSolution()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewCommentData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ContributionData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: FeatureData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewHintData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: ContributionModeratedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewPuzzleData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: PuzzleOfTheWeekData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: QuestCompletedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: FriendRegisteredData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewLevelData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: GenericData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: CustomData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: CareerCandidateData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: TestFinishedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: JobAcceptedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: JobExpiredData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewWorkBlogData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: OfferApplyData()
+    :undoc-members:
+    :no-inherited-members:
 
 Leaderboards
 ************

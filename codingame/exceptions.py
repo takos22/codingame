@@ -27,7 +27,8 @@ class LoginError(CodinGameAPIError):
     """Raised when the login data is incorrect."""
 
     @classmethod
-    def from_id(cls, id: int, message: str):
+    def from_id(cls, id: int, message: str):  # pragma: no cover
+        # unused since the login method changed
         errors = {
             332: EmailRequired,
             334: MalformedEmail,

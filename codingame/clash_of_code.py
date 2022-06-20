@@ -1,9 +1,18 @@
-import typing
 from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, List, Optional
 
 from .abc import BaseObject, BaseUser
+from .types.clash_of_code import ClashOfCode as ClashOfCodeDict
+from .types.clash_of_code import (
+    LanguageId,
+    LanguageIds,
+    Mode,
+    Modes,
+    PlayerStatus,
+)
+from .utils import to_datetime
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from .state import ConnectionState
 
 __all__ = (
@@ -47,20 +56,20 @@ class ClashOfCode(BaseObject):
         mode: Optional :class:`str`
             The mode of the Clash of Code.
 
-        creation_time: :class:`datetime.datetime`
+        creation_time: :class:`~datetime.datetime`
             Creation time of the Clash of Code.
 
-        start_time: :class:`datetime.datetime`
+        start_time: :class:`~datetime.datetime`
             Start time of the Clash of Code. If the Clash of Code hasn't started
             yet, this is the expected start time of the Clash of Code.
 
-        end_time: Optional :class:`datetime.datetime`
+        end_time: Optional :class:`~datetime.datetime`
             End time of the Clash of Code.
 
-        time_before_start: :class:`datetime.timedelta`
+        time_before_start: :class:`~datetime.timedelta`
             Time before the start of the Clash of Code.
 
-        time_before_end: Optional :class:`datetime.timedelta`
+        time_before_end: Optional :class:`~datetime.timedelta`
             Time before the end of the Clash of Code.
 
         players: :class:`list` of :class:`Player`
@@ -72,17 +81,17 @@ class ClashOfCode(BaseObject):
     public: bool
     min_players: int
     max_players: int
-    modes: typing.Optional[typing.List[str]]
-    programming_languages: typing.Optional[typing.List[str]]
+    modes: Optional[Modes]
+    programming_languages: Optional[LanguageIds]
     started: bool
     finished: bool
-    mode: typing.Optional[str]
+    mode: Optional[Mode]
     creation_time: datetime
     start_time: datetime
-    end_time: typing.Optional[datetime]
+    end_time: Optional[datetime]
     time_before_start: timedelta
-    time_before_end: typing.Optional[timedelta]
-    players: typing.List["Player"]
+    time_before_end: Optional[timedelta]
+    players: List["Player"]
 
     __slots__ = (
         "public_handle",
@@ -103,7 +112,7 @@ class ClashOfCode(BaseObject):
         "players",
     )
 
-    def __init__(self, state: "ConnectionState", data: dict):
+    def __init__(self, state: "ConnectionState", data: ClashOfCodeDict):
         self.public_handle = data["publicHandle"]
         self.join_url = (
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
@@ -118,14 +127,9 @@ class ClashOfCode(BaseObject):
         self.finished = data["finished"]
         self.mode = data.get("mode")
 
-        dt_format = "%b %d, %Y %I:%M:%S %p"
-        self.creation_time = datetime.strptime(data["creationTime"], dt_format)
-        self.start_time = datetime.strptime(data["startTime"], dt_format)
-        self.end_time = (
-            datetime.strptime(data["endTime"], dt_format)
-            if "endTime" in data
-            else None
-        )
+        self.creation_time = to_datetime(data["creationTime"])
+        self.start_time = to_datetime(data["startTime"])
+        self.end_time = to_datetime(data.get("endTime"))
 
         self.time_before_start = timedelta(milliseconds=data["msBeforeStart"])
         self.time_before_end = (
@@ -205,7 +209,7 @@ class Player(BaseUser):
             Rank of the Player. Only use this when the Clash of Code is finished
             because it isn't precise until then.
 
-        duration: Optional :class:`datetime.timedelta`
+        duration: Optional :class:`~datetime.timedelta`
             Time taken by the player to solve the problem of the Clash of Code.
 
         language_id: Optional :class:`str`
@@ -228,21 +232,21 @@ class Player(BaseUser):
     clash_of_code: ClashOfCode
     public_handle: str
     id: int
-    pseudo: typing.Optional[str]
-    avatar: typing.Optional[int]
-    cover: typing.Optional[int]
+    pseudo: Optional[str]
+    avatar: Optional[int]
+    cover: Optional[int]
     started: bool
     finished: bool
-    status: str
+    status: PlayerStatus
     owner: bool
-    position: typing.Optional[int]
-    rank: typing.Optional[int]
-    duration: typing.Optional[timedelta]
-    language_id: typing.Optional[str]
-    score: typing.Optional[int]
-    code_length: typing.Optional[int]
-    solution_shared: typing.Optional[bool]
-    submission_id: typing.Optional[int]
+    position: Optional[int]
+    rank: Optional[int]
+    duration: Optional[timedelta]
+    language_id: Optional[LanguageId]
+    score: Optional[int]
+    code_length: Optional[int]
+    solution_shared: Optional[bool]
+    submission_id: Optional[int]
 
     __slots__ = (
         "clash_of_code",
