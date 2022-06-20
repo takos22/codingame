@@ -138,7 +138,13 @@ class SyncClient(BaseClient):
         if not self.logged_in:
             raise LoginRequired()
 
-        data = self._state.http.get_unseen_notifications(self.codingamer.id)
+        try:
+            data = self._state.http.get_unseen_notifications(self.codingamer.id)
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
         for notification in data:
             yield Notification(self._state, notification)
 
@@ -146,7 +152,13 @@ class SyncClient(BaseClient):
         if not self.logged_in:
             raise LoginRequired()
 
-        data = self._state.http.get_unread_notifications(self.codingamer.id)
+        try:
+            data = self._state.http.get_unread_notifications(self.codingamer.id)
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
         for notification in data:
             yield Notification(self._state, notification)
 
@@ -154,7 +166,15 @@ class SyncClient(BaseClient):
         if not self.logged_in:
             raise LoginRequired()
 
-        data = self._state.http.get_last_read_notifications(self.codingamer.id)
+        try:
+            data = self._state.http.get_last_read_notifications(
+                self.codingamer.id
+            )
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
         for notification in data:
             yield Notification(self._state, notification)
 
