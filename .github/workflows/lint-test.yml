@@ -57,7 +57,7 @@ jobs:
 
     - name: Test the mocked API endpoints with pytest
       run: |
-        pytest --only-mocked -v
+        pytest --only-mocked --overwrite-environ -v
 
     - name: Test with pytest without mocking API enpoints
       env:
