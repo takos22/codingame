@@ -18,8 +18,11 @@ if typing.TYPE_CHECKING:
 load_dotenv()
 
 
-def mock_environ(force_new=True):
-    set_environ = os.environ.__setitem__ if force_new else os.environ.setdefault
+def mock_environ(overwrite=False):
+    def set_environ(key: str, value: str) -> str:
+        if overwrite or key not in os.environ:
+            os.environ[key] = value
+        return os.environ[key]
 
     set_environ("TEST_LOGIN_EMAIL", "email@example.com")
     set_environ("TEST_LOGIN_PASSWORD", "VerySafePassword")
@@ -42,7 +45,10 @@ def mock_environ(force_new=True):
 
 
 if all(opt not in sys.argv[1:] for opt in ("--nm", "--no-mocking")):
-    mock_environ()
+    overwrite = False
+    if any(opt in sys.argv[1:] for opt in ("--oe", "--overwrite-environ")):
+        overwrite = True
+    mock_environ(overwrite)
 
 
 def pytest_addoption(parser: "Parser"):
@@ -52,6 +58,13 @@ def pytest_addoption(parser: "Parser"):
         action="store_true",
         dest="no_mocking",
         help="Run all tests without mocking the API calls.",
+    )
+    parser.addoption(
+        "--oe",
+        "--overwrite-environ",
+        action="store_true",
+        dest="overwrite_environ",
+        help="Overwrite current environement variables with mock ones.",
     )
     parser.addoption(
         "--om",
@@ -88,7 +101,10 @@ def is_mocking_fixture(pytestconfig: "Config"):
 @pytest.fixture(name="mock_environ", scope="session", autouse=True)
 def mock_environ_fixture(is_mocking: bool):
     if is_mocking:
-        mock_environ()
+        overwrite = False
+        if any(opt in sys.argv[1:] for opt in ("--oe", "--overwrite-environ")):
+            overwrite = True
+        mock_environ(overwrite)
 
 
 class FakeMocker:
@@ -127,7 +143,7 @@ def mock_http_fixture(mocker: MockerFixture):
     def mock_http(
         http_client: "HTTPClient",
         method: str,
-        api_data=not_set,
+        api_data=not_set,  # None is an acceptable api data
         *args,
         **kwargs,
     ):

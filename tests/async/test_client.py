@@ -138,7 +138,8 @@ async def test_client_get_codingamer_error(
 
 
 @pytest.mark.asyncio
-async def test_client_get_clash_of_code(client: AsyncClient):
+async def test_client_get_clash_of_code(client: AsyncClient, mock_http):
+    mock_http(client._state.http, "get_clash_of_code_from_handle")
     clash_of_code = await client.get_clash_of_code(
         os.environ.get("TEST_CLASHOFCODE_PUBLIC_HANDLE")
     )
@@ -146,16 +147,22 @@ async def test_client_get_clash_of_code(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_get_clash_of_code_error(client: AsyncClient):
+async def test_client_get_clash_of_code_error(
+    client: AsyncClient, mock_httperror
+):
     with pytest.raises(ValueError):
         await client.get_clash_of_code("0")
 
+    mock_httperror(
+        client._state.http, "get_clash_of_code_from_handle", {"id": 502}
+    )
     with pytest.raises(exceptions.ClashOfCodeNotFound):
         await client.get_clash_of_code("0" * 7 + "a" * 32)
 
 
 @pytest.mark.asyncio
-async def test_client_get_pending_clash_of_code(client: AsyncClient):
+async def test_client_get_pending_clash_of_code(client: AsyncClient, mock_http):
+    mock_http(client._state.http, "get_pending_clash_of_code")
     clash_of_code = await client.get_pending_clash_of_code()
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
@@ -169,7 +176,10 @@ async def test_client_get_language_ids(client: AsyncClient, mock_http):
 
 
 @pytest.mark.asyncio
-async def test_client_get_unseen_notifications(auth_client: AsyncClient):
+async def test_client_get_unseen_notifications(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "get_unseen_notifications")
     async for notification in auth_client.get_unseen_notifications():
         assert isinstance(notification, Notification)
         assert not notification.seen
@@ -177,28 +187,66 @@ async def test_client_get_unseen_notifications(auth_client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_get_unseen_notifications_error(client: AsyncClient):
+async def test_client_get_unseen_notifications_error(
+    client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_unseen_notifications():
+            pass  # pragma: no cover
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    await client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(client._state.http, "get_unseen_notifications", {"id": 492})
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_unseen_notifications():
             pass  # pragma: no cover
 
 
 @pytest.mark.asyncio
-async def test_client_get_unread_notifications(auth_client: AsyncClient):
+async def test_client_get_unread_notifications(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "get_unread_notifications")
     async for notification in auth_client.get_unread_notifications():
         assert isinstance(notification, Notification)
         assert not notification.read
 
 
 @pytest.mark.asyncio
-async def test_client_get_unread_notifications_error(client: AsyncClient):
+async def test_client_get_unread_notifications_error(
+    client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_unread_notifications():
+            pass  # pragma: no cover
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    await client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(client._state.http, "get_unread_notifications", {"id": 492})
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_unread_notifications():
             pass  # pragma: no cover
 
 
 @pytest.mark.asyncio
-async def test_client_get_read_notifications(auth_client: AsyncClient):
+async def test_client_get_read_notifications(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "get_last_read_notifications")
     async for notification in auth_client.get_read_notifications():
         assert isinstance(notification, Notification)
         assert notification.seen
@@ -206,7 +254,25 @@ async def test_client_get_read_notifications(auth_client: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_client_get_read_notifications_error(client: AsyncClient):
+async def test_client_get_read_notifications_error(
+    client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(exceptions.LoginRequired):
+        async for _ in client.get_read_notifications():
+            pass  # pragma: no cover
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    await client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(
+        client._state.http, "get_last_read_notifications", {"id": 492}
+    )
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_read_notifications():
             pass  # pragma: no cover
