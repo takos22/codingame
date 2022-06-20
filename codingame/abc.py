@@ -82,11 +82,11 @@ class Mapping(BaseMapping, BaseObject):
 
         super().__init__(state)
 
-    def __getitem__(self, name: str):
+    def __getitem__(self, name: str):  # pragma: no cover
         return self._raw[name]
 
-    def __iter__(self):
+    def __iter__(self):  # pragma: no cover
         return iter(self._raw)
 
-    def __len__(self):
+    def __len__(self):  # pragma: no cover
         return len(self._raw)
