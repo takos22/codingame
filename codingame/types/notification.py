@@ -55,6 +55,13 @@ __all__ = (
     "WarningGenericData",
     "ImportantGenericData",
     "CustomData",
+    "CareerNewCandidateData",
+    "CareerUpdateCandidateData",
+    "TestFinishedData",
+    "JobAcceptedData",
+    "JobExpiredData",
+    "NewWorkBlogData",
+    "OfferApplyData",
 )
 
 NotificationTypeGroup = Literal[
@@ -354,12 +361,55 @@ InfoGenericData = WarningGenericData = ImportantGenericData = GenericData
 
 class CustomData(TypedDict):
     title: LanguageMapping
-    descrition: LanguageMapping
+    description: LanguageMapping
     image: str  # url of the image
     url: str
 
 
-# TODO Add types for the other data types
+# other
+
+
+class CareerCandidateData(TypedDict):
+    handle: str
+    username: Optional[str]
+    country: str
+    region: str
+    avatar: Optional[int]
+
+
+CareerNewCandidateData = CareerUpdateCandidateData = CareerCandidateData
+
+
+# no category
+
+
+class TestFinishedData(TypedDict):
+    campaignId: int  # probably
+    candidateId: int  # probably
+    candidateName: Optional[str]
+    candidateEmail: str
+
+
+class JobAcceptedData(TypedDict):
+    jobName: Optional[str]
+    jobOfferLocation: str
+    challengeId: Optional[int]
+
+
+class JobExpiredData(TypedDict):
+    jobName: Optional[str]
+
+
+NewWorkBlogData = NewBlogData
+
+
+class OfferApplyData(TypedDict):
+    candidateName: str
+    jobName: Optional[str]
+    jobOfferLocation: str
+    challengeId: Optional[int]
+    jobOfferId: Optional[int]
+    jobOfferApplicantId: Optional[int]
 
 
 # notification
@@ -397,6 +447,13 @@ NotificationData = Union[
     WarningGenericData,
     ImportantGenericData,
     CustomData,
+    CareerNewCandidateData,
+    CareerUpdateCandidateData,
+    TestFinishedData,
+    JobAcceptedData,
+    JobExpiredData,
+    NewWorkBlogData,
+    OfferApplyData,
 ]
 
 

@@ -34,7 +34,7 @@ class Notification(BaseObject):
         creation_time: :class:`~datetime.datetime`
             Date of the notification.
 
-            .. deprecated:: 1.2
+            .. deprecated:: 1.3
                 Use :attr:`date` instead.
 
         priority: :class:`int`
@@ -103,8 +103,9 @@ class Notification(BaseObject):
         except ValueError:  # pragma: no cover
             self.type = data["type"]
             print(
-                f"unknown notification type {self.type}, please report this at "
+                f"Unknown notification type {self.type}, please report this at "
                 "https://github.com/takos22/codingame/issues/new"
+                f"\nPlease include this: {data!r}"
             )
 
         try:
@@ -112,12 +113,13 @@ class Notification(BaseObject):
         except ValueError:  # pragma: no cover
             self.type_group = data["typeGroup"]
             print(
-                f"unknown notification type group {self.type_group}, please "
+                f"Unknown notification type group {self.type_group}, please "
                 "report this at https://github.com/takos22/codingame/issues/new"
+                f"\nPlease include this: {data!r}"
             )
 
         self.date = to_datetime(data["date"])
-        self.creation_time = self.date
+        self.creation_time = self.date  # deprecated
         self.priority = data["priority"]
         self.urgent = data["urgent"]
 
@@ -142,7 +144,7 @@ class Notification(BaseObject):
 
     def __repr__(self):
         return (
-            "<Notification id={0.id!r} type={0.type!r} "
-            "date={0.date!r} urgent={0.urgent!r} "
+            "<Notification id={0.id!r} type={0.type} "
+            "date={0.date} urgent={0.urgent!r} "
             "seen={0.seen!r} read={0.read!r}>"
         ).format(self)

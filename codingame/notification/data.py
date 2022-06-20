@@ -1,3 +1,4 @@
+import re
 import typing
 from datetime import datetime
 
@@ -25,7 +26,6 @@ __all__ = (
     "Contribution",
     "PuzzleSolution",
     "NewCommentData",
-    "NewCommentResponseData",
     "ContributionData",
     "FeatureData",
     "NewHintData",
@@ -35,6 +35,14 @@ __all__ = (
     "QuestCompletedData",
     "FriendRegisteredData",
     "NewLevelData",
+    "GenericData",
+    "CustomData",
+    "CareerCandidateData",
+    "TestFinishedData",
+    "JobAcceptedData",
+    "JobExpiredData",
+    "NewWorkBlogData",
+    "OfferApplyData",
 )
 
 
@@ -95,7 +103,7 @@ class NotificationData(Mapping):
         type: NotificationType,
         state: "ConnectionState",
         data: types.NotificationData,
-    ):
+    ) -> typing.Optional["NotificationData"]:
         """Create the correct :class:`NotificationData` subclass according to
         the :class:`notification type <NotificationType>`.
 
@@ -124,17 +132,36 @@ class NotificationData(Mapping):
             NT.clash_invite: ClashInviteData,
             NT.clash_over: ClashOverData,
             NT.new_comment: NewCommentData,
-            NT.new_comment_response: NewCommentResponseData,
+            NT.new_comment_response: NewCommentData,
             NT.contribution_received: ContributionData,
             NT.contribution_accepted: ContributionData,
             NT.contribution_refused: ContributionData,
             NT.contribution_clash_mode_removed: ContributionData,
             NT.feature: FeatureData,
+            NT.new_hint: NewHintData,
+            NT.contribution_moderated: ContributionModeratedData,
+            NT.new_puzzle: NewPuzzleData,
+            NT.puzzle_of_the_week: PuzzleOfTheWeekData,
             NT.quest_completed: QuestCompletedData,
             NT.friend_registered: FriendRegisteredData,
             NT.new_level: NewLevelData,
+            NT.info_generic: GenericData,
+            NT.warning_generic: GenericData,
+            NT.important_generic: GenericData,
+            NT.custom: CustomData,
+            NT.career_new_candidate: CareerCandidateData,
+            NT.career_update_candidate: CareerCandidateData,
+            NT.test_finished: TestFinishedData,
+            NT.job_accepted: JobAcceptedData,
+            NT.job_expired: JobExpiredData,
+            NT.new_work_blog: NewWorkBlogData,
+            NT.offer_apply: OfferApplyData,
         }
-        return type_to_obj.get(type, cls)(state, data) if data else None
+        return (
+            type_to_obj.get(type, NotificationData)(state, data)
+            if data
+            else None
+        )
 
 
 # achievement
@@ -148,7 +175,7 @@ class AchievementUnlockedData(NotificationData):
     points: int
     level: str
     completion_time: datetime
-    image_id: int
+    image_url: str
 
     __slots__ = (
         "id",
@@ -156,7 +183,7 @@ class AchievementUnlockedData(NotificationData):
         "points",
         "level",
         "completion_time",
-        "image_id",
+        "image_url",
     )
 
     def __init__(
@@ -167,7 +194,9 @@ class AchievementUnlockedData(NotificationData):
         self.points = data["points"]
         self.level = data["level"]
         self.completion_time = to_datetime(data["completionTime"])
-        self.image_id = data["imageId"]
+        self.image_url = state.http.get_file_url(
+            data["imageId"], format="notification_picture"
+        )
 
         super().__init__(state, data)
 
@@ -186,7 +215,7 @@ class LeagueData(NotificationData):
     division_count: int
     division_offset: int
     threshold_index: int
-    thumbnail_binary_id: int
+    thumbnail_url: str
     test_session_handle: str
 
     __slots__ = (
@@ -195,7 +224,7 @@ class LeagueData(NotificationData):
         "division_count",
         "division_offset",
         "threshold_index",
-        "thumbnail_binary_id",
+        "thumbnail_url",
         "test_session_handle",
     )
 
@@ -205,7 +234,9 @@ class LeagueData(NotificationData):
         self.division_count = data["divisionCount"]
         self.division_offset = data["divisionOffset"]
         self.threshold_index = data["thresholdIndex"]
-        self.thumbnail_binary_id = data["thumbnailBinaryId"]
+        self.thumbnail_url = state.http.get_file_url(
+            data["thumbnailBinaryId"], format="notification_picture"
+        )
         self.test_session_handle = data["testSessionHandle"]
 
         super().__init__(state, data)
@@ -310,14 +341,19 @@ class PuzzleSolution(Mapping):
         self, state: "ConnectionState", data: types.PuzzleSolutionData
     ):
         self.puzzle_id = data["puzzleId"]
-        self.puzzle_url = data.get("puzzleDetailsPageUrl")
+        self.puzzle_url = (
+            (state.http.BASE_URL + data["puzzleDetailsPageUrl"])
+            if "puzzleDetailsPageUrl" in data
+            else None
+        )
         self.test_session_submission_id = data["testSessionSubmissionId"]
 
         super().__init__(state, data)
 
 
 class NewCommentData(NotificationData):
-    """Data of a :attr:`NotificationType.new_comment` notification."""
+    """Data of a :attr:`NotificationType.new_comment` and
+    :attr:`NotificationType.new_comment_response` notifications."""
 
     type: LanguageMapping
     comment_type: typing.Optional[CommentType]
@@ -327,7 +363,7 @@ class NewCommentData(NotificationData):
     __slots__ = ("type", "comment_type", "type_data", "url")
 
     def __init__(self, state: "ConnectionState", data: types.NewCommentData):
-        self.type = LanguageMapping(data["type"])
+        self.type = LanguageMapping(state, data["type"])
         self.comment_type = (
             CommentType(data["commentType"]) if "commentType" in data else None
         )
@@ -338,34 +374,9 @@ class NewCommentData(NotificationData):
                 if self.comment_type == CommentType.contribution
                 else PuzzleSolution(state, data["typeData"])
             )
-        self.url = data.get("url")
-
-        super().__init__(state, data)
-
-
-class NewCommentResponseData(NotificationData):
-    """Data of a :attr:`NotificationType.new_comment_response` notification."""
-
-    comment_type: typing.Optional[CommentType]
-    type_data: typing.Union[Contribution, PuzzleSolution, None]
-    url: typing.Optional[str]
-
-    __slots__ = ("comment_type", "type_data", "url")
-
-    def __init__(
-        self, state: "ConnectionState", data: types.NewCommentResponseData
-    ):
-        self.comment_type = (
-            CommentType(data["commentType"]) if "commentType" in data else None
+        self.url = (
+            (state.http.BASE_URL + data["url"]) if "url" in data else None
         )
-        self.type_data = None
-        if "typeData" in data:
-            self.type_data = (
-                Contribution(state, data["typeData"])
-                if self.comment_type == CommentType.contribution
-                else PuzzleSolution(state, data["typeData"])
-            )
-        self.url = data.get("url")
 
         super().__init__(state, data)
 
@@ -417,7 +428,11 @@ class FeatureData(NotificationData):
         )
         self.description = LanguageMapping(state, data["description"])
         self.image_url = data["image-instant"]
-        self.url = data["url"]
+        self.url = (
+            data["url"]
+            if re.match(r"https?://", data["url"])
+            else (state.http.BASE_URL + data["url"])
+        )
 
         super().__init__(state, data)
 
@@ -429,18 +444,20 @@ class NewHintData(NotificationData):
     """Data of a :attr:`NotificationType.new_hint` notification."""
 
     puzzle_title: LanguageMapping
-    thumbnail_binary_id: int
+    thumbnail_url: str
     test_session_handle: str
 
     __slots__ = (
         "puzzle_title",
-        "thumbnail_binary_id",
+        "thumbnail_url",
         "test_session_handle",
     )
 
     def __init__(self, state: "ConnectionState", data: types.NewHintData):
         self.puzzle_title = LanguageMapping(state, data["puzzleTitle"])
-        self.thumbnail_binary_id = data["thumbnailBinaryId"]
+        self.thumbnail_url = state.http.get_file_url(
+            data["thumbnailBinaryId"], format="notification_picture"
+        )
         self.test_session_handle = data["testSessionHandle"]
 
         super().__init__(state, data)
@@ -492,6 +509,7 @@ class NewPuzzleData(NotificationData):
         self.level = LanguageMapping(state, data["level"])
         self.name = LanguageMapping(state, data["name"])
         self.image_url = data["image"]
+        self.puzzle_id = data["puzzleId"]
 
         super().__init__(state, data)
 
@@ -503,18 +521,18 @@ class PuzzleOfTheWeekData(NotificationData):
     puzzle_level: str
     puzzle_pretty_id: str
     puzzle_name: LanguageMapping
-    puzzle_image_id: int
+    puzzle_image_url: str
     contributor_pseudo: str
-    contributor_avatar_id: typing.Optional[int]
+    contributor_avatar_url: typing.Optional[str]
 
     __slots__ = (
         "puzzle_id",
         "puzzle_level",
         "puzzle_pretty_id",
         "puzzle_name",
-        "puzzle_image_id",
+        "puzzle_image_url",
         "contributor_pseudo",
-        "contributor_avatar_id",
+        "contributor_avatar_url",
     )
 
     def __init__(
@@ -524,9 +542,17 @@ class PuzzleOfTheWeekData(NotificationData):
         self.puzzle_level = data["puzzleLevel"]
         self.puzzle_pretty_id = data["puzzlePrettyId"]
         self.puzzle_name = LanguageMapping(state, data["puzzleName"])
-        self.puzzle_image_id = data["puzzleOfTheWeekImageId"]
+        self.puzzle_image_url = state.http.get_file_url(
+            data["puzzleOfTheWeekImageId"], format="notification_picture"
+        )
         self.contributor_pseudo = data["contributorNickname"]
-        self.contributor_avatar_id = data.get("contributorAvatarId")
+        self.contributor_avatar_url = (
+            state.http.get_file_url(
+                data["contributorAvatarId"], format="notification_picture"
+            )
+            if "contributorAvatarId" in data
+            else None
+        )
 
         super().__init__(state, data)
 
@@ -594,5 +620,217 @@ class NewLevelData(NotificationData):
             LanguageMapping(state, data["reward"]) if "reward" in data else None
         )
         self.trigger_career_popup = data.get("triggerCareerPopup")
+
+        super().__init__(state, data)
+
+
+# generic
+
+
+class GenericData(NotificationData):
+    """Data of a :attr:`NotificationType.info_generic`,
+    :attr:`NotificationType.warning_generic` and
+    :attr:`NotificationType.important_generic` notifications."""
+
+    title: LanguageMapping
+    description: LanguageMapping
+    image_url: str
+    url: str
+
+    __slots__ = (
+        "title",
+        "description",
+        "image_url",
+        "url",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.GenericData):
+        self.description = LanguageMapping(state, data["description"])
+        self.url = data["url"]
+
+        super().__init__(state, data)
+
+
+# custom
+
+
+class CustomData(NotificationData):
+    """Data of a :attr:`NotificationType.custom` notification."""
+
+    title: LanguageMapping
+    description: LanguageMapping
+    image_url: str
+    url: str
+
+    __slots__ = (
+        "title",
+        "description",
+        "image_url",
+        "url",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.CustomData):
+        self.title = LanguageMapping(state, data["title"])
+        self.description = LanguageMapping(state, data["description"])
+        self.image_url = state.http.STATIC_URL + data["image"]
+        self.url = (
+            (state.http.BASE_URL + data["url"])
+            if data["url"].startswith("/")
+            else data["url"]
+        )
+
+        super().__init__(state, data)
+
+
+# other
+
+
+class CareerCandidateData(NotificationData):
+    """Data of a :attr:`NotificationType.career_new_candidate` and
+    :attr:`NotificationType.career_update_candidate` notifications."""
+
+    handle: str
+    username: typing.Optional[str]
+    country: str
+    region: str
+    avatar_url: typing.Optional[str]
+
+    __slots__ = (
+        "handle",
+        "username",
+        "country",
+        "region",
+        "avatar_url",
+    )
+
+    def __init__(
+        self, state: "ConnectionState", data: types.CareerCandidateData
+    ):
+        self.handle = data["handle"]
+        self.username = data.get("username")
+        self.country = data["country"]
+        self.region = data["region"]
+        self.avatar_url = (
+            state.http.get_file_url(
+                data["avatar"], format="notification_picture"
+            )
+            if "avatar" in data
+            else None
+        )
+
+        super().__init__(state, data)
+
+
+# no category
+
+
+class TestFinishedData(NotificationData):
+    """Data of a :attr:`NotificationType.test_finished` notification."""
+
+    campaign_id: int
+    candidate_id: int
+    candidate_name: typing.Optional[str]
+    candidate_email: str
+
+    __slots__ = (
+        "campaign_id",
+        "candidate_id",
+        "candidate_name",
+        "candidate_email",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.TestFinishedData):
+        self.campaign_id = data["campaignId"]
+        self.candidate_id = data["candidateId"]
+        self.candidate_name = data.get("candidateName")
+        self.candidate_email = data["candidateEmail"]
+
+        super().__init__(state, data)
+
+
+class JobAcceptedData(NotificationData):
+    """Data of a :attr:`NotificationType.job_accepted` notification."""
+
+    job_name: typing.Optional[str]
+    job_offer_location: str
+    challenge_id: typing.Optional[int]
+
+    __slots__ = (
+        "job_name",
+        "job_offer_location",
+        "challenge_id",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.JobAcceptedData):
+        self.job_name = data.get("jobName")
+        self.job_offer_location = data["jobOfferLocation"]
+        self.challenge_id = data.get("challengeId")
+
+        super().__init__(state, data)
+
+
+class JobExpiredData(NotificationData):
+    """Data of a :attr:`NotificationType.job_expired` notification."""
+
+    job_name: typing.Optional[str]
+
+    __slots__ = ("job_name",)
+
+    def __init__(self, state: "ConnectionState", data: types.JobExpiredData):
+        self.job_name = data.get("jobName")
+
+        super().__init__(state, data)
+
+
+class NewWorkBlogData(NotificationData):
+    """Data of a :attr:`NotificationType.new_work_blog` notification."""
+
+    title: LanguageMapping
+    url: LanguageMapping
+
+    __slots__ = (
+        "title",
+        "url",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.NewWorkBlogData):
+        self.title = LanguageMapping(state, data["title"])
+        self.url = LanguageMapping(
+            state,
+            {
+                lang: state.http.BASE_URL + path
+                for lang, path in data["url"].items()
+            },
+        )
+
+        super().__init__(state, data)
+
+
+class OfferApplyData(NotificationData):
+    """Data of a :attr:`NotificationType.offer_apply` notification."""
+
+    candidate_name: str
+    job_name: typing.Optional[str]
+    job_offer_location: str
+    challenge_id: typing.Optional[int]
+    job_offer_id: typing.Optional[int]
+    job_offer_applicant_id: typing.Optional[int]
+
+    __slots__ = (
+        "candidate_name",
+        "job_name",
+        "job_offer_location",
+        "challenge_id",
+        "job_offer_id",
+        "job_offer_applicant_id",
+    )
+
+    def __init__(self, state: "ConnectionState", data: types.OfferApplyData):
+        self.candidate_name = data["candidateName"]
+        self.job_name = data.get("jobName")
+        self.job_offer_location = data["jobOfferLocation"]
+        self.challenge_id = data.get("challengeId")
+        self.job_offer_id = data.get("jobOfferId")
+        self.job_offer_applicant_id = data.get("jobOfferApplicantId")
 
         super().__init__(state, data)

@@ -12,12 +12,12 @@ VersionInfo = NamedTuple(
 )
 
 version_info = VersionInfo(
-    major=1, minor=3, micro=0, releaselevel="alpha", serial=0
+    major=1, minor=3, micro=0, releaselevel="", serial=0
 )
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "1.3.0.alpha0"
+__version__ = "1.3.0"
 
 from .clash_of_code import ClashOfCode, Player
 from .client import Client
@@ -48,32 +48,39 @@ from .leaderboard import (
     PuzzleRankedCodinGamer,
 )
 from .notification import (
-    AchievementUnlockedData,
-    ClashInviteData,
-    ClashOverData,
-    CommentType,
-    Contribution,
-    ContributionData,
-    ContributionModeratedActionType,
-    ContributionModeratedData,
-    ContributionType,
-    FeatureData,
-    FriendRegisteredData,
-    LanguageMapping,
-    LeagueData,
-    NewBlogData,
-    NewCommentData,
-    NewCommentResponseData,
-    NewHintData,
-    NewLevelData,
-    NewPuzzleData,
     Notification,
-    NotificationData,
     NotificationType,
     NotificationTypeGroup,
-    PuzzleOfTheWeekData,
+    ContributionType,
+    CommentType,
+    ContributionModeratedActionType,
+    LanguageMapping,
+    NotificationData,
+    AchievementUnlockedData,
+    LeagueData,
+    NewBlogData,
+    ClashInviteData,
+    ClashOverData,
+    Contribution,
     PuzzleSolution,
+    NewCommentData,
+    ContributionData,
+    FeatureData,
+    NewHintData,
+    ContributionModeratedData,
+    NewPuzzleData,
+    PuzzleOfTheWeekData,
     QuestCompletedData,
+    FriendRegisteredData,
+    NewLevelData,
+    GenericData,
+    CustomData,
+    CareerCandidateData,
+    TestFinishedData,
+    JobAcceptedData,
+    JobExpiredData,
+    NewWorkBlogData,
+    OfferApplyData,
 )
 
 __all__ = (
@@ -102,7 +109,6 @@ __all__ = (
     Contribution,
     PuzzleSolution,
     NewCommentData,
-    NewCommentResponseData,
     ContributionData,
     FeatureData,
     NewHintData,
@@ -112,6 +118,14 @@ __all__ = (
     QuestCompletedData,
     FriendRegisteredData,
     NewLevelData,
+    GenericData,
+    CustomData,
+    CareerCandidateData,
+    TestFinishedData,
+    JobAcceptedData,
+    JobExpiredData,
+    NewWorkBlogData,
+    OfferApplyData,
     # Leaderboard
     GlobalLeaderboard,
     GlobalRankedCodinGamer,
