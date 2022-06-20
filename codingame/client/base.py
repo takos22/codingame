@@ -362,7 +362,7 @@ class BaseClient(ABC):
             :class:`~codingame.Notification`
                 An unread notification.
 
-        .. versionadded:: 1.1
+        .. versionadded:: 1.3
         """
 
     @abstractmethod
@@ -391,7 +391,7 @@ class BaseClient(ABC):
             :class:`~codingame.Notification`
                 A read notification.
 
-        .. versionadded:: 1.1
+        .. versionadded:: 1.3
         """
 
     # --------------------------------------------------------------------------
