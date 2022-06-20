@@ -1,1575 +1,479 @@
 [
     {
-        "id": 19688568,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1629803400002,
-        "data": {
-            "puzzleOfTheWeekImageId": 68939147909919,
-            "contributorNickname": "mouton5000",
-            "contributorAvatarId": 8063098456757,
-            "puzzleId": 716,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "binary-extension",
-            "puzzleName": {
-                "en": "Binary Extension",
-                "fr": "Binary Extension"
-            }
+        "id": 10000000,
+        "type": "following",
+        "typeGroup": "social",
+        "codingamer": {
+            "userId": 1234567,
+            "pseudo": "Pseudo123",
+            "countryId": "US",
+            "publicHandle": "0123456789abcdef0123456789abcdef7654321",
+            "enable": false,
+            "hiddenFromFriendFinder": false
         },
-        "urgent": false
+        "priority": 0,
+        "date": 1600000000000,
+        "urgent": false,
+        "seenDate": 1601000000000
     },
     {
-        "id": 19614202,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
+        "id": 11000000,
+        "type": "friend-registered",
+        "typeGroup": "social",
         "priority": 0,
-        "date": 1629195000004,
+        "date": 1601000000000,
         "data": {
-            "puzzleOfTheWeekImageId": 68939022191880,
-            "contributorNickname": "nicola",
-            "contributorAvatarId": 26090852120005,
-            "puzzleId": 578,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "propositions-in-freges-ideography",
-            "puzzleName": {
-                "en": "Propositions in Frege\u2019s ideography",
-                "fr": "Propositions in Frege\u2019s ideography"
-            }
+            "name": "John"
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1602000000000
     },
     {
-        "id": 19543399,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
+        "id": 12000000,
+        "type": "invitation-accepted",
+        "typeGroup": "social",
         "priority": 0,
-        "date": 1628586600011,
-        "data": {
-            "puzzleOfTheWeekImageId": 68042301278056,
-            "contributorNickname": "struct",
-            "contributorAvatarId": 61418101984360,
-            "puzzleId": 738,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "amazons",
-            "puzzleName": {
-                "en": "Amazons",
-                "fr": "Amazons"
-            }
-        },
-        "urgent": false
+        "date": 1602000000000,
+        "urgent": false,
+        "seenDate": 1603000000000
     },
     {
-        "id": 19464756,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
+        "id": 13000000,
+        "type": "contest-scheduled",
+        "typeGroup": "contest",
         "priority": 0,
-        "date": 1627981800004,
+        "date": 1603000000000,
         "data": {
-            "puzzleOfTheWeekImageId": 68042209847746,
-            "contributorNickname": "P4V3L14K0V",
-            "contributorAvatarId": 65827828670120,
-            "puzzleId": 772,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "folding-a-note",
-            "puzzleName": {
-                "en": "Folding a Note",
-                "fr": "Folding a Note"
-            }
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "date": 1650000000000
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1604000000000
     },
     {
-        "id": 19393800,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
+        "id": 14000000,
+        "type": "contest-soon",
+        "typeGroup": "contest",
         "priority": 0,
-        "date": 1627377000003,
+        "date": 1604000000000,
         "data": {
-            "puzzleOfTheWeekImageId": 68042088705061,
-            "contributorNickname": "DPAmar",
-            "contributorAvatarId": 56994389567033,
-            "puzzleId": 609,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "map-colorations",
-            "puzzleName": {
-                "en": "Map Colorations",
-                "fr": "Map Colorations"
-            }
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "hours": 12800
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1605000000000
     },
     {
-        "id": 19388728,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 15000000,
+        "type": "contest-started",
+        "typeGroup": "contest",
         "priority": 0,
-        "date": 1627321572007,
+        "date": 1650000000000,
         "data": {
-            "handle": "188450111c8b1cd116af0b7559a2a165cd09f3c",
-            "playerCount": 13,
-            "rank": 5
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1651000000000
     },
     {
-        "id": 19388580,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 16000000,
+        "type": "contest-over",
+        "typeGroup": "contest",
         "priority": 0,
-        "date": 1627320402002,
+        "date": 1655000000000,
         "data": {
-            "handle": "1884476c88cb28554da689ea3b7ef71e22c6ea5",
-            "playerCount": 13,
-            "rank": 10
+            "name": "Spring Challenge 2022",
+            "publicId": "spring-challenge-2022",
+            "imageId": 10000000000000,
+            "rank": 123,
+            "playerCount": 1234
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1656000000000
     },
     {
-        "id": 19377198,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 17000000,
+        "type": "new-comment",
+        "typeGroup": "comment",
         "priority": 0,
-        "date": 1627223437002,
+        "date": 1605000000000,
         "data": {
-            "handle": "188262310ce46a518c2d03920e6b9ba077d2bfe",
-            "playerCount": 2,
-            "rank": 2
+            "type": {
+                "en": "New comment",
+                "fr": "Nouveau commentaire"
+            },
+            "commentType": "CONTRIBUTION",
+            "typeData": {
+                "handle": "12345abcdef1234567890abcdef1234567890",
+                "title": "Contribution 1",
+                "type": "PUZZLE_SOLO"
+            },
+            "commentId": 10000
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1606000000000
     },
     {
-        "id": 19377092,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 18000000,
+        "type": "new-comment-response",
+        "typeGroup": "comment",
         "priority": 0,
-        "date": 1627222792001,
+        "date": 1606000000000,
         "data": {
-            "handle": "18826030020bd20b3f3b8d0ace47046e956ace6",
-            "playerCount": 3,
-            "rank": 1
+            "type": {
+                "en": "New comment response",
+                "fr": "Nouvelle r\u00c3\u00a9ponse \u00c3\u00a0 votre commentaire"
+            },
+            "commentType": "SOLUTION",
+            "typeData": {
+                "puzzleId": 100,
+                "puzzleDetailsPageUrl": "/training/hard/very-hard-puzzle",
+                "testSessionSubmissionId": 25000000
+            },
+            "commentId": 10000
         },
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1607000000000
     },
     {
-        "id": 19376971,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1627221692004,
-        "data": {
-            "handle": "18825820c300a3c9173f530b624223c6288495c",
-            "playerCount": 4,
-            "rank": 1
-        },
-        "seenDate": 1627221830668,
-        "urgent": false
-    },
-    {
-        "id": 19376833,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1627220637001,
-        "data": {
-            "handle": "18825718a5b6155877f0b633e9fd646bb6fd230",
-            "playerCount": 4,
-            "rank": 4
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19376766,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1627220097003,
-        "data": {
-            "handle": "1882553e04974cce643a011a377e9ed9ba6e321",
-            "playerCount": 6,
-            "rank": 3
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19327301,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626786192009,
-        "data": {
-            "handle": "187465921baa5d253bbcb4e446f814a8ff070be",
-            "playerCount": 8,
-            "rank": 2
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19325123,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1626772200000,
-        "data": {
-            "puzzleOfTheWeekImageId": 67419301833918,
-            "contributorNickname": "darkhorse64",
-            "contributorAvatarId": 23496414257567,
-            "puzzleId": 715,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "clobber",
-            "puzzleName": {
-                "en": "Clobber",
-                "fr": "Clobber"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19321487,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626729322002,
-        "data": {
-            "handle": "1873664a48fb290e121d1675291ae7fe118d0b1",
-            "playerCount": 8,
-            "rank": 5
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19321481,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626729272008,
-        "data": {
-            "handle": "18736622c6a2aa20ebc8afbd325bfeba5cf3887",
-            "playerCount": 4,
-            "rank": 3
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19321402,
-        "type": "quest-completed",
-        "typeGroup": "quest",
-        "priority": 0,
-        "date": 1626728493630,
-        "data": {
-            "questId": 33,
-            "label": {
-                "fr": "Une premi\u00e8re victoire ?",
-                "en": "Time to win!"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 19321400,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626728492002,
-        "data": {
-            "handle": "1873646afafa826f9dfce9260b404f1b65793c2",
-            "playerCount": 8,
-            "rank": 1
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19321375,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626728382018,
-        "data": {
-            "handle": "1873642f2e337010eabfe89638bad5c8f269ecc",
-            "playerCount": 2,
-            "rank": 1
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19321370,
+        "id": 19000000,
         "type": "clash-invite",
         "typeGroup": "clash",
         "codingamer": {
-            "userId": 3920313,
-            "pseudo": "Espiobest",
-            "countryId": "IN",
-            "publicHandle": "0b59790a3e09c25a185e7fabc5144c343130293",
+            "userId": 1234567,
+            "pseudo": "Pseudo123",
+            "countryId": "US",
+            "publicHandle": "0123456789abcdef0123456789abcdef7654321",
             "enable": false,
-            "avatar": 68177821291905,
             "hiddenFromFriendFinder": false
         },
         "priority": 0,
-        "date": 1626728350660,
+        "date": 1607000000000,
         "data": {
-            "handle": "1873664a48fb290e121d1675291ae7fe118d0b1"
+            "handle": "1234567fedcba9876543210fedcba9876543210"
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": true,
+        "seenDate": 1608000000000
     },
     {
-        "id": 19321345,
+        "id": 20000000,
+        "type": "clash-over",
+        "typeGroup": "clash",
+        "priority": 0,
+        "date": 1608000000000,
+        "data": {
+            "handle": "1234567fedcba9876543210fedcba9876543210",
+            "rank": 1,
+            "playerCount": 10
+        },
+        "urgent": false,
+        "seenDate": 1609000000000
+    },
+    {
+        "id": 21000000,
         "type": "achievement-unlocked",
         "typeGroup": "achievement",
         "priority": 0,
-        "date": 1626728085008,
+        "date": 1609000000000,
         "data": {
-            "id": "PZ_PLAY_100",
-            "imageId": 1925177951682,
+            "id": "PZ_ACHIEVEMENT_1",
+            "imageId": 20000000000000,
             "points": 10,
             "level": "BRONZE",
-            "completionTime": 1626728084470,
+            "completionTime": 1607999999000,
             "label": {
-                "fr": "Testeur, \u00e9dition familiale",
-                "en": "Tester, Home edition"
+                "fr": "Premier succ\u00c3\u00a8s",
+                "en": "First achievement"
             }
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": false,
+        "seenDate": 1610000000000
     },
     {
-        "id": 19321273,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
+        "id": 22000000,
+        "type": "new-level",
+        "typeGroup": "xp",
         "priority": 0,
-        "date": 1626727533003,
+        "date": 1610000000000,
         "data": {
-            "id": "PZ_SUBMIT_10",
-            "imageId": 1925245597519,
-            "points": 10,
-            "level": "BRONZE",
-            "completionTime": 1626727532665,
-            "label": {
-                "fr": "Apprenti(e)",
-                "en": "Apprentice"
+            "level": 2,
+            "reward": {
+                "fr": "Les niveaux vous permettent de suivre vos progr\u00c3\u00a8s sur la plate-forme.",
+                "en": "Levels allow you to keep track of your progression while sharpening your skills."
+            },
+            "triggerCareerPopup": true
+        },
+        "urgent": false,
+        "seenDate": 1611000000000
+    },
+    {
+        "id": 23000000,
+        "type": "new-blog",
+        "typeGroup": "blog",
+        "priority": 0,
+        "date": 1611000000000,
+        "data": {
+            "title": {
+                "fr": "Premier blog",
+                "en": "First blog"
+            },
+            "url": {
+                "fr": "https://www.codingame.com/blog/premier-blog",
+                "en": "https://www.codingame.com/blog/first-blog"
             }
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": false,
+        "seenDate": 1612000000000
     },
     {
-        "id": 19321254,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 24000000,
+        "type": "feature",
+        "typeGroup": "feature",
         "priority": 0,
-        "date": 1626727422021,
+        "date": 1612000000000,
         "data": {
-            "handle": "18736207077b77809261f1d705fff18900106d3",
-            "playerCount": 8,
-            "rank": 2
+            "title": {
+                "fr": "Nouvelle fonctionnalit\u00c3\u00a9",
+                "en": "New feature"
+            },
+            "description": {
+                "fr": "Cela ajoute beaucoup de nouveau",
+                "en": "This adds many new things"
+            },
+            "image-instant": "https://static.codingame.com/servlet/fileservlet?id=30000000000000",
+            "url": "https://www.codingame.com/home"
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1613000000000
     },
     {
-        "id": 19321171,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
+        "id": 25000000,
+        "type": "new-league",
+        "typeGroup": "arena",
         "priority": 0,
-        "date": 1626726693721,
+        "date": 1613000000000,
         "data": {
-            "id": "PZ_CLASHOFCODE_10",
-            "imageId": 31706544232742,
-            "points": 50,
-            "level": "BRONZE",
-            "completionTime": 1626726693175,
-            "label": {
-                "fr": "Clash of Code testeur",
-                "en": "Clash of Code tester"
-            }
+            "titleLabel": {
+                "fr": "Nouvelle ligue",
+                "en": "New league"
+            },
+            "divisionIndex": 1,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 40000000000000,
+            "testSessionHandle": ""
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": false,
+        "seenDate": 1614000000000
     },
     {
-        "id": 19317927,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 26000000,
+        "type": "new-league-opened",
+        "typeGroup": "puzzle",
         "priority": 0,
-        "date": 1626705312001,
+        "date": 1614000000000,
         "data": {
-            "handle": "18730521cca5ef5db69a184c2db7cfce7bdc113",
-            "playerCount": 8,
-            "rank": 2
+            "titleLabel": {
+                "fr": "Nouvelle ligue ouverte",
+                "en": "New league opened"
+            },
+            "divisionIndex": 2,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 50000000000000,
+            "testSessionHandle": ""
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1615000000000
     },
     {
-        "id": 19317881,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 27000000,
+        "type": "eligible-for-next-league",
+        "typeGroup": "arena",
         "priority": 0,
-        "date": 1626705132009,
+        "date": 1615000000000,
         "data": {
-            "handle": "18730452f7321bebd01e0d0a9b6136687ee692f",
-            "playerCount": 8,
-            "rank": 8
+            "titleLabel": {
+                "fr": "\u00c3\u2030ligible pour la ligue suivante",
+                "en": "Eligible for next league"
+            },
+            "divisionIndex": 3,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 60000000000000,
+            "testSessionHandle": ""
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1616000000000
     },
     {
-        "id": 19281272,
-        "type": "following",
-        "typeGroup": "social",
-        "codingamer": {
-            "userId": 3877165,
-            "pseudo": "Takos",
-            "countryId": "FR",
-            "publicHandle": "b90eb10e55b99ed31da32c7197d761ab5617783",
-            "enable": false,
-            "avatar": 46312466459275,
-            "cover": 49875509559827,
-            "hiddenFromFriendFinder": false
-        },
+        "id": 28000000,
+        "type": "promoted-league",
+        "typeGroup": "arena",
         "priority": 0,
-        "date": 1626384543629,
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19281259,
-        "type": "following",
-        "typeGroup": "social",
-        "codingamer": {
-            "userId": 4432276,
-            "countryId": "FR",
-            "publicHandle": "37e213bbb443863f4bf2ff051b06d5616722344",
-            "enable": false,
-            "hiddenFromFriendFinder": false
+        "date": 1616000000000,
+        "data": {
+            "titleLabel": {
+                "fr": "Promotion de la ligue",
+                "en": "Promoted league"
+            },
+            "divisionIndex": 4,
+            "divisionCount": 6,
+            "divisionOffset": 1,
+            "thresholdIndex": 2,
+            "thumbnailBinaryId": 70000000000000,
+            "testSessionHandle": ""
         },
-        "priority": 0,
-        "date": 1626384465472,
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1617000000000
     },
     {
-        "id": 19250476,
+        "id": 29000000,
+        "type": "contribution-received",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1617000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 2",
+            "type": "PUZZLE_OPTI"
+        },
+        "urgent": false,
+        "seenDate": 1618000000000
+    },
+    {
+        "id": 30000000,
+        "type": "contribution-accepted",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1618000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 3",
+            "type": "PUZZLE_INOUT"
+        },
+        "urgent": false,
+        "seenDate": 1619000000000
+    },
+    {
+        "id": 31000000,
+        "type": "contribution-refused",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1619000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 4",
+            "type": "PUZZLE_MULTI"
+        },
+        "urgent": false,
+        "seenDate": 1620000000000
+    },
+    {
+        "id": 32000000,
+        "type": "contribution-clash-mode-removed",
+        "typeGroup": "contribution",
+        "priority": 0,
+        "date": 1620000000000,
+        "data": {
+            "handle": "12345abcdef1234567890abcdef1234567890",
+            "title": "Contribution 5",
+            "type": "CLASHOFCODE"
+        },
+        "urgent": false,
+        "seenDate": 1621000000000
+    },
+    {
+        "id": 33000000,
+        "type": "new-puzzle",
+        "typeGroup": "puzzle",
+        "priority": 0,
+        "date": 1621000000000,
+        "data": {
+            "level": {
+                "en": "easy",
+                "fr": "facile"
+            },
+            "name": {
+                "en": "Very easy puzzle",
+                "fr": "Puzzle tr\u00c3\u00a8s facile"
+            },
+            "image": "https://static.codingame.com/servlet/fileservlet?id=80000000000000",
+            "puzzleId": 200
+        },
+        "urgent": false,
+        "seenDate": 1622000000000
+    },
+    {
+        "id": 34000000,
         "type": "puzzle-of-the-week",
         "typeGroup": "puzzle",
         "priority": 0,
-        "date": 1626163800005,
+        "date": 1622000000000,
         "data": {
-            "puzzleOfTheWeekImageId": 67419060076502,
-            "contributorNickname": "Q12",
-            "contributorAvatarId": 51600040008150,
-            "puzzleId": 698,
+            "puzzleOfTheWeekImageId": 90000000000000,
+            "contributorNickname": "Pseudo123",
+            "contributorAvatarId": 1000000000000,
+            "puzzleId": 300,
             "puzzleLevel": "hard",
-            "puzzlePrettyId": "kakuro-solver",
+            "puzzlePrettyId": "very-hard-puzzle",
             "puzzleName": {
-                "en": "Kakuro Solver",
-                "fr": "Kakuro Solver"
+                "en": "Very hard puzzle",
+                "fr": "Puzzle tr\u00c3\u00a8s difficile"
             }
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1623000000000
     },
     {
-        "id": 19235672,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 35000000,
+        "type": "new-hint",
+        "typeGroup": "hints",
         "priority": 0,
-        "date": 1626034902071,
+        "date": 1623000000000,
         "data": {
-            "handle": "1860058e9747640a242d40f701a6d9b0e6e0e25",
-            "playerCount": 5,
-            "rank": 2
+            "puzzleTitle": {
+                "en": "Very medium puzzle",
+                "fr": "Puzzle tr\u00c3\u00a8s moyen"
+            },
+            "thumbnailBinaryId": 10000000000000,
+            "testSessionHandle": ""
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1624000000000
     },
     {
-        "id": 19235639,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 36000000,
+        "type": "contribution-moderated",
+        "typeGroup": "moderation",
         "priority": 0,
-        "date": 1626034492002,
+        "date": 1624000000000,
         "data": {
-            "handle": "18600473d26477cab95f543724fa6875f616d63",
-            "playerCount": 8,
-            "rank": 2
+            "actionType": "validate",
+            "contribution": {
+                "handle": "12345abcdef1234567890abcdef1234567890",
+                "title": "Contribution 6",
+                "type": "CLASHOFCODE"
+            }
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1625000000000
     },
     {
-        "id": 19235539,
+        "id": 37000000,
         "type": "quest-completed",
         "typeGroup": "quest",
         "priority": 0,
-        "date": 1626033629404,
-        "data": {
-            "questId": 31,
-            "label": {
-                "fr": "Vos premiers pas sur Clash of Code",
-                "en": "First steps on Clash of Code"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 19235510,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1626033162049,
-        "data": {
-            "handle": "1860032e810b230ae1ee3ec980f3a3b49471bcc",
-            "playerCount": 8,
-            "rank": 3
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19235425,
-        "type": "quest-completed",
-        "typeGroup": "quest",
-        "priority": 0,
-        "date": 1626032424006,
-        "data": {
-            "questId": 49,
-            "label": {
-                "fr": "Participer \u00e0 un Clash of Code",
-                "en": "Participate in a Clash of Code"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 19175465,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1625555400005,
-        "data": {
-            "puzzleOfTheWeekImageId": 66699621082187,
-            "contributorNickname": "aCat",
-            "contributorAvatarId": 4210501575817,
-            "puzzleId": 722,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "cooperative-mate-with-rook",
-            "puzzleName": {
-                "en": "Cooperative Mate with Rook",
-                "fr": "Cooperative Mate with Rook"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19100075,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1624947000006,
-        "data": {
-            "puzzleOfTheWeekImageId": 66699484140562,
-            "contributorNickname": "eulerscheZahl",
-            "contributorAvatarId": 43135502422075,
-            "puzzleId": 657,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "sokoban",
-            "puzzleName": {
-                "en": "Sokoban",
-                "fr": "Sokoban"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 19017929,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1624342199999,
-        "data": {
-            "puzzleOfTheWeekImageId": 65848069808927,
-            "contributorNickname": "davilla",
-            "contributorAvatarId": 60533428846794,
-            "puzzleId": 754,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "connect-the-hyper-dots",
-            "puzzleName": {
-                "en": "Connect the Hyper-Dots",
-                "fr": "Connect the Hyper-Dots"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18931650,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1623737399999,
-        "data": {
-            "puzzleOfTheWeekImageId": 65847585582003,
-            "contributorNickname": "Niako",
-            "contributorAvatarId": 11911528647474,
-            "puzzleId": 547,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "cloudy-weather",
-            "puzzleName": {
-                "en": "Cloudy Weather",
-                "fr": "Cloudy Weather"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18849317,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1623129000004,
-        "data": {
-            "puzzleOfTheWeekImageId": 65146921108698,
-            "contributorNickname": "java_coffee_cup",
-            "contributorAvatarId": 13281799951852,
-            "puzzleId": 627,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "robot-show",
-            "puzzleName": {
-                "en": "Robot Show",
-                "fr": "Robot Show"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18767601,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1622524200000,
-        "data": {
-            "puzzleOfTheWeekImageId": 65146884101207,
-            "contributorNickname": "AshKetchum",
-            "contributorAvatarId": 4364440695244,
-            "puzzleId": 708,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "connect-4",
-            "puzzleName": {
-                "en": "Connect 4",
-                "fr": "Connect 4"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18675976,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1621919399999,
-        "data": {
-            "puzzleOfTheWeekImageId": 64058947186917,
-            "contributorNickname": "fantamar",
-            "contributorAvatarId": 45416462663807,
-            "puzzleId": 663,
-            "puzzleLevel": "expert",
-            "puzzlePrettyId": "tiling-by-squares",
-            "puzzleName": {
-                "en": "Tiling by Squares",
-                "fr": "Tiling by Squares"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18581511,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1621311000001,
-        "data": {
-            "puzzleOfTheWeekImageId": 64058807038772,
-            "contributorNickname": "java_coffee_cup",
-            "contributorAvatarId": 13281799951852,
-            "puzzleId": 728,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "container-terminal",
-            "puzzleName": {
-                "en": "Container Terminal",
-                "fr": "Container Terminal"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18475470,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1620706199998,
-        "data": {
-            "puzzleOfTheWeekImageId": 62991729462197,
-            "contributorNickname": "Zorg1",
-            "contributorAvatarId": 16542412157988,
-            "puzzleId": 687,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "obsolete-programming",
-            "puzzleName": {
-                "en": "Obsolete Programming",
-                "fr": "Obsolete Programming"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18329804,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1620097800001,
-        "data": {
-            "puzzleOfTheWeekImageId": 62991605719999,
-            "contributorNickname": "struct",
-            "contributorAvatarId": 61418101984360,
-            "puzzleId": 610,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "yinsh",
-            "puzzleName": {
-                "en": "Yinsh",
-                "fr": "Yinsh"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18214069,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1619493000000,
-        "data": {
-            "puzzleOfTheWeekImageId": 62132361985725,
-            "contributorNickname": "schachmatt",
-            "contributorAvatarId": 58313205988826,
-            "puzzleId": 718,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "byte-pair-encoding",
-            "puzzleName": {
-                "en": "Byte pair encoding",
-                "fr": "Byte pair encoding"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18128759,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1618888199999,
-        "data": {
-            "puzzleOfTheWeekImageId": 62132327180222,
-            "contributorNickname": "reCurse",
-            "contributorAvatarId": 58850847098890,
-            "puzzleId": 699,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "chess",
-            "puzzleName": {
-                "en": "Chess",
-                "fr": "Chess"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 18045105,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1618279800002,
-        "data": {
-            "puzzleOfTheWeekImageId": 61246040530247,
-            "contributorNickname": "LaurentValade",
-            "contributorAvatarId": 47390627049317,
-            "puzzleId": 645,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "particle-detection-with-cloud-chamber",
-            "puzzleName": {
-                "en": "Particle Detection with Cloud Chamber",
-                "fr": "Particle Detection with Cloud Chamber"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17965307,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1617675000001,
-        "data": {
-            "puzzleOfTheWeekImageId": 61245945724044,
-            "contributorNickname": "XorZy",
-            "contributorAvatarId": 55410905147006,
-            "puzzleId": 724,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "asteroids",
-            "puzzleName": {
-                "en": "Asteroids",
-                "fr": "Asteroids"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17889637,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1617070200000,
-        "data": {
-            "puzzleOfTheWeekImageId": 60548582150225,
-            "contributorNickname": "Thib34",
-            "contributorAvatarId": 56803681215232,
-            "puzzleId": 694,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "nuggets-numbers",
-            "puzzleName": {
-                "en": "Nuggets numbers",
-                "fr": "Nuggets numbers"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17805302,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1616461800022,
-        "data": {
-            "puzzleOfTheWeekImageId": 60548543805842,
-            "contributorNickname": "Gevater_Tod4711",
-            "contributorAvatarId": 4573360932214,
-            "puzzleId": 617,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "atari-go",
-            "puzzleName": {
-                "en": "Atari Go",
-                "fr": "Atari Go"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17723507,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1615853400001,
-        "data": {
-            "puzzleOfTheWeekImageId": 59997504225579,
-            "contributorNickname": "Fluxor",
-            "contributorAvatarId": 1832090086325,
-            "puzzleId": 674,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "flower-beds",
-            "puzzleName": {
-                "en": "Flower beds",
-                "fr": "Flower beds"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17641427,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1615248600001,
-        "data": {
-            "puzzleOfTheWeekImageId": 59997484442352,
-            "contributorNickname": "eulerscheZahl",
-            "contributorAvatarId": 43135502422075,
-            "puzzleId": 701,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "tryangle-catch",
-            "puzzleName": {
-                "en": "TryAngle Catch",
-                "fr": "TryAngle Catch"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17564436,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1614640200002,
-        "data": {
-            "puzzleOfTheWeekImageId": 59262681145054,
-            "contributorNickname": "lhm",
-            "contributorAvatarId": 26610668117960,
-            "puzzleId": 703,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "ways-to-make-change",
-            "puzzleName": {
-                "en": "Ways to make change",
-                "fr": "Ways to make change"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17486081,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1614035400002,
-        "data": {
-            "puzzleOfTheWeekImageId": 59261706572146,
-            "contributorNickname": "trictrac",
-            "contributorAvatarId": 23056996012330,
-            "puzzleId": 704,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "fireworks",
-            "puzzleName": {
-                "en": "Fireworks",
-                "fr": "Fireworks"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17356943,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1613430600001,
-        "data": {
-            "puzzleOfTheWeekImageId": 58561324831759,
-            "contributorNickname": "Waffle3z",
-            "contributorAvatarId": 44751789808331,
-            "puzzleId": 558,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "create-the-longest-sequence-of-1s",
-            "puzzleName": {
-                "en": "Create the longest sequence of 1s",
-                "fr": "Create the longest sequence of 1s"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17263719,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1612825800001,
-        "data": {
-            "puzzleOfTheWeekImageId": 58561186579751,
-            "contributorNickname": "Schwase",
-            "contributorAvatarId": 48188548284698,
-            "puzzleId": 656,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "equivalent-resistance-circuit-building",
-            "puzzleName": {
-                "en": "Equivalent Resistance, Circuit Building",
-                "fr": "Equivalent Resistance, Circuit Building"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17138225,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1612221000000,
-        "data": {
-            "puzzleOfTheWeekImageId": 57922406217781,
-            "contributorNickname": "BLANC",
-            "contributorAvatarId": 46459187054094,
-            "puzzleId": 642,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "encounter-surface",
-            "puzzleName": {
-                "en": "Encounter surface",
-                "fr": "Encounter surface"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 17039798,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1611612600003,
-        "data": {
-            "puzzleId": 613,
-            "puzzleName": {
-                "en": "Othello",
-                "fr": "Othello"
-            },
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "othello-1",
-            "contributorNickname": "struct",
-            "puzzleOfTheWeekImageId": 57921344940253
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16859111,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1611007800001,
-        "data": {
-            "puzzleOfTheWeekImageId": 57275608329933,
-            "contributorNickname": "java_coffee_cup",
-            "contributorAvatarId": 13281799951852,
-            "puzzleId": 625,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "battle-tower",
-            "puzzleName": {
-                "en": "Battle Tower",
-                "fr": "Battle Tower"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16780249,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1610403000001,
-        "data": {
-            "puzzleOfTheWeekImageId": 57275588483983,
-            "contributorNickname": "MisterFlos",
-            "contributorAvatarId": 50053224704946,
-            "puzzleId": 677,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "rod-cutting-problem",
-            "puzzleName": {
-                "en": "Rod cutting problem",
-                "fr": "Rod cutting problem"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16706592,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1609798200001,
-        "data": {
-            "puzzleOfTheWeekImageId": 56389281358276,
-            "contributorNickname": "jrke",
-            "contributorAvatarId": 50728347735682,
-            "puzzleId": 614,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "the-lost-child-episode-1",
-            "puzzleName": {
-                "en": "The lost child.Episode-1",
-                "fr": "The lost child.Episode-1"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16641901,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1609189800002,
-        "data": {
-            "puzzleOfTheWeekImageId": 56389246397915,
-            "contributorNickname": "kayou",
-            "contributorAvatarId": 52835383345680,
-            "puzzleId": 691,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "next-growing-number",
-            "puzzleName": {
-                "en": "Next growing number",
-                "fr": "Next growing number"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16570133,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1608581400030,
-        "data": {
-            "puzzleOfTheWeekImageId": 55610487442185,
-            "contributorNickname": "eulerscheZahl",
-            "contributorAvatarId": 43135502422075,
-            "puzzleId": 658,
-            "puzzleLevel": "optim",
-            "puzzlePrettyId": "2048",
-            "puzzleName": {
-                "en": "2048",
-                "fr": "2048"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16502202,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1607976600003,
-        "data": {
-            "puzzleOfTheWeekImageId": 55610460222722,
-            "contributorNickname": "Sundiver",
-            "contributorAvatarId": 31016387398299,
-            "puzzleId": 591,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "futoshiki-solver",
-            "puzzleName": {
-                "en": "Futoshiki Solver",
-                "fr": "Futoshiki Solver"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16417955,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1607371800001,
-        "data": {
-            "puzzleOfTheWeekImageId": 54708581478210,
-            "contributorNickname": "trictrac",
-            "contributorAvatarId": 23056996012330,
-            "puzzleId": 667,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "blocking",
-            "puzzleName": {
-                "en": "Blocking",
-                "fr": "Blocking"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16324839,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1606763400012,
-        "data": {
-            "puzzleOfTheWeekImageId": 54708507948922,
-            "contributorNickname": "Illedan",
-            "contributorAvatarId": 16222515698472,
-            "puzzleId": 593,
-            "puzzleLevel": "optim",
-            "puzzlePrettyId": "search-race",
-            "puzzleName": {
-                "en": "Search Race",
-                "fr": "Search Race"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16240630,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1606155000004,
-        "data": {
-            "puzzleOfTheWeekImageId": 54224084939642,
-            "contributorNickname": "Fluxor",
-            "contributorAvatarId": 1832090086325,
-            "puzzleId": 670,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "the-lost-files",
-            "puzzleName": {
-                "en": "The lost files",
-                "fr": "The lost files"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16176343,
-        "type": "custom",
-        "typeGroup": "custom",
-        "priority": 0,
-        "date": 1605718913748,
-        "data": {
-            "title": {
-                "en": "Fall Challenge 2020",
-                "fr": "Fall Challenge 2020"
-            },
-            "description": {
-                "en": "The Gold League is opening soon.",
-                "fr": "La ligue Or ouvre bient\u00f4t."
-            },
-            "image": "https://www.codingame.com/servlet/fileservlet?id=52981841539444",
-            "url": "https://www.codingame.com/contests/fall-challenge-2020"
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 16144980,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1605546600014,
-        "data": {
-            "puzzleOfTheWeekImageId": 53011023158658,
-            "contributorNickname": "Crypticsy",
-            "contributorAvatarId": 40551224938685,
-            "puzzleId": 619,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "huffman-code",
-            "puzzleName": {
-                "en": "Huffman Code",
-                "fr": "Huffman Code"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 16144045,
-        "type": "custom",
-        "typeGroup": "custom",
-        "priority": 0,
-        "date": 1605546252737,
-        "data": {
-            "title": {
-                "en": "Fall Challenge 2020",
-                "fr": "Fall Challenge 2020"
-            },
-            "description": {
-                "en": "The Silver League is opening soon.",
-                "fr": "La ligue Argent ouvre bient\u00f4t."
-            },
-            "url": "https://www.codingame.com/contests/fall-challenge-2020",
-            "image": "https://www.codingame.com/servlet/fileservlet?id=52981900505878"
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 16030474,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1604938200041,
-        "data": {
-            "puzzleOfTheWeekImageId": 53011005200937,
-            "contributorNickname": "chouch",
-            "puzzleId": 653,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "prefix-code",
-            "puzzleName": {
-                "en": "Prefix code",
-                "fr": "Prefix code"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15950771,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1604333400000,
-        "data": {
-            "puzzleOfTheWeekImageId": 52250967568860,
-            "contributorNickname": "LeRenard",
-            "contributorAvatarId": 40384564000700,
-            "puzzleId": 654,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "penguins",
-            "puzzleName": {
-                "en": "Penguins",
-                "fr": "Penguins"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15877689,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1603725000004,
-        "data": {
-            "puzzleOfTheWeekImageId": 52250722596000,
-            "contributorNickname": "Gevater_Tod4711",
-            "contributorAvatarId": 4573360932214,
-            "puzzleId": 590,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "a-game-of-go",
-            "puzzleName": {
-                "en": "A Game of Go",
-                "fr": "A Game of Go"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15805229,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1603120200003,
-        "data": {
-            "puzzleOfTheWeekImageId": 51523962999245,
-            "contributorNickname": "Di_Masta",
-            "contributorAvatarId": 5689020242575,
-            "puzzleId": 624,
-            "puzzleLevel": "hard",
-            "puzzlePrettyId": "chess-board-analyzer",
-            "puzzleName": {
-                "en": "Chess board analyzer",
-                "fr": "Chess board analyzer"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15735212,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1602511800007,
-        "data": {
-            "puzzleOfTheWeekImageId": 51523940130887,
-            "contributorNickname": "EricSMSO",
-            "contributorAvatarId": 10005277870281,
-            "puzzleId": 628,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "dots-and-boxes",
-            "puzzleName": {
-                "en": "Dots and Boxes",
-                "fr": "Dots and Boxes"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15711932,
-        "type": "custom",
-        "typeGroup": "custom",
-        "priority": 0,
-        "date": 1602256829307,
-        "data": {
-            "title": {
-                "en": "Winter Throne starts tomorrow",
-                "fr": "Challenge \"Winter Throne\" demain"
-            },
-            "description": {
-                "en": "Join a 10-day challenge, game chosen by participants' votes. A community initiative by Jrke",
-                "fr": "Inscrivez-vous au challenge de Jrke, et votez pour le jeu que vous pr\u00e9f\u00e9rez lors de votre inscription."
-            },
-            "url": "http://winterthrone.herokuapp.com/home",
-            "image": "servlet/fileservlet?id=51007400959336"
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 15669025,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1601903400005,
-        "data": {
-            "puzzleOfTheWeekImageId": 50737123814472,
-            "contributorNickname": "eulerscheZahl",
-            "contributorAvatarId": 43135502422075,
-            "puzzleId": 553,
-            "puzzleLevel": "multi",
-            "puzzlePrettyId": "onitama",
-            "puzzleName": {
-                "en": "Onitama",
-                "fr": "Onitama"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15599607,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1601298600005,
-        "data": {
-            "puzzleOfTheWeekImageId": 50737082743418,
-            "contributorNickname": "igolus",
-            "contributorAvatarId": 39913769766376,
-            "puzzleId": 638,
-            "puzzleLevel": "medium",
-            "puzzlePrettyId": "escaping-the-cat",
-            "puzzleName": {
-                "en": "Escaping the cat",
-                "fr": "Escaping the cat"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15573226,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1601044552006,
-        "data": {
-            "handle": "1395015fb075a381266b81828cd88376281224f",
-            "playerCount": 7,
-            "rank": 7
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15573200,
-        "type": "following",
-        "typeGroup": "social",
-        "codingamer": {
-            "userId": 3920313,
-            "pseudo": "Espiobest",
-            "countryId": "IN",
-            "publicHandle": "0b59790a3e09c25a185e7fabc5144c343130293",
-            "enable": false,
-            "avatar": 68177821291905,
-            "hiddenFromFriendFinder": false
-        },
-        "priority": 0,
-        "date": 1601044374438,
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15528673,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
-        "priority": 0,
-        "date": 1600693800004,
-        "data": {
-            "puzzleOfTheWeekImageId": 50020901878301,
-            "contributorNickname": "aCat",
-            "contributorAvatarId": 4210501575817,
-            "puzzleId": 626,
-            "puzzleLevel": "optim",
-            "puzzlePrettyId": "samegame",
-            "puzzleName": {
-                "en": "SameGame",
-                "fr": "SameGame"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15514566,
-        "type": "following",
-        "typeGroup": "social",
-        "codingamer": {
-            "userId": 3767949,
-            "pseudo": "mohamed040406",
-            "countryId": "EG",
-            "publicHandle": "6eafff9ef7762f26b26b43aa86666c829497673",
-            "enable": false,
-            "avatar": 69201461963513,
-            "cover": 69201389098056,
-            "hiddenFromFriendFinder": false
-        },
-        "priority": 0,
-        "date": 1600547632874,
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15514565,
-        "type": "following",
-        "typeGroup": "social",
-        "codingamer": {
-            "userId": 3877160,
-            "pseudo": "Banik1103",
-            "countryId": "DE",
-            "publicHandle": "3a4d499230f5237231d300d6486b69660617783",
-            "enable": false,
-            "hiddenFromFriendFinder": false
-        },
-        "priority": 0,
-        "date": 1600547587458,
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15512763,
-        "type": "quest-completed",
-        "typeGroup": "quest",
-        "priority": 0,
-        "date": 1600534088003,
+        "date": 1625000000000,
         "data": {
             "questId": 1,
             "label": {
@@ -1577,171 +481,181 @@
                 "en": "Welcome to CodinGame!"
             }
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": true,
+        "seenDate": 1626000000000
     },
     {
-        "id": 15512764,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
+        "id": 38000000,
+        "type": "info-generic",
+        "typeGroup": "generic",
         "priority": 0,
-        "date": 1600534087490,
+        "date": 1626000000000,
         "data": {
-            "id": "PZ_100P_PYTHON3_1",
-            "imageId": 1923491626496,
-            "points": 10,
-            "level": "BRONZE",
-            "completionTime": 1600534087076,
-            "label": {
-                "fr": "Python3 - N\u00e9ophyte",
-                "en": "Python3 Explorer"
-            }
+            "description": {
+                "fr": "Nouvelle information !",
+                "en": "New info!"
+            },
+            "url": "https://www.codingame.com/home"
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": false,
+        "seenDate": 1627000000000
     },
     {
-        "id": 15512762,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
+        "id": 39000000,
+        "type": "warning-generic",
+        "typeGroup": "generic",
         "priority": 0,
-        "date": 1600534087490,
+        "date": 1627000000000,
         "data": {
-            "id": "PZ_SUBMIT_1",
-            "imageId": 1925081226204,
-            "points": 5,
-            "level": "BRONZE",
-            "completionTime": 1600534085779,
-            "label": {
-                "fr": "Et ce bouton l\u00e0 ?",
-                "en": "What's this other button?"
-            }
+            "description": {
+                "fr": "Nouvel avertissement !",
+                "en": "New warning!"
+            },
+            "url": "https://www.codingame.com/home"
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": true,
+        "seenDate": 1628000000000
     },
     {
-        "id": 15512761,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
+        "id": 40000000,
+        "type": "important-generic",
+        "typeGroup": "generic",
         "priority": 0,
-        "date": 1600534073000,
+        "date": 1628000000000,
         "data": {
-            "id": "PZ_PLAY_1",
-            "imageId": 1925077592248,
-            "points": 5,
-            "level": "BRONZE",
-            "completionTime": 1600534073001,
-            "label": {
-                "fr": "C'est quoi ce bouton ?",
-                "en": "What's this button?"
-            }
+            "description": {
+                "fr": "Nouvelle information importante !",
+                "en": "New important info!"
+            },
+            "url": "https://www.codingame.com/home"
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": true,
+        "seenDate": 1629000000000
     },
     {
-        "id": 15456417,
+        "id": 41000000,
         "type": "custom",
         "typeGroup": "custom",
         "priority": 0,
-        "date": 1600091978849,
+        "date": 1629000000000,
         "data": {
             "title": {
-                "en": "Autumn AI 2020",
-                "fr": "Autumn AI 2020"
+                "en": "New custom notification!",
+                "fr": "Nouvelle notification personnalis\u00c3\u00a9e !"
             },
             "description": {
-                "en": "Join a 7-day challenge on Code of Kutulu, a community initiative from Crypticsy",
-                "fr": "Rejoignez un challenge de la communaut\u00e9 sur le jeu Code of Kutulu, une initiative lanc\u00e9e par Crypticsy"
+                "en": "This is a notification.",
+                "fr": "Ceci est une notification."
             },
-            "image": "/servlet/mfileservlet?id=50159088233691",
-            "url": "https://hs-emina.github.io/autumnai.github.io/"
+            "image": "https://www.codingame.com/servlet/fileservlet?id=10000000000000",
+            "url": "https://www.codingame.com/home"
         },
-        "seenDate": 1627220668516,
-        "urgent": true
+        "urgent": true,
+        "seenDate": 1630000000000
     },
     {
-        "id": 15455848,
-        "type": "puzzle-of-the-week",
-        "typeGroup": "puzzle",
+        "id": 42000000,
+        "type": "career-new-candidate",
+        "typeGroup": "other",
         "priority": 0,
-        "date": 1600089000002,
+        "date": 1630000000000,
         "data": {
-            "puzzleOfTheWeekImageId": 50020884498930,
-            "contributorNickname": "Di_Masta",
-            "contributorAvatarId": 5689020242575,
-            "puzzleId": 630,
-            "puzzleLevel": "easy",
-            "puzzlePrettyId": "dungeons-and-maps",
-            "puzzleName": {
-                "en": "Dungeons and Maps",
-                "fr": "Dungeons and Maps"
+            "handle": "0123456789abcdef0123456789abcdef7654321",
+            "username": "Pseudo123",
+            "country": "US",
+            "region": "NYC"
+        },
+        "urgent": false,
+        "seenDate": 1631000000000
+    },
+    {
+        "id": 43000000,
+        "type": "career-update-candidate",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1631000000000,
+        "data": {
+            "handle": "0123456789abcdef0123456789abcdef7654321",
+            "username": "Pseudo123",
+            "country": "US",
+            "region": "NYC"
+        },
+        "urgent": false,
+        "seenDate": 1632000000000
+    },
+    {
+        "id": 44000000,
+        "type": "test-finished",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1632000000000,
+        "data": {
+            "campaignId": 100,
+            "candidateId": 1234567,
+            "candidateName": "Pseudo123",
+            "candidateEmail": "candidate@example.com"
+        },
+        "urgent": false,
+        "seenDate": 1633000000000
+    },
+    {
+        "id": 45000000,
+        "type": "job-accepted",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1633000000000,
+        "data": {
+            "jobName": "Best Job",
+            "jobOfferLocation": "worldcup",
+            "challengeId": 100
+        },
+        "urgent": false,
+        "seenDate": 1634000000000
+    },
+    {
+        "id": 46000000,
+        "type": "job-expired",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1634000000000,
+        "data": {
+            "jobName": "Best Job"
+        },
+        "urgent": false,
+        "seenDate": 1635000000000
+    },
+    {
+        "id": 47000000,
+        "type": "new-work-blog",
+        "typeGroup": "other",
+        "priority": 0,
+        "date": 1635000000000,
+        "data": {
+            "title": {
+                "fr": "Premier blog de travail",
+                "en": "First work blog"
+            },
+            "url": {
+                "fr": "/blog/premier-blog-travail",
+                "en": "/blog/first-work-blog"
             }
         },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1636000000000
     },
     {
-        "id": 15442364,
-        "type": "clash-over",
-        "typeGroup": "clash",
+        "id": 48000000,
+        "type": "offer-apply",
+        "typeGroup": "other",
         "priority": 0,
-        "date": 1599945972005,
+        "date": 1636000000000,
         "data": {
-            "handle": "13767468000e25d9e7f131085cea7e9e8a6093c",
-            "playerCount": 8,
-            "rank": 5
+            "candidateName": "Pseudo123",
+            "jobName": "Best Job",
+            "jobOfferLocation": "worldcup",
+            "challengeId": 100
         },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15442142,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1599943032441,
-        "data": {
-            "handle": "1376710b6cebe651db519cc6caeb8671f5622e2",
-            "playerCount": 8,
-            "rank": 2
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
-    },
-    {
-        "id": 15442141,
-        "type": "achievement-unlocked",
-        "typeGroup": "achievement",
-        "priority": 0,
-        "date": 1599943027257,
-        "data": {
-            "id": "PZ_CLASHOFCODE_1",
-            "imageId": 31706526107180,
-            "points": 30,
-            "level": "BRONZE",
-            "completionTime": 1599943027122,
-            "label": {
-                "fr": "Clash of Code n\u00e9ophyte",
-                "en": "Clash of Code noob"
-            }
-        },
-        "seenDate": 1627220668516,
-        "urgent": true
-    },
-    {
-        "id": 15442105,
-        "type": "clash-over",
-        "typeGroup": "clash",
-        "priority": 0,
-        "date": 1599942747003,
-        "data": {
-            "handle": "1376711f842c426f7532685dc9d750c36448b9d",
-            "playerCount": 8,
-            "rank": 8
-        },
-        "seenDate": 1627220668516,
-        "urgent": false
+        "urgent": false,
+        "seenDate": 1637000000000
     }
 ]
