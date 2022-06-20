@@ -238,7 +238,7 @@ the logged in :class:`CodinGamer` with the
         client = codingame.Client()
         client.login("email", "password")
 
-        notifications = client.get_unseen_notifications()
+        notifications = list(client.get_unseen_notifications())
 
         print(f"{len(notifications)} unseen notifications:")
         for notification in notifications:
@@ -255,7 +255,9 @@ the logged in :class:`CodinGamer` with the
             client = codingame.Client(is_async=True)
             await client.login("email", "password")
 
-            notifications = await client.get_unseen_notifications()
+            notifications = []
+            async for notification in client.get_unseen_notifications():
+                notifications.append(notification)
 
             print(f"{len(notifications)} unseen notifications:")
             for notification in notifications:

@@ -121,13 +121,6 @@ JSON: `[user id, {"SHORT":true}, recaptcha]`
 Additional info: Recaptcha and login needed  
 Source: network tab while searching on codingame
 
-### Find unread notifications
-
-Endpoint: `Notification/findUnreadNotifications`  
-JSON: `[user id]`  
-Additional info: Login needed  
-Source: network tab while searching on codingame
-
 ### Mark notifications as seen
 
 Endpoint: `Notification/markAsSeen`  
@@ -139,13 +132,6 @@ Source: network tab while searching on codingame
 
 Endpoint: `Notification/markAsRead`  
 JSON: `[user id, [notification ids...]]`  
-Additional info: Login needed  
-Source: network tab while searching on codingame
-
-### Find last read notifications
-
-Endpoint: `Notification/findLastReadNotifications`  
-JSON: `[user id, null]`  
 Additional info: Login needed  
 Source: network tab while searching on codingame
 
