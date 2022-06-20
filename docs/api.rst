@@ -105,6 +105,7 @@ Notification data
 #################
 
 .. autoclass:: LanguageMapping()
+    :undoc-members:
     :no-inherited-members:
 
 .. autoclass:: NotificationData()
@@ -143,15 +144,11 @@ Notification data
     :undoc-members:
     :no-inherited-members:
 
-.. autoclass:: NewCommentResponseData()
-    :undoc-members:
-    :no-inherited-members:
-
 .. autoclass:: ContributionData()
     :undoc-members:
     :no-inherited-members:
 
-.. autoclass:: FeaturedData()
+.. autoclass:: FeatureData()
     :undoc-members:
     :no-inherited-members:
 
@@ -180,6 +177,38 @@ Notification data
     :no-inherited-members:
 
 .. autoclass:: NewLevelData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: GenericData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: CustomData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: CareerCandidateData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: TestFinishedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: JobAcceptedData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: JobExpiredData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: NewWorkBlogData()
+    :undoc-members:
+    :no-inherited-members:
+
+.. autoclass:: OfferApplyData()
     :undoc-members:
     :no-inherited-members:
 
