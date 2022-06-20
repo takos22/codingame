@@ -104,7 +104,7 @@ class BaseHTTPClient(ABC):
     def get_codingamer_following_ids(self, id: int) -> typing.List[int]:
         return self.request("CodinGamer", "findFollowingIds", [id])
 
-    # ClashOfCode/
+    # ClashOfCode
 
     def get_codingamer_clash_of_code_rank(self, id: int) -> int:
         return self.request("ClashOfCode", "getClashRankByCodinGamerId", [id])
