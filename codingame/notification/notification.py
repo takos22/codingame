@@ -148,3 +148,89 @@ class Notification(BaseObject):
             "date={0.date} urgent={0.urgent!r} "
             "seen={0.seen!r} read={0.read!r}>"
         ).format(self)
+
+    def mark_as_seen(
+        self,
+    ) -> typing.Union[datetime, typing.Awaitable[datetime]]:
+        """|maybe_coro|
+
+        Mark this notification as seen.
+
+        .. warning::
+            If you want to mark multiple notifications as seen at the same time,
+            use :meth:`Client.mark_notifications_as_seen` as it only makes one
+            API request for all the notifications instead of one API request for
+            each notification.
+
+        Returns
+        -------
+            :class:`datetime`
+                The time when this notification was marked as seen.
+
+        .. versionadded:: 1.3.1
+        """
+
+        if self._state.is_async:
+
+            async def _mark_as_seen() -> datetime:
+                data = await self._state.http.mark_notifications_as_seen(
+                    self._state.codingamer.id, [self.id]
+                )
+                self._setattr("seen", True)
+                self._setattr("seen_date", to_datetime(data))
+                return self.seen_date
+
+        else:
+
+            def _mark_as_seen() -> datetime:
+                data = self._state.http.mark_notifications_as_seen(
+                    self._state.codingamer.id, [self.id]
+                )
+                self._setattr("seen", True)
+                self._setattr("seen_date", to_datetime(data))
+                return self.seen_date
+
+        return _mark_as_seen()
+
+    def mark_as_read(
+        self,
+    ) -> typing.Union[datetime, typing.Awaitable[datetime]]:
+        """|maybe_coro|
+
+        Mark this notification as read.
+
+        .. warning::
+            If you want to mark multiple notifications as read at the same time,
+            use :meth:`Client.mark_notifications_as_read` as it only makes one
+            API request for all the notifications instead of one API request for
+            each notification.
+
+        Returns
+        -------
+            :class:`datetime`
+                The time when this notification was marked as read.
+
+        .. versionadded:: 1.3.1
+        """
+
+        if self._state.is_async:
+
+            async def _mark_as_read() -> datetime:
+                data = await self._state.http.mark_notifications_as_read(
+                    self._state.codingamer.id, [self.id]
+                )
+                self._setattr("read", True)
+                self._setattr("read_date", to_datetime(data))
+                return self.read_date
+
+        else:
+
+            def _mark_as_read() -> datetime:
+                data = self._state.http.mark_notifications_as_read(
+                    self._state.codingamer.id, [self.id]
+                )
+                self._setattr("read", True)
+                self._setattr("read_date", to_datetime(data))
+                return self.read_date
+
+        return _mark_as_read()
