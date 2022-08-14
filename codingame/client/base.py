@@ -419,7 +419,10 @@ class BaseClient(ABC):
             :exc:`~codingame.LoginRequired`
                 The Client needs to log in. See :meth:`login`.
 
-        Yields
+            :exc:`ValueError`
+                `notifications` parameter is empty.
+
+        Returns
         -------
             :class:`~datetime.datetime`
                 The time when this notification was marked as seen.
@@ -451,7 +454,10 @@ class BaseClient(ABC):
             :exc:`~codingame.LoginRequired`
                 The Client needs to log in. See :meth:`login`.
 
-        Yields
+            :exc:`ValueError`
+                `notifications` parameter is empty.
+
+        Returns
         -------
             :class:`~datetime.datetime`
                 The time when this notification was marked as read.

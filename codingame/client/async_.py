@@ -195,6 +195,9 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         if not self.logged_in:
             raise LoginRequired()
 
+        if not notifications:
+            raise ValueError("notifications argument must not be empty.")
+
         try:
             data = await self._state.http.mark_notifications_as_seen(
                 self.codingamer.id,
@@ -219,6 +222,9 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     ) -> datetime:
         if not self.logged_in:
             raise LoginRequired()
+
+        if not notifications:
+            raise ValueError("notifications argument must not be empty.")
 
         try:
             data = await self._state.http.mark_notifications_as_read(

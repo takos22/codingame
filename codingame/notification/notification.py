@@ -47,13 +47,13 @@ class Notification(BaseObject):
             Whether the notification has been seen.
 
         seen_date: Optional :class:`~datetime.datetime`
-            Date when the notification was seen.
+            Date when the notification was last marked as seen.
 
         read: :class:`bool`
             Whether the notification has been read.
 
         read_date: Optional :class:`~datetime.datetime`
-            Date when the notification was read.
+            Date when the notification was last marked as read.
 
         data: Optional :class:`dict`
             Data of the notification.
