@@ -167,7 +167,7 @@ class Notification(BaseObject):
             :class:`datetime`
                 The time when this notification was marked as seen.
 
-        .. versionadded:: 1.3.1
+        .. versionadded:: 1.4
         """
 
         if self._state.is_async:
@@ -210,7 +210,7 @@ class Notification(BaseObject):
             :class:`datetime`
                 The time when this notification was marked as read.
 
-        .. versionadded:: 1.3.1
+        .. versionadded:: 1.4
         """
 
         if self._state.is_async:

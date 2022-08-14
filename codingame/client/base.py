@@ -130,13 +130,13 @@ class BaseClient(ABC):
             Anything
                 The data returned by the CodinGame API, usually a :class:`dict`.
 
-        .. versionadded:: 1.2.0
+        .. versionadded:: 1.2
         """
 
         if service == "":
-            raise ValueError("service argument must not be empty")
+            raise ValueError("service argument must not be empty.")
         if func == "":
-            raise ValueError("func argument must not be empty")
+            raise ValueError("func argument must not be empty.")
 
         return self._state.http.request(service, func, parameters)
 
@@ -427,7 +427,7 @@ class BaseClient(ABC):
             :class:`~datetime.datetime`
                 The time when this notification was marked as seen.
 
-        .. versionadded:: 1.3.1
+        .. versionadded:: 1.4
         """
 
     @abstractmethod
@@ -462,7 +462,7 @@ class BaseClient(ABC):
             :class:`~datetime.datetime`
                 The time when this notification was marked as read.
 
-        .. versionadded:: 1.3.1
+        .. versionadded:: 1.4
         """
 
     # --------------------------------------------------------------------------
