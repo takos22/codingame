@@ -18,8 +18,9 @@ from codingame.leaderboard import (
 )
 from codingame.notification import Notification
 
+pytestmark = pytest.mark.asyncio
 
-@pytest.mark.asyncio
+
 async def test_client_create():
     client = Client(is_async=True)
     assert client.logged_in is False
@@ -27,7 +28,6 @@ async def test_client_create():
     assert client.is_async is True
 
 
-@pytest.mark.asyncio
 async def test_client_context_manager():
     async with Client(is_async=True) as client:
         assert client.logged_in is False
@@ -35,14 +35,12 @@ async def test_client_context_manager():
         assert client.is_async is True
 
 
-@pytest.mark.asyncio
 async def test_client_context_manager_error():
     with pytest.raises(TypeError):
         with Client(is_async=True):
             pass  # pragma: no cover
 
 
-@pytest.mark.asyncio
 async def test_client_request(client: AsyncClient):
     session = await client.request("session", "findSession")
     assert isinstance(session, dict)
@@ -56,7 +54,6 @@ async def test_client_request(client: AsyncClient):
         ("", "findSession"),
     ],
 )
-@pytest.mark.asyncio
 async def test_client_request_error(
     client: AsyncClient, service: str, func: str
 ):
@@ -64,7 +61,6 @@ async def test_client_request_error(
         await client.request(service, func)
 
 
-@pytest.mark.asyncio
 async def test_client_login(client: AsyncClient, mock_http):
     mock_http(client._state.http, "login")
     mock_http(client._state.http, "get_codingamer_from_id")
@@ -87,7 +83,6 @@ async def test_client_login(client: AsyncClient, mock_http):
         (os.environ.get("TEST_LOGIN_EMAIL"), "BadPassword"),
     ],
 )
-@pytest.mark.asyncio
 async def test_client_login_error(
     client: AsyncClient,
     email: str,
@@ -105,7 +100,6 @@ async def test_client_login_error(
         os.environ.get("TEST_CODINGAMER_PUBLIC_HANDLE"),
     ],
 )
-@pytest.mark.asyncio
 async def test_client_get_codingamer(
     client: AsyncClient, codingamer_query, mock_http
 ):
@@ -125,7 +119,6 @@ async def test_client_get_codingamer(
         "a" * 32 + "0" * 7,
     ],
 )
-@pytest.mark.asyncio
 async def test_client_get_codingamer_error(
     client: AsyncClient, codingamer_query, mock_http, mock_httperror
 ):
@@ -137,7 +130,6 @@ async def test_client_get_codingamer_error(
         await client.get_codingamer(codingamer_query)
 
 
-@pytest.mark.asyncio
 async def test_client_get_clash_of_code(client: AsyncClient, mock_http):
     mock_http(client._state.http, "get_clash_of_code_from_handle")
     clash_of_code = await client.get_clash_of_code(
@@ -146,7 +138,6 @@ async def test_client_get_clash_of_code(client: AsyncClient, mock_http):
     assert isinstance(clash_of_code, ClashOfCode)
 
 
-@pytest.mark.asyncio
 async def test_client_get_clash_of_code_error(
     client: AsyncClient, mock_httperror
 ):
@@ -160,14 +151,12 @@ async def test_client_get_clash_of_code_error(
         await client.get_clash_of_code("0" * 7 + "a" * 32)
 
 
-@pytest.mark.asyncio
 async def test_client_get_pending_clash_of_code(client: AsyncClient, mock_http):
     mock_http(client._state.http, "get_pending_clash_of_code")
     clash_of_code = await client.get_pending_clash_of_code()
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
-@pytest.mark.asyncio
 async def test_client_get_language_ids(client: AsyncClient, mock_http):
     mock_http(client._state.http, "get_language_ids")
     language_ids = await client.get_language_ids()
@@ -175,7 +164,6 @@ async def test_client_get_language_ids(client: AsyncClient, mock_http):
     assert all(isinstance(language_id, str) for language_id in language_ids)
 
 
-@pytest.mark.asyncio
 async def test_client_get_unseen_notifications(
     auth_client: AsyncClient, mock_http
 ):
@@ -186,7 +174,6 @@ async def test_client_get_unseen_notifications(
         assert not notification.read
 
 
-@pytest.mark.asyncio
 async def test_client_get_unseen_notifications_error(
     client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
 ):
@@ -209,7 +196,6 @@ async def test_client_get_unseen_notifications_error(
             pass  # pragma: no cover
 
 
-@pytest.mark.asyncio
 async def test_client_get_unread_notifications(
     auth_client: AsyncClient, mock_http
 ):
@@ -219,7 +205,6 @@ async def test_client_get_unread_notifications(
         assert not notification.read
 
 
-@pytest.mark.asyncio
 async def test_client_get_unread_notifications_error(
     client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
 ):
@@ -242,7 +227,6 @@ async def test_client_get_unread_notifications_error(
             pass  # pragma: no cover
 
 
-@pytest.mark.asyncio
 async def test_client_get_read_notifications(
     auth_client: AsyncClient, mock_http
 ):
@@ -253,7 +237,6 @@ async def test_client_get_read_notifications(
         assert notification.read
 
 
-@pytest.mark.asyncio
 async def test_client_get_read_notifications_error(
     client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
 ):
@@ -278,14 +261,12 @@ async def test_client_get_read_notifications_error(
             pass  # pragma: no cover
 
 
-@pytest.mark.asyncio
 async def test_client_get_global_leaderboard(client: AsyncClient):
     global_leaderboard = await client.get_global_leaderboard()
     assert isinstance(global_leaderboard, GlobalLeaderboard)
     assert isinstance(global_leaderboard.users[0], GlobalRankedCodinGamer)
 
 
-@pytest.mark.asyncio
 async def test_client_get_global_leaderboard_error(client: AsyncClient):
     with pytest.raises(ValueError):
         await client.get_global_leaderboard(type="NONEXISTENT")
@@ -298,7 +279,6 @@ async def test_client_get_global_leaderboard_error(client: AsyncClient):
 @pytest.mark.parametrize(
     "challenge_id", ["coders-strike-back", "spring-challenge-2021"]
 )
-@pytest.mark.asyncio
 async def test_client_get_challenge_leaderboard(
     client: AsyncClient, challenge_id: str
 ):
@@ -309,7 +289,6 @@ async def test_client_get_challenge_leaderboard(
         assert isinstance(challenge_leaderboard.leagues[0], League)
 
 
-@pytest.mark.asyncio
 async def test_client_get_challenge_leaderboard_error(client: AsyncClient):
     with pytest.raises(ValueError):
         await client.get_challenge_leaderboard(
@@ -324,7 +303,6 @@ async def test_client_get_challenge_leaderboard_error(client: AsyncClient):
 
 
 @pytest.mark.parametrize("puzzle_id", ["coders-strike-back", "codingame-optim"])
-@pytest.mark.asyncio
 async def test_client_get_puzzle_leaderboard(
     client: AsyncClient, puzzle_id: str
 ):
@@ -345,7 +323,6 @@ async def test_client_get_puzzle_leaderboard(
         )
 
 
-@pytest.mark.asyncio
 async def test_client_get_puzzle_leaderboard_error(client: AsyncClient):
     with pytest.raises(ValueError):
         await client.get_puzzle_leaderboard(
