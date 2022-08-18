@@ -11,10 +11,7 @@ try:
 except ImportError:  # pragma: no cover
     from typing_extensions import Literal, TypedDict
 
-    try:
-        Literal.__module__ = TypedDict.__module__ = "typing"
-    except AttributeError:  # only in 3.6
-        pass
+    Literal.__module__ = TypedDict.__module__ = "typing"
 
 from .codingamer import PartialCodinGamer
 
