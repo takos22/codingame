@@ -256,7 +256,9 @@ def test_client_mark_notifications_as_seen(auth_client: SyncClient, mock_http):
         "mark_notifications_as_seen",
         int(datetime.datetime.utcnow().timestamp() * 1000),
     )
-    seen_date = auth_client.mark_notifications_as_seen([notification])
+    seen_date = auth_client.mark_notifications_as_seen(
+        [notification, notification.id]
+    )
 
     assert notification.seen
     assert notification.seen_date == seen_date
@@ -305,7 +307,9 @@ def test_client_mark_notifications_as_read(auth_client: SyncClient, mock_http):
         "mark_notifications_as_read",
         int(datetime.datetime.now().timestamp() * 1000),
     )
-    read_date = auth_client.mark_notifications_as_read([notification])
+    read_date = auth_client.mark_notifications_as_read(
+        [notification, notification.id]
+    )
 
     assert notification.read
     assert notification.read_date == read_date
