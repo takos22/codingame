@@ -14,7 +14,9 @@ __all__ = (
 
 
 class BaseObject(abc.ABC):
-    """Abstract base class for any object returned by the CodinGame API."""
+    """Abstract base class for any object returned by the CodinGame API.
+
+    This makes all the attributes read-only."""
 
     _state: "ConnectionState"
 
@@ -25,8 +27,15 @@ class BaseObject(abc.ABC):
         self.__initialised = True
 
     def __setattr__(self, name, value):
-        if getattr(self, "_BaseObject__initialised", False):  # pragma: no cover
+        if not name.startswith("_") and getattr(
+            self, "_BaseObject__initialised", False
+        ):  # pragma: no cover
             raise AttributeError(f"{name!r} attribute is read-only.")
+        object.__setattr__(self, name, value)
+
+    def _setattr(self, name: str, value):
+        """Set the value of a read-only attribute."""
+
         object.__setattr__(self, name, value)
 
 

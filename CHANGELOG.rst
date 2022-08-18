@@ -7,6 +7,16 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.4.0 (Unreleased)
+--------------------------
+
+Added
+*****
+
+- ``Client.mark_notifications_as_seen`` and
+  ``Client.mark_notifications_as_read``.
+- ``Notification.mark_as_seen`` and ``Notification.mark_as_read``.
+
 Version 1.3.0 (2022-06-21)
 --------------------------
 
