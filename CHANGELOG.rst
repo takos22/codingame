@@ -13,9 +13,9 @@ Version 1.4.0 (Unreleased)
 Added
 *****
 
-- ``Client.mark_notifications_as_seen`` and
-  ``Client.mark_notifications_as_read``.
-- ``Notification.mark_as_seen`` and ``Notification.mark_as_read``.
+- `Client.mark_notifications_as_seen <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.mark_notifications_as_seen>`__ and
+  `Client.mark_notifications_as_read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.mark_notifications_as_read>`__.
+- `Notification.mark_as_seen <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.mark_as_seen>`__ and `Notification.mark_as_read <https://codingame.readthedocs.io/en/latest/api.html#codingame.Notification.mark_as_read>`__.
 
 Version 1.3.0 (2022-06-21)
 --------------------------
