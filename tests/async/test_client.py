@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pytest
@@ -259,6 +260,116 @@ async def test_client_get_read_notifications_error(
     with pytest.raises(exceptions.LoginRequired):
         async for _ in client.get_read_notifications():
             pass  # pragma: no cover
+
+
+async def test_client_mark_notifications_as_seen(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "get_unseen_notifications")
+    notifications = [n async for n in auth_client.get_unseen_notifications()]
+
+    # if all notifications are seen, we dont want to fail the test
+    if not notifications:  # pragma: no cover
+        notifications = [
+            n async for n in auth_client.get_unread_notifications()
+        ]
+    if not notifications:  # pragma: no cover
+        notifications = [
+            n async for n in auth_client.get_last_read_notifications()
+        ]
+
+    notification: Notification = notifications[-1]
+
+    mock_http(
+        auth_client._state.http,
+        "mark_notifications_as_seen",
+        int(datetime.datetime.utcnow().timestamp() * 1000),
+    )
+    seen_date = await auth_client.mark_notifications_as_seen([notification])
+
+    assert notification.seen
+    assert notification.seen_date == seen_date
+    assert notification.seen_date.timestamp() == pytest.approx(
+        datetime.datetime.utcnow().timestamp(), abs=10_000
+    )  # 10 seconds should be enough
+
+
+async def test_client_mark_notifications_as_seen_error(
+    client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(ValueError):
+        await client.mark_notifications_as_seen([])
+
+    with pytest.raises(exceptions.LoginRequired):
+        await client.mark_notifications_as_seen([1])
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    await client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(
+        client._state.http, "mark_notifications_as_seen", {"id": 492}
+    )
+    with pytest.raises(exceptions.LoginRequired):
+        await client.mark_notifications_as_seen([1])
+
+
+async def test_client_mark_notifications_as_read(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "get_unread_notifications")
+    notifications = [n async for n in auth_client.get_unread_notifications()]
+
+    # if all notifications are read, we dont want to fail the test
+    if not notifications:  # pragma: no cover
+        notifications = [
+            n async for n in auth_client.get_last_read_notifications()
+        ]
+
+    notification: Notification = notifications[-1]
+
+    mock_http(
+        auth_client._state.http,
+        "mark_notifications_as_read",
+        int(datetime.datetime.now().timestamp() * 1000),
+    )
+    read_date = await auth_client.mark_notifications_as_read([notification])
+
+    assert notification.read
+    assert notification.read_date == read_date
+    assert notification.read_date.timestamp() == pytest.approx(
+        datetime.datetime.now().timestamp(), abs=10_000
+    )  # 10 seconds should be enough
+
+
+async def test_client_mark_notifications_as_read_error(
+    client: AsyncClient, is_mocking: bool, mock_http, mock_httperror
+):
+    with pytest.raises(ValueError):
+        await client.mark_notifications_as_read([])
+
+    with pytest.raises(exceptions.LoginRequired):
+        await client.mark_notifications_as_read([1])
+
+    if not is_mocking:
+        return
+
+    mock_http(client._state.http, "get_codingamer_from_id")
+    mock_http(client._state.http, "get_codingamer_from_handle")
+    await client.login(
+        remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
+    )
+
+    mock_httperror(
+        client._state.http, "mark_notifications_as_read", {"id": 492}
+    )
+    with pytest.raises(exceptions.LoginRequired):
+        await client.mark_notifications_as_read([1])
 
 
 async def test_client_get_global_leaderboard(client: AsyncClient):
