@@ -20,7 +20,7 @@ async def get_notification(auth_client: AsyncClient, mock_http) -> Notification:
         ]
     if not notifications:  # pragma: no cover
         notifications = [
-            n async for n in auth_client.get_last_read_notifications()
+            n async for n in auth_client.get_read_notifications()
         ]
 
     return notifications[-1]

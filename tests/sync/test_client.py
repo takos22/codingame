@@ -247,7 +247,7 @@ def test_client_mark_notifications_as_seen(auth_client: SyncClient, mock_http):
     if not notifications:  # pragma: no cover
         notifications = list(auth_client.get_unread_notifications())
     if not notifications:  # pragma: no cover
-        notifications = list(auth_client.get_last_read_notifications())
+        notifications = list(auth_client.get_read_notifications())
 
     notification: Notification = notifications[-1]
 
@@ -298,7 +298,7 @@ def test_client_mark_notifications_as_read(auth_client: SyncClient, mock_http):
 
     # if all notifications are read, we dont want to fail the test
     if not notifications:  # pragma: no cover
-        notifications = list(auth_client.get_last_read_notifications())
+        notifications = list(auth_client.get_read_notifications())
 
     notification: Notification = notifications[-1]
 

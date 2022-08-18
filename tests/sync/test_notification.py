@@ -15,7 +15,7 @@ def get_notification(auth_client: SyncClient, mock_http) -> Notification:
     if not notifications:  # pragma: no cover
         notifications = list(auth_client.get_unread_notifications())
     if not notifications:  # pragma: no cover
-        notifications = list(auth_client.get_last_read_notifications())
+        notifications = list(auth_client.get_read_notifications())
 
     return notifications[-1]
 

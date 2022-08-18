@@ -275,7 +275,7 @@ async def test_client_mark_notifications_as_seen(
         ]
     if not notifications:  # pragma: no cover
         notifications = [
-            n async for n in auth_client.get_last_read_notifications()
+            n async for n in auth_client.get_read_notifications()
         ]
 
     notification: Notification = notifications[-1]
@@ -330,7 +330,7 @@ async def test_client_mark_notifications_as_read(
     # if all notifications are read, we dont want to fail the test
     if not notifications:  # pragma: no cover
         notifications = [
-            n async for n in auth_client.get_last_read_notifications()
+            n async for n in auth_client.get_read_notifications()
         ]
 
     notification: Notification = notifications[-1]
