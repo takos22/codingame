@@ -192,11 +192,11 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     async def mark_notifications_as_seen(
         self, notifications: typing.List[typing.Union["Notification", int]]
     ) -> datetime:
-        if not self.logged_in:
-            raise LoginRequired()
-
         if not notifications:
             raise ValueError("notifications argument must not be empty.")
+
+        if not self.logged_in:
+            raise LoginRequired()
 
         try:
             data = await self._state.http.mark_notifications_as_seen(
@@ -220,11 +220,11 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
     async def mark_notifications_as_read(
         self, notifications: typing.List[typing.Union["Notification", int]]
     ) -> datetime:
-        if not self.logged_in:
-            raise LoginRequired()
-
         if not notifications:
             raise ValueError("notifications argument must not be empty.")
+
+        if not self.logged_in:
+            raise LoginRequired()
 
         try:
             data = await self._state.http.mark_notifications_as_read(
