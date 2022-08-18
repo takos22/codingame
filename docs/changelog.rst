@@ -19,6 +19,12 @@ Added
   :meth:`Client.mark_notifications_as_read`.
 - :meth:`Notification.mark_as_seen` and :meth:`Notification.mark_as_read`.
 
+Removed
+*******
+
+- Removed support for python 3.6 as it has reached its end of life. For more
+  information, see `PEP 494 <https://peps.python.org/pep-0494/#lifespan>`__.
+
 Version 1.3.0 (2022-06-21)
 --------------------------
 
