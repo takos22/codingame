@@ -6,7 +6,9 @@ from github import Github
 from pydantic import BaseSettings, SecretStr
 from sphobjinv import Inventory
 
-docs_url = "https://codingame.readthedocs.io/en/latest/"
+DOCS_BASE_URL = "https://codingame.readthedocs.io/en/"
+
+ref_to_doc_branch = {"dev": "latest", "master": "stable"}
 roles = {
     "attr": "attribute",
     "meth": "method",
@@ -28,16 +30,28 @@ class Settings(BaseSettings):
     input_token: SecretStr
     github_repository: str
     github_ref: str
+    github_ref_name: str
 
 
 def main():
     settings = Settings(_env_file=".github/actions/changelog/.env")
-    inventory = Inventory(url=docs_url + "objects.inv")
     github = Github(settings.input_token.get_secret_value())
     repo = github.get_repo(settings.github_repository)
     docs_changelog = repo.get_contents(
         "docs/changelog.rst", settings.github_ref.split("/")[-1]
     )
+
+    docs_url = (
+        DOCS_BASE_URL
+        + (
+            settings.github_ref_name
+            if settings.github_ref_name.startswith("v")
+            else ref_to_doc_branch.get(settings.github_ref_name, "latest")
+        )
+        + "/"
+    )
+
+    inventory = Inventory(url=docs_url + "objects.inv")
 
     content = docs_changelog.decoded_content.decode()
     new_content = content
@@ -107,4 +121,4 @@ if __name__ == "__main__":
             f"title={e.__class__.__name__}: {str(e)}:: "
             + traceback.format_exc()
         )
-        raise e from None
+        raise
