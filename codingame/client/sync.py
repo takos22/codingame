@@ -1,4 +1,5 @@
 import typing
+from datetime import datetime
 
 from ..clash_of_code import ClashOfCode
 from ..codingamer import CodinGamer
@@ -13,6 +14,7 @@ from ..notification import Notification
 from ..utils import (
     CLASH_OF_CODE_HANDLE_REGEX,
     CODINGAMER_HANDLE_REGEX,
+    to_datetime,
     validate_leaderboard_group,
     validate_leaderboard_type,
 )
@@ -177,6 +179,62 @@ class SyncClient(BaseClient):
 
         for notification in data:
             yield Notification(self._state, notification)
+
+    def mark_notifications_as_seen(
+        self, notifications: typing.List[typing.Union["Notification", int]]
+    ) -> datetime:
+        if not notifications:
+            raise ValueError("notifications argument must not be empty.")
+
+        if not self.logged_in:
+            raise LoginRequired()
+
+        try:
+            data = self._state.http.mark_notifications_as_seen(
+                self.codingamer.id,
+                [n if isinstance(n, int) else n.id for n in notifications],
+            )
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
+        seen_date = to_datetime(data)
+        for notification in notifications:
+            if isinstance(notification, int):
+                continue
+            notification._setattr("seen", True)
+            notification._setattr("seen_date", seen_date)
+
+        return seen_date
+
+    def mark_notifications_as_read(
+        self, notifications: typing.List[typing.Union["Notification", int]]
+    ) -> datetime:
+        if not notifications:
+            raise ValueError("notifications argument must not be empty.")
+
+        if not self.logged_in:
+            raise LoginRequired()
+
+        try:
+            data = self._state.http.mark_notifications_as_read(
+                self.codingamer.id,
+                [n if isinstance(n, int) else n.id for n in notifications],
+            )
+        except HTTPError as error:
+            if error.data["id"] == 492:
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
+        read_date = to_datetime(data)
+        for notification in notifications:
+            if isinstance(notification, int):
+                continue
+            notification._setattr("read", True)
+            notification._setattr("read_date", read_date)
+
+        return read_date
 
     # --------------------------------------------------------------------------
     # Leaderboards

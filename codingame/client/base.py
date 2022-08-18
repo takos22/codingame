@@ -1,5 +1,6 @@
 import typing
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 from ..state import ConnectionState
 
@@ -129,13 +130,13 @@ class BaseClient(ABC):
             Anything
                 The data returned by the CodinGame API, usually a :class:`dict`.
 
-        .. versionadded:: 1.2.0
+        .. versionadded:: 1.2
         """
 
         if service == "":
-            raise ValueError("service argument must not be empty")
+            raise ValueError("service argument must not be empty.")
         if func == "":
-            raise ValueError("func argument must not be empty")
+            raise ValueError("func argument must not be empty.")
 
         return self._state.http.request(service, func, parameters)
 
@@ -392,6 +393,76 @@ class BaseClient(ABC):
                 A read notification.
 
         .. versionadded:: 1.3
+        """
+
+    @abstractmethod
+    def mark_notifications_as_seen(
+        self, notifications: typing.List[typing.Union["Notification", int]]
+    ) -> datetime:
+        """|maybe_coro|
+
+        Mark :class:`notifications <codingame.Notification>` of the
+        logged in :class:`~codingame.CodinGamer` as seen.
+
+        You need to be logged in to mark notifications as seen or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            notifications: :class:`list` of :class:`~codingame.Notification` or\
+            :class:`int`
+                The notifications to mark as seen. Can be either the
+                notification or its ID.
+
+        Raises
+        ------
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+            :exc:`ValueError`
+                `notifications` parameter is empty.
+
+        Returns
+        -------
+            :class:`~datetime.datetime`
+                The time when this notification was marked as seen.
+
+        .. versionadded:: 1.4
+        """
+
+    @abstractmethod
+    def mark_notifications_as_read(
+        self, notifications: typing.List[typing.Union["Notification", int]]
+    ) -> datetime:
+        """|maybe_coro|
+
+        Mark :class:`notifications <codingame.Notification>` of the
+        logged in :class:`~codingame.CodinGamer` as read.
+
+        You need to be logged in to mark notifications as read or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            notifications: :class:`list` of :class:`~codingame.Notification` or\
+            :class:`int`
+                The notifications to mark as read. Can be either the
+                notification or its ID.
+
+        Raises
+        ------
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+            :exc:`ValueError`
+                `notifications` parameter is empty.
+
+        Returns
+        -------
+            :class:`~datetime.datetime`
+                The time when this notification was marked as read.
+
+        .. versionadded:: 1.4
         """
 
     # --------------------------------------------------------------------------

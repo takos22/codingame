@@ -128,6 +128,20 @@ class BaseHTTPClient(ABC):
             "Notification", "findLastReadNotifications", [id, None]
         )
 
+    def mark_notifications_as_seen(
+        self, id: int, notification_ids: typing.List[int]
+    ) -> int:
+        return self.request(
+            "Notification", "markAsSeen", [id, notification_ids]
+        )
+
+    def mark_notifications_as_read(
+        self, id: int, notification_ids: typing.List[int]
+    ) -> int:
+        return self.request(
+            "Notification", "markAsRead", [id, notification_ids]
+        )
+
     # Leaderboards
 
     def get_global_leaderboard(
