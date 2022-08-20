@@ -7,6 +7,7 @@ from pydantic import BaseSettings, SecretStr
 from sphobjinv import Inventory
 
 DOCS_BASE_URL = "https://codingame.readthedocs.io/en/"
+STDLIB_DOCS_BASE_URL = "https://docs.python.org/"
 
 ref_to_doc_branch = {"dev": "latest", "master": "stable"}
 roles = {
@@ -54,7 +55,9 @@ def main():
     log("notice", f"Using docs at {docs_url}")
 
     inventory = Inventory(url=docs_url + "objects.inv")
-    stdlib_inventory = Inventory(url="https://docs.python.org/objects.inv")
+    log("debug", "Downloaded codingame's inventory")
+    stdlib_inventory = Inventory(url=STDLIB_DOCS_BASE_URL + "objects.inv")
+    log("debug", "Downloaded stdlib's inventory")
 
     content = docs_changelog.decoded_content.decode()
     new_content = content
@@ -104,12 +107,21 @@ def main():
                     links.append(f"``{directive[2]}``")
                     continue
 
-            obj = inventory.objects[index]
-            links.append(
-                f"`{obj.dispname_expanded[len('codingame.'):]} "
-                f"<{docs_url + obj.uri_expanded}>`__"
-            )
-            log("debug", f"Found :{role}:`codingame.{directive[2]}`")
+                else:
+                    obj = stdlib_inventory.objects[index]
+                    links.append(
+                        f"`{obj.dispname_expanded} "
+                        f"<{STDLIB_DOCS_BASE_URL + obj.uri_expanded}>`__"
+                    )
+                    log("debug", f"Found :{role}:`{directive[2]}`")
+
+            else:
+                obj = inventory.objects[index]
+                links.append(
+                    f"`{obj.dispname_expanded[len('codingame.'):]} "
+                    f"<{docs_url + obj.uri_expanded}>`__"
+                )
+                log("debug", f"Found :{role}:`codingame.{directive[2]}`")
 
     log("endgroup")
 
