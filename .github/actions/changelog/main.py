@@ -68,8 +68,10 @@ def main():
         if directive[1] == "ref":
             links.append("`{} <{}>`__".format(*refs[directive[2]]))
             log("debug", f"Found :ref:`{directive[2]}`")
+
         else:
             role = roles.get(directive[1], directive[1])
+
             try:
                 index = [
                     i
@@ -79,15 +81,26 @@ def main():
                         thresh=90,
                     )
                 ][0]
+
             except IndexError:
-                log(
-                    "warning",
-                    f":py:{role}:`codingame.{directive[2]}` not found",
-                    title="Directive not found",
-                    file="CHANGELOG.rst",
-                )
-                links.append(f"``{directive[2]}``")
-                continue
+                try:
+                    index = [
+                        i
+                        for _, i in inventory.suggest(
+                            f":py:{role}:`{directive[2]}`",
+                            with_index=True,
+                            thresh=90,
+                        )
+                    ][0]
+
+                except IndexError:
+                    log(
+                        "warning",
+                        f":py:{role}:`codingame.{directive[2]}` not found",
+                        title="Directive not found",
+                    )
+                    links.append(f"``{directive[2]}``")
+                    continue
 
             obj = inventory.objects[index]
             links.append(
@@ -113,6 +126,7 @@ def main():
         "CHANGELOG.rst", settings.github_ref.split("/")[-1]
     )
     log("debug", f"CHANGELOG.rst at {settings.github_ref_name} downloaded")
+
     if new_content != changelog.decoded_content.decode():
         repo.update_file(
             changelog.path,

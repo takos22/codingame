@@ -1,6 +1,9 @@
 name: Generate CHANGELOG.rst from docs/changelog.rst
 
-on: [push]
+on:
+  push:
+    branches:
+      - "*"
 
 jobs:
   generate-changelog:
