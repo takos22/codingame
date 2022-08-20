@@ -149,7 +149,7 @@ def log(
 ):
     parameters = dict(
         filter(
-            lambda _, v: v is not None,
+            lambda i: i[1] is not None,
             {
                 "title": title,
                 "file": file,
