@@ -64,64 +64,80 @@ def main():
     directives: typing.List[re.Match] = list(
         re.finditer(r":(\w+):`(.+?)`", content)
     )
-    links: typing.List[str] = []
     log("debug", f"Found {len(directives)} in docs/changelog.rst")
+
+    links: typing.List[str] = []
+    cache: typing.Dict[str, int] = {}
+    stdlib_cache: typing.Dict[str, int] = {}
+
     log("group", "Directive search")
 
-    for directive in directives:
-        if directive[1] == "ref":
-            links.append("`{} <{}>`__".format(*refs[directive[2]]))
-            log("debug", f"Found :ref:`{directive[2]}`")
+    for (role, name) in directives:
+        if role == "ref":
+            links.append("`{} <{}>`__".format(*refs[name]))
+            log("debug", f"Found :ref:`{name}`")
+            continue
 
-        else:
-            role = roles.get(directive[1], directive[1])
+        role = roles.get(role, role)
 
-            try:
-                index = [
+        index = None
+        stdlib = False
+
+        if f"{role}:{name}" in cache:
+            index = cache[f"{role}:{name}"]
+
+        if f"{role}:{name}" in stdlib_cache:
+            index = stdlib_cache[f"{role}:{name}"]
+            stdlib = True
+
+        if index is None:
+            indexes = [
+                i
+                for _, i in inventory.suggest(
+                    f":py:{role}:`codingame.{name}`",
+                    with_index=True,
+                    thresh=90,
+                )
+            ]
+
+            if not indexes:
+                indexes = [
                     i
-                    for _, i in inventory.suggest(
-                        f":py:{role}:`codingame.{directive[2]}`",
+                    for _, i in stdlib_inventory.suggest(
+                        f":py:{role}:`{name}`",
                         with_index=True,
                         thresh=90,
                     )
-                ][0]
+                ]
+                stdlib = True
 
-            except IndexError:
-                try:
-                    index = [
-                        i
-                        for _, i in stdlib_inventory.suggest(
-                            f":py:{role}:`{directive[2]}`",
-                            with_index=True,
-                            thresh=90,
-                        )
-                    ][0]
-
-                except IndexError:
-                    log(
-                        "warning",
-                        f":py:{role}:`codingame.{directive[2]}` or "
-                        f":py:{role}:`{directive[2]}` not found",
-                        title="Directive not found",
-                    )
-                    links.append(f"``{directive[2]}``")
-                    continue
-
-                else:
-                    obj = stdlib_inventory.objects[index]
-                    links.append(
-                        f"`{obj.dispname_expanded} "
-                        f"<{STDLIB_DOCS_BASE_URL + obj.uri_expanded}>`__"
-                    )
-                    log("debug", f"Found :{role}:`{directive[2]}`")
-
-            else:
-                obj = inventory.objects[index]
-                links.append(
-                    f"`{obj.dispname_expanded[len('codingame.'):]} "
-                    f"<{docs_url + obj.uri_expanded}>`__"
+            if not indexes:
+                links.append(f"``{name}``")
+                log(
+                    "warning",
+                    f":py:{role}:`codingame.{name}` or "
+                    f":py:{role}:`{name}` not found",
+                    title="Directive not found",
                 )
-                log("debug", f"Found :{role}:`codingame.{directive[2]}`")
+                continue
+
+            index = indexes[0]
+
+        if stdlib:
+            obj = stdlib_inventory.objects[index]
+            links.append(
+                f"`{obj.dispname_expanded} "
+                f"<{STDLIB_DOCS_BASE_URL + obj.uri_expanded}>`__"
+            )
+            log("debug", f"Found :{role}:`{name}`")
+            continue
+
+        obj = inventory.objects[index]
+        links.append(
+            f"`{obj.dispname_expanded[len('codingame.'):]} "
+            f"<{docs_url + obj.uri_expanded}>`__"
+        )
+        log("debug", f"Found :{role}:`codingame.{name}`")
 
     log("endgroup")
 
