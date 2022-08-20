@@ -54,6 +54,7 @@ def main():
     log("notice", f"Using docs at {docs_url}")
 
     inventory = Inventory(url=docs_url + "objects.inv")
+    stdlib_inventory = Inventory(url="https://docs.python.org/objects.inv")
 
     content = docs_changelog.decoded_content.decode()
     new_content = content
@@ -86,7 +87,7 @@ def main():
                 try:
                     index = [
                         i
-                        for _, i in inventory.suggest(
+                        for _, i in stdlib_inventory.suggest(
                             f":py:{role}:`{directive[2]}`",
                             with_index=True,
                             thresh=90,
@@ -96,7 +97,8 @@ def main():
                 except IndexError:
                     log(
                         "warning",
-                        f":py:{role}:`codingame.{directive[2]}` not found",
+                        f":py:{role}:`codingame.{directive[2]}` or "
+                        f":py:{role}:`{directive[2]}` not found",
                         title="Directive not found",
                     )
                     links.append(f"``{directive[2]}``")
