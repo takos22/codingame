@@ -72,7 +72,8 @@ def main():
 
     log("group", "Directive search")
 
-    for (role, name) in directives:
+    for directive in directives:
+        role, name = directive.groups()
         if role == "ref":
             links.append("`{} <{}>`__".format(*refs[name]))
             log("debug", f"Found :ref:`{name}`")
