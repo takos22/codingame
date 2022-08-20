@@ -204,7 +204,8 @@ def log(
             else ""
         )
         + "::"
-        + message
+        + message,
+        flush=True,
     )
 
 
