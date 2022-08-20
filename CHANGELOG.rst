@@ -66,7 +66,7 @@ Version 1.2.3 (2021-11-07)
 Fixed
 *****
 
-- ``ImportError`` of ``codingame.types`` submodule when importing
+- `ImportError <https://docs.python.org/library/exceptions.html#ImportError>`__ of ``codingame.types`` submodule when importing
   ``codingame``, the ``1.2.1`` and ``1.2.2`` fixes don't work.
 
 Version 1.2.2 (2021-11-06)
@@ -75,7 +75,7 @@ Version 1.2.2 (2021-11-06)
 Fixed
 *****
 
-- ``ImportError`` of ``codingame.types`` submodule when importing
+- `ImportError <https://docs.python.org/library/exceptions.html#ImportError>`__ of ``codingame.types`` submodule when importing
   ``codingame``.
 
 Version 1.2.1 (2021-11-06)
@@ -84,7 +84,7 @@ Version 1.2.1 (2021-11-06)
 Fixed
 *****
 
-- ``ModuleNotFoundError`` of ``codingame.types`` submodule when importing
+- `ModuleNotFoundError <https://docs.python.org/library/exceptions.html#ModuleNotFoundError>`__ of ``codingame.types`` submodule when importing
   ``codingame``.
 
 Version 1.2.0 (2021-11-04)
@@ -169,8 +169,8 @@ Changed
 - Make all attributes of CodinGame models read-only.
 
 - Change type of `ClashOfCode.time_before_start <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.time_before_start>`__ and
-  `ClashOfCode.time_before_end <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.time_before_end>`__ from ``float`` to
-  ``datetime.timedelta``.
+  `ClashOfCode.time_before_end <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.time_before_end>`__ from `float <https://docs.python.org/library/functions.html#float>`__ to
+  `datetime.timedelta <https://docs.python.org/library/datetime.html#datetime.timedelta>`__.
 
 - Rewrite the way the client works to implement a class to manage the connection
   state and separate the `Client <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client>`__ that the user uses from the HTTP client
