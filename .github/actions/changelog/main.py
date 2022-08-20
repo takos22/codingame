@@ -169,7 +169,7 @@ def log(
                 " "
                 + ",".join(
                     f"{LOG_PARAMETER_NAMES.get(k, k)}={v}"
-                    for k, v in parameters
+                    for k, v in parameters.items()
                 )
             )
             if parameters
