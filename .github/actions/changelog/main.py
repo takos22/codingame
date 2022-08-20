@@ -40,6 +40,7 @@ def main():
     docs_changelog = repo.get_contents(
         "docs/changelog.rst", settings.github_ref.split("/")[-1]
     )
+    log("debug", f"docs/changelog.rst at {settings.github_ref_name} downloaded")
 
     docs_url = (
         DOCS_BASE_URL
@@ -50,6 +51,7 @@ def main():
         )
         + "/"
     )
+    log("notice", f"Using docs at {docs_url}")
 
     inventory = Inventory(url=docs_url + "objects.inv")
 
@@ -59,10 +61,13 @@ def main():
         re.finditer(r":(\w+):`(.+?)`", content)
     )
     links: typing.List[str] = []
+    log("debug", f"Found {len(directives)} in docs/changelog.rst")
+    log("group", "Directive search")
 
     for directive in directives:
         if directive[1] == "ref":
             links.append("`{} <{}>`__".format(*refs[directive[2]]))
+            log("debug", f"Found :ref:`{directive[2]}`")
         else:
             role = roles.get(directive[1], directive[1])
             try:
@@ -75,9 +80,11 @@ def main():
                     )
                 ][0]
             except IndexError:
-                print(
-                    "::warning file=CHANGELOG.rst:: "
-                    f":py:{role}:`codingame.{directive[2]}` not found"
+                log(
+                    "warning",
+                    f":py:{role}:`codingame.{directive[2]}` not found",
+                    title="Directive not found",
+                    file="CHANGELOG.rst",
                 )
                 links.append(f"``{directive[2]}``")
                 continue
@@ -87,6 +94,9 @@ def main():
                 f"`{obj.dispname_expanded[len('codingame.'):]} "
                 f"<{docs_url + obj.uri_expanded}>`__"
             )
+            log("debug", f"Found :{role}:`codingame.{directive[2]}`")
+
+    log("endgroup")
 
     for directive, link in zip(directives[::-1], links[::-1]):
         new_content = (
@@ -102,6 +112,7 @@ def main():
     changelog = repo.get_contents(
         "CHANGELOG.rst", settings.github_ref.split("/")[-1]
     )
+    log("debug", f"CHANGELOG.rst at {settings.github_ref_name} downloaded")
     if new_content != changelog.decoded_content.decode():
         repo.update_file(
             changelog.path,
@@ -110,15 +121,73 @@ def main():
             changelog.sha,
             branch=settings.github_ref.split("/")[-1],
         )
+        log(
+            "notice",
+            "Changelog's content changed, updated CHANGELOG.rst",
+            file="CHANGELOG.rst",
+        )
+    else:
+        log("notice", "Changelog's content hasn't changed")
+
+
+LOG_PARAMETER_NAMES = {
+    "end_line": "endLine",
+    "column": "col",
+    "end_column": "endColumn",
+}
+
+
+def log(
+    level: str,
+    message: str = "",
+    title: str = None,
+    file: str = None,
+    line: int = None,
+    end_line: int = None,
+    column: int = None,
+    end_column: int = None,
+):
+    parameters = dict(
+        filter(
+            lambda _, v: v is not None,
+            {
+                "title": title,
+                "file": file,
+                "line": line,
+                "end_line": end_line,
+                "column": column,
+                "end_column": end_column,
+            }.items(),
+        )
+    )
+
+    print(
+        "::"
+        + level
+        + (
+            (
+                " "
+                + ",".join(
+                    f"{LOG_PARAMETER_NAMES.get(k, k)}={v}"
+                    for k, v in parameters
+                )
+            )
+            if parameters
+            else ""
+        )
+        + "::"
+        + message
+    )
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        print(
-            "::error file=.github/actions/changelog/main.py,"
-            f"title={e.__class__.__name__}: {str(e)}:: "
-            + traceback.format_exc()
+        log(
+            "error",
+            traceback.format_exc(),
+            title=f"{e.__class__.__name__}: {str(e)}",
+            file=".github/actions/changelog/main.py",
         )
         raise
