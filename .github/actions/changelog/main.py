@@ -83,6 +83,7 @@ def main():
 
         index = None
         stdlib = False
+        cached = False
 
         if f"{role}:{name}" in cache:
             index = cache[f"{role}:{name}"]
@@ -130,7 +131,8 @@ def main():
                 f"`{obj.dispname_expanded} "
                 f"<{STDLIB_DOCS_BASE_URL + obj.uri_expanded}>`__"
             )
-            log("debug", f"Found :{role}:`{name}`")
+            log("debug", f"Found :{role}:`{name}`" + " (cached)" * cached)
+            stdlib_cache[f"{role}:{name}"] = index
             continue
 
         obj = inventory.objects[index]
@@ -138,7 +140,8 @@ def main():
             f"`{obj.dispname_expanded[len('codingame.'):]} "
             f"<{docs_url + obj.uri_expanded}>`__"
         )
-        log("debug", f"Found :{role}:`codingame.{name}`")
+        log("debug", f"Found :{role}:`codingame.{name}`" + " (cached)" * cached)
+        cache[f"{role}:{name}"] = index
 
     log("endgroup")
 
