@@ -87,10 +87,12 @@ def main():
 
         if f"{role}:{name}" in cache:
             index = cache[f"{role}:{name}"]
+            cached = True
 
         if f"{role}:{name}" in stdlib_cache:
             index = stdlib_cache[f"{role}:{name}"]
             stdlib = True
+            cached = True
 
         if index is None:
             indexes = [
