@@ -9,7 +9,8 @@ __all__ = (
     "CLASH_OF_CODE_HANDLE_REGEX",
     "validate_leaderboard_type",
     "validate_leaderboard_group",
-    "DT_FORMAT",
+    "DT_FORMAT_1",
+    "DT_FORMAT_2",
     "to_datetime",
 )
 
@@ -92,14 +93,18 @@ def validate_leaderboard_group(group: str, logged_in: bool) -> bool:
         raise LoginRequired()
 
 
-DT_FORMAT = "%b %d, %Y %I:%M:%S %p"
+DT_FORMAT_1 = "%b %d, %Y %I:%M:%S %p"
+DT_FORMAT_2 = "%b %d, %Y, %I:%M:%S %p"  # see issue #23
 
 
 def to_datetime(data: typing.Optional[typing.Union[int, str]]) -> datetime:
     if isinstance(data, int):
         return datetime.utcfromtimestamp(data / 1000.0)
     elif isinstance(data, str):
-        return datetime.strptime(data, DT_FORMAT)
+        try:
+            return datetime.strptime(data, DT_FORMAT_1)
+        except ValueError:
+            return datetime.strptime(data, DT_FORMAT_2)
     elif data is None:
         return None
     else:
