@@ -10,7 +10,7 @@ from .types.clash_of_code import (
     Modes,
     PlayerStatus,
 )
-from .utils import to_datetime
+from .utils import to_datetime, minified_players_to_players
 
 if TYPE_CHECKING:
     from .state import ConnectionState
@@ -146,8 +146,8 @@ class ClashOfCode(BaseObject):
                 self.finished,
                 player,
             )
-            for player in data["players"]
-        ]
+            for player in data.get("players", [])
+        ] or minified_players_to_players(data.get("minifiedPlayers", []))
 
         super().__init__(state)
 
@@ -262,6 +262,8 @@ class Player(BaseUser):
         "code_length",
         "solution_shared",
         "submission_id",
+        "test_session_status",
+        "test_session_handle",
     )
 
     def __init__(
@@ -298,6 +300,9 @@ class Player(BaseUser):
         self.code_length = data.get("criterion")
         self.solution_shared = data.get("solutionShared")
         self.submission_id = data.get("submissionId")
+
+        self.test_session_status = data.get("testSessionStatus")
+        self.test_session_handle = data.get("testSessionHandle")
 
         super().__init__(state)
 
