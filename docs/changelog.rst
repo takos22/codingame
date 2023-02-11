@@ -9,6 +9,15 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.4.1 (2023-02-11)
+--------------------------
+
+Fixed
+*****
+
+- :exc:`ValueError` when using :meth:`Client.get_pending_clash_of_code` because
+  of a change in datetime format by CodinGame.
+
 Version 1.4.0 (2022-08-19)
 --------------------------
 
