@@ -123,7 +123,7 @@ class SyncClient(BaseClient):
 
     def get_pending_clash_of_code(self) -> typing.Optional[ClashOfCode]:
         data: list = self._state.http.get_pending_clash_of_code()
-        if len(data) == 0:
+        if not data:
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
 
