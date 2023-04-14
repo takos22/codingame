@@ -50,10 +50,11 @@ def validate_leaderboard_type(type: str) -> str:
             "type argument must be one of: GENERAL, CONTESTS, "
             f"BOT_PROGRAMMING, OPTIM, CODEGOLF. Got: {type}"
         )
+
     return type
 
 
-def validate_leaderboard_group(group: str, logged_in: bool) -> bool:
+def validate_leaderboard_group(group: str, logged_in: bool) -> str:
     """Validates that the leaderboard group is one of ``"global"``,
     ``"country"``, ``"company"``, ``"school"`` or ``"following"`` and that the
     user is logged in except for ``"global"``.
@@ -91,6 +92,8 @@ def validate_leaderboard_group(group: str, logged_in: bool) -> bool:
 
     if group in ["country", "company", "school", "following"] and not logged_in:
         raise LoginRequired()
+
+    return group
 
 
 DT_FORMAT_1 = "%b %d, %Y %I:%M:%S %p"
