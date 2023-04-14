@@ -13,8 +13,8 @@ Version 1.4.2 (2023-04-14)
 Fixed
 *****
 
-- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_challenge_leaderboard <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_challenge_leaderboard>`__
-  instead of `NotFound <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotFound>`__ because of an API change by CodinGame.
+- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_challenge_leaderboard <https://codingame.readthedocs.io/en/stable/api.html#codingame.Client.get_challenge_leaderboard>`__
+  instead of `NotFound <https://codingame.readthedocs.io/en/stable/api.html#codingame.NotFound>`__ because of an API change by CodinGame.
 
 Version 1.4.1 (2023-02-11)
 --------------------------
