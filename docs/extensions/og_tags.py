@@ -50,10 +50,10 @@ class Visitor:
         return text
 
     def get_og_image_url(self, page_url: str):
-        if self.images:
-            return urljoin(page_url, self.images[0]["uri"])
-        else:
-            return None
+        if not self.images:
+            return
+
+        return urljoin(page_url, self.images[0]["uri"])
 
 
 def get_og_tags(context: Dict[str, Any], doctree: nodes.Node, config: Config):

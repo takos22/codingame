@@ -10,7 +10,7 @@ jobs:
   generate-changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/changelog
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

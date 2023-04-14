@@ -7,6 +7,15 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.4.2 (2023-04-14)
+--------------------------
+
+Fixed
+*****
+
+- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_challenge_leaderboard <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_challenge_leaderboard>`__
+  instead of `NotFound <https://codingame.readthedocs.io/en/latest/api.html#codingame.NotFound>`__ because of an API change by CodinGame.
+
 Version 1.4.1 (2023-02-11)
 --------------------------
 

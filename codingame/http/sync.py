@@ -24,7 +24,10 @@ class SyncHTTPClient(BaseHTTPClient):
     def close(self):
         self.__session.close()
 
-    def request(self, service: str, func: str, parameters: list = []):
+    def request(
+        self, service: str, func: str, parameters: typing.Optional[list] = None
+    ):
+        parameters = parameters or []
         url = self.API_URL + service + "/" + func
         with self.__session.post(
             url, json=parameters, headers=self.headers

@@ -123,7 +123,7 @@ class SyncClient(BaseClient):
 
     def get_pending_clash_of_code(self) -> typing.Optional[ClashOfCode]:
         data: list = self._state.http.get_pending_clash_of_code()
-        if len(data) == 0:
+        if not data:
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
 
@@ -265,7 +265,10 @@ class SyncClient(BaseClient):
                 self.codingamer.public_handle if self.logged_in else "",
             )
         except HTTPError as error:
-            if error.data["id"] == 702:
+            if (
+                error.data.get("id") == 702
+                or error.data.get("code") == "NOT_FOUND"
+            ):  # see issue #26
                 raise NotFound.from_type(
                     "challenge", f"No Challenge named {challenge_id!r}"
                 ) from None

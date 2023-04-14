@@ -16,6 +16,14 @@ if typing.TYPE_CHECKING:
 __all__ = ("BaseHTTPClient",)
 
 
+DEFAULT_FILTER = {
+    "active": False,
+    "keyword": "",
+    "column": "",
+    "filter": "",
+}
+
+
 class BaseHTTPClient(ABC):
     BASE_URL = "https://www.codingame.com"
     API_URL = BASE_URL + "/services/"
@@ -39,7 +47,9 @@ class BaseHTTPClient(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def request(self, service: str, func: str, parameters: list = []):
+    def request(
+        self, service: str, func: str, parameters: typing.Optional[list] = None
+    ):
         ...  # pragma: no cover
 
     @abstractmethod
@@ -150,13 +160,9 @@ class BaseHTTPClient(ABC):
         type: str,
         group: str,
         handle: str = "",
-        filter: dict = {
-            "active": False,
-            "keyword": "",
-            "column": "",
-            "filter": "",
-        },
+        filter: typing.Optional[dict] = None,
     ):
+        filter = filter or DEFAULT_FILTER
         return self.request(
             "Leaderboards",
             "getGlobalLeaderboard",
@@ -168,13 +174,9 @@ class BaseHTTPClient(ABC):
         challenge_id: str,
         group: str,
         handle: str = "",
-        filter: dict = {
-            "active": False,
-            "keyword": "",
-            "column": "",
-            "filter": "",
-        },
+        filter: typing.Optional[dict] = None,
     ):
+        filter = filter or DEFAULT_FILTER
         return self.request(
             "Leaderboards",
             "getFilteredChallengeLeaderboard",
@@ -186,13 +188,9 @@ class BaseHTTPClient(ABC):
         puzzle_id: str,
         group: str,
         handle: str = "",
-        filter: dict = {
-            "active": False,
-            "keyword": "",
-            "column": "",
-            "filter": "",
-        },
+        filter: typing.Optional[dict] = None,
     ):
+        filter = filter or DEFAULT_FILTER
         return self.request(
             "Leaderboards",
             "getFilteredPuzzleLeaderboard",

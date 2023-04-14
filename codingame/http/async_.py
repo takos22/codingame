@@ -27,7 +27,10 @@ class AsyncHTTPClient(BaseHTTPClient):
     async def close(self):
         await self.__session.close()
 
-    async def request(self, service: str, func: str, parameters: list = []):
+    async def request(
+        self, service: str, func: str, parameters: typing.Optional[list] = None
+    ):
+        parameters = parameters or []
         url = self.API_URL + service + "/" + func
         async with self.__session.post(url, json=parameters) as response:
             data = await response.json()
