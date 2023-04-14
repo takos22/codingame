@@ -38,6 +38,7 @@ jobs:
         pip install -r requirements.txt
         pip install -r async-requirements.txt
         pip install -r dev-requirements.txt
+        pip install pytest-github-actions-annotate-failures
 
     - name: Lint with flake8
       run: |
