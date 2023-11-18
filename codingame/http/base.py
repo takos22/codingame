@@ -194,7 +194,7 @@ class BaseHTTPClient(ABC):
             [id, captcha],
         )
 
-    def share_clash_of_code_code(self, id: int, clash_of_code_handle: str):
+    def share_clash_of_code_solution(self, id: int, clash_of_code_handle: str):
         # no content
         return self.request(
             "ClashOfCode",

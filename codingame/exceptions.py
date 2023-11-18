@@ -94,13 +94,40 @@ class CodinGamerNotFound(NotFound):
     """Raised when a CodinGamer isn't found."""
 
 
-class ClashOfCodeNotFound(NotFound):
-    """Raised when a Clash of Code isn't found."""
-
-
 class ChallengeNotFound(NotFound):
     """Raised when a Challenge isn't found."""
 
 
 class PuzzleNotFound(NotFound):
     """Raised when a Puzzle isn't found."""
+
+
+class ClashOfCodeError(CodinGameAPIError):
+    """Raised when there is an error with a Clash of Code."""
+
+    @classmethod
+    def from_id(cls, id: int, message: str):
+        errors = {
+            502: ClashOfCodeNotFound,
+            504: ClashOfCodeStarted,
+            505: ClashOfCodeFinished,
+            506: ClashOfCodeFull,
+        }
+        return errors.get(id, cls)(message)
+
+
+class ClashOfCodeNotFound(NotFound, ClashOfCodeError):
+    """Raised when a Clash of Code isn't found."""
+
+
+class ClashOfCodeStarted(ClashOfCodeError):
+    """Raised when trying to join an already started Clash of Code."""
+
+
+class ClashOfCodeFinished(ClashOfCodeError):
+    """Raised when trying to join an already finished Clash of Code."""
+
+
+class ClashOfCodeFull(ClashOfCodeError):
+    """Raised when trying to join a Clash of Code that reached the maximum
+    number of players."""

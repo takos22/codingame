@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, List, Optional
 
 from .abc import BaseObject, BaseUser
+from .exceptions import ClashOfCodeError, LoginRequired
+from .http.httperror import HTTPError
 from .types.clash_of_code import ClashOfCode as ClashOfCodeDict
 from .types.clash_of_code import (
     LanguageId,
@@ -113,43 +115,54 @@ class ClashOfCode(BaseObject):
     )
 
     def __init__(self, state: "ConnectionState", data: ClashOfCodeDict):
-        self.public_handle = data["publicHandle"]
-        self.join_url = (
-            f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
+        super().__init__(state)
+        self._set_data(data)
+
+    def _set_data(self, data: ClashOfCodeDict):
+        self._setattr("public_handle", data["publicHandle"])
+        self._setattr(
+            "join_url",
+            f"https://www.codingame.com/clashofcode/clash/{self.public_handle}",
         )
-        self.public = data["publicClash"]
-        self.min_players = data["nbPlayersMin"]
-        self.max_players = data["nbPlayersMax"]
-        self.modes = data.get("modes")
-        self.programming_languages = data.get("programmingLanguages")
 
-        self.started = data["started"]
-        self.finished = data["finished"]
-        self.mode = data.get("mode")
+        self._setattr("public", data["publicClash"])
+        self._setattr("min_players", data["nbPlayersMin"])
+        self._setattr("max_players", data["nbPlayersMax"])
+        self._setattr("modes", data.get("modes"))
+        self._setattr("programming_languages", data.get("programmingLanguages"))
 
-        self.creation_time = to_datetime(data["creationTime"])
-        self.start_time = to_datetime(data["startTime"])
-        self.end_time = to_datetime(data.get("endTime"))
+        self._setattr("started", data["started"])
+        self._setattr("finished", data["finished"])
+        self._setattr("mode", data.get("mode"))
 
-        self.time_before_start = timedelta(milliseconds=data["msBeforeStart"])
-        self.time_before_end = (
+        self._setattr("creation_time", to_datetime(data["creationTime"]))
+        self._setattr("start_time", to_datetime(data.get("startTime")))
+        self._setattr("end_time", to_datetime(data.get("endTime")))
+
+        self._setattr(
+            "time_before_start", timedelta(milliseconds=data["msBeforeStart"])
+        )
+        self._setattr(
+            "time_before_end",
             timedelta(milliseconds=data["msBeforeEnd"])
             if "msBeforeEnd" in data
-            else None
+            else None,
         )
 
-        self.players = [
-            Player(
-                state,
-                self,
-                self.started,
-                self.finished,
-                player,
-            )
-            for player in data.get("players", [])
-        ] or minified_players_to_players(data.get("minifiedPlayers", []))
-
-        super().__init__(state)
+        self._setattr(
+            "players",
+            [
+                Player(
+                    self._state,
+                    self,
+                    self.started,
+                    self.finished,
+                    player,
+                )
+                for player in data.get("players", [])
+            ]
+            or minified_players_to_players(data.get("minifiedPlayers", [])),
+        )
 
     def __repr__(self) -> str:
         return (
@@ -159,6 +172,206 @@ class ClashOfCode(BaseObject):
             "started={0.started!r} finished={0.finished!r} "
             "players={0.players!r}>".format(self)
         )
+
+
+    def fetch(self):
+        """|maybe_coro|
+
+        Get and update the information about this Clash Of Code.
+        """
+
+        if self._state.is_async:
+
+            async def _fetch():
+                data = await self._state.http.get_clash_of_code_from_handle(
+                    self.public_handle
+                )
+                self._set_data(data)
+
+        else:
+
+            def _fetch():
+                data = self._state.http.get_clash_of_code_from_handle(
+                    self.public_handle
+                )
+                self._set_data(data)
+
+        return _fetch()
+
+    def join(self):
+        """|maybe_coro|
+
+        Join this Clash Of Code.
+
+        You need to be logged in to join a Clash of Code or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
+
+        if not self._state.logged_in:
+            raise LoginRequired()
+
+        if self._state.is_async:
+
+            async def _join():
+                try:
+                    data = await self._state.http.join_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        else:
+
+            def _join():
+                try:
+                    data = self._state.http.join_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        return _join()
+
+    def start(self):
+        """|maybe_coro|
+
+        Start this Clash Of Code.
+
+        You need to be logged in as the owner to start a Clash of Code or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        .. note::
+            This sets the countdown to the start to 5s. You will need to fetch
+            the Clash Of Code again in 5-10s.
+
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
+
+        if not self._state.logged_in:
+            raise LoginRequired()
+
+        if self._state.is_async:
+
+            async def _start():
+                try:
+                    await self._state.http.start_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                    data = await self._state.http.get_clash_of_code_from_handle(
+                        self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        else:
+
+            def _start():
+                try:
+                    self._state.http.start_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                    data = self._state.http.get_clash_of_code_from_handle(
+                        self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        return _start()
+
+    def leave(self):
+        """|maybe_coro|
+
+        Leave this Clash Of Code.
+
+        You need to be logged in or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
+
+        if not self._state.logged_in:
+            raise LoginRequired()
+
+        if self._state.is_async:
+
+            async def _leave():
+                try:
+                    await self._state.http.leave_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                    data = await self._state.http.get_clash_of_code_from_handle(
+                        self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        else:
+
+            def _leave():
+                try:
+                    self._state.http.leave_clash_of_code_by_handle(
+                        self._state.codingamer.id, self.public_handle
+                    )
+                    data = self._state.http.get_clash_of_code_from_handle(
+                        self.public_handle
+                    )
+                except HTTPError as error:
+                    if error.data["id"] in (504, 505, 506):
+                        raise ClashOfCodeError.from_id(
+                            error.data["id"], error.data.get("message")
+                        )
+
+                    raise  # pragma: no cover
+
+                self._set_data(data)
+
+        return _leave()
 
 
 class Player(BaseUser):
@@ -171,6 +384,7 @@ class Player(BaseUser):
 
         public_handle: :class:`str`
             Public handle of the CodinGamer (hexadecimal str).
+            Sometimes missing, prefer :attr:`id`.
 
         id: :class:`int`
             ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
@@ -276,7 +490,7 @@ class Player(BaseUser):
     ):
         self.clash_of_code: ClashOfCode = coc
 
-        self.public_handle = data["codingamerHandle"]
+        self.public_handle = data.get("codingamerHandle")
         self.id = data["codingamerId"]
         self.pseudo = data["codingamerNickname"]
         self.avatar = data.get("codingamerAvatarId")

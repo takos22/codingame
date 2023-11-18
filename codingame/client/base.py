@@ -284,6 +284,85 @@ class BaseClient(ABC):
         .. versionadded:: 0.3.2
         """
 
+    @abstractmethod
+    def create_private_clash_of_code(
+        self, language_ids: typing.List[str] = [], modes: typing.List[str] = []
+    ) -> "ClashOfCode":
+        """|maybe_coro|
+
+        Create a private :class:`Clash of Code <codingame.ClashOfCode>` with
+        specified programming languages and modes.
+
+        You need to be logged in to create a Clash of Code or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        .. note::
+            If an invalid language is given, the API will ignores that language
+            instead of raising an error. This function acts the same way.
+
+        Parameters
+        -----------
+            language_ids: :class:`list` of :class:`str`
+                The programming languages allowed in the Clash of Code. Get the
+                list of options with :meth:`~codingame.Client.get_language_ids`.
+                Default: All languages allowed.
+
+            modes: :class:`list` of :class:`str`
+                The modes from which the Clash of Code mode is chosen from.
+                The valid modes are `SHORTEST`, `FASTEST` and `REVERSE`.
+                Default: All modes allowed.
+
+        Raises
+        ------
+            :exc:`ValueError`
+                The modes are invalid.
+
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+        Returns
+        -------
+            :class:`~codingame.ClashOfCode`
+                The created Clash Of Code.
+
+        .. versionadded:: 1.5
+        """
+
+    @abstractmethod
+    def join_private_clash_of_code(self, handle: str) -> "ClashOfCode":
+        """|maybe_coro|
+
+        Join the private :class:`Clash of Code <codingame.ClashOfCode>` with the
+        specified handle.
+
+        You need to be logged in to join a Clash of Code or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            handle: :class:`str`
+                The Clash of Code's public handle. 39 character long hexadecimal
+                string (regex: ``[0-9]{7}[0-9a-f]{32}``).
+
+        Raises
+        ------
+            :exc:`ValueError`
+                The Clash of Code handle isn't in the good format.
+
+            :exc:`~codingame.LoginRequired`
+                The Client needs to log in. See :meth:`login`.
+
+            :exc:`~codingame.ClashOfCodeFinished`
+                The Clash of Code is already finished.
+
+        Returns
+        -------
+            :class:`~codingame.ClashOfCode`
+                The joined Clash Of Code.
+
+        .. versionadded:: 1.5
+        """
+
     # --------------------------------------------------------------------------
     # Language IDs
 
@@ -295,7 +374,7 @@ class BaseClient(ABC):
 
         Returns
         -------
-            :class:`list` of :class:`int`
+            :class:`list` of :class:`str`
                 The language IDs.
 
         .. versionadded:: 0.3
