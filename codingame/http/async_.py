@@ -33,7 +33,12 @@ class AsyncHTTPClient(BaseHTTPClient):
         parameters = parameters or []
         url = self.API_URL + service + "/" + func
         async with self.__session.post(url, json=parameters) as response:
-            data = await response.json()
+
+            if response.status == 204: # no content
+                data = {}
+            else:
+                data = await response.json()
+
             try:
                 response.raise_for_status()
             except aiohttp.ClientResponseError as error:

@@ -32,7 +32,12 @@ class SyncHTTPClient(BaseHTTPClient):
         with self.__session.post(
             url, json=parameters, headers=self.headers
         ) as response:
-            data = response.json()
+
+            if response.status_code == 204: # no content
+                data = {}
+            else:
+                data = response.json()
+
             try:
                 response.raise_for_status()
             except requests.HTTPError as error:
