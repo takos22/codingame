@@ -3,10 +3,15 @@ from abc import ABC, abstractmethod
 
 from ..types import (
     ClashOfCode,
+    ClashOfCodeTestSession,
     CodinGamerFromID,
     Follower,
     Following,
+    LanguageId,
+    LanguageIds,
+    Modes,
     Notification,
+    PartialClashOfCodeTestSession,
     PointsStatsFromHandle,
 )
 
@@ -124,6 +129,123 @@ class BaseHTTPClient(ABC):
 
     def get_pending_clash_of_code(self) -> typing.List[ClashOfCode]:
         return self.request("ClashOfCode", "findPendingClashes")
+
+    def create_private_clash_of_code(
+        self, id: int, language_ids: LanguageIds, modes: Modes
+    ) -> ClashOfCode:
+        return self.request(
+            "ClashOfCode", "createPrivateClash", [id, language_ids, modes]
+        )
+
+    def invite_codingamer_to_clash_of_code(
+        self, id: int, user_id: int, clash_of_code_handle: str
+    ):
+        # no content
+        return self.request(
+            "ClashOfCode",
+            "inviteCodingamers",
+            [id, user_id, clash_of_code_handle],
+        )
+
+    def join_clash_of_code_by_handle(
+        self,
+        id: int,
+        clash_of_code_handle: str,
+        captcha: typing.Optional[str] = None,
+    ) -> ClashOfCode:
+        # captcha not required for private clash
+        return self.request(
+            "ClashOfCode",
+            "joinClashByHandle",
+            [id, clash_of_code_handle, captcha],
+        )
+
+    def start_clash_of_code_by_handle(self, id: int, clash_of_code_handle: str):
+        # no content
+        return self.request(
+            "ClashOfCode",
+            "startClashByHandle",
+            [id, clash_of_code_handle],
+        )
+
+    def start_clash_of_code_test_session_by_handle(
+        self, id: int, clash_of_code_handle: str
+    ) -> PartialClashOfCodeTestSession:
+        return self.request(
+            "ClashOfCode",
+            "startClashTestSession",
+            [id, clash_of_code_handle],
+        )
+
+    def leave_clash_of_code_by_handle(self, id: int, clash_of_code_handle: str):
+        # no content
+        return self.request(
+            "ClashOfCode",
+            "leaveClashByHandle",
+            [id, clash_of_code_handle],
+        )
+
+    def play_clash_of_code(
+        self, id: int, captcha: typing.Optional[str] = None
+    ) -> ClashOfCode:
+        return self.request(
+            "ClashOfCode",
+            "playClash",
+            [id, captcha],
+        )
+
+    def share_clash_of_code_code(self, id: int, clash_of_code_handle: str):
+        # no content
+        return self.request(
+            "ClashOfCode",
+            "shareCodinGamerSolutionByHandle",
+            [id, clash_of_code_handle],
+        )
+
+    def send_feedback_about_clash_of_code(
+        self,
+        handle: str,
+        fun: int,
+        difficulty: int,
+        statement: int,
+        tests: int,
+        feedback: str,
+        problem: bool,
+    ):
+        # no content
+        return self.request(
+            "ClashOfCode",
+            "sendFeedback",
+            [handle, fun, difficulty, statement, tests, feedback, problem],
+        )
+
+    # TestSession
+
+    def start_test_session_by_handle(
+        self, test_session_handle: str
+    ) -> ClashOfCodeTestSession:
+        return self.request(
+            "TestSession",
+            "startTestSession",
+            [test_session_handle],
+        )
+
+    def submit_test_session_by_handle(
+        self,
+        test_session_handle: str,
+        language_id: LanguageId,
+        code: str,
+        captcha: typing.Optional[str] = None,
+    ) -> ClashOfCodeTestSession:
+        return self.request(
+            "TestSession",
+            "submit",
+            [
+                test_session_handle,
+                {"code": code, "programmingLanguageId": language_id},
+                captcha,
+            ],
+        )
 
     # Notification
 

@@ -11,6 +11,8 @@ try:
 except ImportError:
     from typing_extensions import Literal, TypedDict
 
+from .codingamer import PartialCodinGamer
+
 __all__ = (
     "ClashOfCode",
     "Mode",
@@ -21,6 +23,8 @@ __all__ = (
     "Player",
     "PlayerStatus",
     "PlayerTestSessionStatus",
+    "PartialClashOfCodeTestSession",
+    "ClashOfCodeTestSession",
 )
 
 PlayerStatus = Literal["OWNER", "STANDARD"]
@@ -74,3 +78,68 @@ class ClashOfCode(TypedDict):
     programmingLanguages: Optional[
         LanguageIds
     ]  # available in private clashes or when started
+
+
+class PartialClashOfCodeTestSession(TypedDict):
+    direct: bool
+    handle: str
+    reportReady: bool
+
+
+class _PartialQuestion(TypedDict):
+    questionId: int
+    title: str
+    hasResult: bool
+
+
+class _TestCase(TypedDict):
+    index: int
+    inputBinaryId: int
+    outputBinaryId: int
+
+
+class _Language(TypedDict):
+    id: str
+    name: str
+
+
+class _Contribution(TypedDict):
+    moderators: List[PartialCodinGamer]
+    type: str
+    status: str
+
+
+class _Question(TypedDict):
+    testCases: List[_TestCase]
+    availableLanguages: List[_Language]
+    stubGenerator: str
+    id: int
+    initialId: int
+    type: str
+    statement: str  # html format
+    duration: int
+    userId: int
+    contribution: _Contribution
+    contributor: PartialCodinGamer
+    index: int
+    mode: str
+    title: str
+
+
+class _CurrentQuestion(TypedDict):
+    question: _Question
+    answer: dict
+
+
+class ClashOfCodeTestSession(TypedDict):
+    clash: ClashOfCode
+    testType: str
+    currentQuestion: _CurrentQuestion
+    direct: bool
+    questions: List[_PartialQuestion]
+    testSessionId: int
+    testSessionHandle: str
+    needAccount: bool
+    shareable: bool
+    userId: int
+    showReplayPrompt: bool

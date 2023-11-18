@@ -10,7 +10,7 @@ from .types.clash_of_code import (
     Modes,
     PlayerStatus,
 )
-from .utils import to_datetime, minified_players_to_players
+from .utils import minified_players_to_players, to_datetime
 
 if TYPE_CHECKING:
     from .state import ConnectionState

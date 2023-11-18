@@ -31,7 +31,6 @@ class _FormValues(TypedDict):
 class _BaseCodinGamer(TypedDict, total=False):
     userId: int
     publicHandle: str
-    countryId: str
     enable: bool
     pseudo: Optional[str]
     avatar: Optional[int]
@@ -43,6 +42,7 @@ class PartialCodinGamer(_BaseCodinGamer, total=True):
 
 
 class _BaseCodinGamerInfo(_BaseCodinGamer, total=False):
+    countryId: str
     level: int
     tagline: Optional[str]
 

@@ -34,7 +34,7 @@ class AsyncHTTPClient(BaseHTTPClient):
         url = self.API_URL + service + "/" + func
         async with self.__session.post(url, json=parameters) as response:
 
-            if response.status == 204: # no content
+            if response.status == 204:  # no content
                 data = {}
             else:
                 data = await response.json()
