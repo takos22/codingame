@@ -173,7 +173,6 @@ class ClashOfCode(BaseObject):
             "players={0.players!r}>".format(self)
         )
 
-
     def fetch(self):
         """|maybe_coro|
 
