@@ -33,7 +33,7 @@ class SyncHTTPClient(BaseHTTPClient):
             url, json=parameters, headers=self.headers
         ) as response:
             if response.status_code == 204:
-                return {}  # Return an empty dictionary if status code is 204
+                return {}
 
             data = response.json()
             try:
