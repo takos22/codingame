@@ -153,12 +153,23 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             )
         except HTTPError as error:
             if error.data["id"] in (500, 501):
-                raise LoginRequired() from None
+                raise LoginRequired(error.data.get("message", "")) from None
             raise  # pragma: no cover
 
         return await self.get_clash_of_code(data["publicHandle"])
 
-    async def join_private_clash_of_code(self, handle: str) -> ClashOfCode:
+    async def join_private_clash_of_code(
+        self, clash_of_code: typing.Union[ClashOfCode, str]
+    ) -> ClashOfCode:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        handle = (
+            clash_of_code
+            if isinstance(clash_of_code, str)
+            else clash_of_code.public_handle
+        )
+
         if not CLASH_OF_CODE_HANDLE_REGEX.match(handle):
             raise ValueError(
                 f"Clash of Code handle {handle!r} isn't in the good format "
@@ -166,7 +177,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             )
 
         try:
-            data = await self._state.http.join_clash_of_code_by_handle(
+            await self._state.http.join_clash_of_code_by_handle(
                 self.codingamer.id, handle
             )
         except HTTPError as error:
@@ -181,7 +192,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
                 )
 
             raise  # pragma: no cover
-        return ClashOfCode(self._state, data)
+        return await self.get_clash_of_code(handle)
 
     # --------------------------------------------------------------------------
     # Language IDs

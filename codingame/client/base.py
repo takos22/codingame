@@ -340,9 +340,8 @@ class BaseClient(ABC):
 
         Parameters
         -----------
-            handle: :class:`str`
-                The Clash of Code's public handle. 39 character long hexadecimal
-                string (regex: ``[0-9]{7}[0-9a-f]{32}``).
+            handle: :class:`~codingame.ClashOfCode` or :class:`str`
+                The Clash of Code to join or its public handle.
 
         Raises
         ------
