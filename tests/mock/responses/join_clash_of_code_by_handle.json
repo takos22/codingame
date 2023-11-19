@@ -1,0 +1,31 @@
+{
+    "nbPlayersMin": 2,
+    "nbPlayersMax": 100,
+    "publicHandle": "1234567fedcba9876543210fedcba9876543210",
+    "clashDurationTypeId": "SHORT",
+    "creationTime": "Nov 19, 2023, 4:06:44 PM",
+    "startTime": "Nov 19, 2023, 4:11:44 PM",
+    "startTimestamp": 1700410304746,
+    "msBeforeStart": 236827,
+    "finished": false,
+    "started": false,
+    "publicClash": false,
+    "players": [
+        {
+            "codingamerId": 7654321,
+            "codingamerNickname": "Player 1",
+            "codingamerHandle": "0123456789abcdef0123456789abcdef1234567",
+            "duration": 0,
+            "status": "OWNER",
+            "rank": 1,
+            "position": 1
+        },
+        {
+            "codingamerId": 1234567,
+            "codingamerNickname": "Player 2",
+            "duration": 0,
+            "status": "STANDARD"
+        }
+    ],
+    "type": "PRIVATE"
+}

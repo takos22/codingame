@@ -158,6 +158,103 @@ async def test_client_get_pending_clash_of_code(client: AsyncClient, mock_http):
     assert isinstance(clash_of_code, ClashOfCode) or clash_of_code is None
 
 
+async def test_client_create_private_clash_of_code(
+    auth_client: AsyncClient, mock_http
+):
+    mock_http(auth_client._state.http, "create_private_clash_of_code")
+    mock_http(auth_client._state.http, "get_clash_of_code_from_handle")
+    clash_of_code = await auth_client.create_private_clash_of_code(
+        ["Python3"], ["SHORTEST", "FASTEST"]
+    )
+    assert isinstance(clash_of_code, ClashOfCode)
+    assert clash_of_code.modes in (
+        ["SHORTEST", "FASTEST"],
+        ["FASTEST", "SHORTEST"],
+    )
+    assert clash_of_code.programming_languages == ["Python3"]
+    assert auth_client.codingamer.id in [p.id for p in clash_of_code.players]
+
+
+async def test_client_create_private_clash_of_code_logged_in_error(
+    client: AsyncClient,
+):
+    with pytest.raises(exceptions.LoginRequired):
+        await client.create_private_clash_of_code(
+            ["Python3"], ["SHORTEST", "FASTEST"]
+        )
+
+
+async def test_client_create_private_clash_of_code_value_error(
+    auth_client: AsyncClient, mock_httperror
+):
+    with pytest.raises(ValueError):
+        await auth_client.create_private_clash_of_code(
+            ["Python3"], ["BAD MODE", "FASTEST"]
+        )
+
+    mock_httperror(
+        auth_client._state.http,
+        "create_private_clash_of_code",
+        {"id": 501, "message": "You need to be logged to perform this action."},
+    )
+    with pytest.raises(exceptions.LoginRequired):
+        await auth_client.create_private_clash_of_code(
+            ["Python3"], ["SHORTEST", "FASTEST"]
+        )
+
+
+async def test_client_join_private_clash_of_code(
+    auth_client: AsyncClient, private_clash: ClashOfCode, mock_http
+):
+    mock_http(auth_client._state.http, "join_clash_of_code_by_handle")
+    mock_http(auth_client._state.http, "get_clash_of_code_from_handle")
+    clash_of_code = await auth_client.join_private_clash_of_code(private_clash)
+    assert isinstance(clash_of_code, ClashOfCode)
+    assert private_clash.public_handle == clash_of_code.public_handle
+    assert auth_client.codingamer.id in [p.id for p in clash_of_code.players]
+
+
+async def test_client_join_private_clash_of_code_logged_in_error(
+    client: AsyncClient,
+):
+    with pytest.raises(exceptions.LoginRequired):
+        await client.join_private_clash_of_code("0" * 7 + "a" * 32)
+
+
+async def test_client_join_private_clash_of_code_value_error(
+    auth_client: AsyncClient, is_mocking: bool, mock_httperror
+):
+    with pytest.raises(ValueError):
+        await auth_client.join_private_clash_of_code("not a public handle")
+
+    mock_httperror(
+        auth_client._state.http, "join_clash_of_code_by_handle", {"id": 502}
+    )
+    with pytest.raises(exceptions.ClashOfCodeNotFound):
+        await auth_client.join_private_clash_of_code("0" * 7 + "a" * 32)
+
+    if not is_mocking:
+        return
+
+    mock_httperror(
+        auth_client._state.http, "join_clash_of_code_by_handle", {"id": 504}
+    )
+    with pytest.raises(exceptions.ClashOfCodeStarted):
+        await auth_client.join_private_clash_of_code("0" * 7 + "a" * 32)
+
+    mock_httperror(
+        auth_client._state.http, "join_clash_of_code_by_handle", {"id": 505}
+    )
+    with pytest.raises(exceptions.ClashOfCodeFinished):
+        await auth_client.join_private_clash_of_code("0" * 7 + "a" * 32)
+
+    mock_httperror(
+        auth_client._state.http, "join_clash_of_code_by_handle", {"id": 506}
+    )
+    with pytest.raises(exceptions.ClashOfCodeFull):
+        await auth_client.join_private_clash_of_code("0" * 7 + "a" * 32)
+
+
 async def test_client_get_language_ids(client: AsyncClient, mock_http):
     mock_http(client._state.http, "get_language_ids")
     language_ids = await client.get_language_ids()

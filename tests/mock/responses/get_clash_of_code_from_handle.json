@@ -3,7 +3,7 @@
     "nbPlayersMax": 100,
     "publicHandle": "1234567fedcba9876543210fedcba9876543210",
     "clashDurationTypeId": "SHORT",
-    "mode": "REVERSE",
+    "mode": "FASTEST",
     "creationTime": "Jan 1, 2021 12:34:56 PM",
     "startTime": "Jan 1, 2021 12:36:56 PM",
     "endTime": "Jan 1, 2021 12:51:56 PM",
@@ -36,7 +36,7 @@
             "duration": 234567,
             "status": "STANDARD",
             "testSessionStatus": "COMPLETED",
-            "languageId": "C++",
+            "languageId": "Python3",
             "rank": 2,
             "position": 3,
             "solutionShared": true,
@@ -52,7 +52,7 @@
             "duration": 345678,
             "status": "OWNER",
             "testSessionStatus": "COMPLETED",
-            "languageId": "Javascript",
+            "languageId": "Python3",
             "rank": 3,
             "position": 1,
             "solutionShared": false,
@@ -60,10 +60,8 @@
             "submissionId": 34567890
         }
     ],
-    "programmingLanguages": [
-        "Python3", "C", "C++", "Java", "Javascript"
-    ],
+    "programmingLanguages": ["Python3"],
     "modes": [
-        "REVERSE", "SHORTEST"
+        "FASTEST", "SHORTEST"
     ]
 }
