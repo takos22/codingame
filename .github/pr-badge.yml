@@ -1,0 +1,9 @@
+- label: "Error"
+  message: "Wrong target branch"
+  color: "red"
+  when: "$targetBranchName != 'dev'"
+  
+- label: "Warn"
+  message: "Missing labels"
+  color: "yellow"
+  when: "$payload.pull_request.labels.length === 0"
