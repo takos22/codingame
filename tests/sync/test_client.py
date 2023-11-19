@@ -165,8 +165,19 @@ def test_client_create_private_clash_of_code(
 
 
 def test_client_create_private_clash_of_code_logged_in_error(
-    client: SyncClient,
+    client: SyncClient, mock_httperror
 ):
+    with pytest.raises(exceptions.LoginRequired):
+        client.create_private_clash_of_code(
+            ["Python3"], ["SHORTEST", "FASTEST"]
+        )
+
+    client._state.logged_in = True
+    mock_httperror(
+        client._state.http,
+        "create_private_clash_of_code",
+        {"id": 501, "message": "You need to be logged to perform this action."},
+    )
     with pytest.raises(exceptions.LoginRequired):
         client.create_private_clash_of_code(
             ["Python3"], ["SHORTEST", "FASTEST"]
@@ -179,16 +190,6 @@ def test_client_create_private_clash_of_code_value_error(
     with pytest.raises(ValueError):
         auth_client.create_private_clash_of_code(
             ["Python3"], ["BAD MODE", "FASTEST"]
-        )
-
-    mock_httperror(
-        auth_client._state.http,
-        "create_private_clash_of_code",
-        {"id": 501, "message": "You need to be logged to perform this action."},
-    )
-    with pytest.raises(exceptions.LoginRequired):
-        auth_client.create_private_clash_of_code(
-            ["Python3"], ["SHORTEST", "FASTEST"]
         )
 
 
