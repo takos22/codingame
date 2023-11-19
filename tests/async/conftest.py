@@ -3,7 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from codingame import Client, ClashOfCode
+from codingame import ClashOfCode, Client
 from codingame.client.async_ import AsyncClient
 
 load_dotenv()
