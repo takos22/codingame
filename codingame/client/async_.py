@@ -3,7 +3,7 @@ from datetime import datetime
 
 from ..clash_of_code import ClashOfCode
 from ..codingamer import CodinGamer
-from ..exceptions import LoginError, LoginRequired, NotFound
+from ..exceptions import ClashOfCodeError, LoginError, LoginRequired, NotFound
 from ..http import HTTPError
 from ..leaderboard import (
     ChallengeLeaderboard,
@@ -131,6 +131,57 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         if not data:
             return None  # pragma: no cover
         return ClashOfCode(self._state, data[0])  # pragma: no cover
+
+    async def create_private_clash_of_code(
+        self, language_ids: typing.List[str] = [], modes: typing.List[str] = []
+    ) -> ClashOfCode:
+        if not self.logged_in:
+            raise LoginRequired()
+
+        all_modes = ["SHORTEST", "FASTEST", "REVERSE"]
+        modes = modes or all_modes
+        if any(mode not in all_modes for mode in modes):
+            raise ValueError(
+                ", ".join(set(modes).difference(all_modes))
+                + " are invalid "
+                + "modes. Valid modes are SHORTEST, FASTEST and REVERSE."
+            )
+
+        try:
+            data = await self._state.http.create_private_clash_of_code(
+                self.codingamer.id, language_ids, modes
+            )
+        except HTTPError as error:
+            if error.data["id"] in (500, 501):
+                raise LoginRequired() from None
+            raise  # pragma: no cover
+
+        return await self.get_clash_of_code(data["publicHandle"])
+
+    async def join_private_clash_of_code(self, handle: str) -> ClashOfCode:
+        if not CLASH_OF_CODE_HANDLE_REGEX.match(handle):
+            raise ValueError(
+                f"Clash of Code handle {handle!r} isn't in the good format "
+                "(regex: [0-9]{7}[0-9a-f]{32})."
+            )
+
+        try:
+            data = await self._state.http.join_clash_of_code_by_handle(
+                self.codingamer.id, handle
+            )
+        except HTTPError as error:
+            if error.data["id"] == 502:
+                raise NotFound.from_type(
+                    "clash_of_code", f"No Clash of Code with handle {handle!r}"
+                ) from None
+
+            elif error.data["id"] in (504, 505, 506):
+                raise ClashOfCodeError.from_id(
+                    error.data["id"], error.data.get("message")
+                )
+
+            raise  # pragma: no cover
+        return ClashOfCode(self._state, data)
 
     # --------------------------------------------------------------------------
     # Language IDs
