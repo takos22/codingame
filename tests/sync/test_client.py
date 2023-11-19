@@ -172,7 +172,13 @@ def test_client_create_private_clash_of_code_logged_in_error(
             ["Python3"], ["SHORTEST", "FASTEST"]
         )
 
+    class C:
+        def __init__(self):
+            self.id = 0
+
     client._state.logged_in = True
+    client._state.codingamer = C()
+
     mock_httperror(
         client._state.http,
         "create_private_clash_of_code",
