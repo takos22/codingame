@@ -6,6 +6,8 @@
         "pseudo": "Pseudo123",
         "countryId": "US",
         "publicHandle": "0123456789abcdef0123456789abcdef7654321",
+        "avatar":12345678901234,
+        "cover":12345678901234,
         "formValues": {},
         "enable": false,
         "rank": 12345,

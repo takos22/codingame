@@ -16,13 +16,11 @@ def create_client() -> SyncClient:
 
 
 @pytest.fixture(name="auth_client")
-def create_logged_in_client(request: pytest.FixtureRequest) -> SyncClient:
+def create_logged_in_client(mock_http) -> SyncClient:
     with Client() as client:
-        if "mock_http" in request.fixturenames:
-            mock_http = request.getfixturevalue("mock_http")
-            mock_http(client._state.http, "login")
-            mock_http(client._state.http, "get_codingamer_from_id")
-            mock_http(client._state.http, "get_codingamer_from_handle")
+        mock_http(client._state.http, "login")
+        mock_http(client._state.http, "get_codingamer_from_id")
+        mock_http(client._state.http, "get_codingamer_from_handle")
 
         client.login(
             remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
@@ -31,13 +29,9 @@ def create_logged_in_client(request: pytest.FixtureRequest) -> SyncClient:
 
 
 @pytest.fixture(name="private_clash")
-def create_private_clash(
-    request: pytest.FixtureRequest, auth_client: SyncClient
-) -> ClashOfCode:
-    if "mock_http" in request.fixturenames:
-        mock_http = request.getfixturevalue("mock_http")
-        mock_http(auth_client._state.http, "create_private_clash_of_code")
-        mock_http(auth_client._state.http, "get_clash_of_code_from_handle")
+def create_private_clash(auth_client: SyncClient, mock_http) -> ClashOfCode:
+    mock_http(auth_client._state.http, "create_private_clash_of_code")
+    mock_http(auth_client._state.http, "get_clash_of_code_from_handle")
 
     clash_of_code = auth_client.create_private_clash_of_code(
         ["Python3"], ["SHORTEST", "FASTEST"]
