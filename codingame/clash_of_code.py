@@ -177,6 +177,8 @@ class ClashOfCode(BaseObject):
         """|maybe_coro|
 
         Get and update the information about this Clash Of Code.
+
+        This modifies this object's own attributes in place.
         """
 
         if self._state.is_async:
@@ -197,13 +199,19 @@ class ClashOfCode(BaseObject):
 
         return _fetch()
 
-    def join(self):
+    def join(self, refetch: bool = False):
         """|maybe_coro|
 
         Join this Clash Of Code.
 
         You need to be logged in to join a Clash of Code or else a
         :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            refetch: :class:`bool`
+                Whether to update this object after joining.
+                Default: `False`
 
         Raises
         ------
@@ -218,7 +226,7 @@ class ClashOfCode(BaseObject):
 
             async def _join():
                 try:
-                    data = await self._state.http.join_clash_of_code_by_handle(
+                    await self._state.http.join_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
@@ -229,13 +237,14 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    await self.fetch()
 
         else:
 
             def _join():
                 try:
-                    data = self._state.http.join_clash_of_code_by_handle(
+                    self._state.http.join_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
@@ -246,11 +255,12 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    self.fetch()
 
         return _join()
 
-    def start(self):
+    def start(self, refetch: bool = False):
         """|maybe_coro|
 
         Start this Clash Of Code.
@@ -261,6 +271,12 @@ class ClashOfCode(BaseObject):
         .. note::
             This sets the countdown to the start to 5s. You will need to fetch
             the Clash Of Code again in 5-10s.
+
+        Parameters
+        -----------
+            refetch: :class:`bool`
+                Whether to update this object after starting.
+                Default: `False`
 
         Raises
         ------
@@ -278,9 +294,6 @@ class ClashOfCode(BaseObject):
                     await self._state.http.start_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
-                    data = await self._state.http.get_clash_of_code_from_handle(
-                        self.public_handle
-                    )
                 except HTTPError as error:
                     if error.data["id"] in (504, 505, 506):
                         raise ClashOfCodeError.from_id(
@@ -289,7 +302,8 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    await self.fetch()
 
         else:
 
@@ -298,9 +312,6 @@ class ClashOfCode(BaseObject):
                     self._state.http.start_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
-                    data = self._state.http.get_clash_of_code_from_handle(
-                        self.public_handle
-                    )
                 except HTTPError as error:
                     if error.data["id"] in (504, 505, 506):
                         raise ClashOfCodeError.from_id(
@@ -309,17 +320,24 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    self.fetch()
 
         return _start()
 
-    def leave(self):
+    def leave(self, refetch: bool = False):
         """|maybe_coro|
 
         Leave this Clash Of Code.
 
         You need to be logged in or else a
         :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            refetch: :class:`bool`
+                Whether to update this object after leaving.
+                Default: `False`
 
         Raises
         ------
@@ -337,9 +355,6 @@ class ClashOfCode(BaseObject):
                     await self._state.http.leave_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
-                    data = await self._state.http.get_clash_of_code_from_handle(
-                        self.public_handle
-                    )
                 except HTTPError as error:
                     if error.data["id"] in (504, 505, 506):
                         raise ClashOfCodeError.from_id(
@@ -348,7 +363,8 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    await self.fetch()
 
         else:
 
@@ -357,9 +373,6 @@ class ClashOfCode(BaseObject):
                     self._state.http.leave_clash_of_code_by_handle(
                         self._state.codingamer.id, self.public_handle
                     )
-                    data = self._state.http.get_clash_of_code_from_handle(
-                        self.public_handle
-                    )
                 except HTTPError as error:
                     if error.data["id"] in (504, 505, 506):
                         raise ClashOfCodeError.from_id(
@@ -368,7 +381,8 @@ class ClashOfCode(BaseObject):
 
                     raise  # pragma: no cover
 
-                self._set_data(data)
+                if refetch:
+                    self.fetch()
 
         return _leave()
 
