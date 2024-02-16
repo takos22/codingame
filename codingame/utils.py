@@ -103,7 +103,7 @@ DT_FORMAT_2 = "%b %d, %Y, %I:%M:%S %p"  # see issue #23
 def to_datetime(data: typing.Optional[typing.Union[int, str]]) -> datetime:
     if isinstance(data, int):
         return datetime.fromtimestamp(data / 1000.0, timezone.utc)
-    elif isinstance(data, str):
+    elif isinstance(data, str):  # pragma: no cover
         try:
             return datetime.strptime(data, DT_FORMAT_1)
         except ValueError:
