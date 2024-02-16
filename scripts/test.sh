@@ -26,5 +26,5 @@ if [ "$full" = true ]; then
     ./scripts/full-test.sh
 else
     set -x
-    pytest
+    python3 -m pytest
 fi
