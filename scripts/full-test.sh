@@ -2,5 +2,5 @@
 set -e
 set -x
 
-pytest --only-mocked --overwrite-environ
-pytest --no-mocking --cov-append
+python3 -m pytest --only-mocked --overwrite-environ
+python3 -m pytest --no-mocking --cov-append

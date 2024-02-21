@@ -6,9 +6,9 @@ folders="docs"
 set -x
 
 # check the docs with doc8
-doc8 $folders --quiet
+python3 -m doc8 $folders --quiet
 
 # check package build for README.rst
 rm -rf dist
 python3 setup.py --quiet sdist
-twine check dist/*
+python3 -m twine check dist/*

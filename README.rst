@@ -29,7 +29,7 @@ Pythonic wrapper for the undocumented `CodinGame <https://www.codingame.com/>`_ 
 Installation
 ------------
 
-**Python 3.7 or higher is required.**
+**Python 3.8 or higher is required.**
 
 Install ``codingame`` with pip:
 

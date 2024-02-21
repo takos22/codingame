@@ -4,14 +4,12 @@
     "publicHandle": "1234567fedcba9876543210fedcba9876543210",
     "clashDurationTypeId": "SHORT",
     "mode": "FASTEST",
-    "creationTime": "Jan 1, 2021 12:34:56 PM",
-    "startTime": "Jan 1, 2021 12:36:56 PM",
-    "endTime": "Jan 1, 2021 12:51:56 PM",
+    "startTimestamp": 1708107395331,
     "msBeforeStart": -26220184000,
     "msBeforeEnd": -26219284000,
     "finished": true,
     "started": true,
-    "publicClash": false,
+    "type": "PUBLIC",
     "players": [
         {
             "codingamerId": 1234567,

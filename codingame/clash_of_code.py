@@ -58,8 +58,9 @@ class ClashOfCode(BaseObject):
         mode: Optional :class:`str`
             The mode of the Clash of Code.
 
-        creation_time: :class:`~datetime.datetime`
+        creation_time: Optional :class:`~datetime.datetime`
             Creation time of the Clash of Code.
+            Doesn't always exist.
 
         start_time: :class:`~datetime.datetime`
             Start time of the Clash of Code. If the Clash of Code hasn't started
@@ -88,7 +89,7 @@ class ClashOfCode(BaseObject):
     started: bool
     finished: bool
     mode: Optional[Mode]
-    creation_time: datetime
+    creation_time: Optional[datetime]
     start_time: datetime
     end_time: Optional[datetime]
     time_before_start: timedelta
@@ -125,7 +126,7 @@ class ClashOfCode(BaseObject):
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}",
         )
 
-        self._setattr("public", data["publicClash"])
+        self._setattr("public", data.get("type", "PUBLIC") == "PUBLIC")
         self._setattr("min_players", data["nbPlayersMin"])
         self._setattr("max_players", data["nbPlayersMax"])
         self._setattr("modes", data.get("modes"))
@@ -135,8 +136,8 @@ class ClashOfCode(BaseObject):
         self._setattr("finished", data["finished"])
         self._setattr("mode", data.get("mode"))
 
-        self._setattr("creation_time", to_datetime(data["creationTime"]))
-        self._setattr("start_time", to_datetime(data.get("startTime")))
+        self._setattr("creation_time", to_datetime(data.get("creationTime")))
+        self._setattr("start_time", to_datetime(data.get("startTimestamp")))
         self._setattr("end_time", to_datetime(data.get("endTime")))
 
         self._setattr(
