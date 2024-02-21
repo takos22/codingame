@@ -6,12 +6,12 @@ folders="codingame tests examples docs setup.py"
 set -x
 
 # stop the build if there are Python syntax errors or undefined names
-flake8 $folders --count --select=E9,F63,F7,F82 --show-source --statistics
+python3 -m flake8 $folders --count --select=E9,F63,F7,F82 --show-source --statistics
 # exit-zero treats all errors as warnings
-flake8 $folders --count --exit-zero --statistics
+python3 -m flake8 $folders --count --exit-zero --statistics
 
 # check formatting with black
-black $folders --check --line-length 80
+python3 -m black $folders --check --line-length 80
 
 # check import ordering with isort
-isort $folders --check-only
+python3 -m isort $folders --check-only

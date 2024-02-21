@@ -4,12 +4,7 @@ codingame.types.codingamer
 Typings for the `CodinGamer/` endpoints of the CodinGame API.
 """
 
-from typing import Dict, List, Optional
-
-try:
-    from typing import Literal, TypedDict
-except ImportError:
-    from typing_extensions import Literal, TypedDict
+from typing import Dict, List, Literal, Optional, TypedDict
 
 __all__ = (
     "PartialCodinGamer",

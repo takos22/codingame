@@ -30,14 +30,14 @@ async def test_client_notification_mark_as_seen(
     mock_http(
         auth_client._state.http,
         "mark_notifications_as_seen",
-        int(datetime.datetime.utcnow().timestamp() * 1000),
+        int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000),
     )
     seen_date = await notification.mark_as_seen()
 
     assert notification.seen
     assert notification.seen_date == seen_date
     assert notification.seen_date.timestamp() == pytest.approx(
-        datetime.datetime.utcnow().timestamp(), abs=10_000
+        datetime.datetime.now(datetime.timezone.utc).timestamp(), abs=10_000
     )  # 10 seconds should be enough
 
 
@@ -47,12 +47,12 @@ async def test_client_notification_mark_as_read(
     mock_http(
         auth_client._state.http,
         "mark_notifications_as_read",
-        int(datetime.datetime.utcnow().timestamp() * 1000),
+        int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000),
     )
     read_date = await notification.mark_as_read()
 
     assert notification.read
     assert notification.read_date == read_date
     assert notification.read_date.timestamp() == pytest.approx(
-        datetime.datetime.utcnow().timestamp(), abs=10_000
+        datetime.datetime.now(datetime.timezone.utc).timestamp(), abs=10_000
     )  # 10 seconds should be enough

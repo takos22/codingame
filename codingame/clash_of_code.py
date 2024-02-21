@@ -56,8 +56,9 @@ class ClashOfCode(BaseObject):
         mode: Optional :class:`str`
             The mode of the Clash of Code.
 
-        creation_time: :class:`~datetime.datetime`
+        creation_time: Optional :class:`~datetime.datetime`
             Creation time of the Clash of Code.
+            Doesn't always exist.
 
         start_time: :class:`~datetime.datetime`
             Start time of the Clash of Code. If the Clash of Code hasn't started
@@ -86,7 +87,7 @@ class ClashOfCode(BaseObject):
     started: bool
     finished: bool
     mode: Optional[Mode]
-    creation_time: datetime
+    creation_time: Optional[datetime]
     start_time: datetime
     end_time: Optional[datetime]
     time_before_start: timedelta
@@ -117,7 +118,7 @@ class ClashOfCode(BaseObject):
         self.join_url = (
             f"https://www.codingame.com/clashofcode/clash/{self.public_handle}"
         )
-        self.public = data["publicClash"]
+        self.public = data.get("type", "PUBLIC") == "PUBLIC"
         self.min_players = data["nbPlayersMin"]
         self.max_players = data["nbPlayersMax"]
         self.modes = data.get("modes")
@@ -127,8 +128,8 @@ class ClashOfCode(BaseObject):
         self.finished = data["finished"]
         self.mode = data.get("mode")
 
-        self.creation_time = to_datetime(data["creationTime"])
-        self.start_time = to_datetime(data["startTime"])
+        self.creation_time = to_datetime(data.get("creationTime"))
+        self.start_time = to_datetime(data["startTimestamp"])
         self.end_time = to_datetime(data.get("endTime"))
 
         self.time_before_start = timedelta(milliseconds=data["msBeforeStart"])

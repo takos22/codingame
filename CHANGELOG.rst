@@ -7,6 +7,29 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.4.3 (2024-02-21)
+--------------------------
+
+Changed
+*******
+
+- Every `datetime.date <https://docs.python.org/library/datetime.html#datetime.date>`__ is now timezone aware, using the CodinGame
+  timezone (UTC).
+- `ClashOfCode.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.creation_time>`__ can be ``None`` because of an API change
+  by CodinGame.
+
+Fixed
+*****
+
+- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_clash_of_code <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_clash_of_code>`__ because
+  of an API change by CodinGame.
+  
+Removed
+*******
+
+- Removed support for python 3.7 as it has reached its end of life. For more
+  information, see `PEP 537 <https://peps.python.org/pep-0537/#lifespan>`__.
+
 Version 1.4.2 (2023-04-14)
 --------------------------
 
@@ -66,7 +89,7 @@ Changed
 Removed
 *******
 
-- Removed `Notification._raw`.
+- Removed ``Notification._raw``.
 
 Version 1.2.4 (2022-06-17)
 --------------------------
