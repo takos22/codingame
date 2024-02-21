@@ -4,12 +4,7 @@ codingame.types.clash_of_code
 Typings for the `ClashOfCode/` endpoints of the CodinGame API.
 """
 
-from typing import List, Optional
-
-try:
-    from typing import Literal, TypedDict
-except ImportError:
-    from typing_extensions import Literal, TypedDict
+from typing import List, Literal, Optional, TypedDict
 
 __all__ = (
     "ClashOfCode",
