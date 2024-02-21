@@ -11,4 +11,4 @@ python3 -m doc8 $folders --quiet
 # check package build for README.rst
 rm -rf dist
 python3 setup.py --quiet sdist
-twine check dist/*
+python3 -m twine check dist/*
