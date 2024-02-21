@@ -10,7 +10,7 @@ This is the documentation for the ``codingame`` module.
 Prerequisites
 -------------
 
-**Python 3.7 or higher is required.**
+**Python 3.8 or higher is required.**
 
 
 .. _installing:
