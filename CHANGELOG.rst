@@ -15,13 +15,13 @@ Changed
 
 - Every `datetime.date <https://docs.python.org/library/datetime.html#datetime.date>`__ is now timezone aware, using the CodinGame
   timezone (UTC).
-- `ClashOfCode.creation_time <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.creation_time>`__ can be ``None`` because of an API change
+- `ClashOfCode.creation_time <https://codingame.readthedocs.io/en/stable/api.html#codingame.ClashOfCode.creation_time>`__ can be ``None`` because of an API change
   by CodinGame.
 
 Fixed
 *****
 
-- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_clash_of_code <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_clash_of_code>`__ because
+- `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_clash_of_code <https://codingame.readthedocs.io/en/stable/api.html#codingame.Client.get_clash_of_code>`__ because
   of an API change by CodinGame.
   
 Removed
