@@ -137,6 +137,8 @@ class ClashOfCode(BaseObject):
         "time_before_start",
         "time_before_end",
         "players",
+        "_test_session_handle",
+        "_question",
     )
 
     def __init__(self, state: "ConnectionState", data: ClashOfCodeDict):
