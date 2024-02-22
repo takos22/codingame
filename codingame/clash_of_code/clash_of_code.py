@@ -1,26 +1,50 @@
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
 
-from .abc import BaseObject, BaseUser
-from .exceptions import ClashOfCodeError, LoginRequired
-from .http.httperror import HTTPError
-from .types.clash_of_code import ClashOfCode as ClashOfCodeDict
-from .types.clash_of_code import (
-    LanguageId,
-    LanguageIds,
-    Mode,
-    Modes,
-    PlayerStatus,
-)
-from .utils import minified_players_to_players, to_datetime
+from ..abc import BaseObject
+from ..exceptions import ClashOfCodeError, LoginRequired
+from ..http.httperror import HTTPError
+from ..types.clash_of_code import ClashOfCode as ClashOfCodeDict
+from ..types.clash_of_code import LanguageIds, Mode, Modes
+from ..utils import minified_players_to_players, to_datetime
+from .player import Player
+from .question import Question
 
 if TYPE_CHECKING:
-    from .state import ConnectionState
+    from ..state import ConnectionState
 
-__all__ = (
-    "ClashOfCode",
-    "Player",
-)
+__all__ = ("ClashOfCode", "Solution", "TestCaseResult")
+
+
+class TestCaseResult(BaseObject):
+    success: bool
+    found: str
+    expected: str
+
+    __slots__ = ("success", "found", "expected")
+
+    def __init__(self, state: "ConnectionState", data: dict):
+        self.success = data["comparison"]["success"]
+        self.found = (
+            data["output"] if self.success else data["comparison"]["success"]
+        )
+        self.expected = (
+            data["output"] if self.success else data["comparison"]["success"]
+        )
+
+        super().__init__(state)
+
+
+class Solution(BaseObject):
+    __slots__ = ()
+
+    def __init__(self, state: "ConnectionState", data: dict):
+        ...
+
+        super().__init__(state)
+
+    def share(self):
+        ...
 
 
 class ClashOfCode(BaseObject):
@@ -116,6 +140,8 @@ class ClashOfCode(BaseObject):
     )
 
     def __init__(self, state: "ConnectionState", data: ClashOfCodeDict):
+        self._test_session_handle: str = None
+        self._question: Question = None
         super().__init__(state)
         self._set_data(data)
 
@@ -145,9 +171,11 @@ class ClashOfCode(BaseObject):
         )
         self._setattr(
             "time_before_end",
-            timedelta(milliseconds=data["msBeforeEnd"])
-            if "msBeforeEnd" in data
-            else None,
+            (
+                timedelta(milliseconds=data["msBeforeEnd"])
+                if "msBeforeEnd" in data
+                else None
+            ),
         )
 
         self._setattr(
@@ -387,156 +415,227 @@ class ClashOfCode(BaseObject):
 
         return _leave()
 
+    def get_question(self, refetch: bool = False) -> "Question":
+        """|maybe_coro|
 
-class Player(BaseUser):
-    """Represents a Clash of Code player.
+        Get the question for this Clash of Code.
 
-    Attributes
-    -----------
-        clash_of_code: :class:`ClashOfCode`
-            Clash of Code the Player belongs to.
+        You need to be logged in or else a
+        :exc:`~codingame.LoginRequired` will be raised.
 
-        public_handle: :class:`str`
-            Public handle of the CodinGamer (hexadecimal str).
-            Sometimes missing, prefer :attr:`id`.
+        Parameters
+        -----------
+            refetch: :class:`bool`
+                Whether to update this object after getting the question.
+                Default: `False`
 
-        id: :class:`int`
-            ID of the CodinGamer. Last 7 digits of the :attr:`public_handle`
-            reversed.
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
 
-        pseudo: :class:`int`
-            Pseudo of the CodinGamer.
+        if not self._state.logged_in:
+            raise LoginRequired()
 
-        avatar: Optional :class:`int`
-            Avatar ID of the CodinGamer.
-            You can get the avatar url with :attr:`avatar_url`.
+        if self._state.is_async:
 
-        cover: Optional :class:`int`
-            Cover ID of the CodinGamer. In this case, always ``None``.
+            async def _get_question():
+                if not self._question:
+                    clash_test_session = (
+                        await self._state.http.start_clash_test_session(
+                            self._state.codingamer.id, self.public_handle
+                        )
+                    )
+                    self._test_session_handle = clash_test_session["handle"]
+                    test_session = (
+                        await self._state.http.start_test_session_by_handle(
+                            self._test_session_handle
+                        )
+                    )
+                    self._question = Question(
+                        self._state, test_session["currentQuestion"]["question"]
+                    )
 
-        started: :class:`bool`
-            Whether the Clash of Code is started.
+                if refetch:
+                    await self.fetch()
 
-        finished: :class:`bool`
-            Whether the Clash of Code is finished.
+                return self._question
 
-        status: :class:`str`
-            Status of the Player. Can be ``OWNER`` or ``STANDARD``.
+        else:
 
-            .. note::
-                You can use :attr:`owner` to get a :class:`bool` that describes
-                whether the player is the owner.
+            def _get_question():
+                if not self._question:
+                    clash_test_session = (
+                        self._state.http.start_clash_test_session(
+                            self._state.codingamer.id, self.public_handle
+                        )
+                    )
+                    self._test_session_handle = clash_test_session["handle"]
+                    test_session = (
+                        self._state.http.start_test_session_by_handle(
+                            self._test_session_handle
+                        )
+                    )
+                    self._question = Question(
+                        self._state, test_session["currentQuestion"]["question"]
+                    )
 
-        owner: :class:`bool`
-            Whether the player is the Clash of Code owner.
+                if refetch:
+                    self.fetch()
 
-        position: Optional :class:`int`
-            Join position of the Player.
+                return self._question
 
-        rank: Optional :class:`int`
-            Rank of the Player. Only use this when the Clash of Code is finished
-            because it isn't precise until then.
+        return _get_question()
 
-        duration: Optional :class:`~datetime.timedelta`
-            Time taken by the player to solve the problem of the Clash of Code.
-
-        language_id: Optional :class:`str`
-            Language ID of the language the player used in the Clash of Code.
-
-        score: Optional :class:`int`
-            Score of the Player (between 0 and 100).
-
-        code_length: Optional :class:`int`
-            Length of the Player's code.
-            Only available when the Clash of Code's mode is ``SHORTEST``.
-
-        solution_shared: Optional :class:`bool`
-            Whether the Player shared his code.
-
-        submission_id: Optional :class:`int`
-            ID of the player's submission.
-    """
-
-    clash_of_code: ClashOfCode
-    public_handle: str
-    id: int
-    pseudo: Optional[str]
-    avatar: Optional[int]
-    cover: Optional[int]
-    started: bool
-    finished: bool
-    status: PlayerStatus
-    owner: bool
-    position: Optional[int]
-    rank: Optional[int]
-    duration: Optional[timedelta]
-    language_id: Optional[LanguageId]
-    score: Optional[int]
-    code_length: Optional[int]
-    solution_shared: Optional[bool]
-    submission_id: Optional[int]
-
-    __slots__ = (
-        "clash_of_code",
-        "started",
-        "finished",
-        "status",
-        "owner",
-        "position",
-        "rank",
-        "duration",
-        "language_id",
-        "score",
-        "code_length",
-        "solution_shared",
-        "submission_id",
-        "test_session_status",
-        "test_session_handle",
-    )
-
-    def __init__(
+    def play_test_cases(
         self,
-        state: "ConnectionState",
-        coc: ClashOfCode,
-        started: bool,
-        finished: bool,
-        data: dict,
-    ):
-        self.clash_of_code: ClashOfCode = coc
+        language_id: str,
+        code: str,
+        indexes: List[int] = None,
+        refetch: bool = False,
+    ) -> Dict[int, TestCaseResult]:
+        """|maybe_coro|
 
-        self.public_handle = data.get("codingamerHandle")
-        self.id = data["codingamerId"]
-        self.pseudo = data["codingamerNickname"]
-        self.avatar = data.get("codingamerAvatarId")
-        self.cover = None
+        Play test cases for this Clash of Code with the given code.
 
-        self.started = started
-        self.finished = finished
+        You need to be logged in or else a
+        :exc:`~codingame.LoginRequired` will be raised.
 
-        self.status = data["status"]
-        self.owner = self.status == "OWNER"
-        self.position = data.get("position")
-        self.rank = data.get("rank")
+        Parameters
+        -----------
+            language_id: :class:`str`
+                The language ID of the used programming language.
+            code: :class:`str`
+                The code to test against the test cases.
+            indexes: :class:`list` of :class:`int`
+                The indexes of the test cases to test the code.
+                Default: all test cases
+            refetch: :class:`bool`
+                Whether to update this object after getting the question.
+                Default: `False`
 
-        self.duration = (
-            timedelta(milliseconds=data["duration"])
-            if "duration" in data
-            else None
-        )
-        self.language_id = data.get("languageId")
-        self.score = data.get("score")
-        self.code_length = data.get("criterion")
-        self.solution_shared = data.get("solutionShared")
-        self.submission_id = data.get("submissionId")
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
 
-        self.test_session_status = data.get("testSessionStatus")
-        self.test_session_handle = data.get("testSessionHandle")
+        if not self._state.logged_in:
+            raise LoginRequired()
 
-        super().__init__(state)
+        if self._state.is_async:
 
-    def __repr__(self) -> str:
-        return (
-            "<Player public_handle={0.public_handle!r} pseudo={0.pseudo!r} "
-            "position={0.position!r} rank={0.rank!r} duration={0.duration!r} "
-            "score={0.score!r} language_id={0.language_id!r}>".format(self)
-        )
+            async def _play_test_cases():
+                if not self._question:
+                    await self.get_question()
+
+                all_indexes = [tc.index for tc in self._question.test_cases]
+                results = {}
+                for index in all_indexes:
+                    if indexes and index not in indexes:
+                        continue
+                    result = await self._state.http.play_test_session_by_handle(
+                        self._test_session_handle, language_id, code, index
+                    )
+                    results[index] = TestCaseResult(self._state, result)
+
+                if refetch:
+                    await self.fetch()
+
+                return results
+
+        else:
+
+            def _play_test_cases():
+                if not self._question:
+                    self.get_question()
+
+                all_indexes = [tc.index for tc in self._question.test_cases]
+                results = {}
+                for index in all_indexes:
+                    if indexes and index not in indexes:
+                        continue
+                    result = self._state.http.play_test_session_by_handle(
+                        self._test_session_handle, language_id, code, index
+                    )
+                    results[index] = TestCaseResult(self._state, result)
+
+                if refetch:
+                    self.fetch()
+
+                return results
+
+        return _play_test_cases()
+
+    def submit(
+        self,
+        language_id: str,
+        code: str,
+        refetch: bool = False,
+    ) -> Solution:
+        """|maybe_coro|
+
+        Submit your solution for this Clash of .
+
+        You need to be logged in or else a
+        :exc:`~codingame.LoginRequired` will be raised.
+
+        Parameters
+        -----------
+            language_id: :class:`str`
+                The language ID of the used programming language.
+            code: :class:`str`
+                The code to test against the test cases.
+            refetch: :class:`bool`
+                Whether to update this object after getting the question.
+                Default: `False`
+
+        Raises
+        ------
+            :exc:`LoginRequired`
+                The Client needs to log in. See :meth:`Client.login`.
+        """
+
+        if not self._state.logged_in:
+            raise LoginRequired()
+
+        if self._state.is_async:
+
+            async def _submit():
+                if not self._question:
+                    await self.get_question()
+
+                solution_id = (
+                    await self._state.http.submit_test_session_by_handle(
+                        self._test_session_handle, language_id, code
+                    )
+                )
+                solution = await self._state.http.get_solution_by_id(
+                    self._state.codingamer.id, solution_id
+                )
+
+                if refetch:
+                    await self.fetch()
+
+                return Solution(self._state, solution)
+
+        else:
+
+            def _submit():
+                if not self._question:
+                    self.get_question()
+
+                solution_id = self._state.http.submit_test_session_by_handle(
+                    self._test_session_handle, language_id, code
+                )
+                solution = self._state.http.get_solution_by_id(
+                    self._state.codingamer.id, solution_id
+                )
+
+                if refetch:
+                    self.fetch()
+
+                return Solution(self._state, solution)
+
+        return _submit()

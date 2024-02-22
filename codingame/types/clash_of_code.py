@@ -19,6 +19,8 @@ __all__ = (
     "PlayerStatus",
     "PlayerTestSessionStatus",
     "PartialClashOfCodeTestSession",
+    "TestCase",
+    "Question",
     "ClashOfCodeTestSession",
 )
 
@@ -59,14 +61,16 @@ class ClashOfCode(TypedDict):
     nbPlayersMin: int
     nbPlayersMax: int
     clashDurationTypeId: DurationType
-    creationTime: str
-    startTime: str  # estimation until started
-    endTime: Optional[str]  # available when started
+    # creationTime: str
+    # startTime: str  # estimation until started
+    # endTime: Optional[str]  # available when started
+    startTimestamp: int
     msBeforeStart: int  # estimation until started
     msBeforeEnd: Optional[int]  # available when started
     started: bool
     finished: bool
-    publicClash: bool
+    # publicClash: bool
+    type: str
     players: List[Player]
     modes: Optional[Modes]  # available in private clashes or when started
     mode: Optional[Mode]  # available when started
@@ -87,7 +91,7 @@ class _PartialQuestion(TypedDict):
     hasResult: bool
 
 
-class _TestCase(TypedDict):
+class TestCase(TypedDict):
     index: int
     inputBinaryId: int
     outputBinaryId: int
@@ -98,14 +102,14 @@ class _Language(TypedDict):
     name: str
 
 
-class _Contribution(TypedDict):
+class Contribution(TypedDict):
     moderators: List[PartialCodinGamer]
     type: str
     status: str
 
 
-class _Question(TypedDict):
-    testCases: List[_TestCase]
+class Question(TypedDict):
+    testCases: List[TestCase]
     availableLanguages: List[_Language]
     stubGenerator: str
     id: int
@@ -114,7 +118,7 @@ class _Question(TypedDict):
     statement: str  # html format
     duration: int
     userId: int
-    contribution: _Contribution
+    contribution: Contribution
     contributor: PartialCodinGamer
     index: int
     mode: str
@@ -122,7 +126,7 @@ class _Question(TypedDict):
 
 
 class _CurrentQuestion(TypedDict):
-    question: _Question
+    question: Question
     answer: dict
 
 

@@ -168,7 +168,7 @@ class BaseHTTPClient(ABC):
             [id, clash_of_code_handle],
         )
 
-    def start_clash_of_code_test_session_by_handle(
+    def start_clash_test_session(
         self, id: int, clash_of_code_handle: str
     ) -> PartialClashOfCodeTestSession:
         return self.request(
@@ -230,13 +230,29 @@ class BaseHTTPClient(ABC):
             [test_session_handle],
         )
 
+    def play_test_session_by_handle(
+        self, test_session_handle: str, language_id: str, code: str, index: int
+    ) -> ...:
+        return self.request(
+            "TestSession",
+            "play",
+            [
+                test_session_handle,
+                {
+                    "programmingLanguageId": language_id,
+                    "code": code,
+                    "multipleLanguages": {"testIndex": index},
+                },
+            ],
+        )
+
     def submit_test_session_by_handle(
         self,
         test_session_handle: str,
         language_id: LanguageId,
         code: str,
         captcha: typing.Optional[str] = None,
-    ) -> ClashOfCodeTestSession:
+    ) -> int:
         return self.request(
             "TestSession",
             "submit",
@@ -246,6 +262,11 @@ class BaseHTTPClient(ABC):
                 captcha,
             ],
         )
+
+    # Solution
+
+    def get_solution_by_id(self, id: int, solution_id: int) -> ...:
+        return self.request("Solution", "findSolution", [id, solution_id])
 
     # Notification
 
