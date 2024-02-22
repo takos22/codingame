@@ -157,7 +157,7 @@ Version 1.0.1 (2021-07-12)
 Added
 *****
 
-- `CodinGamer.profile_url <https://codingame.readthedocs.io/en/latest/api.html#codingame.CodinGamer.profile_url>`__.
+- ``CodinGamer.profile_url``.
 
 Version 1.0.0 (2021-07-12)
 --------------------------
@@ -308,7 +308,7 @@ Added
 
 - `Client.login <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.login>`__.
 
-- `Client.logged_in <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.logged_in>`__ and `Client.codingamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.codingamer>`__.
+- ``Client.logged_in`` and `Client.get_codingamer <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_codingamer>`__.
 
 - ``Client.language_ids`` property.
 
