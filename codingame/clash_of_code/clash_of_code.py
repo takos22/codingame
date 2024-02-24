@@ -8,43 +8,13 @@ from ..types.clash_of_code import ClashOfCode as ClashOfCodeDict
 from ..types.clash_of_code import LanguageIds, Mode, Modes
 from ..utils import minified_players_to_players, to_datetime
 from .player import Player
-from .question import Question
+from .question import Question, TestCaseResult
+from .solution import Solution
 
 if TYPE_CHECKING:
     from ..state import ConnectionState
 
-__all__ = ("ClashOfCode", "Solution", "TestCaseResult")
-
-
-class TestCaseResult(BaseObject):
-    success: bool
-    found: str
-    expected: str
-
-    __slots__ = ("success", "found", "expected")
-
-    def __init__(self, state: "ConnectionState", data: dict):
-        self.success = data["comparison"]["success"]
-        self.found = (
-            data["output"] if self.success else data["comparison"]["success"]
-        )
-        self.expected = (
-            data["output"] if self.success else data["comparison"]["success"]
-        )
-
-        super().__init__(state)
-
-
-class Solution(BaseObject):
-    __slots__ = ()
-
-    def __init__(self, state: "ConnectionState", data: dict):
-        ...
-
-        super().__init__(state)
-
-    def share(self):
-        ...
+__all__ = ("ClashOfCode",)
 
 
 class ClashOfCode(BaseObject):
@@ -456,7 +426,9 @@ class ClashOfCode(BaseObject):
                         )
                     )
                     self._question = Question(
-                        self._state, test_session["currentQuestion"]["question"]
+                        self._state,
+                        self,
+                        test_session["currentQuestion"]["question"],
                     )
 
                 if refetch:
@@ -480,7 +452,9 @@ class ClashOfCode(BaseObject):
                         )
                     )
                     self._question = Question(
-                        self._state, test_session["currentQuestion"]["question"]
+                        self._state,
+                        self,
+                        test_session["currentQuestion"]["question"],
                     )
 
                 if refetch:
@@ -532,15 +506,19 @@ class ClashOfCode(BaseObject):
                 if not self._question:
                     await self.get_question()
 
-                all_indexes = [tc.index for tc in self._question.test_cases]
                 results = {}
-                for index in all_indexes:
-                    if indexes and index not in indexes:
+                for test_case in self._question.test_cases:
+                    if indexes and test_case.index not in indexes:
                         continue
                     result = await self._state.http.play_test_session_by_handle(
-                        self._test_session_handle, language_id, code, index
+                        self._test_session_handle,
+                        language_id,
+                        code,
+                        test_case.index,
                     )
-                    results[index] = TestCaseResult(self._state, result)
+                    results[test_case.index] = TestCaseResult(
+                        self._state, self, test_case, result
+                    )
 
                 if refetch:
                     await self.fetch()
@@ -553,15 +531,19 @@ class ClashOfCode(BaseObject):
                 if not self._question:
                     self.get_question()
 
-                all_indexes = [tc.index for tc in self._question.test_cases]
                 results = {}
-                for index in all_indexes:
-                    if indexes and index not in indexes:
+                for test_case in self._question.test_cases:
+                    if indexes and test_case.index not in indexes:
                         continue
                     result = self._state.http.play_test_session_by_handle(
-                        self._test_session_handle, language_id, code, index
+                        self._test_session_handle,
+                        language_id,
+                        code,
+                        test_case.index,
                     )
-                    results[index] = TestCaseResult(self._state, result)
+                    results[test_case.index] = TestCaseResult(
+                        self._state, self, test_case, result
+                    )
 
                 if refetch:
                     self.fetch()
@@ -620,7 +602,7 @@ class ClashOfCode(BaseObject):
                 if refetch:
                     await self.fetch()
 
-                return Solution(self._state, solution)
+                return Solution(self._state, self, solution)
 
         else:
 
@@ -638,6 +620,6 @@ class ClashOfCode(BaseObject):
                 if refetch:
                     self.fetch()
 
-                return Solution(self._state, solution)
+                return Solution(self._state, self, solution)
 
         return _submit()

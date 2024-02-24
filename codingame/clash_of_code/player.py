@@ -2,7 +2,9 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Optional
 
 from ..abc import BaseUser
+from ..exceptions import LoginRequired
 from ..types.clash_of_code import LanguageId, PlayerStatus
+from .solution import Solution
 
 if TYPE_CHECKING:
     from ..state import ConnectionState
@@ -72,9 +74,9 @@ class Player(BaseUser):
             Only available when the Clash of Code's mode is ``SHORTEST``.
 
         solution_shared: Optional :class:`bool`
-            Whether the Player shared his code.
+            Whether the Player shared their code.
 
-        submission_id: Optional :class:`int`
+        solution_id: Optional :class:`int`
             ID of the player's submission.
     """
 
@@ -95,7 +97,7 @@ class Player(BaseUser):
     score: Optional[int]
     code_length: Optional[int]
     solution_shared: Optional[bool]
-    submission_id: Optional[int]
+    solution_id: Optional[int]
 
     __slots__ = (
         "clash_of_code",
@@ -110,6 +112,7 @@ class Player(BaseUser):
         "score",
         "code_length",
         "solution_shared",
+        "solution_id",
         "submission_id",
         "test_session_status",
         "test_session_handle",
@@ -118,12 +121,12 @@ class Player(BaseUser):
     def __init__(
         self,
         state: "ConnectionState",
-        coc: "ClashOfCode",
+        clash_of_code: "ClashOfCode",
         started: bool,
         finished: bool,
         data: dict,
     ):
-        self.clash_of_code: "ClashOfCode" = coc
+        self.clash_of_code: "ClashOfCode" = clash_of_code
 
         self.public_handle = data.get("codingamerHandle")
         self.id = data["codingamerId"]
@@ -148,7 +151,9 @@ class Player(BaseUser):
         self.score = data.get("score")
         self.code_length = data.get("criterion")
         self.solution_shared = data.get("solutionShared")
-        self.submission_id = data.get("submissionId")
+        self.solution_id = data.get("submissionId")
+        # TODO decprecate Player.submission_id
+        self.submission_id = self.solution_id
 
         self.test_session_status = data.get("testSessionStatus")
         self.test_session_handle = data.get("testSessionHandle")
@@ -161,3 +166,28 @@ class Player(BaseUser):
             "position={0.position!r} rank={0.rank!r} duration={0.duration!r} "
             "score={0.score!r} language_id={0.language_id!r}>".format(self)
         )
+
+    def get_solution(self) -> Solution:
+        if not self._state.logged_in:
+            raise LoginRequired()
+
+        if not self.solution_shared:
+            raise ValueError()  # TODO raise better error
+
+        if self._state.is_async:
+
+            async def _get_solution():
+                solution = await self._state.http.get_solution_by_id(
+                    self._state.codingamer.id, self.solution_id
+                )
+                return Solution(self._state, self.clash_of_code, solution)
+
+        else:
+
+            def _get_solution():
+                solution = self._state.http.get_solution_by_id(
+                    self._state.codingamer.id, self.solution_id
+                )
+                return Solution(self._state, self.clash_of_code, solution)
+
+        return _get_solution()
