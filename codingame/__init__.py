@@ -19,23 +19,22 @@ __version__ = "1.5.0"
 
 from .clash_of_code import (
     ClashOfCode,
+    ClashOfCodeContribution,
     Player,
     Question,
+    Solution,
     TestCase,
     TestCaseResult,
-    Solution,
-    ClashOfCodeContribution
 )
 from .client import Client
 from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
+    ChallengeNotFound,
     ClashOfCodeError,
-    ClashOfCodeNotFound,
-    ClashOfCodeStarted,
     ClashOfCodeFinished,
     ClashOfCodeFull,
-    ChallengeNotFound,
     ClashOfCodeNotFound,
+    ClashOfCodeStarted,
     CodinGameAPIError,
     CodinGamerNotFound,
     EmailNotLinked,
