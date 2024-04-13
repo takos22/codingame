@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from ..state import ConnectionState
     from .clash_of_code import ClashOfCode
 
-__all__ = ("Contribution", "Question", "TestCase", "TestCaseResult")
+__all__ = ("ClashOfCodeContribution", "Question", "TestCase", "TestCaseResult")
 
 
 class TestCase(BaseObject):
@@ -79,7 +79,7 @@ class TestCaseResult(BaseObject):
         super().__init__(state)
 
 
-class Contribution(BaseObject):
+class ClashOfCodeContribution(BaseObject):
     type: str
     status: str
     contributor: Optional[PartialCodinGamer]
@@ -115,7 +115,7 @@ class Question(BaseObject):
     index: int
     test_cases: List[TestCase]
     available_language_ids: str
-    contribution: Optional[Contribution]
+    contribution: Optional[ClashOfCodeContribution]
 
     def __init__(
         self,
@@ -145,7 +145,7 @@ class Question(BaseObject):
             else None
         )
         self.contribution = (
-            Contribution(state, contributor, data["contribution"])
+            ClashOfCodeContribution(state, contributor, data["contribution"])
             if "contribution" in data
             else None
         )

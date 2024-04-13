@@ -11,13 +11,21 @@ VersionInfo = NamedTuple(
     "VersionInfo", major=int, minor=int, micro=int, releaselevel=str, serial=int
 )
 
-version_info = VersionInfo(major=1, minor=4, micro=3, releaselevel="", serial=0)
+version_info = VersionInfo(major=1, minor=5, micro=0, releaselevel="", serial=0)
 
 __title__ = "codingame"
 __author__ = "takos22"
-__version__ = "1.4.3"
+__version__ = "1.5.0"
 
-from .clash_of_code import ClashOfCode, Player
+from .clash_of_code import (
+    ClashOfCode,
+    Player,
+    Question,
+    TestCase,
+    TestCaseResult,
+    Solution,
+    ClashOfCodeContribution
+)
 from .client import Client
 from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
@@ -89,7 +97,12 @@ __all__ = (
     PartialCodinGamer,
     # Clash of Code
     ClashOfCode,
+    ClashOfCodeContribution,
     Player,
+    Question,
+    TestCase,
+    TestCaseResult,
+    Solution,
     # Notification
     Notification,
     NotificationType,
