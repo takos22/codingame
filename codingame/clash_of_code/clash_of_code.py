@@ -556,11 +556,12 @@ class ClashOfCode(BaseObject):
         self,
         language_id: str,
         code: str,
+        share: bool = False,
         refetch: bool = False,
     ) -> Solution:
         """|maybe_coro|
 
-        Submit your solution for this Clash of .
+        Submit your solution for this Clash of Code.
 
         You need to be logged in or else a
         :exc:`~codingame.LoginRequired` will be raised.
@@ -571,6 +572,9 @@ class ClashOfCode(BaseObject):
                 The language ID of the used programming language.
             code: :class:`str`
                 The code to test against the test cases.
+            share: :class:`bool`
+                Whether to share the solution.
+                Default: `False`
             refetch: :class:`bool`
                 Whether to update this object after getting the question.
                 Default: `False`
@@ -595,14 +599,18 @@ class ClashOfCode(BaseObject):
                         self._test_session_handle, language_id, code
                     )
                 )
-                solution = await self._state.http.get_solution_by_id(
+                solution_data = await self._state.http.get_solution_by_id(
                     self._state.codingamer.id, solution_id
                 )
+                solution = Solution(self._state, self, solution_data)
+
+                if share:
+                    await solution.share()
 
                 if refetch:
                     await self.fetch()
 
-                return Solution(self._state, self, solution)
+                return solution
 
         else:
 
@@ -613,13 +621,17 @@ class ClashOfCode(BaseObject):
                 solution_id = self._state.http.submit_test_session_by_handle(
                     self._test_session_handle, language_id, code
                 )
-                solution = self._state.http.get_solution_by_id(
+                solution_data = self._state.http.get_solution_by_id(
                     self._state.codingamer.id, solution_id
                 )
+                solution = Solution(self._state, self, solution_data)
+
+                if share:
+                    solution.share()
 
                 if refetch:
                     self.fetch()
 
-                return Solution(self._state, self, solution)
+                return solution
 
         return _submit()
