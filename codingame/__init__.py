@@ -30,6 +30,7 @@ from .client import Client
 from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
     ChallengeNotFound,
+    ClashOfCodeCancelled,
     ClashOfCodeError,
     ClashOfCodeFinished,
     ClashOfCodeFull,
@@ -165,6 +166,7 @@ __all__ = (
     PuzzleNotFound,
     ClashOfCodeError,
     ClashOfCodeNotFound,
+    ClashOfCodeCancelled,
     ClashOfCodeStarted,
     ClashOfCodeFinished,
     ClashOfCodeFull,

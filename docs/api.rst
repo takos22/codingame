@@ -283,6 +283,8 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: ClashOfCodeNotFound
 
+.. autoexception:: ClashOfCodeCancelled
+
 .. autoexception:: ClashOfCodeStarted
 
 .. autoexception:: ClashOfCodeFinished
@@ -309,6 +311,7 @@ Exception Hierarchy
             - :exc:`PuzzleNotFound`
         - :exc:`ClashOfCodeError`
             - :exc:`ClashOfCodeNotFound`
+            - :exc:`ClashOfCodeCancelled`
             - :exc:`ClashOfCodeStarted`
             - :exc:`ClashOfCodeFinished`
             - :exc:`ClashOfCodeFull`

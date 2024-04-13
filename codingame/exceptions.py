@@ -13,6 +13,7 @@ __all__ = (
     "PuzzleNotFound",
     "ClashOfCodeError",
     "ClashOfCodeNotFound",
+    "ClashOfCodeCancelled",
     "ClashOfCodeStarted",
     "ClashOfCodeFinished",
     "ClashOfCodeFull",
@@ -113,6 +114,7 @@ class ClashOfCodeError(CodinGameAPIError):
     def from_id(cls, id: int, message: str):
         errors = {
             502: ClashOfCodeNotFound,
+            503: ClashOfCodeCancelled,
             504: ClashOfCodeStarted,
             505: ClashOfCodeFinished,
             506: ClashOfCodeFull,
@@ -122,6 +124,10 @@ class ClashOfCodeError(CodinGameAPIError):
 
 class ClashOfCodeNotFound(NotFound, ClashOfCodeError):
     """Raised when a Clash of Code isn't found."""
+
+
+class ClashOfCodeCancelled(ClashOfCodeError):
+    """Raised when trying to join a Clash of Code that was cancelled."""
 
 
 class ClashOfCodeStarted(ClashOfCodeError):
