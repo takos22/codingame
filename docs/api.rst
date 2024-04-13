@@ -78,6 +78,16 @@ Clash of Code
 
 .. autoclass:: Player()
 
+.. autoclass:: Question()
+
+.. autoclass:: ClashOfCodeContribution()
+
+.. autoclass:: TestCase()
+
+.. autoclass:: TestCaseResult()
+
+.. autoclass:: Solution()
+
 Notification
 ************
 
@@ -265,11 +275,19 @@ The following exceptions are thrown by the library.
 
 .. autoexception:: CodinGamerNotFound
 
-.. autoexception:: ClashOfCodeNotFound
-
 .. autoexception:: ChallengeNotFound
 
 .. autoexception:: PuzzleNotFound
+
+.. autoexception:: ClashOfCodeError
+
+.. autoexception:: ClashOfCodeNotFound
+
+.. autoexception:: ClashOfCodeStarted
+
+.. autoexception:: ClashOfCodeFinished
+
+.. autoexception:: ClashOfCodeFull
 
 Exception Hierarchy
 *******************
@@ -289,3 +307,8 @@ Exception Hierarchy
             - :exc:`ClashOfCodeNotFound`
             - :exc:`ChallengeNotFound`
             - :exc:`PuzzleNotFound`
+        - :exc:`ClashOfCodeError`
+            - :exc:`ClashOfCodeNotFound`
+            - :exc:`ClashOfCodeStarted`
+            - :exc:`ClashOfCodeFinished`
+            - :exc:`ClashOfCodeFull`
