@@ -176,12 +176,7 @@ class SyncClient(BaseClient):
                 self.codingamer.id, handle
             )
         except HTTPError as error:
-            if error.data["id"] == 502:
-                raise NotFound.from_type(
-                    "clash_of_code", f"No Clash of Code with handle {handle!r}"
-                ) from None
-
-            elif error.data["id"] in (504, 505, 506):
+            if error.data["id"] in ClashOfCodeError._ids:
                 raise ClashOfCodeError.from_id(
                     error.data["id"], error.data.get("message")
                 )

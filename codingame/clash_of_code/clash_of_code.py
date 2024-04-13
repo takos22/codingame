@@ -231,7 +231,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
@@ -249,7 +249,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
@@ -296,7 +296,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
@@ -314,7 +314,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
@@ -357,7 +357,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
@@ -375,7 +375,7 @@ class ClashOfCode(BaseObject):
                         self._state.codingamer.id, self.public_handle
                     )
                 except HTTPError as error:
-                    if error.data["id"] in (504, 505, 506):
+                    if error.data["id"] in ClashOfCodeError._ids:
                         raise ClashOfCodeError.from_id(
                             error.data["id"], error.data.get("message")
                         )
