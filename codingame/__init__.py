@@ -29,6 +29,11 @@ from .clash_of_code import (
 from .client import Client
 from .codingamer import CodinGamer, PartialCodinGamer
 from .exceptions import (
+    ClashOfCodeError,
+    ClashOfCodeNotFound,
+    ClashOfCodeStarted,
+    ClashOfCodeFinished,
+    ClashOfCodeFull,
     ChallengeNotFound,
     ClashOfCodeNotFound,
     CodinGameAPIError,
@@ -157,7 +162,11 @@ __all__ = (
     LoginRequired,
     NotFound,
     CodinGamerNotFound,
-    ClashOfCodeNotFound,
     ChallengeNotFound,
     PuzzleNotFound,
+    ClashOfCodeError,
+    ClashOfCodeNotFound,
+    ClashOfCodeStarted,
+    ClashOfCodeFinished,
+    ClashOfCodeFull,
 )

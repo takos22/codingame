@@ -9,9 +9,13 @@ __all__ = (
     "LoginRequired",
     "NotFound",
     "CodinGamerNotFound",
-    "ClashOfCodeNotFound",
     "ChallengeNotFound",
     "PuzzleNotFound",
+    "ClashOfCodeError",
+    "ClashOfCodeNotFound",
+    "ClashOfCodeStarted",
+    "ClashOfCodeFinished",
+    "ClashOfCodeFull",
 )
 
 
