@@ -9,6 +9,29 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.5.0 (2024-..-..)
+--------------------------
+
+Added
+*****
+
+- Interactive clash of code methods :
+  * :meth:`Client.create_private_clash_of_code`
+  * :meth:`Client.join_private_clash_of_code`
+  * :meth:`ClashOfCode.fetch`
+  * :meth:`ClashOfCode.join`
+  * :meth:`ClashOfCode.start`
+  * :meth:`ClashOfCode.leave`
+  * :meth:`ClashOfCode.get_question`
+  * :meth:`ClashOfCode.play_test_cases`
+  * :meth:`ClashOfCode.submit`
+  * :meth:`Player.get_solution`
+- Classes to help handling a clash of code :
+  * :class:`Question`
+  * :class:`TestCase`
+  * :class:`TestCaseResult`
+  * :class:`Solution`
+
 Version 1.4.3 (2024-02-21)
 --------------------------
 
@@ -25,7 +48,7 @@ Fixed
 
 - :exc:`KeyError` was raised when using :meth:`Client.get_clash_of_code` because
   of an API change by CodinGame.
-  
+
 Removed
 *******
 
