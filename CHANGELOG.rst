@@ -7,6 +7,29 @@ The format is based on
 `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`__, and this project
 adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`__.
 
+Version 1.5.0 (2024-..-..)
+--------------------------
+
+Added
+*****
+
+- Interactive clash of code methods :
+  * `Client.create_private_clash_of_code <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.create_private_clash_of_code>`__
+  * `Client.join_private_clash_of_code <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.join_private_clash_of_code>`__
+  * `ClashOfCode.fetch <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.fetch>`__
+  * `ClashOfCode.join <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.join>`__
+  * `ClashOfCode.start <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.start>`__
+  * `ClashOfCode.leave <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.leave>`__
+  * `ClashOfCode.get_question <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.get_question>`__
+  * `ClashOfCode.play_test_cases <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.play_test_cases>`__
+  * `ClashOfCode.submit <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.submit>`__
+  * ``Player.get_solution``
+- Classes to help handling a clash of code :
+  * ``Question``
+  * ``TestCase``
+  * ``TestCaseResult``
+  * ``Solution``
+
 Version 1.4.3 (2024-02-21)
 --------------------------
 
@@ -23,7 +46,7 @@ Fixed
 
 - `KeyError <https://docs.python.org/library/exceptions.html#KeyError>`__ was raised when using `Client.get_clash_of_code <https://codingame.readthedocs.io/en/latest/api.html#codingame.Client.get_clash_of_code>`__ because
   of an API change by CodinGame.
-  
+
 Removed
 *******
 
