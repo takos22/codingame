@@ -25,10 +25,10 @@ Added
   * `ClashOfCode.submit <https://codingame.readthedocs.io/en/latest/api.html#codingame.ClashOfCode.submit>`__
   * ``Player.get_solution``
 - Classes to help handling a clash of code :
-  * ``Question``
-  * ``TestCase``
-  * ``TestCaseResult``
-  * ``Solution``
+  * `Question <https://codingame.readthedocs.io/en/latest/api.html#codingame.Question>`__
+  * `TestCase <https://codingame.readthedocs.io/en/latest/api.html#codingame.TestCase>`__
+  * `TestCaseResult <https://codingame.readthedocs.io/en/latest/api.html#codingame.TestCaseResult>`__
+  * `Solution <https://codingame.readthedocs.io/en/latest/api.html#codingame.Solution>`__
 
 Version 1.4.3 (2024-02-21)
 --------------------------
