@@ -40,7 +40,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
         email: typing.Optional[str] = None,
         password: typing.Optional[str] = None,
         remember_me_cookie: typing.Optional[str] = None,
-    ) -> typing.Optional[CodinGamer]:
+    ) -> CodinGamer:
         if remember_me_cookie is not None:
             # see issue #5
             self._state.http.set_cookie("rememberMe", remember_me_cookie)
@@ -184,7 +184,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
             if error.data["id"] in ClashOfCodeError._ids:
                 raise ClashOfCodeError.from_id(
                     error.data["id"], error.data.get("message")
-                )
+                ) from None
 
             raise  # pragma: no cover
         return await self.get_clash_of_code(handle)
@@ -354,7 +354,7 @@ class AsyncClient(BaseClient, doc_prefix="|coro|"):
                 self.codingamer.public_handle if self.logged_in else "",
             )
         except HTTPError as error:
-            if error.data["code"] == "INVALID_PARAMETERS":
+            if error.data["code"] in ("INVALID_PARAMETERS", "PUZZLE_NOT_FOUND"):
                 raise NotFound.from_type(
                     "puzzle", f"No Puzzle named {puzzle_id!r}"
                 ) from None

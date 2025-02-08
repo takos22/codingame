@@ -149,7 +149,7 @@ class BaseClient(ABC):
         email: typing.Optional[str] = None,
         password: typing.Optional[str] = None,
         remember_me_cookie: typing.Optional[str] = None,
-    ) -> typing.Optional["CodinGamer"]:
+    ) -> "CodinGamer":
         """|maybe_coro|
 
         Login to a CodinGame account.
@@ -329,7 +329,9 @@ class BaseClient(ABC):
         """
 
     @abstractmethod
-    def join_private_clash_of_code(self, handle: str) -> "ClashOfCode":
+    def join_private_clash_of_code(
+        self, handle: typing.Union["ClashOfCode", str]
+    ) -> "ClashOfCode":
         """|maybe_coro|
 
         Join the private :class:`Clash of Code <codingame.ClashOfCode>` with the

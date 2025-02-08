@@ -110,11 +110,13 @@ class PuzzleNotFound(NotFound):
 class ClashOfCodeError(CodinGameAPIError):
     """Raised when there is an error with a Clash of Code."""
 
-    _ids = {502, 503, 504, 505, 506}
+    _ids = {500, 501, 502, 503, 504, 505, 506}
 
     @classmethod
     def from_id(cls, id: int, message: str):
         errors = {
+            500: LoginRequired,
+            501: LoginRequired,
             502: ClashOfCodeNotFound,
             503: ClashOfCodeCancelled,
             504: ClashOfCodeStarted,

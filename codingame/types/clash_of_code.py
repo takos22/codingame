@@ -38,7 +38,7 @@ class Player(TypedDict):
     codingamerId: int
     codingamerHandle: str
     status: PlayerStatus
-    duration: int  # time spent
+    duration: int  # time spent in seconds
     codingamerNickname: Optional[str]
     codingamerAvatarId: Optional[int]
     # available after start
