@@ -144,11 +144,14 @@ def mock_http_fixture(mocker: MockerFixture):
         http_client: "HTTPClient",
         method: str,
         api_data=not_set,  # None is an acceptable api data
+        api_data_filename: str = None,
         *args,
         **kwargs,
     ):
         if api_data is not_set:
-            with open(f"tests/mock/responses/{method}.json") as f:
+            with open(
+                f"tests/mock/responses/{api_data_filename or method}.json"
+            ) as f:
                 api_data = json.load(f)
 
         mocker.patch.object(

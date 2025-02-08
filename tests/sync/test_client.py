@@ -191,7 +191,7 @@ def test_client_create_private_clash_of_code_logged_in_error(
 
 
 def test_client_create_private_clash_of_code_value_error(
-    auth_client: SyncClient, mock_httperror
+    auth_client: SyncClient,
 ):
     with pytest.raises(ValueError):
         auth_client.create_private_clash_of_code(
@@ -200,14 +200,16 @@ def test_client_create_private_clash_of_code_value_error(
 
 
 def test_client_join_private_clash_of_code(
-    auth_client: SyncClient, private_clash: ClashOfCode, mock_http
+    private_clash: ClashOfCode, auth_client_bis: SyncClient, mock_http
 ):
-    mock_http(auth_client._state.http, "join_clash_of_code_by_handle")
-    mock_http(auth_client._state.http, "get_clash_of_code_from_handle")
-    clash_of_code = auth_client.join_private_clash_of_code(private_clash)
+    mock_http(auth_client_bis._state.http, "join_clash_of_code_by_handle")
+    mock_http(auth_client_bis._state.http, "get_clash_of_code_from_handle")
+    clash_of_code = auth_client_bis.join_private_clash_of_code(private_clash)
     assert isinstance(clash_of_code, ClashOfCode)
     assert private_clash.public_handle == clash_of_code.public_handle
-    assert auth_client.codingamer.id in [p.id for p in clash_of_code.players]
+    assert auth_client_bis.codingamer.id in [
+        p.id for p in clash_of_code.players
+    ]
 
 
 def test_client_join_private_clash_of_code_logged_in_error(

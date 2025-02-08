@@ -1,4 +1,5 @@
 import os
+import sys
 
 import pytest
 from dotenv import load_dotenv
@@ -25,6 +26,28 @@ def create_logged_in_client(mock_http) -> SyncClient:
         client.login(
             remember_me_cookie=os.environ.get("TEST_LOGIN_REMEMBER_ME_COOKIE"),
         )
+        yield client
+
+
+@pytest.fixture(name="auth_client_bis")
+def create_logged_in_client_bis(mock_http) -> SyncClient:
+    with Client() as client:
+        mock_http(client._state.http, "login")
+        mock_http(client._state.http, "get_codingamer_from_id")
+        mock_http(
+            client._state.http,
+            "get_codingamer_from_handle",
+            api_data_filename="get_codingamer_from_handle.bis",
+        )
+
+        client.login(
+            remember_me_cookie=os.environ.get(
+                "TEST_LOGIN_REMEMBER_ME_COOKIE_{0.major}{0.minor}".format(
+                    sys.version_info
+                )
+            ),
+        )
+
         yield client
 
 
