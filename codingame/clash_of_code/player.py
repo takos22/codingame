@@ -130,7 +130,7 @@ class Player(BaseUser):
 
         self.public_handle = data.get("codingamerHandle")
         self.id = data["codingamerId"]
-        self.pseudo = data["codingamerNickname"]
+        self.pseudo = data.get("codingamerNickname", "Player " + str(self.id))
         self.avatar = data.get("codingamerAvatarId")
         self.cover = None
 
