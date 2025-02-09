@@ -30,6 +30,12 @@ def mock_environ(overwrite=False):
         "TEST_LOGIN_REMEMBER_ME_COOKIE",
         "1234567fedcba9876543210fedcba9876543210",
     )
+    set_environ(
+        "TEST_LOGIN_REMEMBER_ME_COOKIE_{0.major}{0.minor}".format(
+            sys.version_info
+        ),
+        "1234567fedcba9876543210fedcba9876543210",
+    )
 
     set_environ("TEST_CODINGAMER_ID", "1234567")
     set_environ("TEST_CODINGAMER_PSEUDO", "Pseudo123")
