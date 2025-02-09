@@ -68,7 +68,7 @@ jobs:
 
     - name: Test the mocked API endpoints with pytest
       run: |
-        pytest --only-mocked --overwrite-environ -v
+        pytest --only-mocked --overwrite-environ -v --junitxml=junit.xml -o junit_family=legacy
 
     - name: Test with pytest without mocking API enpoints
       env:
@@ -85,7 +85,7 @@ jobs:
 
         TEST_CLASHOFCODE_PUBLIC_HANDLE: ${{ secrets.TEST_CLASHOFCODE_PUBLIC_HANDLE }}
       run: |
-        pytest --no-mocking --cov-append -v
+        pytest --no-mocking --cov-append -v --junitxml=junit.xml -o junit_family=legacy
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
@@ -93,3 +93,9 @@ jobs:
         fail_ci_if_error: true
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
