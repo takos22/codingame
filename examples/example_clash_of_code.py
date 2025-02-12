@@ -11,6 +11,7 @@ coc = client.get_clash_of_code("clash of code handle here")
 
 # or if you want to create and play a private clash of code
 client.login(remember_me_cookie="your cookie here")
+print("Logged in as", client.codingamer.pseudo or client.codingamer.id)
 coc = client.create_private_clash_of_code(
     language_ids=["Python3"], modes=["SHORTEST"]
 )
@@ -76,22 +77,23 @@ else:
     )
 
     print(
-        "Goal",
+        "",
+        "# Goal",
         statement,
         "",
-        "Input",
+        "# Input",
         statement_input,
         "",
-        "Output",
+        "# Output",
         statement_output,
         "",
-        "Constraints",
+        "# Constraints",
         statement_constraints,
         "",
-        "Example",
-        "Input",
+        "# Example",
+        "## Input",
         example_in,
-        "Output",
+        "## Output",
         example_out,
         "",
         sep="\n",
@@ -120,7 +122,7 @@ code = code.replace("\\q", "")
 
 # test the code against the test cases
 test_case_results = coc.play_test_cases(lang, code, refetch=True)
-print("\nTest cases")
+print("\n# Test cases")
 for index, result in test_case_results.items():
     print("Test case", index, "passed" if result.success else "failed")
     if not result.success:
@@ -128,18 +130,18 @@ for index, result in test_case_results.items():
         print("Found :", result.found)
 
 # submit the code
-solution = coc.submit(lang, code, refetch=True)
-# share the code
-solution.share()
+solution = coc.submit(lang, code, share=True, refetch=True)
 print("Code submitted and shared")
 
 # wait for the clash of code to be finished
 while not coc.finished:
     sleep(5)
     coc.fetch()
+print("Clash finished")
 
 # show the rankings with the code if shared
 ranked_players = sorted(coc.players, key=lambda p: p.rank)
+print("\n# Results")
 for player in ranked_players:
     print(
         "\n{0.rank}. {0.pseudo}, {0.score}%{1}, "
