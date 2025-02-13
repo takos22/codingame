@@ -20,10 +20,10 @@ class TestCase(BaseObject):
     output_binary_id: int
 
     def __init__(self, state: "ConnectionState", data: TestCaseDict):
-        self.index = data["index"]
+        self.index = data.get("index")
         self.label = data.get("label")
-        self.input_binary_id = data["inputBinaryId"]
-        self.output_binary_id = data["outputBinaryId"]
+        self.input_binary_id = data.get("inputBinaryId")
+        self.output_binary_id = data.get("outputBinaryId")
 
         super().__init__(state)
 
@@ -66,14 +66,11 @@ class TestCaseResult(BaseObject):
     ):
         self.clash_of_code = clash_of_code
         self.test_case = test_case
-        self.success = data["comparison"]["success"]
-        self.found = (
-            data["comparison"]["found"]
-            if "found" in data["comparison"]
-            else data["output"]
-        )
+        comparison = data.get("comparison", {})
+        self.success = comparison.get("success")
+        self.found = comparison.get("found", data.get("output"))
         self.expected = (
-            data["output"] if self.success else data["comparison"]["expected"]
+            data.get("output") if self.success else comparison.get("expected")
         )
 
         super().__init__(state)
@@ -91,14 +88,12 @@ class ClashOfCodeContribution(BaseObject):
         contributor: Optional[PartialCodinGamer],
         data: ContributionDict,
     ):
-        self.type = data["type"]
-        self.status = data["status"]
+        self.type = data.get("type")
+        self.status = data.get("status")
         self.contributor = contributor
-        self.moderators = (
-            [PartialCodinGamer(state, mod) for mod in data["moderators"]]
-            if "moderators" in data
-            else []
-        )
+        self.moderators = [
+            PartialCodinGamer(state, mod) for mod in data.get("moderators", [])
+        ]
 
         super().__init__(state)
 
@@ -125,19 +120,19 @@ class Question(BaseObject):
     ):
         self.clash_of_code = clash_of_code
         self.id = data["id"]
-        self.initial_id = data["initialId"]
-        self.type = data["type"]
-        self.mode = data["mode"]
-        self.raw_statement = data["statement"]
-        self.stub_generator = data["stubGenerator"]
-        self.duration = data["duration"]
-        self.index = data["index"]
+        self.initial_id = data.get("initialId")
+        self.type = data.get("type")
+        self.mode = data.get("mode")
+        self.raw_statement = data.get("statement")
+        self.stub_generator = data.get("stubGenerator")
+        self.duration = data.get("duration")
+        self.index = data.get("index")
         self.test_cases = sorted(
-            [TestCase(state, case) for case in data["testCases"]],
+            [TestCase(state, case) for case in data.get("testCases", [])],
             key=lambda t: t.index,
         )
         self.available_language_ids = [
-            lang["id"] for lang in data["availableLanguages"]
+            lang["id"] for lang in data.get("availableLanguages", [])
         ]
         contributor = (
             PartialCodinGamer(state, data["contributor"])

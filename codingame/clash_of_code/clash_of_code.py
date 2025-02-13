@@ -125,13 +125,13 @@ class ClashOfCode(BaseObject):
         )
 
         self._setattr("public", data.get("type", "PUBLIC") == "PUBLIC")
-        self._setattr("min_players", data["nbPlayersMin"])
-        self._setattr("max_players", data["nbPlayersMax"])
+        self._setattr("min_players", data.get("nbPlayersMin", 2))
+        self._setattr("max_players", data.get("nbPlayersMax", 100))
         self._setattr("modes", data.get("modes"))
         self._setattr("programming_languages", data.get("programmingLanguages"))
 
-        self._setattr("started", data["started"])
-        self._setattr("finished", data["finished"])
+        self._setattr("started", data.get("started"))
+        self._setattr("finished", data.get("finished"))
         self._setattr("mode", data.get("mode"))
 
         self._setattr("creation_time", to_datetime(data.get("creationTime")))
@@ -139,7 +139,12 @@ class ClashOfCode(BaseObject):
         self._setattr("end_time", to_datetime(data.get("endTime")))
 
         self._setattr(
-            "time_before_start", timedelta(milliseconds=data["msBeforeStart"])
+            "time_before_start",
+            (
+                timedelta(milliseconds=data["msBeforeStart"])
+                if "msBeforeStart" in data
+                else None
+            ),
         )
         self._setattr(
             "time_before_end",
@@ -160,9 +165,13 @@ class ClashOfCode(BaseObject):
                     self.finished,
                     player,
                 )
-                for player in data.get("players", [])
-            ]
-            or minified_players_to_players(data.get("minifiedPlayers", [])),
+                for player in data.get(
+                    "players",
+                    minified_players_to_players(
+                        data.get("minifiedPlayers", [])
+                    ),
+                )
+            ],
         )
 
     def __repr__(self) -> str:

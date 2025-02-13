@@ -137,7 +137,7 @@ class Player(BaseUser):
         self.started = started
         self.finished = finished
 
-        self.status = data["status"]
+        self.status = data.get("status", "STANDARD")
         self.owner = self.status == "OWNER"
         self.position = data.get("position")
         self.rank = data.get("rank")

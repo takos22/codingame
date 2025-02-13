@@ -49,14 +49,14 @@ class Solution(BaseObject):
             ),
         )
 
-        self.submission_id = data["testSessionQuestionSubmissionId"]
-        self.commentable_id = data["commentableId"]
-        self.votable_id = data["votableId"]
+        self.submission_id = data.get("testSessionQuestionSubmissionId")
+        self.commentable_id = data.get("commentableId")
+        self.votable_id = data.get("votableId")
 
-        self.creation_time = to_datetime(data["creationTime"])
-        self.language_id = data["programmingLanguageId"]
-        self.code = data["code"]
-        self.shared = data["shared"]
+        self.creation_time = to_datetime(data.get("creationTime"))
+        self.language_id = data.get("programmingLanguageId")
+        self.code = data.get("code")
+        self.shared = data.get("shared")
 
         super().__init__(state)
 
