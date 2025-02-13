@@ -17,6 +17,15 @@
             "status": "OWNER",
             "rank": 1,
             "position": 1
+        },
+        {
+            "codingamerId": 7654321,
+            "codingamerNickname": "Player 2",
+            "codingamerHandle": "fedcba9876543210fedcba98765432101234567",
+            "duration": 0,
+            "status": "STANDARD",
+            "rank": 1,
+            "position": 2
         }
     ],
     "programmingLanguages": ["Python3"],
